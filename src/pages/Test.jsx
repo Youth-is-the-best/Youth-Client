@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import YearSemesterSelector from '../hook/YearSemesterSelector';
 
 const Test = () => {
 
     return (
       <QuizDom>
-        <QuestionText>학업으로의 복귀는 언제인가요?</QuestionText>
+        <QuizBar>----</QuizBar>
+        <QuestionContainer>학업으로의 복귀는 언제인가요?</QuestionContainer>
+        <YearSemesterSelector></YearSemesterSelector>
         <ButtonDom>
           <ButtonLink to="/test/1">다음 문제</ButtonLink>
         </ButtonDom>
@@ -15,6 +18,21 @@ const Test = () => {
 };
 
 export default Test;
+
+const QuizBar = styled.div`
+  display : flex;
+  background-color : FFFFFF;
+`
+const QuestionContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-color : 1E3A8A;
+    width : 590px;
+    height : 120px;
+    background-color : FFFFFF;
+    border-color : 1E3A8A;
+`;
 
 const ButtonLink = styled(Link)`
   display : flex;
@@ -50,6 +68,7 @@ const QuizDom = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color : F5F5F5;
     width: 90%;
     height: 80vh;
     margin: 20px;
@@ -60,31 +79,4 @@ const ButtonDom = styled.div`
     display: flex;
     flex-direction: row;
     gap: 300px;
-`;
-
-const QuestionContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-`;
-
-const QuestionText = styled.h2`
-    margin-bottom: 20px;
-`;
-
-const AnswerList = styled.ul`
-    list-style: none;
-    padding: 0;
-`;
-
-const Answer = styled.li`
-    margin: 10px 0;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    cursor: pointer;
-    &:hover {
-        background-color: #e0e0e0;
-    }
 `;

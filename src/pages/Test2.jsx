@@ -75,3 +75,20 @@ const QuestionContainer = styled.div`
 const QuestionText = styled.h2`
     margin-bottom: 20px;
 `;
+
+
+const AnswerList = styled.ul`
+    list-style: none;
+    padding: 0;
+`;
+
+const Answer = styled.li`
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover {
+        background-color: #e0e0e0;
+    }
+`;
