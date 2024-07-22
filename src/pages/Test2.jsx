@@ -2,19 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Test = () => {
+const Test2 = () => {
 
     return (
       <QuizDom>
-        <QuestionText>학업으로의 복귀는 언제인가요?</QuestionText>
+        <QuestionContainer>
+          <QuestionText>휴학 기간 중 하고 싶은 활동을 선택하여 주세요</QuestionText>
+        </QuestionContainer>
         <ButtonDom>
-          <ButtonLink to="/test/1">다음 문제</ButtonLink>
+          <ButtonLink to="/test/1">이전 문제</ButtonLink>
+          <ButtonLink to="/test/3">다음 문제</ButtonLink>
         </ButtonDom>
       </QuizDom>
     )
 };
 
-export default Test;
+export default Test2;
 
 const ButtonLink = styled(Link)`
   display : flex;
@@ -71,20 +74,4 @@ const QuestionContainer = styled.div`
 
 const QuestionText = styled.h2`
     margin-bottom: 20px;
-`;
-
-const AnswerList = styled.ul`
-    list-style: none;
-    padding: 0;
-`;
-
-const Answer = styled.li`
-    margin: 10px 0;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    cursor: pointer;
-    &:hover {
-        background-color: #e0e0e0;
-    }
 `;
