@@ -1,22 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const SelectorContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Selector = styled.select`
-  padding: 5px;
-  margin: 0 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-
-const Span = styled.span`
-  margin: 0 5px;
-`;
-
 const YearSemesterSelector = () => {
   const [year, setYear] = useState(2024);
   const [semester, setSemester] = useState(1);
@@ -49,3 +33,19 @@ const YearSemesterSelector = () => {
 };
 
 export default YearSemesterSelector;
+
+const SelectorContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Selector = styled.select`
+  padding: 5px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const Span = styled.span`
+  margin: 0 5px;
+`;
