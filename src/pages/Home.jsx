@@ -3,10 +3,9 @@ import styled from 'styled-components'
 
 const Home = () => {
   return (
-    <Header></Header>
-    <div>
-      home
-    </div>
+    <>
+    <Header>logo</Header>
+    </>
   )
 }
 
