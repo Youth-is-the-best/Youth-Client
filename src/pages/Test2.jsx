@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { QuizDom, QuestionContainer, ButtonDom, Button } from './Test.jsx';
+import { QuizDom, QuestionContainer, ButtonDom, Button, Detail } from './Test.jsx';
 import ProgressBar from '../hook/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,6 +40,7 @@ const Test2 = () => {
             <ProgressBar currentStep={3} totalSteps={4} />
             <QuestionContainer>
                 휴학 기간 중 하고 싶은 활동을 선택하여 주세요
+                <Detail>*최대 5순위까지 선택해주세요</Detail>
             </QuestionContainer>
             <AnswerDom>
                 {answers.map(answer => (
@@ -66,7 +67,11 @@ const AnswerDom = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    justify-content: center;
+    // justify-content: center;
+    align-content : center;
+    width: 590px;
+    height: 205px;
+
 `;
 
 const Answer = styled.div`
@@ -79,7 +84,7 @@ const Answer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 100px;
+    min-width: 85px;
     padding: 0 10px;
     &:hover {
         background-color: ${props => props.selected ? 'rgba(30, 58, 138, 0.2)' : '#e0e0e0'};

@@ -37,6 +37,7 @@ export default YearSemesterSelector;
 const SelectorContainer = styled.div`
   display: flex;
   align-items: center;
+  min-height : 10rem;
 `;
 
 const Selector = styled.select`

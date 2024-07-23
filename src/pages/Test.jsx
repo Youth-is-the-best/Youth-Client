@@ -9,7 +9,10 @@ const Test = () => {
     return (
       <QuizDom>
         <ProgressBar currentStep={1} totalSteps={4}/>
-        <QuestionContainer>학업으로의 복귀는 언제인가요?</QuestionContainer>
+        <QuestionContainer>
+          학업으로의 복귀는 언제인가요?
+          <Detail>*복학 또는 개강 시점을 알려주세요</Detail>
+        </QuestionContainer>
         <YearSemesterSelector></YearSemesterSelector>
         <ButtonDom>
           <ButtonLink to="/test/1">다음 문제</ButtonLink>
@@ -28,23 +31,24 @@ export const QuizDom = styled.div`
     gap : 20px; // 이거 조율 필요함
     background-color : F5F5F5;
     width: 90%;
-    height: 80vh;
-    margin: 20px;
     border-radius: 20px;
 `;
 
 export const QuestionContainer = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     color : #1E3A8A;
-    width : 80vh;
-    height: 20vh;
-    background : rgba(30, 58, 138, 0.04);
-    border : 1px solid #1E3A8A;
+    font-size: 20px;
+    width : 600px;
     border-radius : 10px;
 `;
+
+export const Detail = styled.div`
+  font-size : 16px;
+  color: rgba(30, 58, 138, 0.5);
+`
 
 export const ButtonLink = styled(Link)`
   display : flex;

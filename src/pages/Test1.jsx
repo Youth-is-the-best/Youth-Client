@@ -54,7 +54,7 @@ const Test1 = () => {
               checked={selectedReason === 'academicStress'}
               onChange={(e) => setSelectedReason(e.target.value)}
             />
-            학업 스트레스 완화를 위해서
+            학업 스트레스를 완화를 위해서
           </label>
         </Answer>
         <Answer>
@@ -146,7 +146,10 @@ const Answers = styled.ul`
   justify-content: center;
   align-items: start;
   list-style: none;
-  padding: 0;
+  width: 590px;
+  padding: 20px 31px 20px 10px;
+  border-radius: 10px;
+  // background-color: rgba(30, 58, 138, 0.04);
 `;
 
 const Answer = styled.li`
@@ -154,8 +157,8 @@ const Answer = styled.li`
   align-items: center;
   margin: 5px;
   background-color: rgba(30, 58, 138, 0.04);
-  width: 610px;
-  height: 39px;
+  width: 100%;
+  height: 50px;
   padding: 0px 10px 0px 10px;
   border-radius: 20px;
 `;

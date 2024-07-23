@@ -7,6 +7,7 @@ const ProgressBarContainer = styled.div`
   width: 80%;
   background-color: #f3f3f3;
   border-radius: 25px;
+  margin-top : 3rem;
 `;
 
 const Bar = styled.div`
