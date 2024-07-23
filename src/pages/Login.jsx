@@ -68,7 +68,7 @@ const Title = styled.div`
   font-weight: 600;
   line-height: 28.64px;
   margin-bottom: 10px;
-  border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 `;
 
 const Form = styled.div`
