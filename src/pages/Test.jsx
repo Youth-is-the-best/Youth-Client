@@ -25,6 +25,7 @@ const QuizDom = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap : 20px; // 이거 조율 필요함
     background-color : F5F5F5;
     width: 90%;
     height: 80vh;
@@ -36,9 +37,10 @@ const QuestionContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     color : #1E3A8A;
-    width : 590px;
-    height : 120px;
+    width : 80vh;
+    height: 20vh;
     background : #FFFFFF;
     border : 1px solid #1E3A8A;
     border-radius : 10px;
