@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const Home = () => {
   return (
     <>
-    <TestLink to="/test">유형화 테스트 하러가기</TestLink>
+    <TestLink to="/test/0">유형화 테스트 하러가기</TestLink>
     </>
   )
 }

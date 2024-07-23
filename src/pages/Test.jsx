@@ -20,7 +20,7 @@ const Test = () => {
 
 export default Test;
 
-const QuizDom = styled.div`
+export const QuizDom = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,7 +33,7 @@ const QuizDom = styled.div`
     border-radius: 20px;
 `;
 
-const QuestionContainer = styled.div`
+export const QuestionContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,7 +46,7 @@ const QuestionContainer = styled.div`
     border-radius : 10px;
 `;
 
-const ButtonLink = styled(Link)`
+export const ButtonLink = styled(Link)`
   display : flex;
   background-color : black;
     font-family: 'Ownglyph_meetme-Rg';
@@ -75,7 +75,7 @@ const ButtonLink = styled(Link)`
     }
 `
 
-const ButtonDom = styled.div`
+export const ButtonDom = styled.div`
     display: flex;
     flex-direction: row;
     gap: 300px;
