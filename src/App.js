@@ -6,6 +6,7 @@ import Test from './pages/Test';
 import Test1 from './pages/Test1';
 import Test2 from './pages/Test2';
 import Test3 from './pages/Test3';
+import Result from './pages/Result';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/test/1" element={<Test1/>}></Route>
       <Route path="/test/2" element={<Test2/>}></Route>
       <Route path="/test/3" element={<Test3/>}></Route>
+      <Route path="/result" element={<Result/>}></Route>
     </Routes>
     </BrowserRouter>
   );

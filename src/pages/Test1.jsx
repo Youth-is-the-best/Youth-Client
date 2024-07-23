@@ -16,6 +16,7 @@ const Test1 = () => {
   const handleBeforeClick =() => {
     navigate("/test/0");
   };
+
   return (
     <QuizDom>
       <ProgressBar currentStep={2} totalSteps={4} />
@@ -158,7 +159,8 @@ const Answer = styled.li`
   margin: 5px;
   background-color: rgba(30, 58, 138, 0.04);
   width: 100%;
-  height: 50px;
+  height: 39px;
   padding: 0px 10px 0px 10px;
   border-radius: 20px;
+  gap : 10px;
 `;

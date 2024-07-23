@@ -32,7 +32,7 @@ const Test2 = () => {
         "채용 공고 확인", "채용 지원", "인턴 지원", "어학 자격증 취득",
         "대외활동 참여", "동아리활동 참여", "여행", "새로운 인간관계 형성",
         "휴식", "독서", "취미활동", "자기계발", "혼자만의 시간", "가족과의 시간",
-        "진로 탐색", "기타"
+        "진로 탐색", "직접 입력"
     ];
 
     return (
@@ -71,7 +71,6 @@ const AnswerDom = styled.div`
     align-content : center;
     width: 590px;
     height: 205px;
-
 `;
 
 const Answer = styled.div`
