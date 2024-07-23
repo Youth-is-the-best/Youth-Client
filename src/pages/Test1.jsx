@@ -59,23 +59,21 @@ const Test1 = () => {
   function getReasonLabel(reason) {
     switch (reason) {
       case "jobPreparation":
-        return "취업 준비를 위해서(자격증 취득, 대외활동, 동아리 활동 등)";
+        return "취업 준비를 위해서";
       case "internship":
         return "인턴 근무를 위해서";
       case "academicStress":
-        return "학업 스트레스를 완화를 위해서";
+        return "학업 스트레스 완화를 위해서";
       case "selfDevelopment":
-        return "자기 계발을 위해서(취미생활, 스터디, 자격증 취득, 동아리 활동 등)";
+        return "자기 계발을 위해서";
       case "diverseExperiences":
-        return "다양한 경험을 위해서(여행, 자기계발 등)";
+        return "다양한 경험을 위해서";
       case "financialBurden":
-        return "경제적 부담으로 인해";
+        return "경제적 부담 완화를 위해서";
       case "mentalStability":
-        return "정서적 안정, 신체적 건강을 위해";
+        return "정서적 안정, 신체적 건강을 위해서";
       case "newCareerExploration":
-        return "새로운 진로 탐색을 위해";
-      case "leaveOfAbsence":
-        return "방학이라서";
+        return "새로운 진로 탐색을 위해서";
       default:
         return "";
     }
