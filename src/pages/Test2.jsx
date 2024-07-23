@@ -29,11 +29,12 @@ const Test2 = () => {
     };
 
     const answers = [
-        "채용 공고 확인", "채용 지원", "인턴 지원", "어학 자격증 취득",
-        "대외활동 참여", "동아리활동 참여", "여행", "새로운 인간관계 형성",
-        "휴식", "독서", "취미활동", "자기계발", "혼자만의 시간", "가족과의 시간",
-        "진로 탐색", "직접 입력"
+        "취업 준비", "인턴 근무", "자기계발", "자격증 취득",
+        "대외활동 참여", "동아리활동 참여", "여행", "아르바이트", 
+        "새로운 인간관계 형성", "휴식", "독서", "취미활동", "혼자만의 시간", 
+        "가족과의 시간", "진로 탐색", "직접 입력"
     ];
+
 
     return (
         <QuizDom>
@@ -83,9 +84,10 @@ const Answer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 85px;
+    min-width: 50px;
     padding: 0 10px;
     &:hover {
         background-color: ${props => props.selected ? 'rgba(30, 58, 138, 0.2)' : '#e0e0e0'};
+        color: #1E3A8A;
     }
 `;
