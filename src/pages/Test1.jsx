@@ -25,8 +25,7 @@ const Test1 = () => {
     "diverseExperiences",
     "financialBurden",
     "mentalStability",
-    "newCareerExploration",
-    "leaveOfAbsence"
+    "newCareerExploration"
   ];
 
   return (
