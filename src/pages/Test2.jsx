@@ -87,7 +87,7 @@ const Answer = styled.div`
     min-width: 50px;
     padding: 0 10px;
     &:hover {
-        background-color: ${props => props.selected ? 'rgba(30, 58, 138, 0.2)' : '#e0e0e0'};
+        background-color: rgba(30, 58, 138, 0.2);
         color: #1E3A8A;
     }
 `;
