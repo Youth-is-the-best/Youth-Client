@@ -48,35 +48,59 @@ export const QuestionContainer = styled.div`
 
 export const ButtonLink = styled(Link)`
   display : flex;
-  background-color : black;
-    font-family: 'Ownglyph_meetme-Rg';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
-    font-weight: lighter;
-    font-style: normal;
-    text-decoration: none;
-    background-color: pink;
-    color: #ffffff;
-    border: none;
-    border-radius: 25px;
-    padding: 5px 15px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s ease;
+  text-decoration: none;
+  width: 280px;
+  height: 44px;
+  padding: 5px 15px;
+  gap: 10px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  border: 1px solid rgba(30, 58, 138, 0.2);
+  border-radius: 25px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
 
-    &:hover {
-        background-color: #e98ab5;
-    }
+  &:hover {
+      background-color: rgba(30, 58, 138, 0.2);
+  }
+  &:active {
+      background-color: rgba(30, 58, 138, 0.2);
+  }
+`
+export const Button = styled.div`
+  display : flex;
+  text-decoration: none;
+  width: 280px;
+  height: 44px;
+  padding: 5px 15px;
+  gap: 10px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  border: 1px solid rgba(30, 58, 138, 0.2);
+  border-radius: 25px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
 
-    &:active {
-        background-color: pink;
-    }
+  &:hover {
+      background-color: rgba(30, 58, 138, 0.2);
+  }
+  &:active {
+      background-color: rgba(30, 58, 138, 0.2);
+  }
 `
 
 export const ButtonDom = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 300px;
+  display: flex;
+  flex-direction: row;
+  width: 590px;
+  height: 44px;
+  gap: 30px;
 `;
