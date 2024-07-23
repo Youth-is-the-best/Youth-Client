@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import {QuizDom, QuestionContainer, ButtonDom,ButtonLink } from './Test.jsx';
+import ProgressBar from '../hook/ProgressBar.js';
 
 const Test3 = () => {
 
     return (
       <QuizDom>
+        <ProgressBar currentStep={4} totalSteps={4}/>
         <QuestionContainer>이 기간이 나에게 어떤 기억으로 남길 바라나요?</QuestionContainer>
         <Input/>
         <ButtonDom>

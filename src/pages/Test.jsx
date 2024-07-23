@@ -41,7 +41,7 @@ export const QuestionContainer = styled.div`
     color : #1E3A8A;
     width : 80vh;
     height: 20vh;
-    background : #FFFFFF;
+    background : rgba(30, 58, 138, 0.04);
     border : 1px solid #1E3A8A;
     border-radius : 10px;
 `;

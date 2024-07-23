@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import {QuizDom, QuestionContainer, ButtonDom, ButtonLink } from './Test.jsx';
+import ProgressBar from '../hook/ProgressBar.js';
 
 const Test2 = () => {
 
     return (
       <QuizDom>
+        <ProgressBar currentStep={3} totalSteps={4}/>
         <QuestionContainer>
           휴학 기간 중 하고 싶은 활동을 선택하여 주세요
         </QuestionContainer>
@@ -38,7 +40,6 @@ const Test2 = () => {
 export default Test2;
 
 const AnswerDom = styled.div`
-    height : 30vh;
     // weight : 설정해줘야
     display: flex;
     flex-wrap: wrap;
@@ -50,7 +51,6 @@ const AnswerDom = styled.div`
 const Answer = styled.div`
     height : 40px;
     border-radius: 20px;
-    padding: 10px;
     background-color: #fffff;
     border : 1px solid rgb(207,209,218);
     cursor: pointer;
