@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import YearSemesterSelector from '../hook/YearSemesterSelector';
 import ProgressBar from '../hook/ProgressBar';
+import { Header } from './Login';
 
 const Test = () => {
 
     return (
       <QuizDom>
+        <Header></Header>
         <ProgressBar currentStep={1} totalSteps={4}/>
         <QuestionContainer>
           학업으로의 복귀는 언제인가요?
@@ -58,6 +60,7 @@ export const ButtonLink = styled(Link)`
   padding: 5px 15px;
   gap: 10px;
   border-radius: 10px;
+  color : rgba(30, 58, 138, 1);
   background-color: #ffffff;
   border: 1px solid rgba(30, 58, 138, 0.2);
   border-radius: 25px;
@@ -86,6 +89,7 @@ export const Button = styled.div`
   background-color: #ffffff;
   border: 1px solid rgba(30, 58, 138, 0.2);
   border-radius: 25px;
+  color : rgba(30, 58, 138, 1);
   font-size: 1.5rem;
   cursor: pointer;
   display: flex;
@@ -109,5 +113,5 @@ export const ButtonDom = styled.div`
   width: 590px;
   height: 44px;
   gap: 30px;
-  margin-top : 2rem;
+  margin-top : 0.5rem;
 `;

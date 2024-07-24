@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   z-index: 1;
 `;
 
-const Header = styled.div`
+export const Header = styled.div`
   width: 100%;
   height: 7vh;
   border-bottom: 1.5px solid #d9d9d9;
