@@ -198,6 +198,3 @@ const LoginWrapper = styled.div`
   justify-content: space-between;
   margin-top: 1.2rem;
 `;
-
-const ReactIcon = styled.div`
-`
