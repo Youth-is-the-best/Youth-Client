@@ -17,8 +17,10 @@ const Bar = styled.div`
 `;
 
 const Step = styled.div`
+  display : flex;
+  flex-direction: row-reverse;
   color: rgba(30, 58, 138, 1);
-  margin-left : 700px;
+  width : 80%
 `;
 
 const ProgressBar = ({ currentStep, totalSteps }) => {

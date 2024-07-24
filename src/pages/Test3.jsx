@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, ButtonLink } from './Test.jsx';
 import ProgressBar from '../hook/ProgressBar.js';
+import { FiArrowRightCircle } from 'react-icons/fi';
 
 const Test3 = () => {
   const [inputValue, setInputValue] = useState('');
@@ -16,8 +17,10 @@ const Test3 = () => {
         placeholder=" | 목표를 입력해주세요 " 
       />
       <ButtonDom>
-        <ButtonLink to="/test/2">이전 문제</ButtonLink>
-        <ButtonLink to="/result">결과 보기</ButtonLink>
+        <ButtonLink style={{width:'160px'}}to="/test/2">이전 문제</ButtonLink>
+        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white', width:'400px' }} to="/result">
+        <FiArrowRightCircle /> 나의 휴학 유형 보러가기
+        </ButtonLink>
       </ButtonDom>
     </QuizDom>
   );

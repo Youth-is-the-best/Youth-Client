@@ -50,7 +50,7 @@ const Test1 = () => {
       </Answers>
       <ButtonDom>
         <Button to="/test/0" onClick={handleBeforeClick}>이전 문제</Button>
-        <Button to="/test/2" onClick={handleNextClick}>다음 문제</Button>
+        <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/2" onClick={handleNextClick}>다음 문제</Button>
       </ButtonDom>
     </QuizDom>
   );
@@ -102,6 +102,6 @@ const Answer = styled.li`
   border-radius: 20px;
   gap: 10px;
   background-color: ${props => props.checked ? 'rgba(56, 189, 248, 0.07)' : 'rgba(30, 58, 138, 0.04)'};
-  border: ${props => props.checked ? '1px solid #1E3A8A' : 'none'};
+  border: ${props => props.checked ? '1.4px solid rgba(30, 58, 138, 0.6)' : 'none'};
   // box-shadow: ${props => props.checked ? '0px 3px 4px 0px rgba(30, 58, 138, 0.2);' : 'none'};
 `;

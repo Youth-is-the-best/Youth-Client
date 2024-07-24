@@ -15,7 +15,7 @@ const Test = () => {
         </QuestionContainer>
         <YearSemesterSelector></YearSemesterSelector>
         <ButtonDom>
-        <ButtonLink to="/test/1">다음 문제</ButtonLink>
+        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/1"> 다음 문제 </ButtonLink>
         </ButtonDom>
       </QuizDom>
     )

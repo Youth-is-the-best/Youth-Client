@@ -70,9 +70,16 @@ const Test2 = () => {
                     </Answer>
                 ))}
             </AnswerDom>
+            <SelectedAnswersContainer>
+                {selectedAnswers.map((answer, index) => (
+                    <SelectedAnswer key={answer}>
+                        <span>{index + 1}순위:</span> {answer}
+                    </SelectedAnswer>
+                ))}
+            </SelectedAnswersContainer>
             <ButtonDom>
                 <Button to="/test/1" onClick={handleBeforeClick}>이전 문제</Button>
-                <Button onClick={handleNextClick}>다음 문제</Button>
+                <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} onClick={handleNextClick}>다음 문제</Button>
             </ButtonDom>
         </QuizDom>
     );
@@ -108,4 +115,16 @@ const Answer = styled.div`
     span {
         margin-left: 5px;
     }
+`;
+
+const SelectedAnswersContainer = styled.div`
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+const SelectedAnswer = styled.div`
+    font-size: 16px;
+    color: #1E3A8A;
 `;
