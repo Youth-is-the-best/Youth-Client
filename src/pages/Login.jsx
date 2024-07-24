@@ -5,11 +5,14 @@ import { LockOutlined } from '@ant-design/icons'
 import { EyeOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import transimg from '../images/transparent.png'
+import logo from '../images/logo.png'
 
 const Login = () => {
   return (
   <>
-    <Header>Logo</Header>
+    <Header>
+      <img src={logo}></img>
+    </Header>
     <Wrapper>
       <Title>로그인</Title>
       <Form>
@@ -46,6 +49,13 @@ const Header = styled.div`
   border-bottom: 1.5px solid #d9d9d9;
   background-color: #1E3A8A;
   text-align: center;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 const Wrapper = styled.div`

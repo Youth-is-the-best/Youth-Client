@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import logo from '../images/logo.png'
 
 const Signup = () => {
   const selectList = ["인문계열", "사회계열", "교육계열", "공학계열", "자연계열", "의약계열", "예체능계열"];
@@ -11,7 +12,9 @@ const Signup = () => {
 
   return (
     <>
-    <Header>Logo</Header>
+    <Header>
+      <img src={logo}></img>
+    </Header>
     <Wrapper> 
       <Form>
         <Title>회원가입</Title>
@@ -21,7 +24,7 @@ const Signup = () => {
         </FormGroup>
         <FormGroup>
           <Label htmlFor="email">이메일*</Label>
-          <input id="email" type="email" placeholder="학교 이메일 주소를 입력하세요." />
+          <input id="email" type="email" plcdaceholder="학교 이메일 주소를 입력하세요." />
           <button>인증번호 발송</button>
         </FormGroup>
         <FormGroup> 
@@ -83,6 +86,13 @@ const Header = styled.div`
   border-bottom: 1.5px solid #d9d9d9;
   background-color: #1E3A8A;
   text-align: center;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50.5%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 const Wrapper = styled.div`
