@@ -65,8 +65,54 @@ const Wrapper = styled.div`
   align-items: center;
   justify-items: center;
   flex-direction: column;
-  margin: auto;
-  padding: 8%;
+  flex-shrink: 0;
+  border-radius: 30px;
+  border: 3px solid #89cdf6;
+  background: #fafffa;
+  padding: 30px;
+  margin-bottom: 5%;
+  z-index: 1;
+`;
+
+export const Header = styled.div`
+  width: 100%;
+  height: 7vh;
+  border-bottom: 1.5px solid #d9d9d9;
+`
+
+const TextWrap = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 80%;
+`;
+
+const BtnWrapper = styled.div`
+  height: 100%;
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  button {
+    font-weight: 800;
+    background-color: #89cdf6;
+    color: white;
+    padding: 19px;
+    border-radius: 10px;
+    border: none;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 84px;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 0 3px 3px skyblue;
+      color: black;
+      background-color: white;
+    }
+  }
 `;
 
 const Title = styled.div`
