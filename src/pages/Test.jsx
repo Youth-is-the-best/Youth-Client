@@ -5,19 +5,26 @@ import YearSemesterSelector from '../hook/YearSemesterSelector';
 import ProgressBar from '../hook/ProgressBar';
 import { Header } from './Login';
 import logo from '../images/logo.png'
+import { postTest } from '../apis/testapis';
 
 const Test = () => {
-    const [selectedTime, setSelectedTime] = useState('2024,1');
+    const [selectedTime, setSelectedTime] = useState('2024, 1');
     const navigate = useNavigate();
 
-    const handleNextClick = () => {
-        if (selectedTime) {
-          console.log(selectedTime);
-          navigate("/test/1");
-        } else {
-            alert('선택하셈 ㅡㅡ');
-        }
-    };
+    const handleNextClick = async () => {
+      if (selectedTime) {
+          try {
+              const response = await postTest(1, selectedTime); // Pass the parameters to postTest
+              console.log(response);
+              navigate("/test/1");
+          } catch (error) {
+              console.error(error);
+              alert('Error submitting data');
+          }
+      } else {
+          alert('선택하셈 ㅡㅡ');
+      }
+  };
 
     return (
       <>

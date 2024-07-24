@@ -1,10 +1,14 @@
+//axios 오류 있을 까봐 선빈, 은빈 apis 문서 따로 나누어 진행합니다
 import axios from "axios";
 
 export const baseURL = "https://maknaengee.p-e.kr/";
 
-export const postTest1 = async() => {
+export const postTest = async (question_id, selectiedTime) => {
     try {
-        const response = await axios.post(`${baseURL}/typetest/submit-answer/`);
+        const response = await axios.post(`${baseURL}/typetest/submit-answer/`, {
+            question_id: question_id,
+            selectiedTime
+        });
         return response.data;
     } catch (error) {
         console.error(error);
