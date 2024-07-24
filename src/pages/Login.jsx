@@ -1,13 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { UserOutlined } from '@ant-design/icons'
-import { LockOutlined } from '@ant-design/icons'
-import { EyeOutlined } from '@ant-design/icons'
+import { FiUser , FiLock } from "react-icons/fi";
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import transimg from '../images/transparent.png'
 import logo from '../images/logo.png'
+import { useForm } from '../hook/useForm';
+import { login } from '../apis/user'
 
 const Login = () => {
+  const [username, onChangeUsername] = useForm();
+  const [password, onChangePw] = useForm();
+
+  const [showPw, setShowPw] = useState(false);
+  const pwToggle = () => {
+    setShowPw(prevState => !prevState);
+  };
+
+  const onClick = async () => {
+    try{
+      const result = await login(username, password);
+      localStorage.setItem("access", result.accessToken);
+      localStorage.setItem("refresh", result.refreshToken);
+    } catch(error) {
+      alert("아이디 또는 비밀번호를 확인하세요.")
+    }
+  }
+
   return (
   <>
     <Header>
@@ -18,22 +37,33 @@ const Login = () => {
       <Form>
         <Inputs>
           <InputBox>
-            <UserOutlined />
-            <input placeholder='아이디를 입력해주세요.'></input>
+            <ReactIcon>
+              <FiUser />
+            </ReactIcon>
+            <input value={username} onChange={onChangeUsername} placeholder='아이디를 입력해주세요.'></input>
             <img src={transimg} />
           </InputBox>
           <InputBox>
-            <LockOutlined />
-            <input type='password' placeholder='비밀번호를 입력해주세요.'></input>
-            <EyeOutlined />
+            <ReactIcon>
+              <FiLock />
+            </ReactIcon>
+            <input value={password} onChange={onChangePw} type={showPw ? 'text' : 'password'} placeholder='비밀번호를 입력해주세요.'></input>
+            {showPw ? 
+                <EyeOutlined onClick={pwToggle} style={{ cursor: 'pointer' }} /> : 
+                <EyeInvisibleOutlined onClick={pwToggle} style={{ cursor: 'pointer' }} />
+            }
           </InputBox>
         </Inputs>
+      <LoginWrapper>
+        <input id="auto" type="radio" />
+        <StyledLink>아이디/비밀번호 찾기</StyledLink>
+      </LoginWrapper>
       <BtnWrapper>
-          <button>로그인</button>
+          <button onClick={onClick}>로그인</button>
       </BtnWrapper>
       <TextWrapper>
         <div>휴알유 계정이 없으신가요?</div>
-        <SignupLink to="/signup">회원가입</SignupLink>
+        <StyledLink to="/signup">회원가입</StyledLink>
       </TextWrapper>
       </Form>
     </Wrapper>
@@ -74,39 +104,11 @@ const Wrapper = styled.div`
   z-index: 1;
 `;
 
-const TextWrap = styled.div`
+const TextWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 80%;
-`;
-
-const BtnWrapper = styled.div`
-  height: 100%;
-  width: 85%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1.5rem;
-  button {
-    font-weight: 800;
-    background-color: #89cdf6;
-    color: white;
-    padding: 19px;
-    border-radius: 10px;
-    border: none;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 84px;
-    cursor: pointer;
-    &:hover {
-      box-shadow: 0 0 3px 3px skyblue;
-      color: black;
-      background-color: white;
-    }
-  }
 `;
 
 const Title = styled.div`
@@ -161,18 +163,34 @@ const InputBox = styled.div`
      }
 `;
 
-const TextWrapper = styled.div`
-  margin-top: 1rem;
-  font-size: 16px;
-  font-weight: 300;
-  color: #A1A1AA;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 65%;
+const BtnWrapper = styled.div`
+  margin-top: 1.5rem;
+  button {
+    font-family: 'Pretendard-Regular';
+    font-weight: 500;
+    font-size: 17px;
+    background-color: #1E3A8A;
+    color: white;
+    padding: 19px;
+    border-radius: 10px;
+    border: none;
+    width: 418px;
+    height: 62px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
 `;
 
-const SignupLink = styled(Link)`
+const StyledLink = styled(Link)`
   color: #1E3A8A;
   font-size: 17px;
+`;
+
+const LoginWrapper = styled.div`
+  width: 420px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.2rem;
 `;
