@@ -73,7 +73,7 @@ const Login = () => {
 
 export default Login
 
-const Header = styled.div`
+export const Header = styled.div`
   width: 100%;
   height: 11vh;
   border-bottom: 1.5px solid #d9d9d9;
@@ -95,8 +95,20 @@ const Wrapper = styled.div`
   align-items: center;
   justify-items: center;
   flex-direction: column;
-  margin: auto;
-  padding: 8%;
+  flex-shrink: 0;
+  border-radius: 30px;
+  border: 3px solid #89cdf6;
+  background: #fafffa;
+  padding: 30px;
+  margin-bottom: 5%;
+  z-index: 1;
+`;
+
+const TextWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 80%;
 `;
 
 const Title = styled.div`
@@ -151,13 +163,8 @@ const InputBox = styled.div`
      }
 `;
 
-const ReactIcon = styled.div`
-  margin-top: 10px;
-  font-size: 28px;
-`;
-
 const BtnWrapper = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
   button {
     font-family: 'Pretendard-Regular';
     font-weight: 500;
@@ -176,17 +183,6 @@ const BtnWrapper = styled.div`
   }
 `;
 
-const TextWrapper = styled.div`
-  margin-top: 1rem;
-  font-size: 16px;
-  font-weight: 300;
-  color: #A1A1AA;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 65%;
-`;
-
 const StyledLink = styled(Link)`
   color: #1E3A8A;
   font-size: 17px;
@@ -198,8 +194,3 @@ const LoginWrapper = styled.div`
   justify-content: space-between;
   margin-top: 1.2rem;
 `;
-
-// const PwToggle = styled.div`
-//   cursor: pointer;
-//   font-size: 25px;
-// `;

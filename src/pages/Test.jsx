@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import YearSemesterSelector from '../hook/YearSemesterSelector';
 import ProgressBar from '../hook/ProgressBar';
+import { Header } from './Login';
+import logo from '../images/logo.png'
 
 const Test = () => {
 
     return (
       <QuizDom>
+        <Header><img src={logo}></img></Header>
         <ProgressBar currentStep={1} totalSteps={4}/>
         <QuestionContainer>
           학업으로의 복귀는 언제인가요?
@@ -15,7 +18,7 @@ const Test = () => {
         </QuestionContainer>
         <YearSemesterSelector></YearSemesterSelector>
         <ButtonDom>
-          <ButtonLink to="/test/1">다음 문제</ButtonLink>
+        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/1"> 다음 문제 </ButtonLink>
         </ButtonDom>
       </QuizDom>
     )
@@ -58,6 +61,7 @@ export const ButtonLink = styled(Link)`
   padding: 5px 15px;
   gap: 10px;
   border-radius: 10px;
+  color : rgba(30, 58, 138, 1);
   background-color: #ffffff;
   border: 1px solid rgba(30, 58, 138, 0.2);
   border-radius: 25px;
@@ -86,6 +90,7 @@ export const Button = styled.div`
   background-color: #ffffff;
   border: 1px solid rgba(30, 58, 138, 0.2);
   border-radius: 25px;
+  color : rgba(30, 58, 138, 1);
   font-size: 1.5rem;
   cursor: pointer;
   display: flex;
@@ -103,8 +108,11 @@ export const Button = styled.div`
 
 export const ButtonDom = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: row;
   width: 590px;
   height: 44px;
   gap: 30px;
+  margin-top : 0.5rem;
 `;
