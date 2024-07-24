@@ -13,7 +13,7 @@ const Test1 = () => {
     navigate("/test/2");
   };
 
-  const handleBeforeClick =() => {
+  const handleBeforeClick = () => {
     navigate("/test/0");
   };
 
@@ -34,9 +34,9 @@ const Test1 = () => {
       <QuestionContainer>휴학을 결정한 계기는 무엇인가요?</QuestionContainer>
       <Answers>
         {reasons.map((reason, index) => (
-          <Answer key={index}>
+          <Answer key={index} checked={selectedReason === reason}>
             <label>
-              <input 
+              <input
                 type="radio" 
                 name="reason" 
                 value={reason} 
@@ -62,7 +62,7 @@ const Test1 = () => {
       case "internship":
         return "인턴 근무를 위해서";
       case "academicStress":
-        return "학업 스트레스 완화를 위해서";
+        return "학업 스트레스를 완화하기 위해서";
       case "selfDevelopment":
         return "자기 계발을 위해서";
       case "diverseExperiences":
@@ -74,7 +74,7 @@ const Test1 = () => {
       case "newCareerExploration":
         return "새로운 진로 탐색을 위해서";
       default:
-        return "";
+        return 0;
     }
   }
 };
@@ -96,10 +96,12 @@ const Answer = styled.li`
   display: flex;
   align-items: center;
   margin: 5px;
-  background-color: rgba(30, 58, 138, 0.04);
   width: 100%;
   height: 39px;
   padding: 0px 10px 0px 10px;
   border-radius: 20px;
   gap: 10px;
+  background-color: ${props => props.checked ? 'rgba(56, 189, 248, 0.07)' : 'rgba(30, 58, 138, 0.04)'};
+  border: ${props => props.checked ? '1px solid #1E3A8A' : 'none'};
+  // box-shadow: ${props => props.checked ? '0px 3px 4px 0px rgba(30, 58, 138, 0.2);' : 'none'};
 `;
