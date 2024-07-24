@@ -3,12 +3,17 @@ import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, Button, Detail } from './Test.jsx';
 import ProgressBar from '../hook/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
+import { BulbOutlined, LaptopOutlined } from '@ant-design/icons';
+import { AiOutlineCoffee, AiOutlineFileSearch, AiOutlineHome, AiOutlineRead, AiOutlineSearch, AiOutlineUsergroupAdd } from 'react-icons/ai';
+import { MdAirplanemodeActive, MdBadge, MdFestival, MdOutlineAutoGraph, MdOutlinePaid } from 'react-icons/md';
+import { FaDribbble } from 'react-icons/fa';
+import { FiHeadphones } from 'react-icons/fi';
 
 const Test2 = () => {
     const navigate = useNavigate();
     const [selectedAnswers, setSelectedAnswers] = useState([]);
 
-    const handleBeforeClick =() => {
+    const handleBeforeClick = () => {
         navigate("/test/1");
     }
     const handleAnswerClick = (answer) => {
@@ -29,12 +34,22 @@ const Test2 = () => {
     };
 
     const answers = [
-        "취업 준비", "인턴 근무", "자기계발", "자격증 취득",
-        "대외활동 참여", "동아리활동 참여", "여행", "아르바이트", 
-        "새로운 인간관계 형성", "휴식", "독서", "취미활동", "혼자만의 시간", 
-        "가족과의 시간", "진로 탐색", "직접 입력"
+        { text: "취업 준비", icon: <AiOutlineFileSearch /> }, 
+        { text: "인턴 근무", icon: <LaptopOutlined /> }, 
+        { text: "자기계발", icon: <BulbOutlined /> }, 
+        { text: "자격증 취득", icon: <MdBadge /> }, 
+        { text: "대외활동 참여", icon: <MdOutlineAutoGraph /> }, 
+        { text: "동아리활동 참여", icon: <MdFestival /> }, 
+        { text: "여행", icon: <MdAirplanemodeActive /> }, 
+        { text: "아르바이트", icon: <MdOutlinePaid /> }, 
+        { text: "새로운 인간관계 형성", icon: <AiOutlineUsergroupAdd /> }, 
+        { text: "휴식", icon: <AiOutlineCoffee /> }, 
+        { text: "독서", icon: <AiOutlineRead /> }, 
+        { text: "취미활동", icon: <FaDribbble /> }, 
+        { text: "혼자만의 시간", icon: <FiHeadphones /> }, 
+        { text: "가족과의 시간", icon: <AiOutlineHome /> }, 
+        { text: "진로 탐색", icon: <AiOutlineSearch /> }
     ];
-
 
     return (
         <QuizDom>
@@ -45,12 +60,13 @@ const Test2 = () => {
             </QuestionContainer>
             <AnswerDom>
                 {answers.map(answer => (
-                    <Answer 
-                        key={answer} 
-                        onClick={() => handleAnswerClick(answer)}
-                        selected={selectedAnswers.includes(answer)}
+                    <Answer
+                        key={answer.text}
+                        onClick={() => handleAnswerClick(answer.text)}
+                        selected={selectedAnswers.includes(answer.text)}
                     >
-                        {answer}
+                        {answer.icon}
+                        <span>{answer.text}</span>
                     </Answer>
                 ))}
             </AnswerDom>
@@ -68,10 +84,9 @@ const AnswerDom = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    // justify-content: center;
-    align-content : center;
+    align-content: center;
     width: 590px;
-    height: 205px;
+    height: 230px;
 `;
 
 const Answer = styled.div`
@@ -79,15 +94,18 @@ const Answer = styled.div`
     border-radius: 20px;
     color: ${props => props.selected ? '#ffffff' : '#1E3A8A'};
     background-color: ${props => props.selected ? '#1E3A8A' : '#ffffff'};
-    border: 1px solid rgb(207,209,218);
+    border: 1px solid rgb(207, 209, 218);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 50px;
+    min-width: 60px;
     padding: 0 10px;
     &:hover {
         background-color: rgba(30, 58, 138, 0.2);
         color: #1E3A8A;
+    }
+    span {
+        margin-left: 5px;
     }
 `;

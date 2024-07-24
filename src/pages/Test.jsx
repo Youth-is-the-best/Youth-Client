@@ -15,7 +15,7 @@ const Test = () => {
         </QuestionContainer>
         <YearSemesterSelector></YearSemesterSelector>
         <ButtonDom>
-          <ButtonLink to="/test/1">다음 문제</ButtonLink>
+        <ButtonLink to="/test/1">다음 문제</ButtonLink>
         </ButtonDom>
       </QuizDom>
     )
@@ -103,8 +103,11 @@ export const Button = styled.div`
 
 export const ButtonDom = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: row;
   width: 590px;
   height: 44px;
   gap: 30px;
+  margin-top : 2rem;
 `;
