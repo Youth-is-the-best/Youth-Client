@@ -3,4 +3,3 @@
 - styled-components
 - @ant-design/icons
 - react-icons
-- react-icons
