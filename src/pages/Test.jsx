@@ -9,8 +9,9 @@ import logo from '../images/logo.png'
 const Test = () => {
 
     return (
+      <>
+      <Header><img src={logo}></img></Header>
       <QuizDom>
-        <Header><img src={logo}></img></Header>
         <ProgressBar currentStep={1} totalSteps={4}/>
         <QuestionContainer>
           학업으로의 복귀는 언제인가요?
@@ -21,6 +22,7 @@ const Test = () => {
         <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/1"> 다음 문제 </ButtonLink>
         </ButtonDom>
       </QuizDom>
+      </>
     )
 };
 
