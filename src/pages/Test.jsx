@@ -4,12 +4,13 @@ import styled from 'styled-components';
 import YearSemesterSelector from '../hook/YearSemesterSelector';
 import ProgressBar from '../hook/ProgressBar';
 import { Header } from './Login';
+import logo from '../images/logo.png'
 
 const Test = () => {
 
     return (
       <QuizDom>
-        <Header></Header>
+        <Header><img src={logo}></img></Header>
         <ProgressBar currentStep={1} totalSteps={4}/>
         <QuestionContainer>
           학업으로의 복귀는 언제인가요?

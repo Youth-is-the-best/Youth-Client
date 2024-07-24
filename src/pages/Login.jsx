@@ -43,7 +43,7 @@ const Login = () => {
 
 export default Login
 
-const Header = styled.div`
+export const Header = styled.div`
   width: 100%;
   height: 11vh;
   border-bottom: 1.5px solid #d9d9d9;
@@ -73,12 +73,6 @@ const Wrapper = styled.div`
   margin-bottom: 5%;
   z-index: 1;
 `;
-
-export const Header = styled.div`
-  width: 100%;
-  height: 7vh;
-  border-bottom: 1.5px solid #d9d9d9;
-`
 
 const TextWrap = styled.div`
   display: flex;
@@ -165,26 +159,6 @@ const InputBox = styled.div`
         font-weight: 400;
       }
      }
-`;
-
-const BtnWrapper = styled.div`
-  margin-top: 1.5rem;
-  button {
-    font-family: 'Pretendard-Regular';
-    font-weight: 500;
-    font-size: 17px;
-    background-color: #1E3A8A;
-    color: white;
-    padding: 19px;
-    border-radius: 10px;
-    border: none;
-    width: 418px;
-    height: 62px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
 `;
 
 const TextWrapper = styled.div`
