@@ -17,7 +17,7 @@ const Test3 = () => {
         placeholder=" | 목표를 입력해주세요 " 
       />
       <ButtonDom>
-        <ButtonLink style={{width:'160px'}}to="/test/2">이전 문제</ButtonLink>
+        <ButtonLink style={{width:'160px'}}to="/test/2">이전</ButtonLink>
         <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white', width:'400px' }} to="/result">
         <FiArrowRightCircle /> 나의 휴학 유형 보러가기
         </ButtonLink>

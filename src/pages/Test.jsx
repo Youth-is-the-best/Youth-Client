@@ -19,7 +19,7 @@ const Test = () => {
         </QuestionContainer>
         <YearSemesterSelector></YearSemesterSelector>
         <ButtonDom>
-        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/1"> 다음 문제 </ButtonLink>
+        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/1"> 다음 </ButtonLink>
         </ButtonDom>
       </QuizDom>
       </>
@@ -35,7 +35,7 @@ export const QuizDom = styled.div`
     align-items: center;
     gap : 20px; // 이거 조율 필요함
     background-color : F5F5F5;
-    width: 90%;
+    width: 100%;
     border-radius: 20px;
 `;
 
@@ -92,7 +92,7 @@ export const Button = styled.div`
   background-color: #ffffff;
   border: 1px solid rgba(30, 58, 138, 0.2);
   border-radius: 25px;
-  color : rgba(30, 58, 138, 1);
+  color : rgba(30, 58, 138, 0.5);
   font-size: 1.5rem;
   cursor: pointer;
   display: flex;

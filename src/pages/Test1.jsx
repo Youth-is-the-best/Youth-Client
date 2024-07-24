@@ -49,8 +49,8 @@ const Test1 = () => {
         ))}
       </Answers>
       <ButtonDom>
-        <Button to="/test/0" onClick={handleBeforeClick}>이전 문제</Button>
-        <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/2" onClick={handleNextClick}>다음 문제</Button>
+        <Button to="/test/0" onClick={handleBeforeClick}>이전</Button>
+        <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/2" onClick={handleNextClick}>다음</Button>
       </ButtonDom>
     </QuizDom>
   );
@@ -98,7 +98,7 @@ const Answer = styled.li`
   margin: 5px;
   width: 100%;
   height: 39px;
-  padding: 0px 10px 0px 10px;
+  padding: 0px 0px 0px 10px;
   border-radius: 20px;
   gap: 10px;
   background-color: ${props => props.checked ? 'rgba(56, 189, 248, 0.07)' : 'rgba(30, 58, 138, 0.04)'};
