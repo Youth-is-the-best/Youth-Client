@@ -95,20 +95,8 @@ const Wrapper = styled.div`
   align-items: center;
   justify-items: center;
   flex-direction: column;
-  flex-shrink: 0;
-  border-radius: 30px;
-  border: 3px solid #89cdf6;
-  background: #fafffa;
-  padding: 30px;
-  margin-bottom: 5%;
-  z-index: 1;
-`;
-
-const TextWrapper = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 80%;
+  margin: auto;
+  padding: 8%;
 `;
 
 const Title = styled.div`
@@ -163,8 +151,13 @@ const InputBox = styled.div`
      }
 `;
 
+const ReactIcon = styled.div`
+  margin-top: 10px;
+  font-size: 28px;
+`;
+
 const BtnWrapper = styled.div`
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   button {
     font-family: 'Pretendard-Regular';
     font-weight: 500;
@@ -181,6 +174,17 @@ const BtnWrapper = styled.div`
     align-items: center;
     cursor: pointer;
   }
+`;
+
+const TextWrapper = styled.div`
+  margin-top: 1rem;
+  font-size: 16px;
+  font-weight: 300;
+  color: #A1A1AA;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 65%;
 `;
 
 const StyledLink = styled(Link)`
