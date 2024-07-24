@@ -3,12 +3,9 @@ import axios from "axios";
 
 export const baseURL = "https://maknaengee.p-e.kr/";
 
-export const postTest = async (question_id, selectiedTime) => {
+export const postTest = async () => {
     try {
-        const response = await axios.post(`${baseURL}/typetest/submit-answer/`, {
-            question_id: question_id,
-            selectiedTime
-        });
+        const response = await axios.post(`${baseURL}/typetest/submit-answer/`);
         return response.data;
     } catch (error) {
         console.error(error);

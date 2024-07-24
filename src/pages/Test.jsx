@@ -3,19 +3,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import YearSemesterSelector from '../hook/YearSemesterSelector';
 import ProgressBar from '../hook/ProgressBar';
-import { Header } from './Login';
-import logo from '../images/logo.png'
+// import { Header } from './Login';
+// import logo from '../images/logo.png'
 import { postTest } from '../apis/testapis';
 
 const Test = () => {
-    const [selectedTime, setSelectedTime] = useState('2024, 1');
+    const [selectedBody, setSelectedBody] = useState(
+      { "question_id": 1,
+        "return_year": 2024,
+        "return_semester": 1
+      });
     const navigate = useNavigate();
 
     const handleNextClick = async () => {
-      if (selectedTime) {
+      if (selectedBody) {
           try {
-              const response = await postTest(1, selectedTime); // Pass the parameters to postTest
-              console.log(response);
+              //const response = await postTest(selectedBody); // Pass the parameters to postTest
+              //console.log(response);
+              console.log(selectedBody);
               navigate("/test/1");
           } catch (error) {
               console.error(error);
@@ -35,7 +40,7 @@ const Test = () => {
           학업으로의 복귀는 언제인가요?
           <Detail>*복학 또는 개강 시점을 알려주세요</Detail>
         </QuestionContainer>
-        <YearSemesterSelector> onChange={(e) => setSelectedTime(e)} </YearSemesterSelector>
+        <YearSemesterSelector> onChange={(e) => setSelectedBody(e)} </YearSemesterSelector>
         <ButtonDom>
         <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} onClick={handleNextClick}> 다음 </ButtonLink>
         </ButtonDom>
