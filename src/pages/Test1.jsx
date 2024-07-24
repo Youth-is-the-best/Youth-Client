@@ -9,7 +9,7 @@ const Test1 = () => {
   const navigate = useNavigate();
 
   const handleNextClick = () => {
-    console.log('Selected reason:', selectedReason); //확인용
+    // console.log('Selected reason:', selectedReason); //확인용
     navigate("/test/2");
   };
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import YearSemesterSelector from '../hook/YearSemesterSelector';
 import ProgressBar from '../hook/ProgressBar';
@@ -7,19 +7,30 @@ import { Header } from './Login';
 import logo from '../images/logo.png'
 
 const Test = () => {
+    const [selectedTime, setSelectedTime] = useState('2024,1');
+    const navigate = useNavigate();
+
+    const handleNextClick = () => {
+        if (selectedTime) {
+          console.log(selectedTime);
+          navigate("/test/1");
+        } else {
+            alert('선택하셈 ㅡㅡ');
+        }
+    };
 
     return (
       <>
-      <Header><img src={logo}></img></Header>
+      {/* <Header><img src={logo}></img></Header> */}
       <QuizDom>
         <ProgressBar currentStep={1} totalSteps={4}/>
         <QuestionContainer>
           학업으로의 복귀는 언제인가요?
           <Detail>*복학 또는 개강 시점을 알려주세요</Detail>
         </QuestionContainer>
-        <YearSemesterSelector></YearSemesterSelector>
+        <YearSemesterSelector> onChange={(e) => setSelectedTime(e)} </YearSemesterSelector>
         <ButtonDom>
-        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/1"> 다음 </ButtonLink>
+        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} onClick={handleNextClick}> 다음 </ButtonLink>
         </ButtonDom>
       </QuizDom>
       </>
