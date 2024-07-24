@@ -27,8 +27,9 @@ export default Result;
 const ResultInfo = styled.div`
   width: 610px;
   height: 170px;
-  border: 0px 0px 0px 4px solid rgba(30, 58, 138);
+  border-left: 4px solid rgba(30, 58, 138);
   color : rgba(30, 58, 138);
+  padding : 10px;
 `;
 
 const Image = styled.div`
