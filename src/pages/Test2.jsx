@@ -16,6 +16,7 @@ const Test2 = () => {
     const handleBeforeClick = () => {
         navigate("/test/1");
     }
+
     const handleAnswerClick = (answer) => {
         if (selectedAnswers.includes(answer)) {
             setSelectedAnswers(selectedAnswers.filter(item => item !== answer));
@@ -65,27 +66,37 @@ const Test2 = () => {
                         onClick={() => handleAnswerClick(answer.text)}
                         selected={selectedAnswers.includes(answer.text)}
                     >
+                        {selectedAnswers.includes(answer.text) ? <Indexcircle>{selectedAnswers.indexOf(answer.text) + 1}</Indexcircle> : ""}
                         {answer.icon}
                         <span>{answer.text}</span>
                     </Answer>
                 ))}
             </AnswerDom>
-            <SelectedAnswersContainer>
-                {selectedAnswers.map((answer, index) => (
-                    <SelectedAnswer key={answer}>
-                        <span>{index + 1}순위:</span> {answer}
-                    </SelectedAnswer>
-                ))}
-            </SelectedAnswersContainer>
             <ButtonDom>
-                <Button to="/test/1" onClick={handleBeforeClick}>이전 문제</Button>
-                <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} onClick={handleNextClick}>다음 문제</Button>
+                <Button to="/test/1" onClick={handleBeforeClick}>이전</Button>
+                <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} onClick={handleNextClick}>다음</Button>
             </ButtonDom>
         </QuizDom>
     );
 };
 
 export default Test2;
+
+const Indexcircle = styled.div`
+    border-radius: 50%;
+    border: 1.5px solid rgba(30, 58, 138, 1);
+    background-color: white;
+    height: 20px;
+    width: 20px;
+    color: rgba(30, 58, 138, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -4px;
+    left: -9px;
+    font-size: 12px;
+`;
 
 const AnswerDom = styled.div`
     display: flex;
@@ -94,6 +105,7 @@ const AnswerDom = styled.div`
     align-content: center;
     width: 590px;
     height: 230px;
+    margin-top: 20px;
 `;
 
 const Answer = styled.div`
@@ -108,6 +120,7 @@ const Answer = styled.div`
     justify-content: center;
     min-width: 60px;
     padding: 0 10px;
+    position: relative;
     &:hover {
         background-color: rgba(30, 58, 138, 0.2);
         color: #1E3A8A;
@@ -115,16 +128,4 @@ const Answer = styled.div`
     span {
         margin-left: 5px;
     }
-`;
-
-const SelectedAnswersContainer = styled.div`
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`;
-
-const SelectedAnswer = styled.div`
-    font-size: 16px;
-    color: #1E3A8A;
 `;
