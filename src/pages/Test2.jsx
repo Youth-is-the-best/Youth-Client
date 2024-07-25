@@ -31,10 +31,10 @@ const Test2 = () => {
             "question_id": 3,
             "choices": selectedAnswers
         }
-        console.log(answer);
+        //console.log(answer);
         await postTest(answer);
-        const response = await postTest(answer);
-        console.log("Response:", response);
+        //const response = await postTest(answer);
+        //console.log("Response:", response);
 
         if (selectedAnswers.length === 0) {
             alert("최소 한 개 이상의 활동을 선택해주세요.");
