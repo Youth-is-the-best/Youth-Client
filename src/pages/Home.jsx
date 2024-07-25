@@ -1,7 +1,9 @@
 import React from 'react'
+import { AiOutlineUser } from 'react-icons/ai'
 import { MdOutlineEditCalendar } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import mypage from '../images/mypage.png'
 
 const Home = () => {
   return (
@@ -11,6 +13,7 @@ const Home = () => {
       <Header to="/test/0">투두 리스트 빙고</Header>
       <Header to="/test/0">공고/후기</Header>
       <Header to="/test/0">나의 포트폴리오</Header>
+      <img src={mypage} style={{height : '60px'}}></img>
     </Headers>
     <Body>
       <LeftDom>
@@ -41,8 +44,9 @@ export default Home
 const Headers = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
+  padding-right : 3rem;
   gap : 20px;
   height : 64px;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.08);
