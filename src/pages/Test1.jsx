@@ -9,7 +9,11 @@ const Test1 = () => {
   const navigate = useNavigate();
 
   const handleNextClick = () => {
-    console.log('Selected reason:', selectedReason); //확인용
+    const reason = {
+      "question_id": 2,
+      "answer_text": selectedReason
+    };
+    console.log(reason);
     navigate("/test/2");
   };
 
@@ -50,7 +54,13 @@ const Test1 = () => {
       </Answers>
       <ButtonDom>
         <Button to="/test/0" onClick={handleBeforeClick}>이전</Button>
-        <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/2" onClick={handleNextClick}>다음</Button>
+        <Button 
+          style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} 
+          to="/test/2" 
+          onClick={handleNextClick}
+        >
+          다음
+        </Button>
       </ButtonDom>
     </QuizDom>
   );

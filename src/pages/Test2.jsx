@@ -122,8 +122,9 @@ const Answer = styled.div`
     padding: 0 10px;
     position: relative;
     &:hover {
-        background-color: rgba(30, 58, 138, 0.2);
-        color: #1E3A8A;
+        
+        background-color: ${props => props.selected ? '' : 'rgba(30, 58, 138, 0.2)'}; 
+        color:  ${props => props.selected ? '' : ' #1E3A8A'}; 
     }
     span {
         margin-left: 5px;
