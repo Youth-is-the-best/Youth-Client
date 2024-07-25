@@ -2,16 +2,19 @@ import React from 'react'
 import { ButtonDom, ButtonLink} from './Test'
 import { FiArrowRightCircle, FiShare2 } from 'react-icons/fi'
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 
 const Result = () => {
+  const location = useLocation();
+  const userType = location.state?.userType; 
 
   return (
     <>
     <ResultDom>
       <div>@9rin_t2 님의 유형은</div>
       <Image></Image>
-      <h1>귀여운 판다 🐼</h1>
-      <ResultInfo>판다는 귀여우니까 그냥 놀아도 돼용 🩷</ResultInfo>
+      <h1>귀여운 {userType}</h1>
+      <ResultInfo>{userType}는 귀여우니까 그냥 놀아도 돼용 🩷</ResultInfo>
       <ButtonDom>
         <ButtonLink > <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
         <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/"> 
