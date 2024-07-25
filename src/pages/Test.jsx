@@ -3,48 +3,39 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import YearSemesterSelector from '../hook/YearSemesterSelector';
 import ProgressBar from '../hook/ProgressBar';
-// import { Header } from './Login';
-// import logo from '../images/logo.png'
 import { postTest } from '../apis/testapis';
 
 const Test = () => {
-    const [selectedBody, setSelectedBody] = useState({
-        "question_id": 1,
-        "return_year": 2024,
-        "return_semester": 1
-    });
+    const [year, setYear] = useState(2024);
+    const [semester, setSemester] = useState(1);
     const navigate = useNavigate();
 
+    const handleYearSemesterChange = (newYear, newSemester) => {
+        setYear(newYear);
+        setSemester(newSemester);
+    };
     const handleNextClick = async () => {
-        if (selectedBody) {
-            try {
-                //const response = await postTest(selectedBody);
-                //console.log(response);
-                console.log(selectedBody);
-                navigate("/test/1");
-            } catch (error) {
-                console.error(error);
-                alert('Error submitting data');
-            }
-        } else {
-            alert('선택하셈 ㅡㅡ');
-        }
+        const answer = {
+            "question_id": 1,
+            "return_year": year,
+            "return_semester": semester
+        };
+        await postTest(answer);
+        console.log(answer);
+        const response = await postTest(answer);
+        console.log("Response:", response);
+        navigate("/test/1");
     };
 
     return (
         <>
-            {/* <Header><img src={logo}></img></Header> */}
             <QuizDom>
                 <ProgressBar currentStep={1} totalSteps={4} />
                 <QuestionContainer>
                     학업으로의 복귀는 언제인가요?
                     <Detail>*복학 또는 개강 시점을 알려주세요</Detail>
                 </QuestionContainer>
-                <YearSemesterSelector onChange={(e) => setSelectedBody(prevState => ({
-                    ...prevState,
-                    "return_year": parseInt(e.split(', ')[0]),
-                    "return_semester": parseInt(e.split(', ')[1])
-                }))} />
+                <YearSemesterSelector onChange={handleYearSemesterChange} />
                 <ButtonDom>
                     <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} onClick={handleNextClick}>
                         다음

@@ -8,13 +8,13 @@ const YearSemesterSelector = ({ onChange }) => {
   const handleYearChange = (event) => {
     const newYear = event.target.value;
     setYear(newYear);
-    onChange(`${newYear}, ${semester}`);
+    onChange(newYear, semester);
   };
 
   const handleSemesterChange = (event) => {
     const newSemester = event.target.value;
     setSemester(newSemester);
-    onChange(`${year}, ${newSemester}`);
+    onChange(year, newSemester);
   };
 
   return (
@@ -41,7 +41,7 @@ export default YearSemesterSelector;
 const SelectorContainer = styled.div`
   display: flex;
   align-items: center;
-  min-height : 10rem;
+  min-height: 10rem;
 `;
 
 const Selector = styled.select`

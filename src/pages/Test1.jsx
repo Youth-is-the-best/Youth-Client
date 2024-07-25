@@ -3,17 +3,21 @@ import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, Button } from './Test.jsx';
 import ProgressBar from '../hook/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
+import { postTest } from '../apis/testapis.js';
 
 const Test1 = () => {
   const [selectedReason, setSelectedReason] = useState('');
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     const reason = {
       "question_id": 2,
       "answer_text": selectedReason
     };
-    console.log(reason);
+    await postTest(reason);
+    // console.log(reason);
+    // const response = await postTest(reason);
+    // console.log("Response:", response);
     navigate("/test/2");
   };
 
