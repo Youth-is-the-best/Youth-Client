@@ -3,9 +3,22 @@ import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, ButtonLink } from './Test.jsx';
 import ProgressBar from '../hook/ProgressBar.js';
 import { FiArrowRightCircle } from 'react-icons/fi';
+import { postTest } from '../apis/testapis.js';
 
 const Test3 = () => {
   const [inputValue, setInputValue] = useState('');
+
+  const showResult = async() => {
+    const answer = {
+        "question_id": 4,
+        "answer_text": inputValue
+    }
+    console.log(answer);
+    await postTest(answer);
+    const response = await postTest(answer);
+    console.log("Response:", response);
+    
+  }
 
   return (
     <QuizDom>
@@ -18,7 +31,7 @@ const Test3 = () => {
       />
       <ButtonDom>
         <ButtonLink style={{width:'160px'}}to="/test/2">이전</ButtonLink>
-        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white', width:'400px' }} to="/result">
+        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white', width:'400px' }} to="/result" onClick={showResult}>
         <FiArrowRightCircle /> 나의 휴학 유형 보러가기
         </ButtonLink>
       </ButtonDom>
