@@ -18,8 +18,8 @@ const Test = () => {
     const handleNextClick = async () => {
         if (selectedBody) {
             try {
-                // const response = await postTest(selectedBody); // Pass the parameters to postTest
-                // console.log(response);
+                //const response = await postTest(selectedBody);
+                //console.log(response);
                 console.log(selectedBody);
                 navigate("/test/1");
             } catch (error) {
