@@ -3,13 +3,21 @@ import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, Button } from './Test.jsx';
 import ProgressBar from '../hook/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
+import { postTest } from '../apis/testapis.js';
 
 const Test1 = () => {
   const [selectedReason, setSelectedReason] = useState('');
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
-    console.log('Selected reason:', selectedReason); //확인용
+  const handleNextClick = async () => {
+    const reason = {
+      "question_id": 2,
+      "answer_text": selectedReason
+    };
+    await postTest(reason);
+    // console.log(reason);
+    // const response = await postTest(reason);
+    // console.log("Response:", response);
     navigate("/test/2");
   };
 
@@ -50,7 +58,13 @@ const Test1 = () => {
       </Answers>
       <ButtonDom>
         <Button to="/test/0" onClick={handleBeforeClick}>이전</Button>
-        <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} to="/test/2" onClick={handleNextClick}>다음</Button>
+        <Button 
+          style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} 
+          to="/test/2" 
+          onClick={handleNextClick}
+        >
+          다음
+        </Button>
       </ButtonDom>
     </QuizDom>
   );

@@ -8,6 +8,7 @@ import { AiOutlineCoffee, AiOutlineFileSearch, AiOutlineHome, AiOutlineRead, AiO
 import { MdAirplanemodeActive, MdBadge, MdFestival, MdOutlineAutoGraph, MdOutlinePaid } from 'react-icons/md';
 import { FaDribbble } from 'react-icons/fa';
 import { FiHeadphones } from 'react-icons/fi';
+import { postTest } from '../apis/testapis.js';
 
 const Test2 = () => {
     const navigate = useNavigate();
@@ -25,7 +26,16 @@ const Test2 = () => {
         }
     };
 
-    const handleNextClick = () => {
+    const handleNextClick = async () => {
+        const answer = {
+            "question_id": 3,
+            "choices": selectedAnswers
+        }
+        console.log(answer);
+        await postTest(answer);
+        const response = await postTest(answer);
+        console.log("Response:", response);
+
         if (selectedAnswers.length === 0) {
             alert("최소 한 개 이상의 활동을 선택해주세요.");
         } else {
@@ -122,8 +132,9 @@ const Answer = styled.div`
     padding: 0 10px;
     position: relative;
     &:hover {
-        background-color: rgba(30, 58, 138, 0.2);
-        color: #1E3A8A;
+        
+        background-color: ${props => props.selected ? '' : 'rgba(30, 58, 138, 0.2)'}; 
+        color:  ${props => props.selected ? '' : ' #1E3A8A'}; 
     }
     span {
         margin-left: 5px;
