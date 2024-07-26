@@ -9,6 +9,7 @@ const Signup = () => {
   const handleSelect = (e) => {
     setSelected(e.target.value);
   };
+  
 
   return (
     <>
