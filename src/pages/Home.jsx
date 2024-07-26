@@ -6,9 +6,15 @@ import styled from 'styled-components';
 import mypage from '../images/mypage.png';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
+import Calendar from 'react-calendar';
 
 const Home = () => {
   const [selectedInfo, setSelectedInfo] = useState();
+  const [value, onChange] = useState(new Date());
+
+  const viewCalendar = () => {
+
+  }
 
   const handleInfoClick = (index) => {
     setSelectedInfo(index);
@@ -45,13 +51,14 @@ const Home = () => {
         <Header to="/test/0">휴학 유형 테스트</Header>
         <Header to="/">투두 리스트 빙고</Header>
         <Header to="/info">공고/후기</Header>
-        <Header to="/test/0">나의 포트폴리오</Header>
+        <Header to="/login">나의 포트폴리오</Header>
         <img src={mypage} style={{ height: '60px' }}></img>
       </Headers>
       <Body>
         <LeftDom>
+        <Calendar onChange={onChange} value={value} />
           <h2>열정가득 곰도리의 빙고판</h2>
-          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar /></div>
+          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar onClick={viewCalendar}/></div>
           <BingoDom>
             <Bingo></Bingo>
             <Bingo style={{ background: 'rgba(30, 58, 138, 0.15)' }}></Bingo>
