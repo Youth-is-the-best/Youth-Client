@@ -49,7 +49,7 @@ const Info = () => {
             <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
             <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
             <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
+            <CheckList><AiOutlineCheckSquare />플랭크 15분</CheckList>
           </CheckLists>
         </RightDom>
       </Body>
