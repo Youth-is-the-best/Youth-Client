@@ -11,6 +11,7 @@ const Signup = () => {
   const handleSelect = (e) => {
     setCollege(e.target.value);
   };
+  
 
   const [name, onChangeName] = useForm();
   const [email, onChangeEmail] = useForm();
