@@ -1,14 +1,46 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import logo from '../images/logo.png'
-
+import { useForm } from '../hook/useForm'
+import { signUp, duplicate } from '../apis/user'
+  
 const Signup = () => {
   const selectList = ["인문계열", "사회계열", "교육계열", "공학계열", "자연계열", "의약계열", "예체능계열"];
-  const [Selected, setSelected] = useState("계열 선택")
+  const [college, setCollege] = useState("계열 선택")
   const handleSelect = (e) => {
-    setSelected(e.target.value);
+    setCollege(e.target.value);
   };
+
+  const [name, onChangeName] = useForm();
+  const [email, onChangeEmail] = useForm();
+  const [authcode, onChangeAuthcode] = useForm();
+  const [username, onChangeUsername] = useForm();
+  const [password, onChangePassword] = useForm();
+  const [confirmPassword, onChangeConfirmPassword] = useForm();
+  const [referrer, onChangeReferrer] = useForm();
+
+  const [usernameAvailable, setUsernameAvailable] = useState(null);
+  const checkUsername = async () => {
+    try {
+      const available = await duplicate(username);
+      setUsernameAvailable(available);
+    } catch(error) {
+      setUsernameAvailable(null);
+    }
+  };
+
+  const isSame = (password, confirmPassword) => {
+    return password === confirmPassword;
+  };
+
+  const router = useNavigate();
+
+  const onClick = async () => {
+    await signUp(password, username, college);
+    // await signUp(password, username, hash, firstName, lastName, university, college);
+    router("/user/login/")
+  }
 
   return (
     <>
@@ -20,22 +52,27 @@ const Signup = () => {
         <Title>회원가입</Title>
         <FormGroup>
           <Label htmlFor="name">이름*</Label>
-          <input id="name" type="text" placeholder="ex. 홍길동" />
+          <input value={name} onChange={onChangeName} id="name" type="text" placeholder="ex. 홍길동" />
         </FormGroup>
-        <FormGroup>
+        <FormGroup style={{ paddingBottom : 0 }}>
           <Label htmlFor="email">이메일*</Label>
-          <input id="email" type="email" plcdaceholder="학교 이메일 주소를 입력하세요." />
+          <input value={email} onChange={onChangeEmail} id="email" type="email" placeholder="학교 이메일 주소를 입력하세요." />
           <button>인증번호 발송</button>
         </FormGroup>
         <FormGroup> 
           <Label></Label>
-          <input id="authCode" type="text" placeholder="인증번호 6자리" />
+          <input 
+            value={authcode} 
+            onChange={onChangeAuthcode} 
+            id="authCode" 
+            type="text" 
+            placeholder="인증번호 6자리" />
           <span>4:59</span>
         </FormGroup>
         <FormGroup>
           <Label htmlFor="school">학교 정보*</Label>
           <input></input>
-          <select onChange={handleSelect} value={Selected} defaultValue="계열 선택">
+          <select onChange={handleSelect} value={college} defaultValue="계열 선택">
             <option disabled hidden value="계열 선택">계열 선택</option>
             {selectList.map((item) => (
               <option value={item} key={item}>
@@ -46,20 +83,39 @@ const Signup = () => {
         </FormGroup>
         <FormGroup>
           <Label htmlFor="username">아이디(닉네임)*</Label>
-          <input id="username" type="text" placeholder="영문 대소문자, 특수문자 _ 가능" />
-          <button>중복확인</button>
+          <input value={username} onChange={onChangeUsername} id="username" type="text" placeholder="영문 대소문자, 특수문자 _ 가능" />
+          <button onClick={checkUsername}>중복 확인</button>
         </FormGroup>
+        <MessageGroup>
+          {
+            usernameAvailable === false && <ErrorMessage>이미 사용 중인 아이디입니다.</ErrorMessage>
+          }
+        </MessageGroup>
         <FormGroup>
           <Label htmlFor="password">비밀번호*</Label>
-          <input id="password" type="password" placeholder="8자리 이상(숫자, 알파벳, 특수문자 1자 이상 포함)" />
+          <input value={password} onChange={onChangePassword} id="password" type="password" placeholder="8자리 이상(숫자, 알파벳, 특수문자 1자 이상 포함)" />
         </FormGroup>
-        <FormGroup>
+        <FormGroup style={{ paddingBottom: !isSame(password, confirmPassword) && confirmPassword.length > 0 ? 5 : 15 }} >
           <Label htmlFor="confirmPassword">비밀번호 확인*</Label>
-          <input id="confirmPassword" type="password" />
-        </FormGroup>
+          <input 
+            value={confirmPassword} 
+            onChange={onChangeConfirmPassword} 
+            id="confirmPassword" 
+            type="password"
+            style={{ borderColor: !isSame(password, confirmPassword)  && confirmPassword.length > 0 ? '#FF0000' : 'initial'}}  />
+          </FormGroup>
+          <MessageGroup>
+          <ErrorMessage>
+              {
+                !isSame(password, confirmPassword) && confirmPassword.length > 0 && (
+                  <div id='pwCheck'>비밀번호와 확인 비밀번호를 동일하게 입력해주세요.</div>
+                )
+              }
+            </ErrorMessage>
+        </MessageGroup>
         <FormGroup>
           <Label htmlFor="referrer">추천인 아이디<br />(선택)</Label>
-          <input id="referrer" type="text" />
+          <input value={referrer} onChange={onChangeReferrer} id="referrer" type="text" />
           <button>아이디 확인</button>
         </FormGroup>
         <FormGroup>
@@ -70,7 +126,7 @@ const Signup = () => {
           </AgreeForm>
         </FormGroup>
         <BtnWrapper>
-          <button>가입하기</button>
+          <button onClick={onClick}>가입 하기</button>
         </BtnWrapper>
       </Form>
     </Wrapper>
@@ -119,7 +175,7 @@ const Title = styled.div`
 `;
 
 const Form = styled.div`
-  width: 597px;
+  width: 620px;
   height: 570px;
 `;
 
@@ -127,30 +183,32 @@ const FormGroup = styled.div`
   display: flex;
   padding: 15px;
   input {
-    width: 300px;
+    width: 330px;
     height: 35px;
-    border-radius: 5px;
-    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border-color: rgba(0, 0, 0, 0.1);
     &::placeholder {
+        padding-left: 10px;
         color: #A1A1AA;
         font-family: 'Pretendard-Regular';
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 300;
       }
   }
   button {
-    margin-left: 20px;
+    margin-left: 8px;
     width: 110px;
-    background-color: #1E3A8A;
-    color: white;
+    background-color: white;
+    border-color: rgba(30, 58, 138, 0.6);
+    color: rgba(30, 58, 138, 0.6);
     border-radius: 10px;
     font-family: 'Pretendard-Regular';
-    font-weight: 500;
-    font-size: 14px;
+    font-weight: 600;
+    font-size: 15px;
     cursor: pointer;
   }
   select {
-    margin-left: 20px;
+    margin-left: 8px;
     width: 110px;
     color: #A1A1AA;
     font-family: 'Pretendard-Regular';
@@ -160,7 +218,7 @@ const FormGroup = styled.div`
     border-radius: 5px;
     border-color: rgba(0, 0, 0, 0.2);
   }
-`;
+`;  
 
 const Label = styled.div`
   color: #1E3A8A;
@@ -173,14 +231,14 @@ const BtnWrapper = styled.div`
   button {
     font-family: 'Pretendard-Regular';
     font-weight: 500;
-    font-size: 17px;
+    font-size: 15px;
     background-color: #1E3A8A;
     color: white;
     padding: 19px;
     border-radius: 10px;
     border: none;
-    width: 360px;
-    height: 44px;
+    width: 120px;
+    height: 43px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -208,3 +266,14 @@ const AgreeForm = styled.div`
 const StyledLink = styled(Link)`
   color: #1E3A8A;
 `;
+
+const MessageGroup = styled.div`
+  padding-left: 155px;
+`;
+
+const ErrorMessage = styled.div`
+  color: #FF0000;
+  font-size: 13px;
+  font-weight: 500;
+`;
+

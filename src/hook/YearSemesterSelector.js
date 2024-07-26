@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const YearSemesterSelector = () => {
+const YearSemesterSelector = ({ onChange }) => {
   const [year, setYear] = useState(2024);
   const [semester, setSemester] = useState(1);
 
   const handleYearChange = (event) => {
-    setYear(event.target.value);
+    const newYear = event.target.value;
+    setYear(newYear);
+    onChange(newYear, semester);
   };
 
   const handleSemesterChange = (event) => {
-    setSemester(event.target.value);
+    const newSemester = event.target.value;
+    setSemester(newSemester);
+    onChange(year, newSemester);
   };
 
   return (
@@ -37,7 +41,7 @@ export default YearSemesterSelector;
 const SelectorContainer = styled.div`
   display: flex;
   align-items: center;
-  min-height : 10rem;
+  min-height: 10rem;
 `;
 
 const Selector = styled.select`
