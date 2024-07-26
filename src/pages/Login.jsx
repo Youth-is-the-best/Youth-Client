@@ -20,10 +20,10 @@ const Login = () => {
   const onClick = async () => {
     try{
       const result = await login(username, password);
-      localStorage.setItem("access", result.accessToken);
-      localStorage.setItem("refresh", result.refreshToken);
+      localStorage.setItem("access_token", result.accessToken);
+      localStorage.setItem("refresh_token", result.refreshToken);
     } catch(error) {
-      alert("아이디 또는 비밀번호를 확인하세요.")
+      alert("잘못된 정보를 입력하셨습니다. 다시 시도해주세요.")
     }
   }
 
