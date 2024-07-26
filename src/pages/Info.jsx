@@ -15,7 +15,7 @@ const Info = () => {
         <Header to="/test/0">휴학 유형 테스트</Header>
         <Header to="/">투두 리스트 빙고</Header>
         <Header to="/info">공고/후기</Header>
-        <Header to="/test/0">나의 포트폴리오</Header>
+        <Header to="/login">나의 포트폴리오</Header>
         <img src={mypage} style={{ height: '60px' }}></img>
       </Headers>
       <Body>

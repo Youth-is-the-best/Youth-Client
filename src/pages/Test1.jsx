@@ -3,22 +3,16 @@ import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, Button } from './Test.jsx';
 import ProgressBar from '../hook/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
-import { postTest } from '../apis/testapis.js';
 
-const Test1 = () => {
-  const [selectedReason, setSelectedReason] = useState('');
+const Test1 = ({selectedReason, setSelectedReason}) => {
   const navigate = useNavigate();
 
-  const handleNextClick = async () => {
-    const reason = {
-      "question_id": 2,
-      "answer_text": selectedReason
-    };
-    await postTest(reason);
-    // console.log(reason);
-    // const response = await postTest(reason);
-    // console.log("Response:", response);
-    navigate("/test/2");
+  const handleNextClick = () => {
+    if (!selectedReason) {
+      alert("답변을 선택해주세요.")
+    } else {
+      navigate("/test/2");
+    }
   };
 
   const handleBeforeClick = () => {
