@@ -15,10 +15,10 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
       "answer3": selectedAnswers,
       "answer4": inputValue
     };
-    console.log(answer); // 확인용
+    //console.log(answer); // 확인용
     const response = await postTest(answer);
-    console.log("Response:", response);
-    console.log("Response:", `${response.user_type}`);
+    //console.log("Response:", response);
+    //console.log("Response:", `${response.user_type}`);
     setUserType(response.user_type);
     
   };
