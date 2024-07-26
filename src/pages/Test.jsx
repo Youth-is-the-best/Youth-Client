@@ -21,9 +21,9 @@ const Test = () => {
             "return_semester": semester
         };
         await postTest(answer);
-        console.log(answer);
-        const response = await postTest(answer);
-        console.log("Response:", response);
+        //console.log(answer);
+        //const response = await postTest(answer);
+        //console.log("Response:", response);
         navigate("/test/1");
     };
 

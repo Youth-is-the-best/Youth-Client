@@ -16,10 +16,10 @@ const Test3 = () => {
         "question_id": 4,
         "answer_text": inputValue
     }
-    console.log(answer);
+    //console.log(answer);
     await postTest(answer);
     const response = await postTest(answer);
-    console.log("Response:", `${response.user_type}`);
+    //console.log("Response:", `${response.user_type}`);
     setUserType(response.user_type);
     navigate('/result', { state: { userType: response.user_type } });
   }

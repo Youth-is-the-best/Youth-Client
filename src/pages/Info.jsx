@@ -1,43 +1,13 @@
 import React, { useState } from 'react';
-import { AiFillCaretDown, AiOutlineUser } from 'react-icons/ai';
-import { MdOutlineEditCalendar } from 'react-icons/md';
+
+import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
-import { FiThumbsUp } from 'react-icons/fi';
-import { IoIosInformationCircleOutline } from 'react-icons/io';
+import { AiOutlineCheckSquare } from 'react-icons/ai';
 
-const Home = () => {
-  const [selectedInfo, setSelectedInfo] = useState();
 
-  const handleInfoClick = (index) => {
-    setSelectedInfo(index);
-  };
-
-  const info = [
-    "jobPreparation",
-    "internship",
-    "academicStress",
-    "selfDevelopment",
-    "diverseExperiences",
-    "financialBurden",
-    "mentalStability",
-    "jobPreparation",
-    "internship",
-    "academicStress",
-    "selfDevelopment",
-    "diverseExperiences",
-    "selfDevelopment",
-    "internship",
-    "academicStress",
-    "selfDevelopment",
-    "diverseExperiences",
-    "selfDevelopment",
-    "diverseExperiences",
-    "financialBurden",
-    "mentalStability",
-    "newCareerExploration"
-  ]
+const Info = () => {
 
   return (
     <>
@@ -66,31 +36,28 @@ const Home = () => {
           <Button>완료</Button>
         </LeftDom>
         <RightDom>
-          <div><FiThumbsUp /> 후알유 추천</div>
-          <div>마음에 드는 활동을 빙고판에 끌어서 옮겨보세요 </div>
-          <RecommendDom>
-            <RecommendCom></RecommendCom>
-            <RecommendCom></RecommendCom>
-          </RecommendDom>
-          <div><AiFillCaretDown /> 추천순</div>
-          <InfoDom>
-            {info.map((info, index) => (
-              <Info
-                key={index}
-                selected={selectedInfo === index}
-                onClick={() => handleInfoClick(index)}
-              >
-                {info}<IoIosInformationCircleOutline />
-              </Info>
-            ))}
-          </InfoDom>
+          <MdOutlineKeyboardBackspace />
+          <h1>TOEIC 900점 이상 취득</h1>
+            <Category>분류</Category>
+            <Category>주최사</Category>
+            <Category>응시료</Category>
+            <Category>시험 날짜</Category>
+            <Category>준비 기간</Category>
+          <h2>| 세부 계획</h2>
+          <CheckLists>
+            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
+            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
+            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
+            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
+            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
+          </CheckLists>
         </RightDom>
       </Body>
     </>
   );
 };
 
-export default Home;
+export default Info;
 
 const Headers = styled.div`
   display: flex;
@@ -128,9 +95,10 @@ const RightDom = styled.div`
   // justify-content: center;
   width : 550px;
   height : 600px;
+  border-radius: 20px;
+  border: 0.4px solid rgba(30, 58, 138, 1);
   background: rgba(30, 58, 138, 0.04);
-  border-radius: 0px 20px 20px 0px;
-  border-left : 4px solid rgba(30, 58, 138, 0.4);
+  box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
   gap : 15px;
   padding : 20px;
 `;
@@ -168,52 +136,27 @@ const Button = styled.div`
   color : white;
 `;
 
-const RecommendDom = styled.div`
+const Category = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap : 30px;
-  border-bottom : 0.4px solid rgba(30, 58, 138, 0.7);
-  padding-bottom : 30px;
-`;
+  width: 60px;
+  height: 20px;
+  border: 1px solid rgba(30, 58, 138, 0.5);
+  background: white;
+  border-radius : 10px;
+  padding : 5px;
+`
 
-const RecommendCom = styled.div`
-  width: 250px;
-  height: 155px;
-  gap: 0px;
-  border-radius: 10px;
-  background : #FFFFFF;
-`;
-
-const InfoDom = styled.div`
-  height : 280px;
+const CheckLists = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  // align-content: center;
-  overflow-y: auto;
-`;
+  flex-direction: column;
+  gap : 10px;
+  background : white;
+  border-radius : 10px;
+  padding : 10px;
+`
 
-const Info = styled.div`
-  height: 40px;
-  border-radius: 20px;
-  background-color:white;
-  border: 1px solid rgb(207, 209, 218);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 60px;
-  padding: 0 10px;
-  gap : 5px;
-  scroll-snap-align: start;
-  position: relative;
-  &:hover {
-    background-color: rgba(30, 58, 138, 0.2);
-    color: #1E3A8A;
-  }
-  span {
-    margin-left: 5px;
-  }
-`;
+const CheckList = styled.div`
+  
+`
