@@ -65,7 +65,6 @@ const MadeBingo = () => {
           <Button>완료</Button>
         </LeftDom>
         <RightDom>
-          <MdOutlineKeyboardBackspace />
           <Line>
             <InputTitleBox
               type="text"
@@ -108,7 +107,7 @@ const MadeBingo = () => {
             <DateInfo>2024.09.09 ~ 2024.10.24<MdOutlineEditCalendar /></DateInfo>
           </Line>
           <TitleLine>
-            <h2>| 세부 계획</h2>
+            <div> | 세부계획 </div>
             <InputBox
               type="text"
               value={newChecklistText}
@@ -129,7 +128,7 @@ const MadeBingo = () => {
               </CheckList>
             ))}
           </CheckLists>
-          <DateInfo style={{ width: '200px', marginTop: '10px', marginLeft: '334px' }}>목표 달성 기록 남기기</DateInfo>
+          <DateInfo style={{ width: '200px', marginLeft: '334px' }}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
     </>

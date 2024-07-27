@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
 import { FiThumbsUp } from 'react-icons/fi';
+import { IoIosInformationCircleOutline } from 'react-icons/io';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -26,7 +27,7 @@ const Home = () => {
     //백엔드연결 여기서하기
   };
 
-  const veiwBingoInfo = (index) => {
+  const viewBingoInfo = () => {
     navigate("/info");
   }
 
@@ -35,7 +36,7 @@ const Home = () => {
     "internship",
     "academicStress",
     "selfDevelopment",
-    "diverseExperiences",
+    "diverse Experiences",
     "financialBurden",
     "mentalStability",
     "newCareerExploration",
@@ -106,12 +107,13 @@ const Home = () => {
                 onDragStart={() => handleDragStart(index, 'bingo')}
                 onDrop={() => handleDrop(index)}
                 onDragOver={handleDragOver}
+                inBingo={typeof bingo !== 'number'}
               >
                 {typeof bingo === 'number' ? bingo + 1 : bingo}
               </Bingo>
             ))}
           </BingoDom>
-          <Button>완료</Button>
+          <Button style={{marginLeft:'473px', marginTop:'4px'}}>완료</Button>
         </LeftDom>
         <RightDom>
           <div><FiThumbsUp /> 후알유 추천</div>
@@ -137,7 +139,8 @@ const Home = () => {
                 draggable
                 onDragStart={() => handleDragStart(index, 'info')}
               >
-                {info}
+                {info}<IoIosInformationCircleOutline onClick={viewBingoInfo}/> 
+                {/* viweBingoInfo(index) */}
                 </Info>
             ))}
           </InfoDom>
@@ -186,6 +189,7 @@ const LeftDom = styled.div`
   flex-direction: column;
   justify-content: center;
   width : 550px;
+  margin-right : 30px;
 `;
 
 export const RightDom = styled.div`
@@ -208,32 +212,35 @@ const BingoDom = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width : 510px;
-  height : 500px;
+  width : 550px;
+  height : 550px;
   // padding : 5px;
 `;
 
-const Bingo = styled.div`
+export const Bingo = styled.div`
   width : 150px;
   height : 150px;
   font-size : 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(30, 58, 138, 0.1);
   border-radius : 10px;
-  border: 2px solid #d9d9d9;
+  padding : 10px;
+  color : ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
+  // background ${({ inBingo }) => (inBingo == 1 ? 'rgba(30, 58, 138, 0.2)' : 'rgba(30, 58, 138, 0.3)' )};
+  background: ${({ inBingo }) => (inBingo ? 'white' : 'rgba(30, 58, 138, 0.1)')};
+  border: ${({ inBingo }) => (inBingo ? '3px solid rgba(30, 58, 138, 0.9)' : '')};
+  box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px rgba(30, 58, 138, 0.4)' : 'none')};
 `;
 
 const Button = styled.div`
   display: flex;
-  // flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 50px;
-  height: 20px;
+  height: 16px;
   padding: 10px;
-  gap: 10px;
+  // gap: 10px;
   border-radius: 10px;
   background: rgba(30, 58, 138, 1);
   color : white;
@@ -262,7 +269,7 @@ const RecommendCom = styled.div`
 `;
 
 const InfoDom = styled.div`
-  height : 280px;
+  height : 310px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
