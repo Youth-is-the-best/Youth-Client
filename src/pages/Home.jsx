@@ -1,27 +1,36 @@
 import React, { useState } from 'react';
-import { useDrag, useDrop, DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { AiFillCaretDown, AiOutlineUser } from 'react-icons/ai';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
 import { FiThumbsUp } from 'react-icons/fi';
-import { IoIosInformationCircleOutline } from 'react-icons/io';
-
-const ItemTypes = {
-  INFO: 'info',
-};
 
 const Home = () => {
+  const options = ["추천순", "마감순", "보관함"];
   const navigate = useNavigate();
   const [selectedInfo, setSelectedInfo] = useState();
-  const [bingoData, setBingoData] = useState(Array(9).fill(null));
-  const [array, setArray] = useState(options[0]);
-
-  const options = ["추천순", "마감순", "보관함"];
+  const [value, onChange] = useState(new Date());
   
-  const info = [
+
+  const [array, setArray] = useState(options[0]);
+  const handleArrayChange = (event) => {
+    setArray(event.target.value);
+  }
+  
+  const viewCalendar = () => {
+    // 
+  }
+
+  const handleInfoClick = (index) => {
+    setSelectedInfo(index);
+    //백엔드연결 여기서하기
+  };
+
+  const veiwBingoInfo = (index) => {
+    navigate("/info");
+  }
+
+  const infoItems = [
     "jobPreparation",
     "internship",
     "academicStress",
@@ -29,40 +38,55 @@ const Home = () => {
     "diverseExperiences",
     "financialBurden",
     "mentalStability",
-    "newCareerExploration"
+    "newCareerExploration",
+    "jobPreparation",
+    "internship",
+    "academicStress",
+    "selfDevelopment",
+    "diverseExperiences",
+    "financialBurden",
+    "mentalStability",
+    "jobPreparation",
+    "internship",
+    "academicStress",
+    "selfDevelopment",
+    "diverseExperiences",
+    "financialBurden",
+    "mentalStability"
   ];
 
-  const handleArrayChange = (event) => {
-    setArray(event.target.value);
+  const [bingos, setBingos] = useState(Array.from({ length: 9 }, (_, index) => index));
+  const [draggingIndex, setDraggingIndex] = useState(null);
+  const [draggingInfo, setDraggingInfo] = useState(null);
+
+  const handleDragStart = (index, type) => {
+    if (type === 'bingo') {
+      setDraggingIndex(index);
+      setDraggingInfo(null);
+    } else {
+      setDraggingInfo(infoItems[index]);
+      setDraggingIndex(null);
+    }
   };
 
-  const handleInfoClick = (index) => {
-    setSelectedInfo(index);
+  const handleDrop = (index) => {
+    const newBingos = [...bingos];
+    if (draggingInfo !== null) {
+      newBingos[index] = draggingInfo;
+      setDraggingInfo(null);
+    } else {
+      [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
+      setDraggingIndex(null);
+    }
+    setBingos(newBingos);
   };
 
-  const veiwBingoInfo = (index) => {
-    navigate("/info");
-  };
-
-  const moveInfoToBingo = (infoIndex, bingoIndex) => {
-    const newBingoData = [...bingoData];
-    newBingoData[bingoIndex] = info[infoIndex];
-    setBingoData(newBingoData);
-  };
-
-  const renderBingoBoxes = () => {
-    return bingoData.map((data, index) => (
-      <BingoBox
-        key={index}
-        index={index}
-        info={data}
-        onDrop={(infoIndex) => moveInfoToBingo(infoIndex, index)}
-      />
-    ));
+  const handleDragOver = (e) => {
+    e.preventDefault();
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <>
       <Headers>
         <Header to="/test/0">휴학 유형 테스트</Header>
         <Header to="/">투두 리스트 빙고</Header>
@@ -73,9 +97,19 @@ const Home = () => {
       <Body>
         <LeftDom>
           <h2>열정가득 곰도리의 빙고판</h2>
-          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar /></div>
+          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar onClick={viewCalendar}/></div>
           <BingoDom>
-            {renderBingoBoxes()}
+            {bingos.map((bingo, index) => (
+              <Bingo
+                key={index}
+                draggable
+                onDragStart={() => handleDragStart(index, 'bingo')}
+                onDrop={() => handleDrop(index)}
+                onDragOver={handleDragOver}
+              >
+                {typeof bingo === 'number' ? bingo + 1 : bingo}
+              </Bingo>
+            ))}
           </BingoDom>
           <Button>완료</Button>
         </LeftDom>
@@ -97,54 +131,19 @@ const Home = () => {
             ))}
           </Selector>
           <InfoDom>
-            {info.map((info, index) => (
+            {infoItems.map((info, index) => (
               <Info
                 key={index}
-                index={index}
-                selected={selectedInfo === index}
-                onClick={() => handleInfoClick(index)}
+                draggable
+                onDragStart={() => handleDragStart(index, 'info')}
               >
-                {info} <IoIosInformationCircleOutline onClick={() => veiwBingoInfo(index)} />
-              </Info>
+                {info}
+                </Info>
             ))}
           </InfoDom>
         </RightDom>
       </Body>
-    </DndProvider>
-  );
-};
-
-const BingoBox = ({ index, info, onDrop }) => {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.INFO,
-    drop: (item) => onDrop(item.index),
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  }), [onDrop]);
-
-  return (
-    <Bingo ref={drop} style={{ background: isOver ? 'rgba(30, 58, 138, 0.2)' : 'rgba(30, 58, 138, 0.1)' }}>
-      {info}
-    </Bingo>
-  );
-};
-
-const Info = ({ index, selected, onClick, children }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.INFO,
-    item: { index },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }), [index]);
-
-  return (
-    <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <InfoContainer selected={selected} onClick={onClick}>
-        {children}
-      </InfoContainer>
-    </div>
+    </>
   );
 };
 
@@ -157,7 +156,7 @@ export const Selector = styled.select`
   width : 100px;
   border: 1px solid rgba(30, 58, 138, 1);
   color : rgba(30, 58, 138, 1);
-`;
+`
 
 const Headers = styled.div`
   display: flex;
@@ -192,6 +191,7 @@ const LeftDom = styled.div`
 export const RightDom = styled.div`
   display: flex;
   flex-direction: column;
+  // justify-content: center;
   width : 550px;
   height : 630px;
   background: rgba(30, 58, 138, 0.04);
@@ -210,21 +210,24 @@ const BingoDom = styled.div`
   align-items: center;
   width : 510px;
   height : 500px;
+  // padding : 5px;
 `;
 
 const Bingo = styled.div`
   width : 150px;
   height : 150px;
-  background: rgba(30, 58, 138, 0.1);
-  border-radius : 10px;
+  font-size : 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
+  background: rgba(30, 58, 138, 0.1);
+  border-radius : 10px;
+  border: 2px solid #d9d9d9;
 `;
 
 const Button = styled.div`
   display: flex;
+  // flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 50px;
@@ -234,7 +237,6 @@ const Button = styled.div`
   border-radius: 10px;
   background: rgba(30, 58, 138, 1);
   color : white;
-  cursor: pointer;
 `;
 
 const RecommendDom = styled.div`
@@ -263,11 +265,12 @@ const InfoDom = styled.div`
   height : 280px;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 10px;
+  // align-content: center;
   overflow-y: auto;
 `;
 
-const InfoContainer = styled.div`
+const Info = styled.div`
   height: 40px;
   border-radius: 20px;
   background-color: white;
