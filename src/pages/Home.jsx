@@ -226,6 +226,20 @@ export const Bingo = styled.div`
   align-items: center;
   border-radius : 10px;
   padding : 10px;
+  background: ${({ inBingo, index }) => {
+    if (inBingo) return 'white';
+    switch(index) {
+      case 1: return 'rgba(30, 58, 138, 0.15)';
+      case 2: return 'rgba(30, 58, 138, 0.2)';
+      case 3: return 'rgba(30, 58, 138, 0.25)';
+      case 4: return 'rgba(30, 58, 138, 0.3)';
+      case 5: return 'rgba(30, 58, 138, 0.35)';
+      case 6: return 'rgba(30, 58, 138, 0.4)';
+      case 7: return 'rgba(30, 58, 138, 0.45)';
+      case 8: return 'rgba(30, 58, 138, 0.5)';
+      default: return 'rgba(30, 58, 138, 0.1)';
+    }
+  }};
   color : ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
   // background ${({ inBingo }) => (inBingo == 1 ? 'rgba(30, 58, 138, 0.2)' : 'rgba(30, 58, 138, 0.3)' )};
   background: ${({ inBingo }) => (inBingo ? 'white' : 'rgba(30, 58, 138, 0.1)')};
