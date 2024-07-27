@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import YearSemesterSelector from '../hook/YearSemesterSelector';
 import ProgressBar from '../hook/ProgressBar';
-import { postTest } from '../apis/testapis';
 
 const Test = ({year, setYear, semester, setSemester}) => {
     const navigate = useNavigate();

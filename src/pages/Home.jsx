@@ -1,24 +1,35 @@
 import React, { useState } from 'react';
 import { AiFillCaretDown, AiOutlineUser } from 'react-icons/ai';
 import { MdOutlineEditCalendar } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import Calendar from 'react-calendar';
 
 const Home = () => {
+  const navigate = useNavigate();
   const [selectedInfo, setSelectedInfo] = useState();
   const [value, onChange] = useState(new Date());
+  const options = ["추천순", "마감순", "보관함"];
 
+  const [array, setArray] = useState(options[0]);
+  const handleArrayChange = (event) => {
+    setArray(event.target.value);
+  }
+  
   const viewCalendar = () => {
 
   }
 
   const handleInfoClick = (index) => {
     setSelectedInfo(index);
+    //백엔드연결 여기서하기
   };
+
+  const veiwBingoInfo = (index) => {
+    navigate("/info");
+  }
 
   const info = [
     "jobPreparation",
@@ -50,13 +61,12 @@ const Home = () => {
       <Headers>
         <Header to="/test/0">휴학 유형 테스트</Header>
         <Header to="/">투두 리스트 빙고</Header>
-        <Header to="/info">공고/후기</Header>
-        <Header to="/login">나의 포트폴리오</Header>
+        <Header to="/made">공고/후기</Header>
+        <Header to="/made">나의 포트폴리오</Header>
         <img src={mypage} style={{ height: '60px' }}></img>
       </Headers>
       <Body>
         <LeftDom>
-        <Calendar onChange={onChange} value={value} />
           <h2>열정가득 곰도리의 빙고판</h2>
           <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar onClick={viewCalendar}/></div>
           <BingoDom>
@@ -76,10 +86,19 @@ const Home = () => {
           <div><FiThumbsUp /> 후알유 추천</div>
           <div>마음에 드는 활동을 빙고판에 끌어서 옮겨보세요 </div>
           <RecommendDom>
-            <RecommendCom></RecommendCom>
+            <RecommendCom>
+              <div>이미지</div>
+              <div>제목</div>
+            </RecommendCom>
             <RecommendCom></RecommendCom>
           </RecommendDom>
-          <div><AiFillCaretDown /> 추천순</div>
+          <Selector value={array} onChange={handleArrayChange}>
+            {options.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))};
+          </Selector>
           <InfoDom>
             {info.map((info, index) => (
               <Info
@@ -87,7 +106,7 @@ const Home = () => {
                 selected={selectedInfo === index}
                 onClick={() => handleInfoClick(index)}
               >
-                {info}<IoIosInformationCircleOutline />
+                {info}<IoIosInformationCircleOutline onClick={veiwBingoInfo(index)}/>
               </Info>
             ))}
           </InfoDom>
@@ -98,6 +117,15 @@ const Home = () => {
 };
 
 export default Home;
+
+export const Selector = styled.select`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width : 100px;
+  border: 1px solid rgba(30, 58, 138, 1);
+  color : rgba(30, 58, 138, 1);
+`
 
 const Headers = styled.div`
   display: flex;
@@ -129,12 +157,12 @@ const LeftDom = styled.div`
   width : 550px;
 `;
 
-const RightDom = styled.div`
+export const RightDom = styled.div`
   display: flex;
   flex-direction: column;
   // justify-content: center;
   width : 550px;
-  height : 600px;
+  height : 630px;
   background: rgba(30, 58, 138, 0.04);
   border-radius: 0px 20px 20px 0px;
   border-left : 4px solid rgba(30, 58, 138, 0.4);
@@ -186,6 +214,10 @@ const RecommendDom = styled.div`
 `;
 
 const RecommendCom = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 250px;
   height: 155px;
   gap: 0px;

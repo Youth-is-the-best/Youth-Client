@@ -8,8 +8,10 @@ import Test2 from './pages/Test2';
 import Test3 from './pages/Test3';
 import Result from './pages/Result';
 import Signup from './pages/Signup';
-import Info from './pages/Info';
 import { useState } from 'react';
+import MadeBingo from './pages/MadeBingo';
+import BingoInfo from './pages/BingoInfo';
+import Calendar from 'react-calendar';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -22,9 +24,11 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home/>}></Route>
-      <Route path="/info" element={<Info/>}></Route>
+      <Route path="/info" element={<BingoInfo/>}></Route>
+      <Route path="/made" element={<MadeBingo/>}></Route>
       <Route path="/login" element={<Login/>}></Route>
       <Route path="/signup" element={<Signup />}/>
+      <Route path="/cal" element={<Calendar />}/>
       <Route path="/test/0" element={<Test year={year} setYear={setYear} 
       semester={semester} setSemester={setSemester}/>}/>
       <Route path="/test/1" element={<Test1 selectedReason={selectedReason} setSelectedReason={setSelectedReason}/>} />

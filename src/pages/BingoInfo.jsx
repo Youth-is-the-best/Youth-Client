@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
-import { AiOutlineCheckSquare } from 'react-icons/ai';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
+import { BsThreeDots } from 'react-icons/bs';
+import { RightDom } from './Home';
 
 
-const Info = () => {
+const BingoInfo = () => {
+  const navigate = useNavigate();
+  const goHome = () => {
+    navigate("/");
+  }
 
   return (
     <>
@@ -36,11 +41,14 @@ const Info = () => {
           <Button>완료</Button>
         </LeftDom>
         <RightDom>
-          <MdOutlineKeyboardBackspace />
-          <Line>
-            <h1>TOEIC 900점 이상 취득</h1>
+          <TitleLine>
+            <MdOutlineKeyboardBackspace onClick={goHome}/>
+            <BsThreeDots />
+          </TitleLine>
+          <TitleLine>
+            <h1>TOEIC</h1>
             <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo>
-          </Line>
+          </TitleLine>
           <Line>
             <Category>분류</Category>
             <Category style={{ background: 'rgba(30, 58, 138, 1)', color :'white'}} >자격증</Category>
@@ -61,14 +69,15 @@ const Info = () => {
             <Category>준비 기간</Category>
             <DateInfo>2024.09.09 ~ 2024.10.24<MdOutlineEditCalendar /></DateInfo>
           </Line>
-          <h2>| 세부 계획</h2>
-          <CheckLists>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-            <CheckList><AiOutlineCheckSquare />플랭크 15분</CheckList>
-          </CheckLists>
+          <TitleLine>
+          <h2>빙고 미션 완료 후기</h2>
+          </TitleLine>
+          <ReviewDom>
+            <Review>
+              <div>리뷰 사진</div>
+              <div>리뷰 제목</div>
+            </Review>
+          </ReviewDom>
           <DateInfo style={{width : '200px', marginTop : '10px', marginLeft:'334px'}}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
@@ -76,7 +85,7 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default BingoInfo;
 
 const Headers = styled.div`
   display: flex;
@@ -106,19 +115,6 @@ const LeftDom = styled.div`
   flex-direction: column;
   justify-content: center;
   width : 550px;
-`;
-
-const RightDom = styled.div`
-  display: flex;
-  flex-direction: column;
-  // justify-content: center;
-  width : 550px;
-  // height : 600px;
-  border-radius: 20px;
-  border: 0.4px solid rgba(30, 58, 138, 1);
-  background: rgba(30, 58, 138, 0.04);
-  box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
-  padding : 20px;
 `;
 
 const BingoDom = styled.div`
@@ -184,18 +180,30 @@ const Line = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap : 20px;
-  margin-bottom : 15px;
   margin-left : 10px;
 `
-const CheckLists = styled.div`
+const TitleLine = styled.div`
   display: flex;
-  flex-direction: column;
-  gap : 10px;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap : 20px;
+  margin-left : 10px;
+`
+const ReviewDom = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 130px;
+  border-radius: 10px;
   background : white;
-  border-radius : 10px;
-  padding : 10px;
+
 `
 
-const CheckList = styled.div`
-  
+const Review = styled.div`
+  display : flex;
+  flex-direction : column;
 `
