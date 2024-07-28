@@ -26,7 +26,7 @@ const MadeBingo = () => {
   const madeCheckList = () => {
     if (newChecklistText.trim() === '') return;
     const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
-    setChecklists([...checklists, newChecklist]);
+    setChecklists([newChecklist]);
     setNewChecklistText('');
     //여기에 백엔드 연결
   };
