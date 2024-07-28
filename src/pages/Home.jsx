@@ -29,7 +29,8 @@ const Home = () => {
   }
 
   const viewRecommend = async() => {
-    const response = await getInfo(answ)
+    const response = await getInfo(answer);
+    setRecommend(response.recommend);
   }
 
   const infoItems = [
