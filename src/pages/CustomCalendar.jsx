@@ -34,6 +34,7 @@ export default CustomCalendar;
 const CalendarContainer = styled.div`
   position: relative;
   display: flex;
+  border-radius: 0px, 20px, 20px, 20px;
 `;
 
 const CalendarWrapper = styled.div`
