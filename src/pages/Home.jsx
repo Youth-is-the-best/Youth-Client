@@ -12,7 +12,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [selectedInfo, setSelectedInfo] = useState();
   const [value, onChange] = useState(new Date());
-  
+  const [recommend, setRecommend]=useState("");
 
   const [array, setArray] = useState(options[0]);
   const handleArrayChange = (event) => {
@@ -29,7 +29,8 @@ const Home = () => {
   }
 
   const viewRecommend = async() => {
-    const response = await getInfo(answ)
+    const response = await getInfo(answer);
+    setRecommend(response.recommend);
   }
 
   const infoItems = [
