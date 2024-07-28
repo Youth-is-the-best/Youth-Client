@@ -18,23 +18,37 @@ const Review = () => {
     <Body>
     <h2>| 토익 900점 이상 취득</h2>
         <Line>
-          <Row>
           <div>분류</div>
-          <div>세부 계획</div>
-          </Row>
-          <Row style={{color : 'black'}}>
-            <Category>자격증</Category>
-          </Row>
+          <Category>자격증</Category>
         </Line>
-        <Line>
-            <Row>
-            <div>세부계획</div>
-            <CheckList>
-                <CheckBox></CheckBox>
-                <AiOutlineCheckSquare size={20}/>
-            </CheckList>
-            </Row>
-        </Line>
+        <Row>
+            <Line>
+                <div>세부계획</div>
+                <CheckList>
+                    <Line>
+                    <AiOutlineCheckSquare size={20}/>
+                    <div>매일 단어 500개 외우기</div>
+                    </Line>
+                    <Line>
+                    <AiOutlineCheckSquare size={20}/>
+                    <div>매일 단어 500개 외우기</div>
+                    </Line>
+                    <Line>
+                    <AiOutlineCheckSquare size={20}/>
+                    <div>매일 단어 500개 외우기</div>
+                    </Line>
+                    <Line>
+                    <AiOutlineCheckSquare size={20}/>
+                    <div>매일 단어 500개 외우기</div>
+                    </Line>
+                </CheckList>
+            </Line>
+            <Line>
+                <div>시험 절차</div>
+                <InputBox>
+                </InputBox>
+            </Line>
+        </Row>
     </Body>
     </>
   )
@@ -61,7 +75,18 @@ const Category = styled.div`
   padding: 7px;
 `
 const CheckList = styled.div`
+    display : flex;
+    flex-direction : column;
     width : 460px;
-    heigth : 160px;
-    border : 1px solid black;
+    height : 160px;
+    gap : 10px;
+    font-size : 16px;
+`
+
+const InputBox = styled.input`
+  padding: 5px;
+  border-radius: 10px;
+  border: 0.2px solid rgba(30, 58, 138, 1);
+    width : 460px;
+    height : 160px;    
 `

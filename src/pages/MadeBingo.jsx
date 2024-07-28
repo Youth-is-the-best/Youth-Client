@@ -143,11 +143,11 @@ const MadeBingo = () => {
               {inputConfigs[selectedCategory].map((config, index) => {
                 if (config.type === 'date') {
                   return (
-                    <DateInfo key={index}>2024.09.09<MdOutlineEditCalendar /></DateInfo>
+                    <DateInfo key={index}>날짜를 선택하세요<MdOutlineEditCalendar /></DateInfo>
                   );
                 } else if (config.type === 'date-range') {
                   return (
-                    <DateInfo key={index}>2024.09.09 ~ 2024.10.24<MdOutlineEditCalendar /></DateInfo>
+                    <DateInfo key={index}>기간을 선택하세요<MdOutlineEditCalendar /></DateInfo>
                   );
                 } else if (config.type === 'select') {
                   return (
@@ -362,7 +362,7 @@ const InputTitleBox = styled.input`
  background : rgba(246, 247, 251, 1);
  font-size : 24px;
  color: rgba(30, 58, 138, 1);
-  width : 100%
+ width : 100%
 `
 const Selector = styled.select`
   font-size :15px;

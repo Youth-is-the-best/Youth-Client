@@ -3,9 +3,9 @@ import { MdOutlineEditCalendar } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
-import { FiThumbsUp } from 'react-icons/fi';
+import { FiThumbsUp, FiUser } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getInfo } from '../apis/testapis';
+import { getBingo, getInfo, postBingo } from '../apis/testapis';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -44,9 +44,85 @@ const Home = () => {
     console.log(response);
   }
 
+  const postBingos = async() => {
+    const mybingo={
+      "size": 9,
+      "start_date": "2024-07-25",
+      "end_date": "2024-10-25",
+          "bingo_obj": [
+          {
+                  "location": 0,
+                  "choice": "0",
+                  "title": "제주도 여행",
+                  "todo": [{
+                "title": "비행기표 예매"
+              },
+                {
+                "title": "숙소 알아보기"
+              }]
+              },
+              {
+                  "location": 1,
+                  "choice": "0",
+                  "title": "제부도 여행",
+                  "todo": [{
+                "title": "기깔나게 자기"
+              },
+                {
+                "title": "밥 맛있게 먹기"
+              }]
+              },
+              {
+                  "location": 2,
+                  "choice": "0",
+                  "title": "독도 여행",
+                  "todo": [{
+                "title": "왜가"
+              },
+                {
+              "title": "가야지"
+              }]
+              },
+              {
+                  "location": 3,
+                  "choice": "0",
+                  "title": "울릉도 여행"
+              },
+              {
+                  "location": 4,
+                  "choice": "0",
+                  "title": "정처기 따기"
+              },
+              {
+                  "location": 5,
+                  "choice": "0",
+                  "title": "한자 4급 따기"
+              },
+              {
+                  "location": 6,
+                  "choice": "0",
+                  "title": "괌 여행"
+              },
+              {
+                  "location": 7,
+                  "choice": "0",
+                  "title": "매일 물 20L 이상 마시기"
+              },
+              {
+                  "location": 8,
+                  "choice": "0",
+                  "title": "아르바이트"
+              }
+      ]
+    }
+    console.log(mybingo);
+    const response = await postBingo(mybingo);
+    console.log(response);
+  }
+
   useEffect(() => {
     viewRecommend();
-    getBingo();
+    postBingos();
   }, []);
 
   const infoItems = [
@@ -117,7 +193,7 @@ const Home = () => {
         <Header to="/">투두 리스트 빙고</Header>
         <Header to="/info">공고/후기</Header>
         <Header to="/portfolio">나의 포트폴리오</Header>
-        <img src={mypage} style={{ height: '60px' }}></img>
+        <FiUser size={20}/>
       </Headers>
       <Body>
         <LeftDom>
@@ -187,6 +263,7 @@ export const Headers = styled.div`
   height : 64px;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.08);
   font-size : 20px;
+  color : rgba(30, 58, 138, 1);
 `;
 export const Header = styled(Link)`
   color : rgba(30, 58, 138, 1);

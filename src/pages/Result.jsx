@@ -7,6 +7,7 @@ import { GoHome } from 'react-icons/go';
 
 const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue }) => {
   const [userType, setUserType] = useState("");
+  const [content, setContent] = useState("");
 
   const showResult = async () => {
     const answer = {
@@ -16,11 +17,9 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
       "answer3": selectedAnswers,
       "answer4": inputValue
     };
-    //console.log(answer); // 확인용
     const response = await postTest(answer);
-    //console.log("Response:", response);
-    //console.log("Response:", `${response.user_type}`);
     setUserType(response.user_type);
+    setContent(response.content);
   };
 
   useEffect(() => {
@@ -32,8 +31,8 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
       <ResultDom>
         <div>@9rin_t2 님의 유형은</div>
         <Image></Image>
-        <h1>귀여운 {userType}</h1>
-        <ResultInfo>{userType}는 귀여우니까 그냥 놀아도 돼용 🩷</ResultInfo>
+        <h1>{userType}</h1>
+        <ResultInfo>{content}</ResultInfo>
         <ButtonDom>
           <ButtonLink> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
           <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/">
