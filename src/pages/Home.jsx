@@ -168,7 +168,7 @@ export const Selector = styled.select`
   color : rgba(30, 58, 138, 1);
 `
 
-const Headers = styled.div`
+export const Headers = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: end;
