@@ -3,7 +3,7 @@ import { MdOutlineEditCalendar } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
-import { FiThumbsUp } from 'react-icons/fi';
+import { FiThumbsUp, FiUser } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getBingo, getInfo } from '../apis/testapis';
 
@@ -46,7 +46,7 @@ const Home = () => {
 
   useEffect(() => {
     viewRecommend();
-    getBingo();
+    // getBingo();
   }, []);
 
   const infoItems = [
@@ -117,7 +117,7 @@ const Home = () => {
         <Header to="/">투두 리스트 빙고</Header>
         <Header to="/info">공고/후기</Header>
         <Header to="/portfolio">나의 포트폴리오</Header>
-        <img src={mypage} style={{ height: '60px' }}></img>
+        <FiUser size={20}/>
       </Headers>
       <Body>
         <LeftDom>
@@ -187,6 +187,7 @@ export const Headers = styled.div`
   height : 64px;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.08);
   font-size : 20px;
+  color : rgba(30, 58, 138, 1);
 `;
 export const Header = styled(Link)`
   color : rgba(30, 58, 138, 1);
