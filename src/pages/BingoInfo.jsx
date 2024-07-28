@@ -6,13 +6,21 @@ import mypage from '../images/mypage.png';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
 import { RightDom } from './Home';
+import CustomCalendar from './CustomCalendar';
 
 
 const BingoInfo = () => {
   const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState(null);
+  
   const goHome = () => {
     navigate("/");
-  }
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+  
 
   return (
     <>
@@ -63,11 +71,17 @@ const BingoInfo = () => {
           </Line>
           <Line>
             <Category>시험 날짜</Category>
-            <DateInfo>2024.09.09<MdOutlineEditCalendar /></DateInfo>
+            <DateInfo>
+              {selectedDate ? selectedDate.toLocaleDateString() : '날짜를 입력하세요'}
+              <CustomCalendar onChange={handleDateChange} value={selectedDate} />
+            </DateInfo>
           </Line>
           <Line>
             <Category>준비 기간</Category>
-            <DateInfo>2024.09.09 ~ 2024.10.24<MdOutlineEditCalendar /></DateInfo>
+            <DateInfo>
+              {selectedDate ? selectedDate.toLocaleDateString() : '날짜를 입력하세요'}
+              <CustomCalendar onChange={handleDateChange} value={selectedDate} />
+            </DateInfo>
           </Line>
           <TitleLine>
           <h2>빙고 미션 완료 후기</h2>
