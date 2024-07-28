@@ -1,27 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, ButtonLink } from './Test.jsx';
 import ProgressBar from '../hook/ProgressBar.js';
 import { FiArrowRightCircle } from 'react-icons/fi';
-import { postTest } from '../apis/testapis.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
-const Test3 = () => {
-  const [inputValue, setInputValue] = useState('');
-  const [userType, setUserType] = useState('');
+const Test3 = ({inputValue, setInputValue}) => {
   const navigate = useNavigate();
 
-  const showResult = async() => {
-    const answer = {
-        "question_id": 4,
-        "answer_text": inputValue
-    }
-    //console.log(answer);
-    await postTest(answer);
-    const response = await postTest(answer);
-    //console.log("Response:", `${response.user_type}`);
-    setUserType(response.user_type);
-    navigate('/result', { state: { userType: response.user_type } });
+  const showResult = () => {
+    navigate('/result');
+    // console.log(inputValue);
   }
 
   return (

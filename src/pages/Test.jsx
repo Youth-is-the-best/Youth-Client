@@ -3,28 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import YearSemesterSelector from '../hook/YearSemesterSelector';
 import ProgressBar from '../hook/ProgressBar';
-import { postTest } from '../apis/testapis';
 
-const Test = () => {
-    const [year, setYear] = useState(2024);
-    const [semester, setSemester] = useState(1);
+const Test = ({year, setYear, semester, setSemester}) => {
     const navigate = useNavigate();
 
     const handleYearSemesterChange = (newYear, newSemester) => {
         setYear(newYear);
         setSemester(newSemester);
     };
-    const handleNextClick = async () => {
-        const answer = {
-            "question_id": 1,
-            "return_year": year,
-            "return_semester": semester
-        };
-        await postTest(answer);
-        //console.log(answer);
-        //const response = await postTest(answer);
-        //console.log("Response:", response);
+    const handleNextClick = () => {
         navigate("/test/1");
+        // console.log(year);
+        // console.log(semester);
     };
 
     return (

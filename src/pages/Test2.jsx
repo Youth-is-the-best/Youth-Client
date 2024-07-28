@@ -8,14 +8,16 @@ import { AiOutlineCoffee, AiOutlineFileSearch, AiOutlineHome, AiOutlineRead, AiO
 import { MdAirplanemodeActive, MdBadge, MdFestival, MdOutlineAutoGraph, MdOutlinePaid } from 'react-icons/md';
 import { FaDribbble } from 'react-icons/fa';
 import { FiHeadphones } from 'react-icons/fi';
-import { postTest } from '../apis/testapis.js';
 
-const Test2 = () => {
+const Test2 = ({ selectedAnswers, setSelectedAnswers }) => {
     const navigate = useNavigate();
-    const [selectedAnswers, setSelectedAnswers] = useState([]);
 
     const handleBeforeClick = () => {
-        navigate("/test/1");
+        if (!selectedAnswers) {
+            alert("답변을 선택해주세요.")
+          } else {
+            navigate("/test/1");
+          }
     }
 
     const handleAnswerClick = (answer) => {
@@ -26,20 +28,11 @@ const Test2 = () => {
         }
     };
 
-    const handleNextClick = async () => {
-        const answer = {
-            "question_id": 3,
-            "choices": selectedAnswers
-        }
-        //console.log(answer);
-        await postTest(answer);
-        //const response = await postTest(answer);
-        //console.log("Response:", response);
-
+    const handleNextClick =() => {
         if (selectedAnswers.length === 0) {
             alert("최소 한 개 이상의 활동을 선택해주세요.");
         } else {
-            console.log(selectedAnswers); //확인용
+            // console.log(selectedAnswers); //확인용
             navigate("/test/3");
         }
     };
