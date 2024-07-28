@@ -12,7 +12,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [selectedInfo, setSelectedInfo] = useState();
   const [value, onChange] = useState(new Date());
-  
+  const [recommend,setRecommend] = useState("");
 
   const [array, setArray] = useState(options[0]);
   const handleArrayChange = (event) => {
@@ -29,6 +29,7 @@ const Home = () => {
   }
 
   const viewRecommend = async() => {
+    const answer = {};
     const response = await getInfo(answer);
     setRecommend(response.recommend);
   }
@@ -106,7 +107,7 @@ const Home = () => {
       <Body>
         <LeftDom>
           <h2>열정가득 곰도리의 빙고판</h2>
-          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar onClick={viewCalendar}/></div>
+          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar/></div>
           <BingoDom>
             {bingos.map((bingo, index) => (
               <Bingo
