@@ -13,6 +13,7 @@ const Home = () => {
   const [selectedInfo, setSelectedInfo] = useState();
   const [recommend, setRecommend] = useState([]);
 
+
   const [array, setArray] = useState(options[0]);
   const handleArrayChange = (event) => {
     setArray(event.target.value);
@@ -35,6 +36,7 @@ const Home = () => {
     }));
     setRecommend(recommendations);
     console.log("Recommendations:", recommendations);
+
   }
 
   useEffect(() => {
@@ -107,8 +109,8 @@ const Home = () => {
       <Headers>
         <Header to="/test/0">휴학 유형 테스트</Header>
         <Header to="/">투두 리스트 빙고</Header>
-        <Header to="/made">공고/후기</Header>
-        <Header to="/made">나의 포트폴리오</Header>
+        <Header to="/info">공고/후기</Header>
+        <Header to="/portfolio">나의 포트폴리오</Header>
         <img src={mypage} style={{ height: '60px' }}></img>
       </Headers>
       <Body>
@@ -169,16 +171,7 @@ const Home = () => {
 
 export default Home;
 
-export const Selector = styled.select`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  width : 100px;
-  border: 1px solid rgba(30, 58, 138, 1);
-  color : rgba(30, 58, 138, 1);
-`
-
-export const Headers = styled.div`
+const Headers = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -189,7 +182,7 @@ export const Headers = styled.div`
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.08);
   font-size : 20px;
 `;
-const Header = styled(Link)`
+export const Header = styled(Link)`
   color : rgba(30, 58, 138, 1);
   text-decoration : none;
 `;
