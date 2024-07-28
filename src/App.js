@@ -9,6 +9,7 @@ import Test3 from './pages/Test3';
 import Result from './pages/Result';
 import Signup from './pages/Signup';
 import Info from './pages/Info';
+import Portfolio from './pages/Portfolio';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/test/2" element={<Test2/>}></Route>
       <Route path="/test/3" element={<Test3/>}></Route>
       <Route path="/result" element={<Result/>}></Route>
+      <Route path="/portfolio" element={<Portfolio/>}></Route>
     </Routes>
     </BrowserRouter>
   );

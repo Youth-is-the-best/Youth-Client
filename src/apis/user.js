@@ -2,32 +2,30 @@ import axios from "axios";
 
 const baseURL = 'https://maknaengee.p-e.kr';
 
-export const signUp = async (password, username, hash, firstName, lastName, university, college) => {
-  const result = await axios.post(`${baseURL}/users/join/`, {
+export const signUp = async (password, username, hash, first_name, college) => {
+  const response = await axios.post(`${baseURL}/users/join/`, {
     password, 
     username, 
     hash, 
-    firstName, 
-    lastName, 
-    university, 
+    first_name,
     college,
   });
-  return result;
+  return response;
 };
 
 export const login = async (username, password) => {
-  const result = await axios.post(`${baseURL}/users/login/`, {
+  const response = await axios.post(`${baseURL}/users/login/`, {
     username,
     password,
   })
-  console.log(result.data);
-  return result.data;
+  console.log(response.data);
+  return response.data;
 };
 
 export const isUsernameDuplicate = async (username) => {
   try {
     const response = await axios.get(`${baseURL}/users/join/`, {
-      params: { username }
+      params : { username : username }
     });
     return response.data.available;
   } catch (error) {
@@ -35,6 +33,28 @@ export const isUsernameDuplicate = async (username) => {
     throw error;
   }
 };
+
+
+export const SendAuthCodeToEmail = async (answer) => {
+  try {
+    const response = await axios.post(`${baseURL}/users/verify/`, answer );
+    return response.data;
+  } catch(error) {
+      console.error(error);
+      throw error;
+  }
+}
+
+export const postAuthCode = async (answer) => {
+  try {
+    const response = await axios.post(`${baseURL}/users/verify/`, answer );
+    return response.data;
+  } catch(error) {
+      console.error(error);
+      throw error;
+  }
+}
+
 
 // export const isReferrerExist = async (referrer) => {
 //   try {
@@ -47,23 +67,3 @@ export const isUsernameDuplicate = async (username) => {
 //     throw error;
 //   }
 // };
-
-export const SendAuthCodeToEmail = async (answer) => {
-  try {
-    const result = await axios.post(`${baseURL}/users/verify/`, answer );
-    return result.data;
-  } catch(error) {
-      console.error(error);
-      throw error;
-  }
-}
-
-export const postAuthCode = async (answer) => {
-  try {
-    const result = await axios.post(`${baseURL}/users/verify/`, answer );
-    return result.data;
-  } catch(error) {
-      console.error(error);
-      throw error;
-  }
-}
