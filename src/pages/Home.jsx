@@ -171,7 +171,7 @@ const Home = () => {
 
 export default Home;
 
-const Headers = styled.div`
+export const Headers = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -324,3 +324,13 @@ const Info = styled.div`
     margin-left: 5px;
   }
 `;
+
+const Selector = styled.select`
+  font-size :15px;
+  padding: 10px;
+  border-radius: 10px;
+  width : 110px;
+  border: none;
+  background: rgba(30, 58, 138, 1); 
+  color: white;
+`

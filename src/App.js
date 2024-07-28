@@ -12,7 +12,6 @@ import { useState } from 'react';
 import MadeBingo from './pages/MadeBingo';
 import BingoInfo from './pages/BingoInfo';
 import Calendar from 'react-calendar';
-import Info from './pages/Info';
 import Portfolio from './pages/Portfolio';
 
 function App() {
@@ -41,7 +40,7 @@ function App() {
       selectedReason={selectedReason} setSelectedReason={setSelectedReason}
       inputValue={inputValue} setInputValue={setInputValue}
       />}></Route>
-      {/* <Route path="/portfolio" element={<Portfolio/>}></Route> */}
+      <Route path="/portfolio" element={<Portfolio/>}></Route>
     </Routes>
     </BrowserRouter>
   );
