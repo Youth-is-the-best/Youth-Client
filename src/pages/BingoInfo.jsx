@@ -55,7 +55,7 @@ const BingoInfo = () => {
           </TitleLine>
           <TitleLine>
             <h1>TOEIC</h1>
-            <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo>
+            <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo> 
           </TitleLine>
           <Line>
             <Category>분류</Category>
