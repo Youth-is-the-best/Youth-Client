@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import mypage from '../images/mypage.png';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
+import { getInfo } from '../apis/testapis';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -32,7 +33,7 @@ const Home = () => {
   }
 
   const infoItems = [
-    "jobPreparation",
+    "2024년 서울 지능형 사물인터넷(AIoT) 해커톤",
     "internship",
     "academicStress",
     "selfDevelopment",
@@ -55,6 +56,12 @@ const Home = () => {
     "financialBurden",
     "mentalStability"
   ];
+
+  const showWhoRU = async () => {
+    // const whoRU = await getInfo(answer);
+    //console.log("Response:", response);
+    //console.log(answer); // 확인용
+  };
 
   const [bingos, setBingos] = useState(Array.from({ length: 9 }, (_, index) => index));
   const [draggingIndex, setDraggingIndex] = useState(null);
@@ -203,6 +210,7 @@ export const RightDom = styled.div`
   border-left : 4px solid rgba(30, 58, 138, 0.4);
   gap : 15px;
   padding : 20px;
+  overflow-y: auto;
 `;
 
 const BingoDom = styled.div`

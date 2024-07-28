@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/md';
+import { MdOutlineEditCalendar } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
@@ -8,27 +8,34 @@ import { CiSquarePlus } from 'react-icons/ci';
 import { RightDom } from './Home';
 
 const MadeBingo = () => {
-  const [checklists, setChecklists] = useState([
-    { id: 1, text: '세부 계획을 입력해주세요', checked: false },
-    { id: 2, text: '세부 계획을 입력해주세요', checked: false },
-    { id: 3, text: '세부 계획을 입력해주세요', checked: false },
-  ]);
+  const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
   const [title, setTitle] = useState('');
-  // const [value, onChange] = useState(new Date());
+  
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
+  const subcategories = {
+    "채용(인턴)": ["직무", "채용형태", "근무 지역", "지원 마감"],
+    "자격증": ["주최사", "응시료", "시험 날짜", "준비 기간"],
+    "대외활동": ["활동 분야", "활동 지역", "활동 기간", "지원 마감"],
+    "공모전": ["주최 기관", "공모 분야", "마감일", "준비 기간"],
+    "취미": ["기간"],
+    "여행": ["기간"],
+    "자기계발": ["기간"],
+    "휴식": ["기간"]
+  };
 
-  const [array, setArray] = useState(categorys[0]);
-  const handleArrayChange = (event) => {
-    setArray(event.target.value);
-  }
+  const [selectedCategory, setSelectedCategory] = useState(categorys[0]);
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
   
   const madeCheckList = () => {
     if (newChecklistText.trim() === '') return;
     const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
-    setChecklists([newChecklist]);
+    setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
-    //여기에 백엔드 연결
+    // 여기에 백엔드 연결
   };
 
   const toggleCheck = (id) => {
@@ -73,48 +80,35 @@ const MadeBingo = () => {
               placeholder="제목을 입력하세요"/>
           </Line>
           <Line>
-            <Category>분류</Category>
-            <Selector value={array} onChange={handleArrayChange}>
-              {categorys.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))};
-            </Selector>
-          </Line>
-          <Line>
-            <Category>주최사</Category>
-            <InputInfoBox
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="주최사"/>
-          </Line>
-          <Line>
-            <Category>응시료</Category>
-            <InputInfoBox
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="응시료"/>
-          </Line>
-          <Line>
-            <Category>시험 날짜</Category>
-            <DateInfo>2024.09.09<MdOutlineEditCalendar /></DateInfo>
-          </Line>
-          <Line>
-            <Category>준비 기간</Category>
-            <DateInfo>2024.09.09 ~ 2024.10.24<MdOutlineEditCalendar /></DateInfo>
+            <Row>
+              <Category>분류</Category>
+              {subcategories[selectedCategory].map((item, index) => (
+              <Category key={index}>{item}</Category>))}
+            </Row>
+            <Row style={{gap : '30px'}}>
+              <Selector value={selectedCategory} onChange={handleCategoryChange}>
+                {categorys.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </Selector>
+              <InputInfoBox
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="주최사"/>
+              <InputInfoBox
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="응시료"/>
+              <DateInfo>2024.09.09<MdOutlineEditCalendar /></DateInfo>
+              <DateInfo>2024.09.09 ~ 2024.10.24<MdOutlineEditCalendar /></DateInfo>
+            </Row>
           </Line>
           <TitleLine>
             <div> | 세부계획 </div>
-            <InputBox
-              type="text"
-              value={newChecklistText}
-              onChange={(e) => setNewChecklistText(e.target.value)}
-              placeholder="세부 계획을 입력하세요"
-            />
-            <CiSquarePlus size={30} onClick={madeCheckList} />
           </TitleLine>
           <CheckLists>
             {checklists.map((item) => (
@@ -127,6 +121,15 @@ const MadeBingo = () => {
                 <span>{item.text}</span>
               </CheckList>
             ))}
+            <Line>
+            <InputBox
+              type="text"
+              value={newChecklistText}
+              onChange={(e) => setNewChecklistText(e.target.value)}
+              placeholder="세부 계획을 입력하세요"
+            />
+            <CiSquarePlus size={30} onClick={madeCheckList} />
+            </Line>
           </CheckLists>
           <DateInfo style={{ width: '200px', marginLeft: '334px' }}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
@@ -229,7 +232,13 @@ const Line = styled.div`
   margin-bottom: 15px;
   margin-left: 10px;
 `;
-
+const Row = styled.div`
+  display : flex;
+  flex-direction : column;
+  flex-wrap : wrap;
+  align-items: start;
+  gap : 20px;
+`
 const TitleLine = styled.div`
   display: flex;
   flex-direction: row;
@@ -244,12 +253,11 @@ const TitleLine = styled.div`
 const CheckLists = styled.div`
   display: flex;
   flex-direction: column;
-  height : 120px;
   gap: 10px;
   background: white;
   border-radius: 10px;
   padding: 10px;
-  overflow-y: auto;
+  // min-height :110px;
 `;
 
 const CheckList = styled.div`
@@ -282,6 +290,8 @@ const InputBox = styled.input`
   padding: 5px;
   border-radius: 5px;
   border: 1px solid rgba(30, 58, 138, 0.5);
+  // background : navy;
+  // border : none;
   width: 60%;
 `;
 
@@ -297,6 +307,7 @@ const Selector = styled.select`
   padding: 10px;
   border-radius: 10px;
   width : 110px;
+  // height : 20px;
   border: none;
   background: rgba(30, 58, 138, 1); 
   color: white;
@@ -305,6 +316,7 @@ const Selector = styled.select`
 const InputInfoBox = styled.input`
   border : none;
   font-size : 20px;
+  height : 20px;
   color : rgba(30, 58, 138, 1);
   background : rgba(246, 247, 251, 1);
 `
