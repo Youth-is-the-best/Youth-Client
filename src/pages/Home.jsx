@@ -18,10 +18,6 @@ const Home = () => {
   const handleArrayChange = (event) => {
     setArray(event.target.value);
   }
-  
-  const viewCalendar = () => {
-    // 
-  }
 
   const handleInfoClick = (index) => {
     setSelectedInfo(index);
@@ -30,6 +26,10 @@ const Home = () => {
 
   const viewBingoInfo = () => {
     navigate("/info");
+  }
+
+  const viewRecommend = async() => {
+    const response = await getInfo(answ)
   }
 
   const infoItems = [
