@@ -3,3 +3,4 @@
 - styled-components
 - react-icons
 - react-calendar
+- moment

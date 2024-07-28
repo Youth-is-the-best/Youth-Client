@@ -50,7 +50,7 @@ const Signup = () => {
   };
 
   const validateUsername = (username) => {
-    const regex = /^[a-zA-Z_]+$/;
+    const regex = /^[a-zA-Z0-9_]+$/;
     return regex.test(username);
   };
 
@@ -223,7 +223,7 @@ const Signup = () => {
             onChange={onChangeUsername} 
             id="username" 
             type="text"
-            placeholder="영문 대소문자, 특수문자 _ 가능"
+            placeholder="영문 대소문자, 숫자, 특수문자 _ 가능"
             style={{ borderColor: usernameError && username.length ? '#FF0000' : usernameAvailable ? '#1E3A8A' : 'initial'}} />
           <button onClick={checkUsername}>중복 확인</button>
         </FormGroup>
@@ -385,7 +385,7 @@ const FormGroup = styled.div`
   }
   span {
     position: absolute;
-    right: 360px;
+    right: 600px;
     top: 357px;
     color: #1E3A8A;
     font-size: 16px;
