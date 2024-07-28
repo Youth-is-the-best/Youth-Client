@@ -51,22 +51,22 @@ const MadeBingo = () => {
       { placeholder: "준비 기간", type: "date-range" }
     ],
     "취미": [
-      { placeholder: "분야" },
-      { placeholder: "파트너" },
+      { placeholder: "분야" ,type: "select", options: ["그림 및 공예", "음악", "운동", "레저 및 야외 활동", "요리 및 베이킹", "독서 및 글쓰기", "원예", "기타"]},
+      { placeholder: "파트너", type: "select", options:["혼자", "친구와", "가족과", "애인과", "기타"]},
       { placeholder: "기간", type: "date-range" }
     ],
     "여행": [
-      { placeholder: "장소" },
-      { placeholder: "파트너" },
+      { placeholder: "장소", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "해외"] },
+      { placeholder: "파트너", type: "select", options:["혼자", "친구와", "가족과", "애인과", "기타"]},
       { placeholder: "기간", type: "date-range" }
     ],
     "자기계발": [
-      { placeholder: "분야" },
-      { placeholder: "파트너" },
+      { placeholder: "분야", type: "select", options:["언어", "독서", "자격증", "전문 기술", "재정 관리", "건강 관리", "네트워킹", "기타"] },
+      { placeholder: "파트너", type: "select", options:["혼자", "친구와", "가족과", "애인과", "기타"]},
       { placeholder: "기간", type: "date-range" }
     ],
     "휴식": [
-      { placeholder: "장소" },
+      { placeholder: "장소", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "해외"] },
       { placeholder: "기간", type: "date-range" }
     ]
 };
@@ -288,7 +288,7 @@ const DateInfo = styled.div`
   padding: 8px;
   gap: 5px;
 `;
-const Line = styled.div`
+export const Line = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -296,7 +296,7 @@ const Line = styled.div`
   margin-bottom: 15px;
   margin-left: 10px;
 `;
-const Row = styled.div`
+export const Row = styled.div`
   display : flex;
   flex-direction : column;
   flex-wrap : wrap;
@@ -327,13 +327,14 @@ const CheckList = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  color : ${(props) => (props.checked ? 'rgba(30, 58, 138, 0.5)' : 'rgba(30, 58, 138, 1)')};
   text-decoration: ${(props) => (props.checked ? 'line-through' : 'none')};
 `;
 
-const CheckBox = styled.div`
+export const CheckBox = styled.div`
   width: 14px;
   height: 14px;
-  border: 1.2px solid rgba(142, 156, 196, 1);
+  border: 1.2px solid rgba(30, 58, 138, 1);
   margin : 2px;
 `;
 

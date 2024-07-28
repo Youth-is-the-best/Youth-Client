@@ -22,3 +22,13 @@ export const getInfo = async() => {
         throw error;
     }
 }
+
+export const getBingo = async() => {
+    try {
+        const response = await axios.get(`${baseURL}/bingo/`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}

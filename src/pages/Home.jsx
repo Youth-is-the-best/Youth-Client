@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import mypage from '../images/mypage.png';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getInfo } from '../apis/testapis';
+import { getBingo, getInfo } from '../apis/testapis';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -19,9 +19,8 @@ const Home = () => {
     setArray(event.target.value);
   }
 
-  const handleInfoClick = (index) => {
+  const handleInfoClick = async(index) => {
     setSelectedInfo(index);
-    //백엔드연결 여기서하기
   };
 
   const viewBingoInfo = () => {
@@ -39,8 +38,15 @@ const Home = () => {
 
   }
 
+  const getBingos = async() => {
+    const response = await getBingo();
+    // const titles = response.map(item => item.title);
+    console.log(response);
+  }
+
   useEffect(() => {
     viewRecommend();
+    getBingo();
   }, []);
 
   const infoItems = [
@@ -276,7 +282,7 @@ const RecommendDom = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap : 30px;
+  gap : 10px;
   border-bottom : 0.4px solid rgba(30, 58, 138, 0.7);
   padding-bottom : 30px;
 `;
@@ -291,6 +297,7 @@ const RecommendCom = styled.div`
   gap: 0px;
   border-radius: 10px;
   background : #FFFFFF;
+  padding : 10px;
 `;
 
 const InfoDom = styled.div`
