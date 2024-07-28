@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-
 import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
-import { AiOutlineCheckSquare } from 'react-icons/ai';
+import { IoPaperPlaneOutline } from 'react-icons/io5';
+import { BsThreeDots } from 'react-icons/bs';
+import { RightDom } from './Home';
 
 
-const Info = () => {
+const BingoInfo = () => {
+  const navigate = useNavigate();
+  const goHome = () => {
+    navigate("/");
+  }
 
   return (
     <>
@@ -15,7 +20,7 @@ const Info = () => {
         <Header to="/test/0">휴학 유형 테스트</Header>
         <Header to="/">투두 리스트 빙고</Header>
         <Header to="/info">공고/후기</Header>
-        <Header to="/test/0">나의 포트폴리오</Header>
+        <Header to="/login">나의 포트폴리오</Header>
         <img src={mypage} style={{ height: '60px' }}></img>
       </Headers>
       <Body>
@@ -36,28 +41,51 @@ const Info = () => {
           <Button>완료</Button>
         </LeftDom>
         <RightDom>
-          <MdOutlineKeyboardBackspace />
-          <h1>TOEIC 900점 이상 취득</h1>
+          <TitleLine>
+            <MdOutlineKeyboardBackspace onClick={goHome}/>
+            <BsThreeDots />
+          </TitleLine>
+          <TitleLine>
+            <h1>TOEIC</h1>
+            <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo>
+          </TitleLine>
+          <Line>
             <Category>분류</Category>
+            <Category style={{ background: 'rgba(30, 58, 138, 1)', color :'white'}} >자격증</Category>
+          </Line>
+          <Line>
             <Category>주최사</Category>
+            <div>주최사</div>
+          </Line>
+          <Line>
             <Category>응시료</Category>
+            <div>응시료</div>
+          </Line>
+          <Line>
             <Category>시험 날짜</Category>
+            <DateInfo>2024.09.09<MdOutlineEditCalendar /></DateInfo>
+          </Line>
+          <Line>
             <Category>준비 기간</Category>
-          <h2>| 세부 계획</h2>
-          <CheckLists>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-            <CheckList><AiOutlineCheckSquare />플랭크 5분</CheckList>
-          </CheckLists>
+            <DateInfo>2024.09.09 ~ 2024.10.24<MdOutlineEditCalendar /></DateInfo>
+          </Line>
+          <TitleLine>
+          <h2>빙고 미션 완료 후기</h2>
+          </TitleLine>
+          <ReviewDom>
+            <Review>
+              <div>리뷰 사진</div>
+              <div>리뷰 제목</div>
+            </Review>
+          </ReviewDom>
+          <DateInfo style={{width : '200px', marginTop : '10px', marginLeft:'334px'}}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
     </>
   );
 };
 
-export default Info;
+export default BingoInfo;
 
 const Headers = styled.div`
   display: flex;
@@ -87,20 +115,6 @@ const LeftDom = styled.div`
   flex-direction: column;
   justify-content: center;
   width : 550px;
-`;
-
-const RightDom = styled.div`
-  display: flex;
-  flex-direction: column;
-  // justify-content: center;
-  width : 550px;
-  height : 600px;
-  border-radius: 20px;
-  border: 0.4px solid rgba(30, 58, 138, 1);
-  background: rgba(30, 58, 138, 0.04);
-  box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
-  gap : 15px;
-  padding : 20px;
 `;
 
 const BingoDom = styled.div`
@@ -140,23 +154,56 @@ const Category = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
+  // width: 60px;
   height: 20px;
   border: 1px solid rgba(30, 58, 138, 0.5);
   background: white;
   border-radius : 10px;
-  padding : 5px;
+  padding : 7px;
 `
 
-const CheckLists = styled.div`
+const DateInfo = styled.div`
   display: flex;
-  flex-direction: column;
-  gap : 10px;
-  background : white;
+  justify-content: center;
+  align-items: center;
+  // width: 60px;
+  height: 20px;
+  color :rgba(30, 58, 138, 0.6);
+  background: rgba(30, 58, 138, 0.1);
   border-radius : 10px;
-  padding : 10px;
+  padding : 8px;
+  gap : 5px;
+`
+const Line = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap : 20px;
+  margin-left : 10px;
+`
+const TitleLine = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap : 20px;
+  margin-left : 10px;
+`
+const ReviewDom = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 130px;
+  border-radius: 10px;
+  background : white;
+
 `
 
-const CheckList = styled.div`
-  
+const Review = styled.div`
+  display : flex;
+  flex-direction : column;
 `

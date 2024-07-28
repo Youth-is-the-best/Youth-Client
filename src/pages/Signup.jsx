@@ -33,6 +33,7 @@ const Signup = () => {
   const handleSelect = (e) => {
     setCollege(e.target.value);
   };
+  
 
   //1.1.4 아이디 중복 확인 및 형식 지정
   const checkUsername = async () => {

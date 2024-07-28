@@ -12,3 +12,13 @@ export const postTest = async (reason) => {
         throw error;
     }
 }
+
+export const getInfo = async() => {
+    try {
+        const response = await axios.post(`${baseURL}/bingo/information/`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
