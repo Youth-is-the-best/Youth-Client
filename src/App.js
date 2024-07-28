@@ -40,7 +40,7 @@ function App() {
       selectedReason={selectedReason} setSelectedReason={setSelectedReason}
       inputValue={inputValue} setInputValue={setInputValue}
       />}></Route>
-      <Route path="/portfolio" element={<Portfolio/>}></Route>
+      {/* <Route path="/portfolio" element={<Portfolio/>}></Route> */}
     </Routes>
     </BrowserRouter>
   );

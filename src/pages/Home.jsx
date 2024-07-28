@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -11,8 +11,7 @@ const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
   const navigate = useNavigate();
   const [selectedInfo, setSelectedInfo] = useState();
-  const [value, onChange] = useState(new Date());
-  const [recommend, setRecommend]=useState("");
+  const [recommend, setRecommend] = useState([]);
 
   const [array, setArray] = useState(options[0]);
   const handleArrayChange = (event) => {
@@ -29,9 +28,18 @@ const Home = () => {
   }
 
   const viewRecommend = async() => {
-    const response = await getInfo(answer);
-    setRecommend(response.recommend);
+    const response = await getInfo();
+    const recommendations = response.map(item => ({
+      title: item.title,
+      image: item.images[0]?.image || '', // Use the first image or an empty string if no images are present
+    }));
+    setRecommend(recommendations);
+    console.log("Recommendations:", recommendations);
   }
+
+  useEffect(() => {
+    viewRecommend();
+  }, []);
 
   const infoItems = [
     "2024년 서울 지능형 사물인터넷(AIoT) 해커톤",
@@ -106,7 +114,7 @@ const Home = () => {
       <Body>
         <LeftDom>
           <h2>열정가득 곰도리의 빙고판</h2>
-          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar onClick={viewCalendar}/></div>
+          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar/></div>
           <BingoDom>
             {bingos.map((bingo, index) => (
               <Bingo
@@ -127,11 +135,12 @@ const Home = () => {
           <div><FiThumbsUp /> 후알유 추천</div>
           <div>마음에 드는 활동을 빙고판에 끌어서 옮겨보세요 </div>
           <RecommendDom>
-            <RecommendCom>
-              <div>이미지</div>
-              <div>제목</div>
-            </RecommendCom>
-            <RecommendCom></RecommendCom>
+            {recommend.map((item, index) => (
+              <RecommendCom key={index}>
+                <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto',borderRadius : '10px' }} />
+                <div>{item.title}</div>
+              </RecommendCom>
+            ))}
           </RecommendDom>
           <Selector value={array} onChange={handleArrayChange}>
             {options.map((option, index) => (

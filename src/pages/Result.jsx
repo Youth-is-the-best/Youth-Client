@@ -3,6 +3,7 @@ import { ButtonDom, ButtonLink } from './Test';
 import { FiArrowRightCircle, FiShare2 } from 'react-icons/fi';
 import styled from 'styled-components';
 import { postTest } from '../apis/testapis';
+import { GoHome } from 'react-icons/go';
 
 const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue }) => {
   const [userType, setUserType] = useState("");
@@ -20,8 +21,11 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
     //console.log("Response:", response);
     //console.log("Response:", `${response.user_type}`);
     setUserType(response.user_type);
-    
   };
+
+  useEffect(() => {
+    showResult();
+  }, []);
 
   return (
     <>
@@ -31,9 +35,9 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
         <h1>귀여운 {userType}</h1>
         <ResultInfo>{userType}는 귀여우니까 그냥 놀아도 돼용 🩷</ResultInfo>
         <ButtonDom>
-          <ButtonLink onClick={showResult}> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
+          <ButtonLink> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
           <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/">
-            <FiArrowRightCircle /> 빙고판 채우러가기
+            <FiArrowRightCircle onClick={GoHome}/> 빙고판 채우러가기
           </ButtonLink>
         </ButtonDom>
       </ResultDom>
