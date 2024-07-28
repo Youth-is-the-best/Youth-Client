@@ -15,7 +15,7 @@ export const postTest = async (reason) => {
 
 export const getInfo = async() => {
     try {
-        const response = await axios.post(`${baseURL}/bingo/information/`);
+        const response = await axios.get(`${baseURL}/information/`);
         return response.data;
     } catch (error) {
         console.error(error);
