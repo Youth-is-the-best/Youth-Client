@@ -1,47 +1,171 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import logo from '../images/logo.png'
 import { useForm } from '../hook/useForm'
-import { signUp, duplicate } from '../apis/user'
+import { signUp, isUsernameDuplicate, SendAuthCodeToEmail, postAuthCode } from '../apis/user'
   
 const Signup = () => {
-  const selectList = ["인문계열", "사회계열", "교육계열", "공학계열", "자연계열", "의약계열", "예체능계열"];
+  const [first_name, onChangeName] = useForm();
+  const [email, onChangeEmail] = useForm();
+  const [authcode, onChangeAuthcode] = useForm();
+  const [confirmPassword, onChangeConfirmPassword] = useForm();
+  const [referrer, onChangeReferrer] = useForm();
+
+  const [username, setUsername] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [usernameAvailable, setUsernameAvailable] = useState(null);
+
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const [showInput, setShowInput] = useState(false);
+
+  const [university, setUniversity] = useState('');
+  const [hash, setHash] = useState('');
+  const [authcodeError, setAuthcodeError] = useState('');
+
+  // const [referrerAvailable, setReferrerAvailable] = useState(null);
+
+  //1.1.3 단과대 계열 선택 드롭다운
+  const selectList = ["계열 선택", "인문계열", "사회계열", "교육계열", "공학계열", "자연계열", "의약계열", "예체능계열"];
   const [college, setCollege] = useState("계열 선택")
   const handleSelect = (e) => {
     setCollege(e.target.value);
   };
   
 
-  const [name, onChangeName] = useForm();
-  const [email, onChangeEmail] = useForm();
-  const [authcode, onChangeAuthcode] = useForm();
-  const [username, onChangeUsername] = useForm();
-  const [password, onChangePassword] = useForm();
-  const [confirmPassword, onChangeConfirmPassword] = useForm();
-  const [referrer, onChangeReferrer] = useForm();
-
-  const [usernameAvailable, setUsernameAvailable] = useState(null);
+  //1.1.4 아이디 중복 확인 및 형식 지정
   const checkUsername = async () => {
     try {
-      const available = await duplicate(username);
+      const available = await isUsernameDuplicate(username);
       setUsernameAvailable(available);
     } catch(error) {
-      setUsernameAvailable(null);
+      if (error.response && error.response.data) {
+        console.log('Error response data:', error.response.data);
+      } else {
+        console.log('Error:', error.message);
+      }
     }
   };
 
+  const validateUsername = (username) => {
+    const regex = /^[a-zA-Z_]+$/;
+    return regex.test(username);
+  };
+
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    if (validateUsername(username)) {
+      setUsernameError('');
+    } else {
+      setUsernameError('아이디 형식이 올바르지 않습니다.');
+    }
+    setUsername(username);
+  };
+
+  //1.1.3 비밀번호 확인 및 형식 지정
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    if (validatePassword(password)) {
+      setPasswordError('');
+    } else {
+      setPasswordError('비밀번호 형식이 올바르지 않습니다.');
+    }
+    setPassword(password);
+  };
+  
   const isSame = (password, confirmPassword) => {
     return password === confirmPassword;
   };
 
+  //1.1.4 추천인 아이디 확인
+  // const checkReferrer = async () => {
+  //   try {
+  //     const available = await isReferrerExist(referrer);
+  //     setReferrerAvailable(available);
+  //   } catch(error) {
+  //     setReferrerAvailable(null);
+  //   }
+  // };
+
+
+  //1.1.2 학교 이메일 인증
+  const sendAuthcode = async () => {
+    setShowInput(true);
+    setRemainingTime(initialTime);
+    const answer =
+      {
+        "request_type": "1",
+        "email": email,
+      }
+    const response = await SendAuthCodeToEmail(answer);
+    console.log("Response:", response);
+  };
+
+  const checkAuthcode = async () => {
+    const answer =
+    {
+      "request_type": "2",
+      "email": email,
+      "verif_code" : authcode,
+    }
+    try {
+      const response = await SendAuthCodeToEmail(answer);
+
+      const university = response.school;
+      setUniversity(university);
+
+      const hash = response.hash;
+      setHash(hash);
+
+      console.log("school:", university)
+      console.log("hash:", hash);
+      
+    } catch(error) {
+      if (error.response && error.response.status === 401 ) {
+        setAuthcodeError('인증번호가 올바르지 않습니다.')
+      } else {
+        console.log(error)
+      }
+    }
+  };
+
+  //1.1.2 이메일 인증 타이머
+  const initialTime = 300;
+  const [remainingTime, setRemainingTime] = useState(initialTime);
+    
+  useEffect(()=> {
+    const timer = setInterval(()=> {
+      if (remainingTime > 0) {
+        setRemainingTime((prevTime)=> prevTime - 1);
+      } else {
+        clearInterval(timer);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+    },[remainingTime]);
+
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes)}:${String(seconds).padStart(2, '0')}`;
+  };
+
+  //1.1 회원가입 데이터 보내기
   const router = useNavigate();
 
   const onClick = async () => {
-    await signUp(password, username, college);
-    // await signUp(password, username, hash, firstName, lastName, university, college);
-    router("/user/login/")
-  }
+    await signUp(password, username, hash, first_name, college);
+    router("/login/")
+  };
+
 
   return (
     <>
@@ -52,50 +176,77 @@ const Signup = () => {
       <Form>
         <Title>회원가입</Title>
         <FormGroup>
-          <Label htmlFor="name">이름*</Label>
-          <input value={name} onChange={onChangeName} id="name" type="text" placeholder="ex. 홍길동" />
+          <Label htmlFor="first_name">이름*</Label>
+          <input value={first_name} onChange={onChangeName} id="first_name" type="text" placeholder="ex. 홍길동" />
         </FormGroup>
-        <FormGroup style={{ paddingBottom : 0 }}>
+        <FormGroup>
           <Label htmlFor="email">이메일*</Label>
           <input value={email} onChange={onChangeEmail} id="email" type="email" placeholder="학교 이메일 주소를 입력하세요." />
-          <button>인증번호 발송</button>
+          <button onClick={sendAuthcode}>인증번호 발송</button>
         </FormGroup>
-        <FormGroup> 
+        {  showInput && 
+        <FormGroup style={{ paddingTop : 0, paddingBottom : 5 }}> 
           <Label></Label>
+          <span>{formatTime(remainingTime)}</span>
           <input 
             value={authcode} 
             onChange={onChangeAuthcode} 
             id="authCode" 
             type="text" 
-            placeholder="인증번호 6자리" />
-          <span>4:59</span>
-        </FormGroup>
+            placeholder="인증번호 6자리" 
+            style={{ borderColor: authcodeError ? '#FF0000' : hash ? '#1E3A8A' : 'initial' }}/>
+          <button onClick={checkAuthcode}>인증번호 확인</button>
+        </FormGroup >
+        }
+        <MessageGroup>
+          { hash && <SuccessMessage>인증이 완료되었습니다.</SuccessMessage> }
+          { authcodeError && <ErrorMessage>{authcodeError}</ErrorMessage> }
+          { remainingTime < 0 && <ErrorMessage>인증번호 입력 시간이 지났습니다. <br>인증번호 재발송을 요청해주세요.</br></ErrorMessage>}
+        </MessageGroup>
         <FormGroup>
           <Label htmlFor="school">학교 정보*</Label>
-          <input></input>
-          <select onChange={handleSelect} value={college} defaultValue="계열 선택">
+          <input value={university} readOnly></input>
+          <select value={college} onChange={handleSelect}>
             <option disabled hidden value="계열 선택">계열 선택</option>
             {selectList.map((item) => (
+              item !== "계열 선택" &&
               <option value={item} key={item}>
                 {item}
               </option>
              ))}
           </select>
         </FormGroup>
-        <FormGroup>
+        <FormGroup style={{ paddingBottom: ((usernameAvailable || usernameAvailable === false || usernameError) && username.length > 0) ? 5 : 15 }}>
           <Label htmlFor="username">아이디(닉네임)*</Label>
-          <input value={username} onChange={onChangeUsername} id="username" type="text" placeholder="영문 대소문자, 특수문자 _ 가능" />
+          <input 
+            value={username} 
+            onChange={onChangeUsername} 
+            id="username" 
+            type="text"
+            placeholder="영문 대소문자, 특수문자 _ 가능"
+            style={{ borderColor: usernameError && username.length ? '#FF0000' : usernameAvailable ? '#1E3A8A' : 'initial'}} />
           <button onClick={checkUsername}>중복 확인</button>
         </FormGroup>
         <MessageGroup>
+          { usernameAvailable && username.length > 0 && <SuccessMessage>사용 가능한 아이디입니다.</SuccessMessage> }
+          { usernameAvailable === false && username.length > 0 && <ErrorMessage>이미 사용 중인 아이디입니다.</ErrorMessage> } 
+          { usernameError && username.length > 0 && <ErrorMessage>{usernameError}</ErrorMessage> }
+        </MessageGroup>
+        <FormGroup style={{ paddingBottom: passwordError && password.length > 0 ? 5 : 15 }}>
+          <Label htmlFor="password">비밀번호*</Label>
+          <input 
+            value={password} 
+            onChange={onChangePassword} 
+            id="password" 
+            type="password" 
+            placeholder="8자리 이상(숫자, 알파벳, 특수문자 1자 이상 포함)"
+            style={{ borderColor: passwordError && password.length ? '#FF0000' : 'initial'}} />
+        </FormGroup>
+        <MessageGroup>
           {
-            usernameAvailable === false && <ErrorMessage>이미 사용 중인 아이디입니다.</ErrorMessage>
+            passwordError && password.length > 0 && <ErrorMessage>{passwordError}</ErrorMessage>
           }
         </MessageGroup>
-        <FormGroup>
-          <Label htmlFor="password">비밀번호*</Label>
-          <input value={password} onChange={onChangePassword} id="password" type="password" placeholder="8자리 이상(숫자, 알파벳, 특수문자 1자 이상 포함)" />
-        </FormGroup>
         <FormGroup style={{ paddingBottom: !isSame(password, confirmPassword) && confirmPassword.length > 0 ? 5 : 15 }} >
           <Label htmlFor="confirmPassword">비밀번호 확인*</Label>
           <input 
@@ -114,12 +265,25 @@ const Signup = () => {
               }
             </ErrorMessage>
         </MessageGroup>
-        <FormGroup>
+        <FormGroup style={{ paddingBottom : 5 }} >
           <Label htmlFor="referrer">추천인 아이디<br />(선택)</Label>
-          <input value={referrer} onChange={onChangeReferrer} id="referrer" type="text" />
-          <button>아이디 확인</button>
+          <input 
+            value={referrer} 
+            onChange={onChangeReferrer} 
+            id="referrer" 
+            type="text"
+            // style={{ borderColor: referrerAvailable && referrer.length > 0 ? '#1E3A8A' : '#FF0000' }} 
+            />
+          <button onClick={checkUsername}>아이디 확인</button>
         </FormGroup>
-        <FormGroup>
+        {/* <MessageGroup>
+          {
+            referrerAvailable === true && <SuccessMessage>추천인 아이디 확인이 완료되었습니다.</SuccessMessage>
+          } {
+            referrerAvailable === false && <ErrorMessage>입력하신 아이디를 찾을 수 없습니다. 다시 입력해주세요.</ErrorMessage>
+          }
+        </MessageGroup> */}
+        <FormGroup style={{ paddingTop : 30 }}>
           <Label htmlFor="agreement">이용약관 동의*</Label>
           <AgreeForm>
             <input id="agreement" type="radio" /><p>이용약관에 동의합니다.</p>
@@ -188,8 +352,8 @@ const FormGroup = styled.div`
     height: 35px;
     border-radius: 10px;
     border-color: rgba(0, 0, 0, 0.1);
+    text-indent: 10px;
     &::placeholder {
-        padding-left: 10px;
         color: #A1A1AA;
         font-family: 'Pretendard-Regular';
         font-size: 16px;
@@ -218,6 +382,14 @@ const FormGroup = styled.div`
     text-align: center;
     border-radius: 5px;
     border-color: rgba(0, 0, 0, 0.2);
+  }
+  span {
+    position: absolute;
+    right: 360px;
+    top: 357px;
+    color: #1E3A8A;
+    font-size: 16px;
+    font-weight: 500;
   }
 `;  
 
@@ -269,11 +441,17 @@ const StyledLink = styled(Link)`
 `;
 
 const MessageGroup = styled.div`
-  padding-left: 155px;
+  padding-left: 153px;
 `;
 
 const ErrorMessage = styled.div`
   color: #FF0000;
+  font-size: 13px;
+  font-weight: 500;
+`;
+
+const SuccessMessage = styled.div`
+  color: #1E3A8A;
   font-size: 13px;
   font-weight: 500;
 `;
