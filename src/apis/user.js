@@ -55,7 +55,6 @@ export const postAuthCode = async (answer) => {
   }
 }
 
-
 // export const isReferrerExist = async (referrer) => {
 //   try {
 //     const response = await axios.get(`${baseURL}/users/join/`, {

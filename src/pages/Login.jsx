@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FiUser , FiLock } from "react-icons/fi";
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
@@ -12,8 +12,8 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, onChangeUsername] = useForm();
   const [password, onChangePw] = useForm();
-
   const [showPw, setShowPw] = useState(false);
+
   const pwToggle = () => {
     setShowPw(prevState => !prevState);
   };
@@ -21,13 +21,20 @@ const Login = () => {
   const onClick = async () => {
     try{
       const result = await login(username, password);
-      localStorage.setItem("access_token", result.accessToken);
-      localStorage.setItem("refresh_token", result.refreshToken);
-      navigate("/");
+      localStorage.setItem("access", result.accessToken);
+      localStorage.setItem("refresh", result.refreshToken);
     } catch(error) {
       alert("잘못된 정보를 입력하셨습니다. 다시 시도해주세요.")
+      navigate("/login");
     }
   }
+
+  useEffect(()=> {
+    const token = localStorage.getItem('access');
+    if(token){
+      // navigate('/');
+    }
+  },[navigate])
 
   return (
   <>
