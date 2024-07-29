@@ -33,9 +33,9 @@ export const getBingo = async() => {
     }
 }
 
-export const postBingo = async() => {
+export const postBingo = async(myBingo) => {
     try {
-        const response = await axios.post(`${baseURL}/bingo/`);
+        const response = await axios.post(`${baseURL}/bingo/`,myBingo);
         return response.data;
     } catch (error) {
         console.error(error);

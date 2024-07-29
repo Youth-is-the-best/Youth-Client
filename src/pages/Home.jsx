@@ -123,7 +123,7 @@ const Home = () => {
   useEffect(() => {
     viewRecommend();
     // postBingos();
-    getBingos();
+    // getBingos();
   }, []);
 
   const infoItems = [
