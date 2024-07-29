@@ -23,25 +23,9 @@ export const getInfo = async() => {
     }
 }
 
-// export const getBingo = async () => {
-//     try {
-//         const response = await axios.get(`${baseURL}/bingo/`, {
-//             auth: {
-//                 username: 'tjsqls0411',
-//                 password: 'password1234!'
-//             },
-//             withCredentials: true
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error(error);
-//         throw error;
-//     }
-// };
-
-export const postBingo = async (bingoData) => {
+export const getBingo = async () => {
     try {
-        const response = await axios.post(`${baseURL}/bingo/`, bingoData, {
+        const response = await axios.get(`${baseURL}/bingo/`, {
             auth: {
                 username: 'tjsqls0411',
                 password: 'password1234!'
@@ -50,10 +34,37 @@ export const postBingo = async (bingoData) => {
         });
         return response.data;
     } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+export const postBingo = async (bingoData) => {
+    try{
+        const response = await axios.post()(`${baseURL}/bingo/`, bingoData, {withCredentials: true});
+        return response.data;
+    } catch(error){
         console.error('Error in postBingo:', error.response ? error.response.data : error.message);
         throw error;
     }
 };
+
+
+// export const postBingo = async (bingoData) => {
+//     try {
+//         const response = await axios.post(`${baseURL}/bingo/`, bingoData, {
+//             auth: {
+//                 username: 'tjsqls0411',
+//                 password: 'password1234!'
+//             },
+//             withCredentials: true
+//         });
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error in postBingo:', error.response ? error.response.data : error.message);
+//         throw error;
+//     }
+// };
 
 // export const postBingo = async() => {
 //     try {

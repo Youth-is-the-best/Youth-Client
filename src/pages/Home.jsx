@@ -126,7 +126,7 @@ const Home = () => {
   useEffect(() => {
     viewRecommend();
     // // postBingos();
-    getBingos();
+    // getBingos();
     // getBingos();
   }, []);
 
@@ -325,6 +325,7 @@ export const Bingo = styled.div`
   align-items: center;
   border-radius : 10px;
   padding : 10px;
+  margin : auto;
   background: ${({ inBingo, index }) => {
     if (inBingo) return 'white';
     switch(index) {

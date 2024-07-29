@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ButtonDom, ButtonLink } from './Test';
 import { FiArrowRightCircle, FiShare2 } from 'react-icons/fi';
 import styled from 'styled-components';
-import { postTest } from '../apis/testapis';
+import { postTest } from '../../apis/testapis';
 import { GoHome } from 'react-icons/go';
 
 const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue }) => {
