@@ -13,11 +13,7 @@ const Test2 = ({ selectedAnswers, setSelectedAnswers }) => {
     const navigate = useNavigate();
 
     const handleBeforeClick = () => {
-        if (!selectedAnswers) {
-            alert("답변을 선택해주세요.")
-          } else {
-            navigate("/test/1");
-          }
+        navigate("/test/1");
     }
 
     const handleAnswerClick = (answer) => {

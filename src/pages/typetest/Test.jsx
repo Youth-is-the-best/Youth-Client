@@ -13,8 +13,6 @@ const Test = ({year, setYear, semester, setSemester}) => {
     };
     const handleNextClick = () => {
         navigate("/test/1");
-        // console.log(year);
-        // console.log(semester);
     };
 
     return (
