@@ -25,7 +25,7 @@ export const getInfo = async() => {
 
 export const getBingo = async() => {
     try {
-        const response = await axios.get(`${baseURL}/bingo/`);
+        const response = await axios.get(`${baseURL}/bingo/`, { withCredentials : true } );
         return response.data;
     } catch (error) {
         console.error(error);
