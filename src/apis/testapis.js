@@ -55,26 +55,26 @@ export const postBingo = async (bingoData) => {
     }
 };
 
-export const postBingo = async() => {
-    try {
-        const response = await axios.post(`${baseURL}/bingo/`);
-        return response.data;
-    } catch (error) {
-        if (error.response.status === 401) {
-            const response = await getNewRefreshToken();
-            localStorage.setItem("access", response.accessToken);
-            localStorage.setItem("refresh", response.refreshToken);
-            const newResult = await axios.get(`${baseURL}/bingo`, {
-                headers: {
-                    Authorization: `Bearer ${response.accessToken}`,
-                },
-            });
-            return newResult.data;
-        } else {
-            console.log(error);
-        }
-    }
-};
+// export const postBingo = async() => {
+//     try {
+//         const response = await axios.post(`${baseURL}/bingo/`);
+//         return response.data;
+//     } catch (error) {
+//         if (error.response.status === 401) {
+//             const response = await getNewRefreshToken();
+//             localStorage.setItem("access", response.accessToken);
+//             localStorage.setItem("refresh", response.refreshToken);
+//             const newResult = await axios.get(`${baseURL}/bingo`, {
+//                 headers: {
+//                     Authorization: `Bearer ${response.accessToken}`,
+//                 },
+//             });
+//             return newResult.data;
+//         } else {
+//             console.log(error);
+//         }
+//     }
+// };
 
 export const getNewRefreshToken = async () => {
     try {
