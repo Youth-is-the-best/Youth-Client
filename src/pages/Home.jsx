@@ -34,8 +34,7 @@ const Home = () => {
       image: item.images[0]?.image || '', // Use the first image or an empty string if no images are present
     }));
     setRecommend(recommendations);
-    console.log("Recommendations:", recommendations);
-
+    // console.log("Recommendations:", recommendations);
   }
 
   const getBingos = async() => {
@@ -116,13 +115,18 @@ const Home = () => {
       ]
     }
     console.log(mybingo);
-    const response = await postBingo(mybingo);
-    console.log(response);
+    try {
+        const response = await postBingo(mybingo);
+        console.log(response);
+    } catch (error) {
+        console.error(error);
+    }
   }
 
   useEffect(() => {
     viewRecommend();
-    // postBingos();
+    // // postBingos();
+    getBingos();
     // getBingos();
   }, []);
 
