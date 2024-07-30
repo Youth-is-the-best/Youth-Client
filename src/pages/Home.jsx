@@ -127,7 +127,7 @@ const Home = () => {
 
   useEffect(() => {
     viewRecommend();
-    getBingos();
+    // getBingos();
   }, []);
 
   const infoItems = [
@@ -154,6 +154,21 @@ const Home = () => {
     "financialBurden",
     "mentalStability"
   ];
+
+  const getBackgroundColor = (index) => {
+    switch (index) {
+      case 0: return 'rgba(30, 58, 138, 0.10)';
+      case 1: return 'rgba(30, 58, 138, 0.15)';
+      case 2: return 'rgba(30, 58, 138, 0.2)';
+      case 3: return 'rgba(30, 58, 138, 0.25)';
+      case 4: return 'rgba(30, 58, 138, 0.3)';
+      case 5: return 'rgba(30, 58, 138, 0.35)';
+      case 6: return 'rgba(30, 58, 138, 0.4)';
+      case 7: return 'rgba(30, 58, 138, 0.45)';
+      case 8: return 'rgba(30, 58, 138, 0.5)';
+      default: return 'rgba(30, 58, 138, 0.1)';
+    }
+  };
 
   const [bingos, setBingos] = useState(Array.from({ length: 9 }, (_, index) => index));
   const [draggingIndex, setDraggingIndex] = useState(null);
@@ -199,87 +214,19 @@ const Home = () => {
           <h2>열정가득 곰도리의 빙고판</h2>
           <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar/></div>
           <BingoDom>
+          {bingos.map((bingo, index) => (
             <Bingo
+              key={index}
               draggable
-              onDragStart={() => handleDragStart(0, 'bingo')}
-              onDrop={() => handleDrop(0)}
+              onDragStart={() => handleDragStart(index, 'bingo')}
+              onDrop={() => handleDrop(index)}
               onDragOver={handleDragOver}
-              inBingo={typeof bingos[0] !== 'number'}
+              inBingo={typeof bingo !== 'number'}
+              style={{ background: getBackgroundColor(index) }}
             >
-              {typeof bingos[0] === 'number' ? bingos[0] : bingos[0]}
+              {typeof bingo === 'number' ? bingo : bingo}
             </Bingo>
-            <Bingo
-              draggable
-              onDragStart={() => handleDragStart(1, 'bingo')}
-              onDrop={() => handleDrop(1)}
-              onDragOver={handleDragOver}
-              inBingo={typeof bingos[1] !== 'number'}
-            >
-              {typeof bingos[1] === 'number' ? bingos[1] : bingos[1]}
-            </Bingo>
-            <Bingo
-              draggable
-              onDragStart={() => handleDragStart(2, 'bingo')}
-              onDrop={() => handleDrop(2)}
-              onDragOver={handleDragOver}
-              inBingo={typeof bingos[2] !== 'number'}
-            >
-              {typeof bingos[2] === 'number' ? bingos[2] : bingos[2]}
-            </Bingo>
-            <Bingo
-              draggable
-              onDragStart={() => handleDragStart(3, 'bingo')}
-              onDrop={() => handleDrop(3)}
-              onDragOver={handleDragOver}
-              inBingo={typeof bingos[3] !== 'number'}
-            >
-              {typeof bingos[3] === 'number' ? bingos[3] : bingos[3]}
-            </Bingo>
-            <Bingo
-              draggable
-              onDragStart={() => handleDragStart(4, 'bingo')}
-              onDrop={() => handleDrop(4)}
-              onDragOver={handleDragOver}
-              inBingo={typeof bingos[4] !== 'number'}
-            >
-              {typeof bingos[4] === 'number' ? bingos[4] : bingos[4]}
-            </Bingo>
-            <Bingo
-              draggable
-              onDragStart={() => handleDragStart(5, 'bingo')}
-              onDrop={() => handleDrop(5)}
-              onDragOver={handleDragOver}
-              inBingo={typeof bingos[5] !== 'number'}
-            >
-              {typeof bingos[5] === 'number' ? bingos[5] : bingos[5]}
-            </Bingo>
-            <Bingo
-              draggable
-              onDragStart={() => handleDragStart(6, 'bingo')}
-              onDrop={() => handleDrop(6)}
-              onDragOver={handleDragOver}
-              inBingo={typeof bingos[6] !== 'number'}
-            >
-              {typeof bingos[6] === 'number' ? bingos[6] : bingos[6]}
-            </Bingo>
-            <Bingo
-              draggable
-              onDragStart={() => handleDragStart(7, 'bingo')}
-              onDrop={() => handleDrop(7)}
-              onDragOver={handleDragOver}
-              inBingo={typeof bingos[7] !== 'number'}
-            >
-              {typeof bingos[7] === 'number' ? bingos[7] : bingos[7]}
-            </Bingo>
-            <Bingo
-              draggable
-              onDragStart={() => handleDragStart(8, 'bingo')}
-              onDrop={() => handleDrop(8)}
-              onDragOver={handleDragOver}
-              inBingo={typeof bingos[8] !== 'number'}
-            >
-              {typeof bingos[8] === 'number' ? bingos[8] : bingos[8]}
-            </Bingo>
+          ))}
           </BingoDom>
           <Button style={{marginLeft:'473px', marginTop:'4px'}}>완료</Button>
         </LeftDom>
@@ -391,6 +338,7 @@ export const Bingo = styled.div.attrs((props) => ({
   border-radius: 10px;
   padding: 10px;
   margin: auto;
+  background : ${({ inBingo }) => (inBingo ? 'white' : '')};
   color: ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
   border: ${({ inBingo }) => (inBingo ? '3px solid rgba(30, 58, 138, 0.9)' : '')};
   box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px rgba(30, 58, 138, 0.4)' : 'none')};
