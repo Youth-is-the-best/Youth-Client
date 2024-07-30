@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, Button } from './Test.jsx';
-import ProgressBar from '../hook/ProgressBar.js';
+import ProgressBar from '../../hook/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
 
 const Test1 = ({selectedReason, setSelectedReason}) => {
