@@ -43,91 +43,91 @@ const Home = () => {
     console.log(response);
   }
 
-  const postBingos = async() => {
-    const mybingo={
-      "size": 9,
-      "start_date": "2024-07-25",
-      "end_date": "2024-10-25",
-          "bingo_obj": [
-          {
-                  "location": 0,
-                  "choice": "0",
-                  "title": "제주도 여행",
-                  "todo": [{
-                "title": "비행기표 예매"
-              },
-                {
-                "title": "숙소 알아보기"
-              }]
-              },
-              {
-                  "location": 1,
-                  "choice": "0",
-                  "title": "제부도 여행",
-                  "todo": [{
-                "title": "기깔나게 자기"
-              },
-                {
-                "title": "밥 맛있게 먹기"
-              }]
-              },
-              {
-                  "location": 2,
-                  "choice": "0",
-                  "title": "독도 여행",
-                  "todo": [{
-                "title": "왜가"
-              },
-                {
-              "title": "가야지"
-              }]
-              },
-              {
-                  "location": 3,
-                  "choice": "0",
-                  "title": "울릉도 여행"
-              },
-              {
-                  "location": 4,
-                  "choice": "0",
-                  "title": "정처기 따기"
-              },
-              {
-                  "location": 5,
-                  "choice": "0",
-                  "title": "한자 4급 따기"
-              },
-              {
-                  "location": 6,
-                  "choice": "0",
-                  "title": "괌 여행"
-              },
-              {
-                  "location": 7,
-                  "choice": "0",
-                  "title": "매일 물 20L 이상 마시기"
-              },
-              {
-                  "location": 8,
-                  "choice": "0",
-                  "title": "아르바이트"
-              }
-      ]
-    }
-    console.log(mybingo);
-    try {
-        const response = await postBingo(mybingo);
-        console.log(response);
-    } catch (error) {
-        console.error(error);
-    }
-  }
+  // const postBingos = async() => {
+  //   const mybingo={
+  //     "size": 9,
+  //     "start_date": "2024-07-25",
+  //     "end_date": "2024-10-25",
+  //         "bingo_obj": [
+  //         {
+  //                 "location": 0,
+  //                 "choice": "0",
+  //                 "title": "제주도 여행",
+  //                 "todo": [{
+  //               "title": "비행기표 예매"
+  //             },
+  //               {
+  //               "title": "숙소 알아보기"
+  //             }]
+  //             },
+  //             {
+  //                 "location": 1,
+  //                 "choice": "0",
+  //                 "title": "제부도 여행",
+  //                 "todo": [{
+  //               "title": "기깔나게 자기"
+  //             },
+  //               {
+  //               "title": "밥 맛있게 먹기"
+  //             }]
+  //             },
+  //             {
+  //                 "location": 2,
+  //                 "choice": "0",
+  //                 "title": "독도 여행",
+  //                 "todo": [{
+  //               "title": "왜가"
+  //             },
+  //               {
+  //             "title": "가야지"
+  //             }]
+  //             },
+  //             {
+  //                 "location": 3,
+  //                 "choice": "0",
+  //                 "title": "울릉도 여행"
+  //             },
+  //             {
+  //                 "location": 4,
+  //                 "choice": "0",
+  //                 "title": "정처기 따기"
+  //             },
+  //             {
+  //                 "location": 5,
+  //                 "choice": "0",
+  //                 "title": "한자 4급 따기"
+  //             },
+  //             {
+  //                 "location": 6,
+  //                 "choice": "0",
+  //                 "title": "괌 여행"
+  //             },
+  //             {
+  //                 "location": 7,
+  //                 "choice": "0",
+  //                 "title": "매일 물 20L 이상 마시기"
+  //             },
+  //             {
+  //                 "location": 8,
+  //                 "choice": "0",
+  //                 "title": "아르바이트"
+  //             }
+  //     ]
+  //   }
+  //   console.log(mybingo);
+  //   try {
+  //       const response = await postBingo(mybingo);
+  //       console.log(response);
+  //   } catch (error) {
+  //       console.error(error);
+  //   }
+  // }
 
   useEffect(() => {
     viewRecommend();
-    // // postBingos();
+    // postBingos();
     // getBingos();
-    // getBingos();
+    getBingos();
   }, []);
 
   const infoItems = [
@@ -316,16 +316,18 @@ const BingoDom = styled.div`
   // padding : 5px;
 `;
 
-export const Bingo = styled.div`
-  width : 150px;
-  height : 150px;
-  font-size : 20px;
+export const Bingo = styled.div.attrs((props) => ({
+  'data-inbingo': props.inBingo,
+}))`
+  width: 150px;
+  height: 150px;
+  font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius : 10px;
-  padding : 10px;
-  margin : auto;
+  border-radius: 10px;
+  padding: 10px;
+  margin: auto;
   background: ${({ inBingo, index }) => {
     if (inBingo) return 'white';
     switch(index) {
@@ -340,12 +342,11 @@ export const Bingo = styled.div`
       default: return 'rgba(30, 58, 138, 0.1)';
     }
   }};
-  color : ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
-  // background ${({ inBingo }) => (inBingo == 1 ? 'rgba(30, 58, 138, 0.2)' : 'rgba(30, 58, 138, 0.3)' )};
-  background: ${({ inBingo }) => (inBingo ? 'white' : 'rgba(30, 58, 138, 0.1)')};
+  color: ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
   border: ${({ inBingo }) => (inBingo ? '3px solid rgba(30, 58, 138, 0.9)' : '')};
   box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px rgba(30, 58, 138, 0.4)' : 'none')};
 `;
+
 
 const Button = styled.div`
   display: flex;
