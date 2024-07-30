@@ -155,18 +155,22 @@ const Home = () => {
     "mentalStability"
   ];
 
-  const getBackgroundColor = (index) => {
-    switch (index) {
-      case 0: return 'rgba(30, 58, 138, 0.10)';
-      case 1: return 'rgba(30, 58, 138, 0.15)';
-      case 2: return 'rgba(30, 58, 138, 0.2)';
-      case 3: return 'rgba(30, 58, 138, 0.25)';
-      case 4: return 'rgba(30, 58, 138, 0.3)';
-      case 5: return 'rgba(30, 58, 138, 0.35)';
-      case 6: return 'rgba(30, 58, 138, 0.4)';
-      case 7: return 'rgba(30, 58, 138, 0.45)';
-      case 8: return 'rgba(30, 58, 138, 0.5)';
-      default: return 'rgba(30, 58, 138, 0.1)';
+  const getBackgroundColor = (inBingo,index) => {
+    if (inBingo) {
+      return 'white';
+    } else {
+      switch (index) {
+        case 0: return 'rgba(30, 58, 138, 0.10)';
+        case 1: return 'rgba(30, 58, 138, 0.15)';
+        case 2: return 'rgba(30, 58, 138, 0.2)';
+        case 3: return 'rgba(30, 58, 138, 0.25)';
+        case 4: return 'rgba(30, 58, 138, 0.3)';
+        case 5: return 'rgba(30, 58, 138, 0.35)';
+        case 6: return 'rgba(30, 58, 138, 0.4)';
+        case 7: return 'rgba(30, 58, 138, 0.45)';
+        case 8: return 'rgba(30, 58, 138, 0.5)';
+        default: return 'rgba(30, 58, 138, 0.1)';
+      }
     }
   };
 
@@ -222,7 +226,7 @@ const Home = () => {
               onDrop={() => handleDrop(index)}
               onDragOver={handleDragOver}
               inBingo={typeof bingo !== 'number'}
-              style={{ background: getBackgroundColor(index) }}
+              style={{ background: getBackgroundColor(typeof bingo !== 'number', index) }}
             >
               {typeof bingo === 'number' ? bingo : bingo}
             </Bingo>
@@ -241,7 +245,7 @@ const Home = () => {
               </RecommendCom>
             ))}
           </RecommendDom>
-          <Selector value={array} onChange={handleArrayChange}>
+          <Selector value={array} onChange={handleArrayChange} style={{ background: 'white', color:'rgba(30, 58, 138, 1)',border:'1px solid rgba(30, 58, 138, 1)' }}>
             {options.map((option, index) => (
               <option key={index} value={option}>
                 {option}
@@ -338,7 +342,6 @@ export const Bingo = styled.div.attrs((props) => ({
   border-radius: 10px;
   padding: 10px;
   margin: auto;
-  background : ${({ inBingo }) => (inBingo ? 'white' : '')};
   color: ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
   border: ${({ inBingo }) => (inBingo ? '3px solid rgba(30, 58, 138, 0.9)' : '')};
   box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px rgba(30, 58, 138, 0.4)' : 'none')};
