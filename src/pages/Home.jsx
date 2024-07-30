@@ -12,7 +12,10 @@ const Home = () => {
   const navigate = useNavigate();
   const [selectedInfo, setSelectedInfo] = useState();
   const [recommend, setRecommend] = useState([]);
-
+  const [username, setUsername] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [bingos, setBingos] = useState(Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })));
 
   const [array, setArray] = useState(options[0]);
   const handleArrayChange = (event) => {
@@ -31,103 +34,31 @@ const Home = () => {
     const response = await getInfo();
     const recommendations = response.map(item => ({
       title: item.title,
-      image: item.images[0]?.image || '', // Use the first image or an empty string if no images are present
+      image: item.images[0]?.image || '', //사진 유무로
     }));
     setRecommend(recommendations);
-    // console.log("Recommendations:", recommendations);
   }
 
   const getBingos = async() => {
     const response = await getBingo();
-    const start_date = response(item => item.start_date);
-
-    // const titles = response.map(item => item.title);
+    const username = response.username;
+    const start_date = response.start_date;
+    const end_date = response.end_date;
+    const bingoData = Array.from({ length: 9 }, (_, index) => ({
+      location: index,
+      title: response.bingo_obj.find(item => item.location === index)?.title || ''
+    }));
+    
+    setUsername(username);
+    setStartDate(start_date);
+    setEndDate(end_date);
+    setBingos(bingoData);
     console.log(response);
   }
 
-  // const postBingos = async() => {
-  //   const mybingo={
-  //     "size": 9,
-  //     "start_date": "2024-07-25",
-  //     "end_date": "2024-10-25",
-  //         "bingo_obj": [
-  //         {
-  //                 "location": 0,
-  //                 "choice": "0",
-  //                 "title": "제주도 여행",
-  //                 "todo": [{
-  //               "title": "비행기표 예매"
-  //             },
-  //               {
-  //               "title": "숙소 알아보기"
-  //             }]
-  //             },
-  //             {
-  //                 "location": 1,
-  //                 "choice": "0",
-  //                 "title": "제부도 여행",
-  //                 "todo": [{
-  //               "title": "기깔나게 자기"
-  //             },
-  //               {
-  //               "title": "밥 맛있게 먹기"
-  //             }]
-  //             },
-  //             {
-  //                 "location": 2,
-  //                 "choice": "0",
-  //                 "title": "독도 여행",
-  //                 "todo": [{
-  //               "title": "왜가"
-  //             },
-  //               {
-  //             "title": "가야지"
-  //             }]
-  //             },
-  //             {
-  //                 "location": 3,
-  //                 "choice": "0",
-  //                 "title": "울릉도 여행"
-  //             },
-  //             {
-  //                 "location": 4,
-  //                 "choice": "0",
-  //                 "title": "정처기 따기"
-  //             },
-  //             {
-  //                 "location": 5,
-  //                 "choice": "0",
-  //                 "title": "한자 4급 따기"
-  //             },
-  //             {
-  //                 "location": 6,
-  //                 "choice": "0",
-  //                 "title": "괌 여행"
-  //             },
-  //             {
-  //                 "location": 7,
-  //                 "choice": "0",
-  //                 "title": "매일 물 20L 이상 마시기"
-  //             },
-  //             {
-  //                 "location": 8,
-  //                 "choice": "0",
-  //                 "title": "아르바이트"
-  //             }
-  //     ]
-  //   }
-  //   console.log(mybingo);
-  //   try {
-  //       const response = await postBingo(mybingo);
-  //       console.log(response);
-  //   } catch (error) {
-  //       console.error(error);
-  //   }
-  // }
-
   useEffect(() => {
     viewRecommend();
-    // getBingos();
+    getBingos();
   }, []);
 
   const infoItems = [
@@ -174,7 +105,6 @@ const Home = () => {
     }
   };
 
-  const [bingos, setBingos] = useState(Array.from({ length: 9 }, (_, index) => index));
   const [draggingIndex, setDraggingIndex] = useState(null);
   const [draggingInfo, setDraggingInfo] = useState(null);
 
@@ -191,7 +121,7 @@ const Home = () => {
   const handleDrop = (index) => {
     const newBingos = [...bingos];
     if (draggingInfo !== null) {
-      newBingos[index] = draggingInfo;
+      newBingos[index] = { location: index, title: draggingInfo };
       setDraggingInfo(null);
     } else {
       [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
@@ -215,8 +145,8 @@ const Home = () => {
       </Headers>
       <Body>
         <LeftDom>
-          <h2>열정가득 곰도리의 빙고판</h2>
-          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar/></div>
+          <h2>{username}의 빙고판</h2>
+          <div style={{ color: 'grey' }}>{startDate} ~ {endDate} <MdOutlineEditCalendar/></div>
           <BingoDom>
           {bingos.map((bingo, index) => (
             <Bingo
@@ -225,10 +155,10 @@ const Home = () => {
               onDragStart={() => handleDragStart(index, 'bingo')}
               onDrop={() => handleDrop(index)}
               onDragOver={handleDragOver}
-              inBingo={typeof bingo !== 'number'}
-              style={{ background: getBackgroundColor(typeof bingo !== 'number', index) }}
+              inBingo={bingo.title !== ''}
+              style={{ background: getBackgroundColor(bingo.title !== '', index) }}
             >
-              {typeof bingo === 'number' ? bingo : bingo}
+              {bingo.title || ''}
             </Bingo>
           ))}
           </BingoDom>
@@ -288,7 +218,7 @@ export const Header = styled(Link)`
   color : rgba(30, 58, 138, 1);
   text-decoration : none;
 `;
-const Body = styled.div`
+export const Body = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
