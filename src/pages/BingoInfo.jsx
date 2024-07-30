@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router-dom';
+import { MdOutlineKeyboardBackspace } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import mypage from '../images/mypage.png';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
 import { Body, RightDom } from './Home';

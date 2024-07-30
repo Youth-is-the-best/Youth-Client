@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { MdOutlineEditCalendar } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/md';
 import styled from 'styled-components';
-import mypage from '../images/mypage.png';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
 import { Body,RightDom } from './Home';
+import { BsThreeDots } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 const MadeBingo = () => {
+  const navigate = useNavigate();
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
   const [title, setTitle] = useState('');
+
+  const goHome = () => {
+    navigate("/");
+  };
 
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
   const subcategories = {
@@ -96,6 +101,10 @@ const MadeBingo = () => {
     <>
       <Body>
         <RightDom>
+          <TitleLine>
+            <MdOutlineKeyboardBackspace onClick={goHome} size={30}/>
+            <BsThreeDots size={30}/>
+          </TitleLine>
           <Line>
             <InputTitleBox
               type="text"
@@ -156,7 +165,7 @@ const MadeBingo = () => {
                 {item.checked ? (
                   <AiOutlineCheckSquare size={20} onClick={() => toggleCheck(item.id)} />
                 ) : (
-                  <CheckBox onClick={() => toggleCheck(item.id)} />
+                  <CheckBox onClick={() => toggleCheck(item.id)}/>
                 )}
                 <span>{item.text}</span>
               </CheckList>
@@ -171,7 +180,7 @@ const MadeBingo = () => {
             <CiSquarePlus size={30} onClick={madeCheckList} />
             </Line>
           </CheckLists>
-          <DateInfo style={{ width: '200px', marginLeft: '334px' }}>목표 달성 기록 남기기</DateInfo>
+            <DateInfo style={{ width: '200px', marginLeft: '334px' }}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
     </>
@@ -233,6 +242,7 @@ export const TitleLine = styled.div`
 const CheckLists = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 10px;
   background: white;
   border-radius: 10px;
@@ -255,10 +265,13 @@ export const CheckBox = styled.div`
 `;
 
 const InputBox = styled.input`
-  padding: 5px;
+  padding: 0 12px;
   border-radius: 10px;
   border: 0.2px solid rgba(30, 58, 138, 1);
-  width: 80%;
+  height: 24px;
+  width: 84%;
+  margin-top: 3px;
+  // margin-bottom: -12px;
 `;
 
 const InputTitleBox = styled.input`
