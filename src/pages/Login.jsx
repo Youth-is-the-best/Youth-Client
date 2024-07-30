@@ -7,6 +7,7 @@ import transimg from '../images/transparent.png'
 import logo from '../images/logo.png'
 import { useForm } from '../hook/useForm';
 import { login } from '../apis/user'
+import { getBingo } from '../apis/testapis';
 
 const Login = () => {
   const navigate = useNavigate();
