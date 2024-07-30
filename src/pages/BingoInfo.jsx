@@ -11,14 +11,19 @@ import CustomCalendar from './CustomCalendar';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [examDates, setExamDates] = useState([null, null]);
+  const [prepDates, setPrepDates] = useState([null, null]);
   
   const goHome = () => {
     navigate("/");
   };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleExamDateChange = (dates) => {
+    setExamDates(dates);
+  };
+
+  const handlePrepDateChange = (dates) => {
+    setPrepDates(dates);
   };
   
 
@@ -72,15 +77,17 @@ const BingoInfo = () => {
           <Line>
             <Category>시험 날짜</Category>
             <DateInfo>
-              {selectedDate ? selectedDate.toLocaleDateString() : '날짜를 입력하세요'}
-              <CustomCalendar onChange={handleDateChange} value={selectedDate} />
+              {examDates[0] && examDates[1] 
+              ? `${examDates[0].toLocaleDateString()} ~ ${examDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
+              <CustomCalendar onChange={handleExamDateChange} value={examDates} />
             </DateInfo>
           </Line>
           <Line>
             <Category>준비 기간</Category>
             <DateInfo>
-              {selectedDate ? selectedDate.toLocaleDateString() : '날짜를 입력하세요'}
-              <CustomCalendar onChange={handleDateChange} value={selectedDate} />
+              {prepDates[0] && prepDates[1] 
+              ? `${prepDates[0].toLocaleDateString()} ~ ${prepDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
+              <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
             </DateInfo>
           </Line>
           <TitleLine>

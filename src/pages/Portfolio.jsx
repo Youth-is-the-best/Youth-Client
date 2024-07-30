@@ -16,13 +16,13 @@ const Portfolio = () => {
           <Header to="/">투두리스트 빙고</Header>
           <Header to="/info">공고/후기</Header>
           <Header to="/portfolio">나의 포트폴리오</Header>
-          <img src={user} style={{ height: '70px', marginLeft: '10px' }}></img>
+          <img src={user} style={{ height: '70px', marginLeft: '5px' }}></img>
         </Nav>
       </Headers>
       <BackgroundWrapper />
       <Body>
         <ProfileImage>
-          <img src={다람쥐} style={{ height: '128px', width: '128px', marginLeft: '10px'}}></img>
+          <img src={다람쥐} style={{ height: '128px', width: '128px', borderRadius: '50%'}}></img>
         </ProfileImage>
         <PdfBtn>
             <button><img src={Pdf}></img>pdf로 저장</button>
@@ -85,7 +85,7 @@ const Body = styled.div`
 `;
 
 const ProfileImage = styled.div`
-  padding-left: 255px;
+  padding-left: 160px;
   
 `;
 
