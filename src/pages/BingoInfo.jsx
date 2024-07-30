@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
-import { Body, RightDom } from './Home';
+import { Body } from './Home';
 import CustomCalendar from './CustomCalendar';
 import { Category, Row } from './MadeBingo';
 
@@ -100,6 +100,20 @@ const BingoInfo = () => {
 };
 
 export default BingoInfo;
+
+export const RightDom = styled.div`
+  display: flex;
+  flex-direction: column;
+  width : 550px;
+  height : 630px;
+  background: rgba(246, 247, 251, 1);
+  border-radius: 20px;
+  border: 0.4px solid rgba(30, 58, 138, 1);
+  box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
+  gap : 15px;
+  padding : 20px;
+  overflow-y: auto;
+`;
 
 const Button = styled.div`
   display: flex;

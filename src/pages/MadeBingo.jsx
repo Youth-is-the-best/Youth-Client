@@ -3,7 +3,8 @@ import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/m
 import styled from 'styled-components';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
-import { Body,RightDom } from './Home';
+import { Body } from './Home';
+import { RightDom } from './BingoInfo';
 import { BsThreeDots } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
@@ -180,7 +181,7 @@ const MadeBingo = () => {
             <CiSquarePlus size={30} onClick={madeCheckList} />
             </Line>
           </CheckLists>
-            <DateInfo style={{ width: '200px', marginLeft: '334px' }}>목표 달성 기록 남기기</DateInfo>
+            <DateInfo style={{ width: '140px', marginLeft: '410x' }}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
     </>
