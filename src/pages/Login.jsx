@@ -6,8 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import transimg from '../images/transparent.png'
 import logo from '../images/logo.png'
 import { useForm } from '../hook/useForm';
-import { login } from '../apis/user'
-import { getBingo } from '../apis/testapis';
+import { login } from '../apis/user';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,8 +23,6 @@ const Login = () => {
       const result = await login(username, password);
       localStorage.setItem("access_token", result.token.access_token);
       localStorage.setItem("refresh_token", result.token.refresh_oken);
-      // navigate("/");
-      // console.log(localStorage.getItem("access_token"));
     } catch(error) {
       alert("잘못된 정보를 입력하셨습니다. 다시 시도해주세요.")
       navigate("/login");
@@ -33,7 +30,7 @@ const Login = () => {
   }
 
   useEffect(()=> {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token.access_token');
     if(token){
       navigate('/');
     }else{
