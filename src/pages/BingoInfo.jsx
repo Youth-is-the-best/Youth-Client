@@ -8,6 +8,7 @@ import { Body } from './Home';
 import CustomCalendar from './CustomCalendar';
 import { Category, Row } from './MadeBingo';
 import Headerline from './Headerline';
+import { getBingoloc } from '../apis/testapis';
 
 
 const BingoInfo = () => {
@@ -26,6 +27,11 @@ const BingoInfo = () => {
   const handlePrepDateChange = (dates) => {
     setPrepDates(dates);
   };
+
+  const getBingo = async(location) => {
+    const response = await getBingoloc(location);
+  };
+    
   
 
   return (

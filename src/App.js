@@ -13,10 +13,11 @@ import MadeBingo from './pages/MadeBingo';
 import BingoInfo from './pages/BingoInfo';
 import Calendar from 'react-calendar';
 import Portfolio from './pages/Portfolio';
-import Review from './pages/Review';
+import MadeReview from './pages/MadeReview';
 import MyPage from './pages/MyPage';
 import Alarm from './pages/Alarm';
 import AlarmManage from './pages/AlarmManage';
+import Noti from './pages/Noti';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -34,7 +35,8 @@ function App() {
       <Route path="/login" element={<Login/>}></Route>
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/cal" element={<Calendar />}/>
-      <Route path="/review" element={<Review />}/>
+      <Route path="/review" element={<MadeReview />}/>
+      <Route path="/notification" element={<Noti />}/>
       <Route path="/test/0" element={<Test year={year} setYear={setYear} semester={semester} setSemester={setSemester}/>}/>
       <Route path="/test/1" element={<Test1 selectedReason={selectedReason} setSelectedReason={setSelectedReason}/>} />
       <Route path="/test/2" element={<Test2 selectedAnswers={selectedAnswers} setSelectedAnswers={setSelectedAnswers} />}/>
