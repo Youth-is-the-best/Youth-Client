@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { MdOutlineEditCalendar } from 'react-icons/md';
+// import { MdOutlineEditCalendar } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
 import { FiThumbsUp, FiUser } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getBingo, getInfo, postBingo } from '../apis/testapis';
+import Headerline from './Headerline';
+import Bingomain from './Bingomain';
+import { MdOutlineEditCalendar } from 'react-icons/md';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -136,14 +139,9 @@ const Home = () => {
 
   return (
     <>
-      <Headers>
-        <Header to="/test/0">휴학 유형 테스트</Header>
-        <Header to="/">투두 리스트 빙고</Header>
-        <Header to="/info">공고/후기</Header>
-        <Header to="/portfolio">나의 포트폴리오</Header>
-        <FiUser size={20}/>
-      </Headers>
+    <Headerline></Headerline>
       <Body>
+        {/* <Bingomain></Bingomain> */}
         <LeftDom>
           <h2>{username}의 빙고판</h2>
           <div style={{ color: 'grey' }}>{startDate} ~ {endDate} <MdOutlineEditCalendar/></div>
@@ -218,6 +216,7 @@ export const Header = styled(Link)`
   color : rgba(30, 58, 138, 1);
   text-decoration : none;
 `;
+
 export const Body = styled.div`
   display: flex;
   flex-direction: row;
@@ -225,7 +224,10 @@ export const Body = styled.div`
   align-items: center;
   margin-top : 20px;
   color : #1E3A8A;
+  height : 660px;
+  gap : 10px;
 `;
+
 const LeftDom = styled.div`
   display: flex;
   flex-direction: column;
@@ -237,7 +239,7 @@ const LeftDom = styled.div`
 export const RightDom = styled.div`
   display: flex;
   flex-direction: column;
-  // justify-content: center;
+  justify-content: center;
   width : 550px;
   height : 630px;
   background: rgba(30, 58, 138, 0.04);

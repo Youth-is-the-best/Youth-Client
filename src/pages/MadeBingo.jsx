@@ -7,6 +7,8 @@ import { Body } from './Home';
 import { RightDom } from './BingoInfo';
 import { BsThreeDots } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import Headerline from './Headerline';
+import Bingomain from './Bingomain';
 
 const MadeBingo = () => {
   const navigate = useNavigate();
@@ -100,7 +102,9 @@ const MadeBingo = () => {
 
   return (
     <>
+    <Headerline></Headerline>
       <Body>
+        <Bingomain></Bingomain>
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30}/>
@@ -214,6 +218,7 @@ export const DateInfo = styled.div`
   padding: 8px;
   gap: 5px;
 `;
+
 export const Line = styled.div`
   display: flex;
   flex-direction: row;

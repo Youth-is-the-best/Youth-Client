@@ -7,6 +7,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { Body } from './Home';
 import CustomCalendar from './CustomCalendar';
 import { Category, Row } from './MadeBingo';
+import Headerline from './Headerline';
 
 
 const BingoInfo = () => {
@@ -24,6 +25,7 @@ const BingoInfo = () => {
 
   return (
     <>
+    <Headerline></Headerline>
       <Body>
         <RightDom>
           <TitleLine>
@@ -106,6 +108,7 @@ export const RightDom = styled.div`
   flex-direction: column;
   width : 550px;
   height : 630px;
+  margin : 100px;
   background: rgba(246, 247, 251, 1);
   border-radius: 20px;
   border: 0.4px solid rgba(30, 58, 138, 1);
