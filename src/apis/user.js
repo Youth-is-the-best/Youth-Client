@@ -47,7 +47,7 @@ export const SendAuthCodeToEmail = async (answer) => {
 
 export const postAuthCode = async (answer) => {
   try {
-    const response = await axios.post(`${baseURL}/users/verify/`, answer );
+    const response = await axios.post(`${baseURL}/users/verify/`,  answer );
     return response.data;
   } catch(error) {
       console.error(error);

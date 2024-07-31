@@ -12,14 +12,19 @@ import Headerline from './Headerline';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [examDates, setExamDates] = useState([null, null]);
+  const [prepDates, setPrepDates] = useState([null, null]);
   
   const goHome = () => {
     navigate("/");
   };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleExamDateChange = (dates) => {
+    setExamDates(dates);
+  };
+
+  const handlePrepDateChange = (dates) => {
+    setPrepDates(dates);
   };
   
 
@@ -34,25 +39,35 @@ const BingoInfo = () => {
           </TitleLine>
           <TitleLine>
             <h1>TOEIC</h1>
-            <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo>
+            <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo> 
           </TitleLine>
           <Line>
-            <Row>
-              <Category>분류</Category>
-              <Category>시험 날짜</Category>
-              <Category>준비 기간</Category>
-            </Row>
-            <Row>
-              <Category style={{background : 'rgba(30, 58, 138, 1)', color : 'white'}}>자격증</Category>
-              <DateInfo>
-                {selectedDate ? selectedDate.toLocaleDateString() : '날짜를 입력하세요'}
-                <CustomCalendar onChange={handleDateChange} value={selectedDate} />
-              </DateInfo>
-              <DateInfo>
-                {selectedDate ? selectedDate.toLocaleDateString() : '날짜를 입력하세요'}
-                <CustomCalendar onChange={handleDateChange} value={selectedDate} />
-              </DateInfo>
-            </Row>
+            <Category>분류</Category>
+            <Category style={{ background: 'rgba(30, 58, 138, 1)', color :'white'}} >자격증</Category>
+          </Line>
+          <Line>
+            <Category>주최사</Category>
+            <div>주최사</div>
+          </Line>
+          <Line>
+            <Category>응시료</Category>
+            <div>응시료</div>
+          </Line>
+          <Line>
+            <Category>시험 날짜</Category>
+            <DateInfo>
+              {examDates[0] && examDates[1] 
+              ? `${examDates[0].toLocaleDateString()} ~ ${examDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
+              <CustomCalendar onChange={handleExamDateChange} value={examDates} />
+            </DateInfo>
+          </Line>
+          <Line>
+            <Category>준비 기간</Category>
+            <DateInfo>
+              {prepDates[0] && prepDates[1] 
+              ? `${prepDates[0].toLocaleDateString()} ~ ${prepDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
+              <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
+            </DateInfo>
           </Line>
           <TitleLine>
           <h2>빙고 미션 완료 후기</h2>

@@ -21,8 +21,10 @@ const Login = () => {
   const onClick = async () => {
     try{
       const result = await login(username, password);
+      navigate("/");
       localStorage.setItem("access_token", result.token.access_token);
       localStorage.setItem("refresh_token", result.token.refresh_oken);
+
     } catch(error) {
       alert("잘못된 정보를 입력하셨습니다. 다시 시도해주세요.")
       navigate("/login");

@@ -5,9 +5,12 @@
   font-style: normal;
 }
 
+* {
+  font-family: 'Pretendard-Regular';
+}
+
 body {
   margin: 0;
-  font-family: 'Pretendard-Regular';
 }
 
 code {
