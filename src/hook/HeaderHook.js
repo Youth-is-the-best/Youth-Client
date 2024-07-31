@@ -1,9 +1,14 @@
 import React from "react";
 import styled from 'styled-components';
 import user from '../images/user.png'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HeaderHook = () => {
+  const navigate = useNavigate();
+  const goLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <Headers>
           <Logo>Logo</Logo>
@@ -12,7 +17,7 @@ const HeaderHook = () => {
             <Header to="/">투두리스트 빙고</Header>
             <Header to="/info">공고/후기</Header>
             <Header to="/portfolio">나의 포트폴리오</Header>
-            <img src={user} style={{ height: '70px', marginLeft: '5px' }}></img>
+            <img src={user} style={{ height: '70px', marginLeft: '5px' }} onClick={goLogin}></img>
           </Nav>
     </Headers>
   )
