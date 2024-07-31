@@ -38,7 +38,7 @@ function App() {
       <Route path="/cal" element={<Calendar />}/>
       <Route path="/review" element={<MadeReview />}/>
       <Route path="/notification" element={<Noti />}/>
-      <Route path="hueInfo" element={<HueInfo/>}></Route>
+      <Route path="/hueInfo" element={<HueInfo/>}></Route>
       <Route path="/test/0" element={<Test year={year} setYear={setYear} semester={semester} setSemester={setSemester}/>}/>
       <Route path="/test/1" element={<Test1 selectedReason={selectedReason} setSelectedReason={setSelectedReason}/>} />
       <Route path="/test/2" element={<Test2 selectedAnswers={selectedAnswers} setSelectedAnswers={setSelectedAnswers} />}/>

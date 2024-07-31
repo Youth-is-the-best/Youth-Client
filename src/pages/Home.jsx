@@ -214,7 +214,7 @@ const Home = () => {
           <Button style={{ marginLeft: '473px', marginTop: '4px' }}>완료</Button>
         </LeftDom>
         <RightDom>
-          <div><FiThumbsUp /> 후알유 추천</div>
+          <div><FiThumbsUp /> 휴알유 추천</div>
           <div>마음에 드는 활동을 빙고판에 끌어서 옮겨보세요 </div>
           <RecommendDom>
             {recommend.map((item, index) => (

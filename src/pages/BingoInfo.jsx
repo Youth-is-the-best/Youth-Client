@@ -182,7 +182,7 @@ const TitleLine = styled.div`
   gap : 20px;
   margin-left : 10px;
 `
-const ReviewDom = styled.div`
+export const ReviewDom = styled.div`
   display: flex;
   flex-direction: row;
   width: 530px;
@@ -194,13 +194,13 @@ const ReviewDom = styled.div`
   padding: 10px;
 `
 
-const Review = styled.div`
+export const Review = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  width: 100px;
-  height: 130px;
+  width: 200px;
+  height: 200px;
   gap: 5px;
   border: 1px solid rgba(30, 58, 138, 0.5);
   border-radius: 10px;
