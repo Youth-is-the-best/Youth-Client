@@ -17,6 +17,7 @@ import Review from './pages/Review';
 import MyPage from './pages/myPage/MyPage';
 import Alarm from './pages/myPage/Alarm';
 import AlarmManage from './pages/myPage/AlarmManage';
+import Noti from './pages/Noti';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -34,7 +35,8 @@ function App() {
       <Route path="/login" element={<Login/>}></Route>
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/cal" element={<Calendar />}/>
-      <Route path="/review" element={<Review />}/>
+      <Route path="/review" element={<MadeReview />}/>
+      <Route path="/notification" element={<Noti />}/>
       <Route path="/test/0" element={<Test year={year} setYear={setYear} semester={semester} setSemester={setSemester}/>}/>
       <Route path="/test/1" element={<Test1 selectedReason={selectedReason} setSelectedReason={setSelectedReason}/>} />
       <Route path="/test/2" element={<Test2 selectedAnswers={selectedAnswers} setSelectedAnswers={setSelectedAnswers} />}/>

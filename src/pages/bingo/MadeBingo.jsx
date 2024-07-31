@@ -9,12 +9,16 @@ import { BsThreeDots } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import HeaderHook from '../../hook/HeaderHook';
 import Bingomain from './Bingomain';
+import CustomCalendar from './CustomCalendar';
 
 const MadeBingo = () => {
   const navigate = useNavigate();
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
   const [title, setTitle] = useState('');
+  const [examDates, setExamDates] = useState([null, null]);
+  const [prepDates, setPrepDates] = useState([null, null]);
+  
 
   const goHome = () => {
     navigate("/");
@@ -100,6 +104,14 @@ const MadeBingo = () => {
     setChecklists(updatedChecklists);
   };
 
+  const handleExamDateChange = (dates) => {
+    setExamDates(dates);
+  };
+
+  const handlePrepDateChange = (dates) => {
+    setPrepDates(dates);
+  };
+
   return (
     <>
     <HeaderHook></HeaderHook>
@@ -138,7 +150,14 @@ const MadeBingo = () => {
                   );
                 } else if (config.type === 'date-range') {
                   return (
-                    <DateInfo key={index}>기간을 선택하세요<MdOutlineEditCalendar /></DateInfo>
+                    // <DateInfo key={index}>기간을 선택하세요<MdOutlineEditCalendar /></DateInfo>
+                    <DateInfo>
+                      key={index}
+                      {prepDates[0] && prepDates[1] 
+                      ? `${prepDates[0].toLocaleDateString()} ~ ${prepDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
+                      <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
+                      기간을 선택하세요
+                    </DateInfo>
                   );
                 } else if (config.type === 'select') {
                   return (
