@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, ButtonLink } from './Test.jsx';
-import ProgressBar from '../hook/ProgressBar.js';
+import ProgressBar from '../../hook/ProgressBar.js';
 import { FiArrowRightCircle } from 'react-icons/fi';
 import { useNavigate} from 'react-router-dom';
 

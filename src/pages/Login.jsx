@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FiUser , FiLock } from "react-icons/fi";
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
@@ -6,14 +6,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import transimg from '../images/transparent.png'
 import logo from '../images/logo.png'
 import { useForm } from '../hook/useForm';
-import { login } from '../apis/user'
+import { login } from '../apis/user';
 
 const Login = () => {
   const navigate = useNavigate();
   const [username, onChangeUsername] = useForm();
   const [password, onChangePw] = useForm();
-
   const [showPw, setShowPw] = useState(false);
+
   const pwToggle = () => {
     setShowPw(prevState => !prevState);
   };
@@ -22,10 +22,22 @@ const Login = () => {
     try{
       const result = await login(username, password);
       navigate("/");
+      localStorage.setItem("access_token", result.token.access_token);
+      localStorage.setItem("refresh_token", result.token.refresh_oken);
+
     } catch(error) {
       alert("잘못된 정보를 입력하셨습니다. 다시 시도해주세요.")
+      navigate("/login");
     }
   }
+
+  useEffect(()=> {
+    const token = localStorage.getItem('token.access_token');
+    if(token){
+      navigate('/');
+    }else{
+      navigate('/login');}
+  },[navigate])
 
   return (
   <>

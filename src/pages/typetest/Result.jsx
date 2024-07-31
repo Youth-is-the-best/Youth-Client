@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { ButtonDom, ButtonLink } from './Test';
-import { FiArrowRightCircle, FiShare2 } from 'react-icons/fi';
-import styled from 'styled-components';
-import { postTest } from '../apis/testapis';
 import { GoHome } from 'react-icons/go';
+import { FiShare2, FiArrowRightCircle } from 'react-icons/fi';
+import { useState, useEffect } from 'react';
+import { ButtonDom, ButtonLink } from './Test';
+import { postTest } from '../../apis/testapis';
+import styled from 'styled-components';
 
 const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue }) => {
   const [userType, setUserType] = useState("");
@@ -17,9 +17,13 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
       "answer3": selectedAnswers,
       "answer4": inputValue
     };
-    const response = await postTest(answer);
-    setUserType(response.user_type);
-    setContent(response.content);
+    try {
+      const response = await postTest(answer);
+      setUserType(response.user_type);
+      setContent(response.content);
+    } catch (error) {
+      setContent("모든 문항을 답해주세요.");
+    }
   };
 
   useEffect(() => {

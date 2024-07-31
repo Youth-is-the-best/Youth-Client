@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { MdOutlineEditCalendar } from 'react-icons/md';
+// import { MdOutlineEditCalendar } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import mypage from '../images/mypage.png';
 import { FiThumbsUp, FiUser } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getBingo, getInfo, postBingo } from '../apis/testapis';
+import Headerline from './Headerline';
+import Bingomain from './Bingomain';
+import { MdOutlineEditCalendar } from 'react-icons/md';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
   const navigate = useNavigate();
   const [selectedInfo, setSelectedInfo] = useState();
   const [recommend, setRecommend] = useState([]);
-
+  const [username, setUsername] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [bingos, setBingos] = useState(Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })));
 
   const [array, setArray] = useState(options[0]);
   const handleArrayChange = (event) => {
@@ -31,98 +37,31 @@ const Home = () => {
     const response = await getInfo();
     const recommendations = response.map(item => ({
       title: item.title,
-      image: item.images[0]?.image || '', // Use the first image or an empty string if no images are present
+      image: item.images[0]?.image || '', //사진 유무로
     }));
     setRecommend(recommendations);
-    console.log("Recommendations:", recommendations);
-
   }
 
   const getBingos = async() => {
     const response = await getBingo();
-    // const titles = response.map(item => item.title);
-    console.log(response);
-  }
-
-  const postBingos = async() => {
-    const mybingo={
-      "size": 9,
-      "start_date": "2024-07-25",
-      "end_date": "2024-10-25",
-          "bingo_obj": [
-          {
-                  "location": 0,
-                  "choice": "0",
-                  "title": "제주도 여행",
-                  "todo": [{
-                "title": "비행기표 예매"
-              },
-                {
-                "title": "숙소 알아보기"
-              }]
-              },
-              {
-                  "location": 1,
-                  "choice": "0",
-                  "title": "제부도 여행",
-                  "todo": [{
-                "title": "기깔나게 자기"
-              },
-                {
-                "title": "밥 맛있게 먹기"
-              }]
-              },
-              {
-                  "location": 2,
-                  "choice": "0",
-                  "title": "독도 여행",
-                  "todo": [{
-                "title": "왜가"
-              },
-                {
-              "title": "가야지"
-              }]
-              },
-              {
-                  "location": 3,
-                  "choice": "0",
-                  "title": "울릉도 여행"
-              },
-              {
-                  "location": 4,
-                  "choice": "0",
-                  "title": "정처기 따기"
-              },
-              {
-                  "location": 5,
-                  "choice": "0",
-                  "title": "한자 4급 따기"
-              },
-              {
-                  "location": 6,
-                  "choice": "0",
-                  "title": "괌 여행"
-              },
-              {
-                  "location": 7,
-                  "choice": "0",
-                  "title": "매일 물 20L 이상 마시기"
-              },
-              {
-                  "location": 8,
-                  "choice": "0",
-                  "title": "아르바이트"
-              }
-      ]
-    }
-    console.log(mybingo);
-    const response = await postBingo(mybingo);
+    const username = response.username;
+    const start_date = response.start_date;
+    const end_date = response.end_date;
+    const bingoData = Array.from({ length: 9 }, (_, index) => ({
+      location: index,
+      title: response.bingo_obj.find(item => item.location === index)?.title || ''
+    }));
+    
+    setUsername(username);
+    setStartDate(start_date);
+    setEndDate(end_date);
+    setBingos(bingoData);
     console.log(response);
   }
 
   useEffect(() => {
     viewRecommend();
-    postBingos();
+    getBingos();
   }, []);
 
   const infoItems = [
@@ -150,13 +89,25 @@ const Home = () => {
     "mentalStability"
   ];
 
-  const showWhoRU = async () => {
-    // const whoRU = await getInfo(answer);
-    //console.log("Response:", response);
-    //console.log(answer); // 확인용
+  const getBackgroundColor = (inBingo,index) => {
+    if (inBingo) {
+      return 'white';
+    } else {
+      switch (index) {
+        case 0: return 'rgba(30, 58, 138, 0.10)';
+        case 1: return 'rgba(30, 58, 138, 0.15)';
+        case 2: return 'rgba(30, 58, 138, 0.2)';
+        case 3: return 'rgba(30, 58, 138, 0.25)';
+        case 4: return 'rgba(30, 58, 138, 0.3)';
+        case 5: return 'rgba(30, 58, 138, 0.35)';
+        case 6: return 'rgba(30, 58, 138, 0.4)';
+        case 7: return 'rgba(30, 58, 138, 0.45)';
+        case 8: return 'rgba(30, 58, 138, 0.5)';
+        default: return 'rgba(30, 58, 138, 0.1)';
+      }
+    }
   };
 
-  const [bingos, setBingos] = useState(Array.from({ length: 9 }, (_, index) => index));
   const [draggingIndex, setDraggingIndex] = useState(null);
   const [draggingInfo, setDraggingInfo] = useState(null);
 
@@ -173,7 +124,7 @@ const Home = () => {
   const handleDrop = (index) => {
     const newBingos = [...bingos];
     if (draggingInfo !== null) {
-      newBingos[index] = draggingInfo;
+      newBingos[index] = { location: index, title: draggingInfo };
       setDraggingInfo(null);
     } else {
       [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
@@ -188,30 +139,26 @@ const Home = () => {
 
   return (
     <>
-      <Headers>
-        <Header to="/test/0">휴학 유형 테스트</Header>
-        <Header to="/">투두 리스트 빙고</Header>
-        <Header to="/info">공고/후기</Header>
-        <Header to="/portfolio">나의 포트폴리오</Header>
-        <FiUser size={20}/>
-      </Headers>
+    <Headerline></Headerline>
       <Body>
+        {/* <Bingomain></Bingomain> */}
         <LeftDom>
-          <h2>열정가득 곰도리의 빙고판</h2>
-          <div style={{ color: 'grey' }}>2024.01.05 ~ 2024.01.10 <MdOutlineEditCalendar/></div>
+          <h2>{username}의 빙고판</h2>
+          <div style={{ color: 'grey' }}>{startDate} ~ {endDate} <MdOutlineEditCalendar/></div>
           <BingoDom>
-            {bingos.map((bingo, index) => (
-              <Bingo
-                key={index}
-                draggable
-                onDragStart={() => handleDragStart(index, 'bingo')}
-                onDrop={() => handleDrop(index)}
-                onDragOver={handleDragOver}
-                inBingo={typeof bingo !== 'number'}
-              >
-                {typeof bingo === 'number' ? bingo + 1 : bingo}
-              </Bingo>
-            ))}
+          {bingos.map((bingo, index) => (
+            <Bingo
+              key={index}
+              draggable
+              onDragStart={() => handleDragStart(index, 'bingo')}
+              onDrop={() => handleDrop(index)}
+              onDragOver={handleDragOver}
+              inBingo={bingo.title !== ''}
+              style={{ background: getBackgroundColor(bingo.title !== '', index) }}
+            >
+              {bingo.title || ''}
+            </Bingo>
+          ))}
           </BingoDom>
           <Button style={{marginLeft:'473px', marginTop:'4px'}}>완료</Button>
         </LeftDom>
@@ -226,7 +173,7 @@ const Home = () => {
               </RecommendCom>
             ))}
           </RecommendDom>
-          <Selector value={array} onChange={handleArrayChange}>
+          <Selector value={array} onChange={handleArrayChange} style={{ background: 'white', color:'rgba(30, 58, 138, 1)',border:'1px solid rgba(30, 58, 138, 1)' }}>
             {options.map((option, index) => (
               <option key={index} value={option}>
                 {option}
@@ -269,14 +216,18 @@ export const Header = styled(Link)`
   color : rgba(30, 58, 138, 1);
   text-decoration : none;
 `;
-const Body = styled.div`
+
+export const Body = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-top : 20px;
   color : #1E3A8A;
+  height : 660px;
+  gap : 10px;
 `;
+
 const LeftDom = styled.div`
   display: flex;
   flex-direction: column;
@@ -288,7 +239,7 @@ const LeftDom = styled.div`
 export const RightDom = styled.div`
   display: flex;
   flex-direction: column;
-  // justify-content: center;
+  justify-content: center;
   width : 550px;
   height : 630px;
   background: rgba(30, 58, 138, 0.04);
@@ -311,35 +262,23 @@ const BingoDom = styled.div`
   // padding : 5px;
 `;
 
-export const Bingo = styled.div`
-  width : 150px;
-  height : 150px;
-  font-size : 20px;
+export const Bingo = styled.div.attrs((props) => ({
+  'data-inbingo': props.inBingo,
+}))`
+  width: 150px;
+  height: 150px;
+  font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius : 10px;
-  padding : 10px;
-  background: ${({ inBingo, index }) => {
-    if (inBingo) return 'white';
-    switch(index) {
-      case 1: return 'rgba(30, 58, 138, 0.15)';
-      case 2: return 'rgba(30, 58, 138, 0.2)';
-      case 3: return 'rgba(30, 58, 138, 0.25)';
-      case 4: return 'rgba(30, 58, 138, 0.3)';
-      case 5: return 'rgba(30, 58, 138, 0.35)';
-      case 6: return 'rgba(30, 58, 138, 0.4)';
-      case 7: return 'rgba(30, 58, 138, 0.45)';
-      case 8: return 'rgba(30, 58, 138, 0.5)';
-      default: return 'rgba(30, 58, 138, 0.1)';
-    }
-  }};
-  color : ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
-  // background ${({ inBingo }) => (inBingo == 1 ? 'rgba(30, 58, 138, 0.2)' : 'rgba(30, 58, 138, 0.3)' )};
-  background: ${({ inBingo }) => (inBingo ? 'white' : 'rgba(30, 58, 138, 0.1)')};
+  border-radius: 10px;
+  padding: 10px;
+  margin: auto;
+  color: ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
   border: ${({ inBingo }) => (inBingo ? '3px solid rgba(30, 58, 138, 0.9)' : '')};
   box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px rgba(30, 58, 138, 0.4)' : 'none')};
 `;
+
 
 const Button = styled.div`
   display: flex;

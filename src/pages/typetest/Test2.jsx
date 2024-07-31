@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, Button, Detail } from './Test.jsx';
-import ProgressBar from '../hook/ProgressBar.js';
+import ProgressBar from '../../hook/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
 import { BulbOutlined, LaptopOutlined } from '@ant-design/icons';
 import { AiOutlineCoffee, AiOutlineFileSearch, AiOutlineHome, AiOutlineRead, AiOutlineSearch, AiOutlineUsergroupAdd } from 'react-icons/ai';
@@ -13,11 +13,7 @@ const Test2 = ({ selectedAnswers, setSelectedAnswers }) => {
     const navigate = useNavigate();
 
     const handleBeforeClick = () => {
-        if (!selectedAnswers) {
-            alert("답변을 선택해주세요.")
-          } else {
-            navigate("/test/1");
-          }
+        navigate("/test/1");
     }
 
     const handleAnswerClick = (answer) => {
