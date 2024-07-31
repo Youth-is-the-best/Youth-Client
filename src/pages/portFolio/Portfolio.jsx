@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import SaveModal from './SaveModal'
-import AiOutlineFilePdf from '../images/AiOutlineFilePdf.png'
-import user from '../images/user.png'
-import 다람쥐 from '../images/다람쥐.jpg'
-import AiOutlineRocket from '../images/AiOutlineRocket.png'
-import FiNavigation from '../images/FiNavigation.png'
-import AiOutLineBank from '../images/AiOutlineBank.png'
-import MdOutlinedFeed from '../images/MdOutlineFeed.png'
-import HeaderHook from '../hook/HeaderHook'
+import AiOutlineFilePdf from '../../images/AiOutlineFilePdf.png'
+import user from '../../images/user.png'
+import 다람쥐 from '../../images/다람쥐.jpg'
+import AiOutlineRocket from '../../images/AiOutlineRocket.png'
+import FiNavigation from '../../images/FiNavigation.png'
+import AiOutLineBank from '../../images/AiOutlineBank.png'
+import MdOutlinedFeed from '../../images/MdOutlineFeed.png'
+import HeaderHook from '../../hook/HeaderHook'
 
 const Portfolio = () => {
   const textarea = useRef();
@@ -51,9 +51,10 @@ const Portfolio = () => {
           </ProfileTitle>
           <Info>
             <InfoItem><InfoLabel>생년월일</InfoLabel><input type='date'></input></InfoItem>
-            <InfoItem><InfoLabel>학교 & 전공</InfoLabel><input type='text' placeholder='중앙대학교 교육학과'></input></InfoItem>
-            <InfoItem><InfoLabel>연락처</InfoLabel><input type='tel' value={phoneNumber} onChange={handlePhoneNumberChange}  placeholder='010-XXXX-XXXX'></input></InfoItem>
-            <InfoItem><InfoLabel>E-mail</InfoLabel><input type='email' placeholder='HUEAREYOU@gmail.com'></input></InfoItem>
+            <InfoItem><InfoLabel>학교 & 전공</InfoLabel><input type='text' placeholder='학교와 전공을 입력해주세요.'></input></InfoItem>
+            <InfoItem><InfoLabel>연락처</InfoLabel><input type='tel' value={phoneNumber} onChange={handlePhoneNumberChange}  placeholder='연락처를 입력해주세요.'></input></InfoItem>
+            <InfoItem><InfoLabel>E-mail</InfoLabel><input type='email' placeholder='자주 쓰는 이메일을 입력해주세요.'></input></InfoItem>
+            {/* 이메일은 백에서 받아오기 */}
           </Info>
         </ProfileWrapper>
         <AchievementWrapper>
@@ -197,6 +198,12 @@ const InfoItem = styled.div`
     border: none;
     font-size: 15px;
     font-weight: 500;
+    &::placeholder {
+        color: #A3A3A3;
+        font-family: 'Pretendard-Regular';
+        font-size: 16px;
+        font-weight: 700;
+    }
   }
 `;
 

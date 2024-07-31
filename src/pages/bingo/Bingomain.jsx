@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getBingo } from '../apis/testapis';
+import { getBingo } from '../../apis/testapis';
 import { MdOutlineEditCalendar } from 'react-icons/md';
-import Headerline from './Headerline';
 
 const Bingomain = () => {
   const navigate = useNavigate();

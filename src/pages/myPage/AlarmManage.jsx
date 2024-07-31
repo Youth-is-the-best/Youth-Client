@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import HeaderHook from '../hook/HeaderHook'
+import HeaderHook from '../../hook/HeaderHook'
 
 const AlarmManage = () => {
   return (

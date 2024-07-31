@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getBingo, getInfo, getUpcomming, postBingo } from '../apis/testapis';
-import Headerline from './Headerline';
+import HeaderHook from '../hook/HeaderHook';
+import Bingomain from './bingo/Bingomain';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 
 const Home = () => {
@@ -191,7 +192,7 @@ const Home = () => {
 
   return (
     <>
-      <Headerline />
+      <HeaderHook />
       <Body>
         <LeftDom>
           <h2 onClick={postBingos}>{username}의 빙고판</h2>
