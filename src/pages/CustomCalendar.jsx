@@ -93,9 +93,9 @@ const CalendarWrapper = styled.div`
     margin-bottom: 0.5em;
   }
 
-  .react-calendar__navigation__label {
+  /* .react-calendar__navigation__label {
     white-space: nowrap;
-  }
+  } */
 
   .react-calendar__navigation button {
     min-width: 44px;

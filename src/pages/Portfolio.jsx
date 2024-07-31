@@ -66,13 +66,13 @@ const Portfolio = () => {
             </Content>
           </AboutMeWrapper>
           <HueWrapper style={{ float: 'left' }}>
-            <SectionTitle><img src={FiNavigation} style={{ height: '19px', width: '19px' }}></img>휴학 중 나는...</SectionTitle>
+            <SectionTitle><img src={FiNavigation} style={{ height: '19px', width: '19px' }}></img>달성한 빙고 한 눈에 보기</SectionTitle>
             <Content>
   
             </Content>
           </HueWrapper>
           <HueWrapper>
-            <SectionTitle><img src={AiOutLineBank} style={{ height: '21px', width: '19px' }}></img>휴학 전 나는...</SectionTitle>
+            <SectionTitle><img src={AiOutLineBank} style={{ height: '21px', width: '19px' }}></img>다른 성과 한 눈에 보기</SectionTitle>
             <Content>
   
             </Content>
@@ -175,8 +175,10 @@ const SectionTitle = styled.div`
   color: #1E3A8A;
   font-size: 20px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
   img {
-    padding-right: 10px;
+    margin-right: 10px;
   }
 `;
 
