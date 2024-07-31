@@ -1,116 +1,95 @@
 import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
 import { Body } from '../Home';
-import CustomCalendar from './CustomCalendar';
-import { Category, Row } from './MadeBingo';
 import HeaderHook from '../../hook/HeaderHook';
+import { getInfo } from '../../apis/testapis';
+import { Category } from './MadeBingo';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
-  const [examDates, setExamDates] = useState([null, null]);
-  const [prepDates, setPrepDates] = useState([null, null]);
-  
+  const { id } = useParams();
+  const [info, setInfo] = useState(null);
+
   const goHome = () => {
     navigate("/");
   };
 
-  const handleExamDateChange = (dates) => {
-    setExamDates(dates);
+  const getInfos = async (id) => {
+    try {
+      const response = await getInfo(id);
+      const info = {
+        large_category_display: response.large_category_display,
+        title: response.title,
+        app_fee: response.app_fee,
+        app_due: response.app_due,
+        start_date: response.start_date,
+        end_date: response.end_date,
+        host: response.host,
+        prep_period: response.prep_period,
+      };
+      setInfo(info);
+      console.log(info);
+    } catch (error) {
+      console.error('Error in getInfos:', error.response ? error.response.data : error.message);
+      throw error;
+    }
   };
 
-  const handlePrepDateChange = (dates) => {
-    setPrepDates(dates);
-  };
-  
   useEffect(() => {
-    // getBingo();
-  }, []);
+    if (id) {
+      getInfos(id);
+    }
+  }, [id]);
 
   return (
     <>
-    <HeaderHook></HeaderHook>
+      <HeaderHook />
       <Body>
         <RightDom>
           <TitleLine>
-            <MdOutlineKeyboardBackspace onClick={goHome} size={30}/>
-            <BsThreeDots size={30}/>
+            <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
+            <BsThreeDots size={30} />
           </TitleLine>
           <TitleLine>
-            <h1>TOEIC</h1>
-            <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo> 
+            <h1>{info ? info.title : 'Loading...'}</h1>
+            <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo>
           </TitleLine>
           <Line>
             <Category>분류</Category>
-            <Category style={{ background: 'rgba(30, 58, 138, 1)', color :'white'}} >자격증</Category>
+            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>
+              {info ? info.large_category_display : 'Loading...'}
+            </Category>
           </Line>
           <Line>
             <Category>주최사</Category>
-            <div>주최사</div>
+            <div>{info ? info.host : 'Loading...'}</div>
           </Line>
           <Line>
             <Category>응시료</Category>
-            <div>응시료</div>
+            <div>{info ? info.app_fee : 'Loading...'}</div>
           </Line>
           <Line>
             <Category>시험 날짜</Category>
-            <DateInfo>
-              {examDates[0] && examDates[1] 
-              ? `${examDates[0].toLocaleDateString()} ~ ${examDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
-              <CustomCalendar onChange={handleExamDateChange} value={examDates} />
-            </DateInfo>
+            <div>{info ? info.app_due : 'Loading...'}</div>
           </Line>
           <Line>
             <Category>준비 기간</Category>
-            <DateInfo>
-              {prepDates[0] && prepDates[1] 
-              ? `${prepDates[0].toLocaleDateString()} ~ ${prepDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
-              <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
-            </DateInfo>
+            <div>{info ? info.prep_period : 'Loading...'}</div>
           </Line>
           <TitleLine>
-          <h2>빙고 미션 완료 후기</h2>
+            <h2>빙고 미션 완료 후기</h2>
           </TitleLine>
           <ReviewDom>
-            <Review>
-              <div>리뷰 사진</div>
-              <div>리뷰 제목</div>
-            </Review>
-            <Review>
-              <div>리뷰 사진</div>
-              <div>리뷰 제목</div>
-            </Review>
-            <Review>
-              <div>리뷰 사진</div>
-              <div>리뷰 제목</div>
-            </Review>
-            <Review>
-              <div>리뷰 사진</div>
-              <div>리뷰 제목</div>
-            </Review>
-            <Review>
-              <div>리뷰 사진</div>
-              <div>리뷰 제목</div>
-            </Review>
-            <Review>
-              <div>리뷰 사진</div>
-              <div>리뷰 제목</div>
-            </Review>
-            <Review>
-              <div>리뷰 사진</div>
-              <div>리뷰 제목</div>
-            </Review>
-            <Review>
-              <div>리뷰 사진</div>
-              <div>리뷰 제목</div>
-            </Review>
-            <Review>
-              <div>리뷰 사진</div>
-              <div>리뷰 제목</div>
-            </Review>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Review key={index}>
+                <div>리뷰 사진</div>
+                <div>리뷰 제목</div>
+              </Review>
+            ))}
           </ReviewDom>
         </RightDom>
       </Body>
@@ -137,7 +116,6 @@ export const RightDom = styled.div`
 
 const Button = styled.div`
   display: flex;
-  // flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 50px;
@@ -153,14 +131,14 @@ const DateInfo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  // width: 60px;
   height: 20px;
   color :rgba(30, 58, 138, 0.6);
   background: rgba(30, 58, 138, 0.1);
   border-radius : 10px;
   padding : 8px;
   gap : 5px;
-`
+`;
+
 const Line = styled.div`
   display: flex;
   flex-direction: row;
@@ -168,7 +146,8 @@ const Line = styled.div`
   align-items: center;
   gap : 20px;
   margin-left : 10px;
-`
+`;
+
 const TitleLine = styled.div`
   display: flex;
   flex-direction: row;
@@ -177,7 +156,8 @@ const TitleLine = styled.div`
   align-items: center;
   gap : 20px;
   margin-left : 10px;
-`
+`;
+
 export const ReviewDom = styled.div`
   display: flex;
   flex-direction: row;
@@ -185,10 +165,9 @@ export const ReviewDom = styled.div`
   height: 150px;
   border-radius: 10px;
   overflow-x: auto;
-  // border: 1px solid rgba(30, 58, 138, 0.5);
   gap: 10px;
   padding: 10px;
-`
+`;
 
 export const Review = styled.div`
   display: flex;
@@ -200,4 +179,4 @@ export const Review = styled.div`
   gap: 5px;
   border: 1px solid rgba(30, 58, 138, 0.5);
   border-radius: 10px;
-`
+`;

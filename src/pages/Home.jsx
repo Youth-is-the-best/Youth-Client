@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getInfo, getUpcomming, postBingo } from '../apis/testapis';
+import { getBingo, getHueInfo, getInfo, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 
@@ -34,7 +34,7 @@ const Home = () => {
   }
 
   const viewRecommend = async() => {
-    const response = await getInfo();
+    const response = await getHueInfo();
     const recommendations = response.map(item => ({
       title: item.title,
       image: item.images[0]?.image || '',

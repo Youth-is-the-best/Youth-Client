@@ -6,7 +6,7 @@ import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
 import { Category, Line, TitleLine } from './bingo/MadeBingo';
 import { ReviewDom, Review, RightDom } from './bingo/BingoInfo';
-import { getInfo } from '../apis/testapis';
+import { getHueInfo, getInfo } from '../apis/testapis';
 
 const HueInfo = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const HueInfo = () => {
   }
 
   const viewRecommend = async () => {
-    const response = await getInfo();
+    const response = await getHueInfo();
     const recommendations = response.map(item => ({
       id: item.information_idid,
       title: item.title,
