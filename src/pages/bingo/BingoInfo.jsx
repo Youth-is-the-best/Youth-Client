@@ -4,12 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
-import { Body } from './Home';
+import { Body } from '../Home';
 import CustomCalendar from './CustomCalendar';
 import { Category, Row } from './MadeBingo';
-import Headerline from './Headerline';
+import HeaderHook from '../../hook/HeaderHook';
 import { getBingoloc } from '../apis/testapis';
-
 
 const BingoInfo = () => {
   const navigate = useNavigate();
@@ -36,7 +35,7 @@ const BingoInfo = () => {
 
   return (
     <>
-    <Headerline></Headerline>
+    <HeaderHook></HeaderHook>
       <Body>
         <RightDom>
           <TitleLine>

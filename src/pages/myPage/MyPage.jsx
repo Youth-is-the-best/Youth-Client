@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import FiEdit3 from '../images/FiEdit3.png'
-import HeaderHook from '../hook/HeaderHook'
+import FiEdit3 from '../../images/FiEdit3.png'
+import HeaderHook from '../../hook/HeaderHook'
 
 
 const MyPage = () => {
@@ -14,26 +14,20 @@ const MyPage = () => {
             <Info>
               <InfoItem><InfoLabel>이름</InfoLabel><input placeholder='조하정'></input></InfoItem>
               <InfoItem><InfoLabel>닉네임</InfoLabel><input placeholder='열정PM'></input><img src={FiEdit3}></img></InfoItem>
-              <InfoItem><InfoLabel>휴학 유형</InfoLabel><input placeholder='열정 가득 토끼'></input><btn>유형테스트 결과 보기</btn></InfoItem>
+              <InfoItem><InfoLabel>휴학 유형</InfoLabel><input placeholder='열정 가득 토끼'></input><btn>유형 테스트 결과 보기</btn></InfoItem>
               <InfoItem><InfoLabel>가입 이메일</InfoLabel><input placeholder='huareyou@gmail.com'></input></InfoItem>
-              <InfoItem><InfoLabel>요금제</InfoLabel><input placeholder='프리미엄'></input><btn>요금제 살펴보기</btn></InfoItem>
+              <InfoItem><InfoLabel>요금제</InfoLabel><p>무료</p><btn style={{ width: '100px' }}>요금제 살펴보기</btn></InfoItem>
               <InfoItem><InfoLabel>포인트</InfoLabel><input placeholder='1,510p'></input></InfoItem>
             </Info>
           </MyInfoWrapper>
           <PremiumWrapper>
-            <SectionTitle style={{ textAlign : "center" }}>PREMIUM</SectionTitle>
+            <SectionTitle>PREMIUM</SectionTitle>
             <Box>
               <div></div>
               <div></div>
               <div></div>
             </Box>
           </PremiumWrapper>
-          <ManagementWrapper>
-            <SectionTitle>회원 관리</SectionTitle>
-            <ManageBtn>
-              <btn>회원 탈퇴</btn>
-            </ManageBtn>
-          </ManagementWrapper>
         </Body>
     </>
   )
@@ -56,7 +50,7 @@ const SectionTitle = styled.div`
   color: #1E3A8A;
   font-size: 24px;
   font-weight: 700;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
 `;
 
 const Info = styled.div`
@@ -66,11 +60,11 @@ const Info = styled.div`
 
 const InfoItem = styled.div`
   display: flex;
+  align-items: center;
   padding-bottom: 20px;
   input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 200px;
+    height: 60px;
     border: none;
     &::placeholder {
       font-size: 20px;
@@ -79,23 +73,26 @@ const InfoItem = styled.div`
     }
   }
   img {
-    height: 20px;
-    width: 20px;
+    height: 24px;
+    width: 24px;
     display: flex;
     align-items: center;
   }
   btn {
     background-color: #8E9CC4;
     color: white;
-    width: 135px;
-    height: 25px;
+    width: 125px;
+    height: 17px;
     border-radius: 10px;
     padding: 4px 10px 4px 10px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  p {
+    padding-right: 40px;
   }
 `;
 
@@ -122,14 +119,4 @@ const Box = styled.div`
     border-radius: 10px;
     background-color: #E9ECF4;
   } 
-`
-
-const ManagementWrapper = styled.div`
-  padding-top: 40px;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ManageBtn = styled.div`
-
 `;

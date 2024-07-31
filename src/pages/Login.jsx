@@ -4,7 +4,7 @@ import { FiUser , FiLock } from "react-icons/fi";
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import transimg from '../images/transparent.png'
-import logo from '../images/logo.png'
+import Frame8 from '../images/Frame 8.png'
 import { useForm } from '../hook/useForm';
 import { login } from '../apis/user';
 
@@ -42,7 +42,7 @@ const Login = () => {
   return (
   <>
     <Header>
-      <img src={logo}></img>
+      <img src={Frame8} style={{ width: '200px', height: '40px' }}></img>
     </Header>
     <Wrapper>
       <Title>로그인</Title>
@@ -66,10 +66,6 @@ const Login = () => {
             }
           </InputBox>
         </Inputs>
-      <LoginWrapper>
-        <input id="auto" type="radio" />
-        <StyledLink>아이디/비밀번호 찾기</StyledLink>
-      </LoginWrapper>
       <BtnWrapper>
           <button onClick={onClick}>로그인</button>
       </BtnWrapper>
@@ -169,7 +165,7 @@ const ReactIcon = styled.div`
 `;
 
 const BtnWrapper = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 2.5rem;
   button {
     font-family: 'Pretendard-Regular';
     font-weight: 500;
@@ -202,11 +198,4 @@ const TextWrapper = styled.div`
 const StyledLink = styled(Link)`
   color: #1E3A8A;
   font-size: 17px;
-`;
-
-const LoginWrapper = styled.div`
-  width: 420px;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1.2rem;
 `;

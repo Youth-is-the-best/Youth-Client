@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import logo from '../images/logo.png'
+import Frame8 from '../images/Frame 8.png'
 import { useForm } from '../hook/useForm'
 import { signUp, isUsernameDuplicate, SendAuthCodeToEmail, postAuthCode } from '../apis/user'
+import TermsModal from './TermsModal'
   
 const Signup = () => {
   const [first_name, onChangeName] = useForm();
@@ -24,6 +25,8 @@ const Signup = () => {
   const [university, setUniversity] = useState('');
   const [hash, setHash] = useState('');
   const [authcodeError, setAuthcodeError] = useState('');
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // const [referrerAvailable, setReferrerAvailable] = useState(null);
 
@@ -166,11 +169,20 @@ const Signup = () => {
     router("/login/")
   };
 
+  //약관 확인 모달창
+  const handleBtn = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
 
   return (
     <>
     <Header>
-      <img src={logo}></img>
+      <img src={Frame8} style={{ width: '200px', height: '40px' }}></img>
     </Header>
     <Wrapper> 
       <Form>
@@ -286,8 +298,9 @@ const Signup = () => {
         <FormGroup style={{ paddingTop : 30 }}>
           <Label htmlFor="agreement">이용약관 동의*</Label>
           <AgreeForm>
-            <input id="agreement" type="radio" /><p>이용약관에 동의합니다.</p>
-            <StyledLink>약관보기</StyledLink>
+            <input id="agreement" type="radio" defaultChecked/><p>이용약관에 동의합니다.</p>
+            <StyledBtn onClick={handleBtn}>약관보기</StyledBtn>
+            <TermsModal isOpen={isModalOpen} onCancel={handleCancel}></TermsModal>
           </AgreeForm>
         </FormGroup>
         <BtnWrapper>
@@ -436,7 +449,7 @@ const AgreeForm = styled.div`
   }
 `;
 
-const StyledLink = styled(Link)`
+const StyledBtn = styled.div`
   color: #1E3A8A;
 `;
 
