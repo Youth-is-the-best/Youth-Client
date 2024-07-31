@@ -3,11 +3,11 @@ import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/m
 import styled from 'styled-components';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
-import { Body } from './Home';
+import { Body } from '../Home';
 import { RightDom } from './BingoInfo';
 import { BsThreeDots } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import Headerline from './Headerline';
+import HeaderHook from '../../hook/HeaderHook';
 import Bingomain from './Bingomain';
 
 const MadeBingo = () => {
@@ -102,7 +102,7 @@ const MadeBingo = () => {
 
   return (
     <>
-    <Headerline></Headerline>
+    <HeaderHook></HeaderHook>
       <Body>
         <Bingomain></Bingomain>
         <RightDom>

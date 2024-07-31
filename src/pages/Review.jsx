@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Row, Line} from './MadeBingo';
+import { Row, Line} from './bingo/MadeBingo';
 import styled from 'styled-components';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
-import Headerline from './Headerline';
+import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 
 const Review = () => {
@@ -74,7 +74,7 @@ const Review = () => {
 
   return (
     <>
-    <Headerline></Headerline>
+    <HeaderHook></HeaderHook>
     <Body style={{padding:'80px'}}>
       <Row style={{marginBottom:'60px'}}>
         <div>후기/Review</div>

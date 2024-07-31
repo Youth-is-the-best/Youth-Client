@@ -9,14 +9,14 @@ import Test3 from './pages/typetest/Test3';
 import Result from './pages/typetest/Result';
 import Signup from './pages/Signup';
 import { useState } from 'react';
-import MadeBingo from './pages/MadeBingo';
-import BingoInfo from './pages/BingoInfo';
+import MadeBingo from './pages/bingo/MadeBingo';
+import BingoInfo from './pages/bingo/BingoInfo';
 import Calendar from 'react-calendar';
-import Portfolio from './pages/Portfolio';
+import Portfolio from './pages/portFolio/Portfolio';
 import Review from './pages/Review';
-import MyPage from './pages/MyPage';
-import Alarm from './pages/Alarm';
-import AlarmManage from './pages/AlarmManage';
+import MyPage from './pages/myPage/MyPage';
+import Alarm from './pages/myPage/Alarm';
+import AlarmManage from './pages/myPage/AlarmManage';
 
 function App() {
   const [year, setYear] = useState(2024);

@@ -6,8 +6,8 @@ import mypage from '../images/mypage.png';
 import { FiThumbsUp, FiUser } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getBingo, getInfo, postBingo } from '../apis/testapis';
-import Headerline from './Headerline';
-import Bingomain from './Bingomain';
+import HeaderHook from '../hook/HeaderHook';
+import Bingomain from './bingo/Bingomain';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 
 const Home = () => {
@@ -61,7 +61,7 @@ const Home = () => {
 
   useEffect(() => {
     viewRecommend();
-    getBingos();
+    // getBingos();
   }, []);
 
   const infoItems = [
@@ -139,7 +139,7 @@ const Home = () => {
 
   return (
     <>
-    <Headerline></Headerline>
+    <HeaderHook></HeaderHook>
       <Body>
         {/* <Bingomain></Bingomain> */}
         <LeftDom>
