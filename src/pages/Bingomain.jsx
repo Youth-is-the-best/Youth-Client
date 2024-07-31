@@ -50,7 +50,7 @@ const Bingomain = () => {
   
 
   useEffect(() => {
-    getBingos();
+    // getBingos();
   }, []);
 
   return (
