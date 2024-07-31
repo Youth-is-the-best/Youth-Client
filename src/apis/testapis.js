@@ -5,7 +5,7 @@ export const baseURL = "https://maknaengee.p-e.kr";
 
 export const postTest = async (reason) => {
     try {
-        const response = await axios.post(`${baseURL}/typetest/submit-answer/`, { withCredentials: true }, reason);
+        const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -15,7 +15,7 @@ export const postTest = async (reason) => {
 
 export const getInfo = async() => {
     try {
-        const response = await axios.get(`${baseURL}/information/`,  { withCredentials: true });
+        const response = await axios.get(`${baseURL}/information/`);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -25,7 +25,7 @@ export const getInfo = async() => {
 
 export const getBingo = async() => {
     try {
-        const response = await axios.get(`${baseURL}/bingo/`, { withCredentials: true });
+        const response = await axios.get(`${baseURL}/bingo/`);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -35,7 +35,7 @@ export const getBingo = async() => {
 
 export const postBingo = async() => {
     try {
-        const response = await axios.post(`${baseURL}/bingo/`, { withCredentials: true });
+        const response = await axios.post(`${baseURL}/bingo/`);
         return response.data;
     } catch (error) {
         console.error(error);

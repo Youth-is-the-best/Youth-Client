@@ -14,6 +14,9 @@ import BingoInfo from './pages/BingoInfo';
 import Calendar from 'react-calendar';
 import Portfolio from './pages/Portfolio';
 import Review from './pages/Review';
+import MyPage from './pages/MyPage';
+import Alarm from './pages/Alarm';
+import AlarmManage from './pages/AlarmManage';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -43,6 +46,9 @@ function App() {
       inputValue={inputValue} setInputValue={setInputValue}
       />}></Route>
       <Route path="/portfolio" element={<Portfolio/>}></Route>
+      <Route path="/mypage" element={<MyPage />}></Route>
+      <Route path="/alarm" element={<Alarm />}></Route>
+      <Route path="/alarmManage" element={<AlarmManage />}></Route>
     </Routes>
     </BrowserRouter>
   );

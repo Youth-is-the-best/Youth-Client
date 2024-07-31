@@ -3,7 +3,7 @@ import axios from "axios";
 const baseURL = 'https://maknaengee.p-e.kr';
 
 export const signUp = async (password, username, hash, first_name, college) => {
-  const response = await axios.post(`${baseURL}/users/join/`,  { withCredentials: true }, {
+  const response = await axios.post(`${baseURL}/users/join/`, {
     password, 
     username, 
     hash, 
@@ -14,7 +14,7 @@ export const signUp = async (password, username, hash, first_name, college) => {
 };
 
 export const login = async (username, password) => {
-  const response = await axios.post(`${baseURL}/users/login/`, { withCredentials: true }, {
+  const response = await axios.post(`${baseURL}/users/login/`, {
     username,
     password,
   })
@@ -24,7 +24,7 @@ export const login = async (username, password) => {
 
 export const isUsernameDuplicate = async (username) => {
   try {
-    const response = await axios.get(`${baseURL}/users/join/`, { withCredentials: true }, {
+    const response = await axios.get(`${baseURL}/users/join/`, {
       params : { username : username }
     });
     return response.data.available;
@@ -37,7 +37,7 @@ export const isUsernameDuplicate = async (username) => {
 
 export const SendAuthCodeToEmail = async (answer) => {
   try {
-    const response = await axios.post(`${baseURL}/users/verify/`, { withCredentials: true }, answer );
+    const response = await axios.post(`${baseURL}/users/verify/`, answer );
     return response.data;
   } catch(error) {
       console.error(error);
@@ -47,7 +47,7 @@ export const SendAuthCodeToEmail = async (answer) => {
 
 export const postAuthCode = async (answer) => {
   try {
-    const response = await axios.post(`${baseURL}/users/verify/`, { withCredentials: true },  answer );
+    const response = await axios.post(`${baseURL}/users/verify/`,  answer );
     return response.data;
   } catch(error) {
       console.error(error);
