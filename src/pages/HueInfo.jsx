@@ -4,8 +4,8 @@ import HeaderHook from '../hook/HeaderHook';
 import { Body } from './Home';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
-import { Category, Line, TitleLine } from './MadeBingo';
-import { ReviewDom, Review, RightDom } from './BingoInfo';
+import { Category, Line, TitleLine } from './bingo/MadeBingo';
+import { ReviewDom, Review, RightDom } from './bingo/BingoInfo';
 import { getInfo } from '../apis/testapis';
 
 const HueInfo = () => {

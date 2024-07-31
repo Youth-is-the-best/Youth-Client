@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,7 +8,6 @@ import { Body } from '../Home';
 import CustomCalendar from './CustomCalendar';
 import { Category, Row } from './MadeBingo';
 import HeaderHook from '../../hook/HeaderHook';
-import { getBingoloc } from '../apis/testapis';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
@@ -26,12 +25,10 @@ const BingoInfo = () => {
   const handlePrepDateChange = (dates) => {
     setPrepDates(dates);
   };
-
-  const getBingo = async(location) => {
-    const response = await getBingoloc(location);
-  };
-    
   
+  useEffect(() => {
+    // getBingo();
+  }, []);
 
   return (
     <>
