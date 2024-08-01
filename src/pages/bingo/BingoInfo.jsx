@@ -8,6 +8,7 @@ import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getInfo } from '../../apis/testapis';
 import { Category } from './MadeBingo';
+import { PiEmptyBold } from 'react-icons/pi';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
@@ -30,9 +31,14 @@ const BingoInfo = () => {
         end_date: response.end_date,
         host: response.host,
         prep_period: response.prep_period,
+        area : response.area,
+        employment_form : response.employment_form,
+        field : response.field,
+        duty : response.duty,
       };
       setInfo(info);
       console.log(info);
+      console.log(response);
     } catch (error) {
       console.error('Error in getInfos:', error.response ? error.response.data : error.message);
       throw error;
@@ -64,22 +70,60 @@ const BingoInfo = () => {
               {info ? info.large_category_display : 'Loading...'}
             </Category>
           </Line>
-          <Line>
-            <Category>주최사</Category>
-            <div>{info ? info.host : 'Loading...'}</div>
-          </Line>
-          <Line>
-            <Category>응시료</Category>
-            <div>{info ? info.app_fee : 'Loading...'}</div>
-          </Line>
-          <Line>
-            <Category>시험 날짜</Category>
-            <div>{info ? info.app_due : 'Loading...'}</div>
-          </Line>
-          <Line>
-            <Category>준비 기간</Category>
-            <div>{info ? info.prep_period : 'Loading...'}</div>
-          </Line>
+          {info && info.host ? (
+            <Line>
+              <Category>주최사</Category>
+              <div>{info.host}</div>
+            </Line>
+          ) : null}
+          {info && info.field ? (
+            <Line>
+              <Category>활동 분야</Category>
+              <div>{info.field}</div>
+            </Line>
+          ) : null}
+          {info && info.app_fee ? (
+            <Line>
+              <Category>응시료</Category>
+              <div>{info.app_fee}원</div>
+            </Line>
+          ) : null}
+          {info && info.duty ? (
+            <Line>
+              <Category>직무</Category>
+              <div>{info.duty}</div>
+            </Line>
+          ) : null}
+          {info && info.employment_form ? (
+            <Line>
+              <Category>채용 형태</Category>
+              <div>{info.employment_form}</div>
+            </Line>
+          ) : null}
+          {info && info.area ? (
+            <Line>
+              <Category>활동 지역</Category>
+              <div>{info.area}</div>
+            </Line>
+          ) : null}
+          {info && info.app_due ? (
+            <Line>
+              <Category>지원 마감</Category>
+              <div>{info.app_due}</div>
+            </Line>
+          ) : null}
+          {info && info.prep_period ? (
+            <Line>
+              <Category>준비 기간</Category>
+              <div>{info.prep_period}</div>
+            </Line>
+          ) : null}
+          {info && info.start_date ? ((
+            <Line>
+              <Category>활동 기간</Category>
+              <div>{info.start_date} ~ {info.end_date}</div>
+            </Line>
+          )) : null}
           <TitleLine>
             <h2>빙고 미션 완료 후기</h2>
           </TitleLine>

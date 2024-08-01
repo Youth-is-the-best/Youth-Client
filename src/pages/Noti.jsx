@@ -104,7 +104,8 @@ const CheckDom = styled.div`
   cursor : pointer;
 `
 const ContentDom = styled.div`
-  display : flex;
+  display : grid;
+  grid-template-columns : 1fr 1fr 1fr 1fr;
   flex-direction : row;
   width : 100%;
   border : 0.2px solid black;

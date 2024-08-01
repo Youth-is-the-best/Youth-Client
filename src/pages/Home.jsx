@@ -239,9 +239,9 @@ const Home = () => {
               <Info 
                 key={index}
                 draggable
-                onDragStart={() => handleDragStart(index, 'info')}
+                onDragStart={() => handleDragStart(index, 'item')}
                 onClick={() => handleInfoClick(item.id)}>
-                <div>{item.title}</div>
+                {item.title}<IoIosInformationCircleOutline/>
               </Info>
             )) : infoItems.map((info, index) => (
               <Info
