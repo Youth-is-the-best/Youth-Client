@@ -12,13 +12,13 @@ import { useState } from 'react';
 import MadeBingo from './pages/bingo/MadeBingo';
 import BingoInfo from './pages/bingo/BingoInfo';
 import Calendar from 'react-calendar';
-import Portfolio from './pages/portFolio/Portfolio';
+import Portfolio from './pages/portFolio/ChangePortfolio';
+import MadeReview from './pages/MadeReview';
 import MyPage from './pages/myPage/MyPage';
 import Alarm from './pages/myPage/Alarm';
 import AlarmManage from './pages/myPage/AlarmManage';
 import Noti from './pages/Noti';
 import HueInfo from './pages/HueInfo';
-import MadeReview from './pages/MadeReview';
 
 function App() {
   const [year, setYear] = useState(2024);

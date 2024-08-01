@@ -8,7 +8,7 @@ const Alarm = () => {
       <HeaderHook></HeaderHook>
       <Body>
         <TitleWrapper>
-            <SectionTitle></SectionTitle>
+            <SectionTitle>알림</SectionTitle>
             <img></img>
           </TitleWrapper>
           <ControlWrapper>
