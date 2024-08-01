@@ -116,7 +116,7 @@ const MadeBingo = () => {
     <>
     <HeaderHook></HeaderHook>
       <Body>
-        {/* <Bingomain></Bingomain> */}
+        <Bingomain/>
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30}/>

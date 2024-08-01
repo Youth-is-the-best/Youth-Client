@@ -6,7 +6,7 @@ import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
 import { Category, Line, TitleLine } from './bingo/MadeBingo';
 import { ReviewDom, Review, RightDom } from './bingo/BingoInfo';
-import { getHueInfo, getInfo } from '../apis/testapis';
+import { getHueInfo } from '../apis/testapis';
 import Bingomain from './bingo/Bingomain';
 
 const HueInfo = () => {
@@ -69,12 +69,12 @@ const HueInfo = () => {
             <div>{content}</div>
           </Line>
           <ReviewDom>
-              {images.length > 0 && images.map((image, index) => (
-                <Review key={index}>
-                  <img src={image} alt={`Recommendation ${index + 1}`} style={{ maxWidth: '100%', height: 'auto' }} />
-                </Review>
-              ))}
-          </ReviewDom>  
+            {images.length > 0 && images.map((image, index) => (
+              <Review key={index}>
+                <img src={image} alt={`Recommendation ${index + 1}`} style={{ maxWidth: '100%', height: 'auto' }} />
+              </Review>
+            ))}
+          </ReviewDom>
         </RightDom>
       </Body>
     </>
