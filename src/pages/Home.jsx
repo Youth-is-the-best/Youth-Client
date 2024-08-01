@@ -255,13 +255,16 @@ const Home = () => {
               </RecommendCom>
             ))}
           </RecommendDom>
-          <Selector value={array} onChange={handleArrayChange} style={{ background: 'white', color: 'rgba(30, 58, 138, 1)', border: '1px solid rgba(30, 58, 138, 1)' }}>
-            {options.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </Selector>
+          <Line>
+            <Selector value={array} onChange={handleArrayChange} style={{ background: 'white', color: 'rgba(30, 58, 138, 1)', border: '1px solid rgba(30, 58, 138, 1)' }}>
+              {options.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </Selector>
+            <div style={{marginTop:'10px'}}>마음에 드는 활동을 빙고판에 끌어서 옮겨보세요</div>
+          </Line>
           <InfoDom>
           {array === '마감순' ? (
             upcomming.map((item, index) => (
@@ -456,3 +459,10 @@ const Selector = styled.select`
   background: rgba(30, 58, 138, 1); 
   color: white;
 `;
+
+const Line = styled.div`
+ display : flex;
+  flex-direction : row;
+ width : 100%;
+ gap : 3%;
+`
