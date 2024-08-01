@@ -14,7 +14,7 @@ const MadeDragBingo = () => {
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
   const [examDates, setExamDates] = useState([null, null]);
-  const { id } = useParams();
+  const { id, location } = useParams();
   const [info, setInfo] = useState(null);
 
   const goHome = () => {

@@ -18,7 +18,6 @@ const Home = () => {
   const [upcomming, setUpcomming] = useState([]);
   const [saved, setSaved] = useState([]);
   const [typeRecommend, setTypeRecommend] = useState([]);
-
   const [array, setArray] = useState(options[0]);
 
   const handleArrayChange = (event) => {
@@ -29,21 +28,22 @@ const Home = () => {
     } else {
       viewRecommend();
     }
-  }
+  };
 
   const viewBingoInfo = () => {
     navigate("/info");
-  }
+  };
 
   const viewRecommend = async() => {
     const response = await getHueInfo();
     const recommendations = response.map(item => ({
       title: item.title,
       image: item.images[0]?.image || '',
+      id: item.id,
     }));
     setRecommend(recommendations);
-  }
-  
+  };
+
   const viewUpcomming = async () => {
     const response = await getUpcomming();
     const upcommings = response.results.map(item => ({
@@ -52,7 +52,7 @@ const Home = () => {
     }));
     setUpcomming(upcommings);
     // console.log(response);
-  }
+  };
 
   const viewSaved = async() => {
     const response = await getSaved();
@@ -62,7 +62,7 @@ const Home = () => {
     }));
     setSaved(saveds);
     // console.log(response);
-  }
+  };
   
   const viewTypeRecommend = async(type) => {
     const response = await getTypeRecommend(type);
@@ -73,7 +73,7 @@ const Home = () => {
     setTypeRecommend(typeData);
     // console.log(response);
     // console.log(typeData);  
-  }
+  };
 
   const getBingos = async() => {
     const response = await getBingo();
@@ -90,7 +90,7 @@ const Home = () => {
     setEndDate(end_date);
     setBingos(bingoData);
     console.log(response);
-  }
+  };
 
   const postBingos = async(mybingo) => {
     mybingo = {
@@ -128,7 +128,7 @@ const Home = () => {
   };
     const response = await postBingo(mybingo);
     console.log(response);
-  }
+  };
 
   useEffect(() => {
     viewRecommend();
@@ -136,31 +136,6 @@ const Home = () => {
     viewTypeRecommend("panda");
     // getBingos();
   }, []);
-
-  const infoItems = [
-    "2024년 서울 지능형 사물인터넷(AIoT) 해커톤",
-    "internship",
-    "academicStress",
-    "selfDevelopment",
-    "diverse Experiences",
-    "financialBurden",
-    "mentalStability",
-    "newCareerExploration",
-    "jobPreparation",
-    "internship",
-    "academicStress",
-    "selfDevelopment",
-    "diverseExperiences",
-    "financialBurden",
-    "mentalStability",
-    "jobPreparation",
-    "internship",
-    "academicStress",
-    "selfDevelopment",
-    "diverseExperiences",
-    "financialBurden",
-    "mentalStability"
-  ];
 
   const getBackgroundColor = (inBingo, index) => {
     if (inBingo) {
@@ -186,27 +161,26 @@ const Home = () => {
 
   const handleDragStart = (index, type) => {
     if (type === 'upcomming') {
-      setDraggingInfo(upcomming[index].title);
+      setDraggingInfo(upcomming[index]);
       setDraggingIndex(null);
     } else if (type === 'saved') {
-      setDraggingInfo(saved[index].title);
+      setDraggingInfo(saved[index]);
       setDraggingIndex(null);
     } else {
-      setDraggingInfo(typeRecommend[index].title);
+      setDraggingInfo(typeRecommend[index]);
       setDraggingIndex(null);
     }
   };
 
   const handleDrop = (index) => {
-    const newBingos = [...bingos];
     if (draggingInfo !== null) {
-      newBingos[index] = { location: index, title: draggingInfo };
-      setDraggingInfo(null);
+      navigate(`/madedragbingo/${draggingInfo.id}/${index}`);
     } else {
+      const newBingos = [...bingos];
       [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
       setDraggingIndex(null);
+      setBingos(newBingos);
     }
-    setBingos(newBingos);
   };
 
   const handleDragOver = (e) => {
@@ -465,4 +439,4 @@ const Line = styled.div`
   flex-direction : row;
  width : 100%;
  gap : 3%;
-`
+`;
