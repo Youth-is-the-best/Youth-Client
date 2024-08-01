@@ -8,7 +8,7 @@ import { Body } from '../Home';
 import CustomCalendar from './CustomCalendar';
 import { Category, Row } from './MadeBingo';
 import HeaderHook from '../../hook/HeaderHook';
-import { getBingoloc } from '../apis/testapis';
+import { getBingoloc } from '../../apis/testapis';
 
 const BingoInfo = () => {
   const navigate = useNavigate();

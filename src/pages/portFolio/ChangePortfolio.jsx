@@ -1,16 +1,17 @@
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
+import HeaderHook from '../../hook/HeaderHook'
 import SaveModal from './SaveModal'
 import AiOutlineFilePdf from '../../images/AiOutlineFilePdf.png'
-import user from '../../images/user.png'
 import 다람쥐 from '../../images/다람쥐.jpg'
 import AiOutlineRocket from '../../images/AiOutlineRocket.png'
 import FiNavigation from '../../images/FiNavigation.png'
 import AiOutLineBank from '../../images/AiOutlineBank.png'
 import MdOutlinedFeed from '../../images/MdOutlineFeed.png'
-import HeaderHook from '../../hook/HeaderHook'
+import Vector from '../../images/Vector.png'
 
-const Portfolio = () => {
+
+const ChangePortfolio = () => {
   const textarea = useRef();
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -61,28 +62,36 @@ const Portfolio = () => {
           <SectionTitle>@닉네임 님의 휴 are you</SectionTitle>
           <p>휴학 기간에 달성한 사소한 목표부터 자랑하고픈 업적까지 모두 기록해보세요.</p>
           <AboutMeWrapper>
-            <SectionTitle><img src={AiOutlineRocket} style={{ height: '22px', width: '22px'}}></img>저는 이런 사람입니다</SectionTitle>
+            <SubTitle style={{backgroundColor: '#7485B5'}}>
+              <img src={AiOutlineRocket} style={{ height: '22px', width: '22px'}}></img>
+              저는 이런 사람입니다
+              </SubTitle>
             <Content>
               
             </Content>
           </AboutMeWrapper>
-          <HueWrapper style={{ float: 'left' }}>
-            <SectionTitle><img src={FiNavigation} style={{ height: '19px', width: '19px' }}></img>달성한 빙고 한 눈에 보기</SectionTitle>
-            <Content>
-  
-            </Content>
-          </HueWrapper>
           <HueWrapper>
-            <SectionTitle><img src={AiOutLineBank} style={{ height: '21px', width: '19px' }}></img>다른 성과 한 눈에 보기</SectionTitle>
-            <Content>
-  
-            </Content>
+            <ClearWrapper>
+              <SubTitle style={{backgroundColor: '#A5B0D0'}}><img src={FiNavigation} style={{ height: '21px', width: '21px' }}></img>달성한 빙고 한 눈에 보기</SubTitle>
+              <Content>
+    
+              </Content>
+            </ClearWrapper>
+            <ClearWrapper>
+              <SubTitle style={{backgroundColor: '#D2D8E8'}}><img src={AiOutLineBank} style={{ height: '21px', width: '19px' }}></img>다른 성과 한 눈에 보기</SubTitle>
+              <Content>
+    
+              </Content>
+            </ClearWrapper>
           </HueWrapper>
         </AchievementWrapper>
         <PostWrapper style={{ float: 'bottom' }}>
           <PostTitle>
             <SectionTitle><img src={MdOutlinedFeed} style={{ height: '21px', width: '19px' }}></img>내가 쓴 포스트 보기</SectionTitle>
-            <input type='checklist' placeholder='빙고 인증 후기만 보기'></input>
+            <Checklist>
+              <img src={Vector} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img>
+              <p>빙고 인증 후기만 보기</p>
+            </Checklist>
           </PostTitle>
           <PostContent>
             {/* 사용자가 입력한 목표 달성 후기 post & 빙고 외 후기 post가 보여짐 */}
@@ -93,7 +102,7 @@ const Portfolio = () => {
   )
 }
 
-export default Portfolio
+export default ChangePortfolio
 
 export const Logo = styled.div`
   margin-left: 20px;
@@ -134,17 +143,17 @@ const PdfBtn = styled.div`
   }
   button {
       font-family: 'Pretendard-Regular';
-      font-weight: 500;
-      font-size: 15px;
+      font-weight: 700;
+      font-size: 14px;
       background-color: white;
       color: #1E3A8A;
       padding: 10px;
       border-radius: 10px;
       border: none;
-      width: 122px;
-      height: 44px;
+      width: 108px;
+      height: 32px;
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
       align-items: center;
       cursor: pointer;
     }
@@ -173,13 +182,28 @@ const ProfileTitle = styled.div`
 `;
 
 const SectionTitle = styled.div`
+  display: flex;
+  align-items: center;
   color: #1E3A8A;
   font-size: 20px;
   font-weight: 600;
+  img {
+    margin-right: 10px;
+  }
+`;
+
+const SubTitle = styled.div`
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  width: 100%;
+  height: 45px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   img {
     margin-right: 10px;
+    margin-left: 20px;
   }
 `;
 
@@ -193,11 +217,11 @@ const InfoItem = styled.div`
   padding-bottom: 20px;
   input {
     display: flex;
-    justify-content: center;
     align-items: center;
     border: none;
     font-size: 15px;
     font-weight: 500;
+    width: 40%;
     &::placeholder {
         color: #A3A3A3;
         font-family: 'Pretendard-Regular';
@@ -209,6 +233,7 @@ const InfoItem = styled.div`
 
 const InfoLabel = styled.div`
   color: #1E3A8A;
+  font-weight: 700;
   width: 200px;
   height: 35px;
   display: flex;
@@ -216,7 +241,8 @@ const InfoLabel = styled.div`
 `;
 
 const AchievementWrapper = styled.div`
-  padding-top: 20px;
+  padding-top: 40px;
+  padding-bottom: 80px;
   p {
     font-size: 16px;
     font-weight: 500;
@@ -225,29 +251,48 @@ const AchievementWrapper = styled.div`
 `;
 
 const AboutMeWrapper = styled.div`
-  padding-top: 20px;
-  padding-bottom: 80px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  padding-top: 10px;
+  /* padding-bottom: 80px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2); */
 `;
 
 const Content = styled.div`  
 `;
 
 const HueWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ClearWrapper = styled.div`
+  display: flex;
   padding-top: 20px;
-  padding-bottom: 80px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  width: 49%;
+  /* padding-bottom: 80px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2); */
 `;
 
 const PostWrapper = styled.div`
-  padding-top: 20px;
+  padding-top: 40px;
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
 `;
 
 const PostTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
   input {
     color: #1E3A8A;
+    border: none;
+    &::placeholder{
+      color: #1E3A8A;
+    }
   }
 `;
 
 const PostContent = styled.div`
+`;
+
+const Checklist = styled.div`
+  display: flex;
+  align-items: center;
 `;
