@@ -6,6 +6,7 @@ import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
+import { click } from '@testing-library/user-event/dist/click';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -57,7 +58,7 @@ const Home = () => {
 
   const viewSaved = async() => {
     const response = await getSaved();
-    const saveds = response.results.map(item => ({
+    const saveds = response.stored_reviews.map(item => ({
       title: item.title,
       id: item.id,
     }));
@@ -131,13 +132,6 @@ const Home = () => {
     console.log(response);
   };
 
-  useEffect(() => {
-    viewRecommend();
-    // viewSaved();
-    viewTypeRecommend("panda");
-    // getBingos();
-  }, []);
-
   const getBackgroundColor = (inBingo, index) => {
     if (inBingo) {
       return 'white';
@@ -206,6 +200,17 @@ const Home = () => {
     navigate("/hueInfo");
   };
 
+  const clickBingo = (id) => {
+    // navigate("/info/${id}");
+  };
+
+  useEffect(() => {
+    viewRecommend();
+    viewSaved();
+    viewTypeRecommend("panda");
+    getBingos();
+  }, []);
+
   return (
     <>
       <HeaderHook />
@@ -221,6 +226,7 @@ const Home = () => {
                 onDragStart={() => handleDragStart(index, 'bingo')}
                 onDrop={() => handleDrop(index)}
                 onDragOver={handleDragOver}
+                onClick={clickBingo(bingo.id)}
                 inBingo={bingo.title !== ''}
                 style={{ background: getBackgroundColor(bingo.title !== '', index) }}
               >

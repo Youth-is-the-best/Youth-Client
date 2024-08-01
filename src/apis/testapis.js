@@ -88,11 +88,24 @@ export const getUpcomming = async () => {
 // ["/" 경로에서 볼 수 있는 인포메이션] "보관함"
 export const getSaved = async () => {
     try {
-        const response = await axios.get(`${baseURL}/bingo/recs/saved/`);
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/bingo/recs/saved/`,{
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
         return response.data;
     } catch (error) {
-        console.error('Error in getSaved:', error.response ? error.response.data : error.message);
-        throw error;
+        if (error.response && error.response.status === 401) {
+            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getBingo:', error.response ? error.response.data : error.message);
+            throw error;
+        }
     }
 }
 

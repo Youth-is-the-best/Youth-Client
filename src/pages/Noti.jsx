@@ -66,6 +66,20 @@ const Noti = () => {
         </NavigationBar>
         <Line>{selectedCategory}</Line>
         <Bar>
+          <CheckDom>
+            <Check>
+              <AiOutlineCheckSquare size={20}/>
+              <div>전체</div>
+            </Check>
+            <Check>
+              <AiOutlineCheckSquare size={20}/>
+              <div>공고</div>
+            </Check>
+            <Check>
+              <AiOutlineCheckSquare size={20}/>
+              <div>후기</div>
+            </Check>
+          </CheckDom>
           {inputConfigs[selectedCategory]?.map((config, index) => (
             <Dropdown key={index}>
               {config.type === "select" ? (
@@ -76,25 +90,14 @@ const Noti = () => {
                   ))}
                 </select>
               ) : (
-                <input type={config.type} placeholder={config.placeholder} />
+                <Line style={{fontSize : '12px'}}>
+                  <div>{config.placeholder}</div>
+                  <input type={config.type} placeholder={config.placeholder} />
+                </Line>
               )}
             </Dropdown>
           ))}
         </Bar>
-        <CheckDom>
-          <Check>
-            <AiOutlineCheckSquare size={20}/>
-            <div>전체</div>
-          </Check>
-          <Check>
-            <AiOutlineCheckSquare size={20}/>
-            <div>공고</div>
-          </Check>
-          <Check>
-            <AiOutlineCheckSquare size={20}/>
-            <div>후기</div>
-          </Check>
-        </CheckDom>
         <ContentDom>
           {Array(4).fill(null).map((_, index) => (
             <Content key={index}>
@@ -154,7 +157,7 @@ const SearchDom = styled.div`
   display : flex;
   flex-direction : row;
   align-items : center;
-  width : 400px;
+  width : 30%;
   height : 20px;
   border-radius: 40px;
   border: 1px solid rgba(153, 166, 202, 1);
@@ -172,7 +175,7 @@ const NavigationBar = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-bottom: 20px;
-  width: 100%;
+  // width: 100%;
   height: 50px;
   padding : 1%;
   margin-top : 2%;
@@ -214,7 +217,7 @@ const ContentDom = styled.div`
 const Content = styled.div`
   display : flex;
   flex-direction : column;
-  width : 90%;
+  width : 70%;
   height : 300px;
   border : 0.2px solid black;
   margin: 10px;
