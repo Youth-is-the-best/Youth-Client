@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getHueInfo, getInfo, getUpcomming, postBingo } from '../apis/testapis';
+import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
+import { click } from '@testing-library/user-event/dist/click';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -16,32 +17,33 @@ const Home = () => {
   const [endDate, setEndDate] = useState();
   const [bingos, setBingos] = useState(Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })));
   const [upcomming, setUpcomming] = useState([]);
-
+  const [saved, setSaved] = useState([]);
+  const [typeRecommend, setTypeRecommend] = useState([]);
   const [array, setArray] = useState(options[0]);
+  const [error, setError] = useState(null);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
     setArray(selectedValue);
     if (selectedValue === '마감순') {
       viewUpcomming();
-    } else {
+    } else if (selectedValue === '추천순') {
       viewRecommend();
+    } else if (selectedValue === '보관함') {
+      viewSaved();
     }
-  }
-
-  const viewBingoInfo = () => {
-    navigate("/info");
-  }
+  };
 
   const viewRecommend = async() => {
     const response = await getHueInfo();
     const recommendations = response.map(item => ({
       title: item.title,
       image: item.images[0]?.image || '',
+      id: item.id,
     }));
     setRecommend(recommendations);
-  }
-  
+  };
+
   const viewUpcomming = async () => {
     const response = await getUpcomming();
     const upcommings = response.results.map(item => ({
@@ -50,8 +52,29 @@ const Home = () => {
     }));
     setUpcomming(upcommings);
     // console.log(response);
-  }
+  };
+
+  const viewSaved = async() => {
+    const response = await getSaved();
+    const saveds = response.stored_reviews.map(item => ({
+      title: item.title,
+      id: item.id,
+    }));
+    setSaved(saveds);
+    console.log(response);
+  };
   
+  const viewTypeRecommend = async(type) => {
+    const response = await getTypeRecommend(type);
+    const typeData = response.data.map(item => ({
+      title: item.title,
+      id: item.id,
+    }));
+    setTypeRecommend(typeData);
+    // console.log(response);
+    // console.log(typeData);  
+  };
+
   const getBingos = async() => {
     const response = await getBingo();
     const username = response.username;
@@ -67,7 +90,7 @@ const Home = () => {
     setEndDate(end_date);
     setBingos(bingoData);
     console.log(response);
-  }
+  };
 
   const postBingos = async(mybingo) => {
     mybingo = {
@@ -105,37 +128,7 @@ const Home = () => {
   };
     const response = await postBingo(mybingo);
     console.log(response);
-  }
-
-  useEffect(() => {
-    viewRecommend();
-    // getBingos();
-  }, []);
-
-  const infoItems = [
-    "2024년 서울 지능형 사물인터넷(AIoT) 해커톤",
-    "internship",
-    "academicStress",
-    "selfDevelopment",
-    "diverse Experiences",
-    "financialBurden",
-    "mentalStability",
-    "newCareerExploration",
-    "jobPreparation",
-    "internship",
-    "academicStress",
-    "selfDevelopment",
-    "diverseExperiences",
-    "financialBurden",
-    "mentalStability",
-    "jobPreparation",
-    "internship",
-    "academicStress",
-    "selfDevelopment",
-    "diverseExperiences",
-    "financialBurden",
-    "mentalStability"
-  ];
+  };
 
   const getBackgroundColor = (inBingo, index) => {
     if (inBingo) {
@@ -160,26 +153,38 @@ const Home = () => {
   const [draggingInfo, setDraggingInfo] = useState(null);
 
   const handleDragStart = (index, type) => {
-    if (type === 'bingo') {
-      setDraggingIndex(index);
-      setDraggingInfo(null);
-    } else {
-      setDraggingInfo(infoItems[index]);
+    if (type === 'upcomming') {
+      setDraggingInfo(upcomming[index]);
       setDraggingIndex(null);
+    } else if (type === 'saved') {
+      setDraggingInfo(saved[index]);
+      setDraggingIndex(null);
+    } else if (type === 'typeRecommend') {
+      setDraggingInfo(typeRecommend[index]);
+      setDraggingIndex(null);
+    } else {
+      setError('드래그할 수 없습니다');
+      setDraggingInfo(null);
     }
   };
 
   const handleDrop = (index) => {
-    const newBingos = [...bingos];
-    if (draggingInfo !== null) {
-      newBingos[index] = { location: index, title: draggingInfo };
-      setDraggingInfo(null);
-    } else {
-      [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
-      setDraggingIndex(null);
-    }
-    setBingos(newBingos);
-  };
+      try {
+        if (draggingInfo !== null) {
+          navigate(`/madedragbingo/${draggingInfo.id}/${index}`);
+        } else if (draggingIndex !== null) {
+          const newBingos = [...bingos];
+          [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
+          setDraggingIndex(null);
+          setBingos(newBingos);
+        } else {
+          throw new Error('드래그할 수 없습니다');
+        }
+      } catch (error) {
+        setError(error.message);
+        console.error('Error in handleDrop:', error.response ? error.response.data : error.message);
+      }
+    };
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -192,6 +197,17 @@ const Home = () => {
   const goHueInfo = () => {
     navigate("/hueInfo");
   };
+
+  const clickBingo = (id) => {
+    // navigate("/info/${id}");
+  };
+
+  useEffect(() => {
+    viewRecommend();
+    viewSaved();
+    viewTypeRecommend("panda");
+    getBingos();
+  }, []);
 
   return (
     <>
@@ -208,6 +224,7 @@ const Home = () => {
                 onDragStart={() => handleDragStart(index, 'bingo')}
                 onDrop={() => handleDrop(index)}
                 onDragOver={handleDragOver}
+                onClick={clickBingo(bingo.id)}
                 inBingo={bingo.title !== ''}
                 style={{ background: getBackgroundColor(bingo.title !== '', index) }}
               >
@@ -221,37 +238,54 @@ const Home = () => {
           <div><FiThumbsUp /> 휴알유 추천</div>
           <RecommendDom onClick={goHueInfo}>
             {recommend.map((item, index) => (
-              <RecommendCom key={index}>
+              <RecommendCom key={index} draggable={false}>
                 <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
                 <div>{item.title}</div>
               </RecommendCom>
             ))}
           </RecommendDom>
-          <Selector value={array} onChange={handleArrayChange} style={{ background: 'white', color: 'rgba(30, 58, 138, 1)', border: '1px solid rgba(30, 58, 138, 1)' }}>
-            {options.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </Selector>
+          <Line>
+            <Selector value={array} onChange={handleArrayChange} style={{ background: 'white', color: 'rgba(30, 58, 138, 1)', border: '1px solid rgba(30, 58, 138, 1)' }}>
+              {options.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </Selector>
+            <div style={{marginTop:'10px'}}>마음에 드는 활동을 빙고판에 끌어서 옮겨보세요</div>
+          </Line>
           <InfoDom>
-          {array === '마감순' ? upcomming.map((item, index) => (
+          {array === '마감순' ? (
+            upcomming.map((item, index) => (
               <Info 
                 key={index}
                 draggable
-                onDragStart={() => handleDragStart(index, 'info')}
+                onDragStart={() => handleDragStart(index, 'upcomming')}
                 onClick={() => handleInfoClick(item.id)}>
-                <div>{item.title}</div>
+                {item.title}<IoIosInformationCircleOutline/>
               </Info>
-            )) : infoItems.map((info, index) => (
+            ))
+          ) : (array === '보관함' ? (
+            saved.map((item, index) => (
+              <Info 
+                key={index}
+                draggable
+                onDragStart={() => handleDragStart(index, 'saved')}
+                onClick={() => handleInfoClick(item.id)}>
+                {item.title}<IoIosInformationCircleOutline/>
+              </Info>
+            ))
+          ) : (
+            typeRecommend.map((item, index) => (
               <Info
                 key={index}
                 draggable
-                onDragStart={() => handleDragStart(index, 'info')}
-              >
-                {info}<IoIosInformationCircleOutline onClick={viewBingoInfo} />
+                onDragStart={() => handleDragStart(index, 'typeRecommend')}
+                onClick={() => handleInfoClick(item.id)}>
+                {item.title}<IoIosInformationCircleOutline />
               </Info>
-            ))}
+            ))
+          ))}
           </InfoDom>
         </RightDom>
       </Body>
@@ -413,4 +447,11 @@ const Selector = styled.select`
   border: none;
   background: rgba(30, 58, 138, 1); 
   color: white;
+`;
+
+const Line = styled.div`
+ display : flex;
+  flex-direction : row;
+ width : 100%;
+ gap : 3%;
 `;

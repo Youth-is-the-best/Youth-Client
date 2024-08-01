@@ -5,11 +5,16 @@ import styled from 'styled-components';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getInfo } from '../../apis/testapis';
-import { Category } from './MadeBingo';
+import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
+import { AiOutlineMinusCircle } from 'react-icons/ai';
+import { CiSquarePlus } from 'react-icons/ci';
 
-const BingoInfo = () => {
+const MadeDragBingo = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const [checklists, setChecklists] = useState([]);
+  const [newChecklistText, setNewChecklistText] = useState('');
+  const [examDates, setExamDates] = useState([null, null]);
+  const { id, location } = useParams();
   const [info, setInfo] = useState(null);
 
   const goHome = () => {
@@ -34,12 +39,30 @@ const BingoInfo = () => {
         duty: response.duty,
       };
       setInfo(info);
-      // console.log(info);
-      // console.log(response);
     } catch (error) {
       console.error('Error in getInfos:', error.response ? error.response.data : error.message);
       throw error;
     }
+  };
+
+  const madeCheckList = () => {
+    if (newChecklistText.trim() === '') return;
+    const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
+    setChecklists([...checklists, newChecklist]);
+    setNewChecklistText('');
+  };
+
+  const deleteCheckList = (id) => {
+    const updatedChecklists = checklists.filter(item => item.id !== id);
+    setChecklists(updatedChecklists);
+  };
+
+  const handleExamDateChange = (dates) => {
+    setExamDates(dates);
+  };
+
+  const postBingoloc = () => {
+
   };
 
   useEffect(() => {
@@ -55,89 +78,99 @@ const BingoInfo = () => {
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20}/></DateInfo>
+            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20} /></DateInfo>
           </TitleLine>
           <TitleLine>
             <h1>{info ? info.title : 'Loading...'}</h1>
           </TitleLine>
           <Line>
             <Category>분류</Category>
-            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>
-              {info ? info.large_category_display : 'Loading...'}
-            </Category>
+            <StyledDiv>
+                {info ? info.large_category_display : 'Loading...'}
+            </StyledDiv>
           </Line>
           {info && info.host ? (
             <Line>
               <Category>주최사</Category>
-              <div>{info.host}</div>
+              <StyledDiv>{info.host}</StyledDiv>
             </Line>
           ) : null}
           {info && info.field ? (
             <Line>
               <Category>활동 분야</Category>
-              <div>{info.field}</div>
+              <StyledDiv>{info.field}</StyledDiv>
             </Line>
           ) : null}
           {info && info.app_fee ? (
             <Line>
               <Category>응시료</Category>
-              <div>{info.app_fee}원</div>
+              <StyledDiv>{info.app_fee}원</StyledDiv>
             </Line>
           ) : null}
           {info && info.duty ? (
             <Line>
               <Category>직무</Category>
-              <div>{info.duty}</div>
+              <StyledDiv>{info.duty}</StyledDiv>
             </Line>
           ) : null}
           {info && info.employment_form ? (
             <Line>
               <Category>채용 형태</Category>
-              <div>{info.employment_form}</div>
+              <StyledDiv>{info.employment_form}</StyledDiv>
             </Line>
           ) : null}
           {info && info.area ? (
             <Line>
               <Category>활동 지역</Category>
-              <div>{info.area}</div>
+              <StyledDiv>{info.area}</StyledDiv>
             </Line>
           ) : null}
           {info && info.app_due ? (
             <Line>
               <Category>지원 마감</Category>
-              <div>{info.app_due}</div>
+              <StyledDiv>{info.app_due}</StyledDiv>
             </Line>
           ) : null}
           {info && info.prep_period ? (
             <Line>
               <Category>준비 기간</Category>
-              <div>{info.prep_period}</div>
+              <StyledDiv>{info.prep_period}</StyledDiv>
             </Line>
           ) : null}
-          {info && info.start_date ? ((
+          {info && info.start_date ? (
             <Line>
               <Category>활동 기간</Category>
-              <div>{info.start_date} ~ {info.end_date}</div>
+              <StyledDiv>{info.start_date} ~ {info.end_date}</StyledDiv>
             </Line>
-          )) : null}
+          ) : null}
           <TitleLine>
-            <h2>빙고 미션 완료 후기</h2>
+            <div> | 세부계획 </div>
           </TitleLine>
-          <ReviewDom>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <Review key={index}>
-                <div>리뷰 사진</div>
-                <div>리뷰 제목</div>
-              </Review>
+          <CheckLists>
+            {checklists.map((item) => (
+              <CheckList key={item.id} style={{color : 'rgba(116, 116, 116, 1)'}}>
+                <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)}/>
+                <span>{item.text}</span>
+              </CheckList>
             ))}
-          </ReviewDom>
+            <Line>
+              <InputBox
+                type="text"
+                value={newChecklistText}
+                onChange={(e) => setNewChecklistText(e.target.value)}
+                placeholder="세부 계획을 입력하세요"
+              />
+              <CiSquarePlus size={30} onClick={madeCheckList}/>
+            </Line>
+          </CheckLists>
+          <DateInfo style={{ width : '15%', marginLeft: '82%' }} onClick={postBingoloc}>저장</DateInfo>
         </RightDom>
       </Body>
     </>
   );
 };
 
-export default BingoInfo;
+export default MadeDragBingo;
 
 export const RightDom = styled.div`
   display: flex;
@@ -151,7 +184,7 @@ export const RightDom = styled.div`
   box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
   gap: 15px;
   padding: 20px;
-  overflow-x: auto;
+  overflow-y: auto;
 `;
 
 const Button = styled.div`
@@ -173,7 +206,8 @@ const DateInfo = styled.div`
   align-items: center;
   height: 20px;
   color: rgba(30, 58, 138, 0.6);
-  background: rgba(30, 58, 138, 0.1);
+  background: rgba(142, 156, 196, 1);
+  color: white;
   border-radius: 10px;
   padding: 8px;
   gap: 5px;
@@ -186,6 +220,7 @@ const Line = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
+  color : rgba(142, 156, 196, 1);
 `;
 
 const TitleLine = styled.div`
@@ -200,19 +235,15 @@ const TitleLine = styled.div`
   top: 0;
   background: rgba(246, 247, 251, 1);
   z-index: 1;
-  // padding-top: 10px;
 `;
 
 export const ReviewDom = styled.div`
   display: flex;
   flex-direction: row;
   width: 530px;
-  height: 230px;
-  flex-shrink: 0;
   border-radius: 10px;
   gap: 10px;
   padding: 10px;
-  overflow-y: auto;
 `;
 
 export const Review = styled.div`
@@ -226,3 +257,9 @@ export const Review = styled.div`
   border: 1px solid rgba(30, 58, 138, 0.5);
   border-radius: 10px;
 `;
+
+const StyledDiv = styled.div`
+  border: 0.4px solid rgba(142, 156, 196, 1);
+  border-radius: 10px;
+  padding: 7px;
+`

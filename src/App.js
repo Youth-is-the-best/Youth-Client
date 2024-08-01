@@ -19,6 +19,8 @@ import Alarm from './pages/myPage/Alarm';
 import AlarmManage from './pages/myPage/AlarmManage';
 import Noti from './pages/Noti';
 import HueInfo from './pages/HueInfo';
+import MadeDragBingo from './pages/bingo/MadeDragBingo';
+import MadedBingo from './pages/bingo/MadedBingo';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -34,6 +36,10 @@ function App() {
       <Route path="/info" element={<BingoInfo/>}></Route>
       <Route path="/info/:id" element={<BingoInfo />} />
       <Route path="/made" element={<MadeBingo/>}></Route>
+      <Route path="/madedragbingo" element={<MadeDragBingo/>}></Route>
+      <Route path="/madedragbingo/:id" element={<MadeDragBingo/>}></Route>
+      <Route path="/madedragbingo/:id/:location" element={<MadeDragBingo/>}></Route>
+      <Route path="/madedbingo/:location" element={<MadedBingo/>}></Route>
       <Route path="/login" element={<Login/>}></Route>
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/cal" element={<Calendar />}/>

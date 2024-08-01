@@ -4,36 +4,44 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
-import { getInfo } from '../../apis/testapis';
-import { Category } from './MadeBingo';
+import { getBingoloc, getInfo } from '../../apis/testapis';
+import { Category,CheckLists,CheckList,CheckBox } from './MadeBingo';
+import { AiOutlineCheckSquare } from 'react-icons/ai';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { location } = useParams();
+  const [checklists, setChecklists] = useState([]);
   const [info, setInfo] = useState(null);
 
   const goHome = () => {
     navigate("/");
   };
 
-  const getInfos = async (id) => {
+  const getInfos = async (location) => {
     try {
-      const response = await getInfo(id);
+      const response = await getBingoloc(location);
       const info = {
-        large_category_display: response.large_category_display,
-        title: response.title,
-        app_fee: response.app_fee,
-        app_due: response.app_due,
-        start_date: response.start_date,
-        end_date: response.end_date,
-        host: response.host,
-        prep_period: response.prep_period,
-        area: response.area,
-        employment_form: response.employment_form,
-        field: response.field,
-        duty: response.duty,
+        large_category_display: response.bingo_item.large_category_display,
+        title: response.bingo_item.title,
+        app_fee: response.bingo_item.app_fee,
+        app_due: response.bingo_item.app_due,
+        start_date: response.bingo_item.start_date,
+        end_date: response.bingo_item.end_date,
+        host: response.bingo_item.host,
+        prep_period: response.bingo_item.prep_period,
+        area: response.bingo_item.area,
+        employment_form: response.bingo_item.employment_form,
+        field: response.bingo_item.field,
+        duty: response.bingo_item.duty,
       };
+      const todos = response.todo.map(todo => ({
+        id: todo.id,
+        text: todo.title,
+        checked: todo.is_completed
+      }));
       setInfo(info);
+      setChecklists(todos);
       // console.log(info);
       // console.log(response);
     } catch (error) {
@@ -43,10 +51,17 @@ const BingoInfo = () => {
   };
 
   useEffect(() => {
-    if (id) {
-      getInfos(id);
+    if (location) {
+      getInfos(location);
     }
-  }, [id]);
+  }, [location]);
+
+  const toggleCheck = (id) => {
+    const updatedChecklists = checklists.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setChecklists(updatedChecklists);
+  };
 
   return (
     <>
@@ -121,16 +136,23 @@ const BingoInfo = () => {
             </Line>
           )) : null}
           <TitleLine>
-            <h2>빙고 미션 완료 후기</h2>
+            <div> | 세부계획 </div>
           </TitleLine>
-          <ReviewDom>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <Review key={index}>
-                <div>리뷰 사진</div>
-                <div>리뷰 제목</div>
-              </Review>
+          <CheckLists>
+            {checklists.map((item) => (
+              <CheckList key={item.id} checked={item.checked}>
+                {item.checked ? (
+                  <AiOutlineCheckSquare size={20} onClick={() => toggleCheck(item.id)} />
+                ) : (
+                  <CheckBox onClick={() => toggleCheck(item.id)}/>
+                )}
+                <span>{item.text}</span>
+              </CheckList>
             ))}
-          </ReviewDom>
+            <Line>
+            </Line>
+          </CheckLists>
+            <DateInfo style={{ width : '30%', marginLeft: '67%'}}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
     </>
@@ -151,7 +173,7 @@ export const RightDom = styled.div`
   box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
   gap: 15px;
   padding: 20px;
-  overflow-x: auto;
+  overflow-y: auto;
 `;
 
 const Button = styled.div`
@@ -201,28 +223,4 @@ const TitleLine = styled.div`
   background: rgba(246, 247, 251, 1);
   z-index: 1;
   // padding-top: 10px;
-`;
-
-export const ReviewDom = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 530px;
-  height: 230px;
-  flex-shrink: 0;
-  border-radius: 10px;
-  gap: 10px;
-  padding: 10px;
-  overflow-y: auto;
-`;
-
-export const Review = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-  width: 200px;
-  height: 200px;
-  gap: 5px;
-  border: 1px solid rgba(30, 58, 138, 0.5);
-  border-radius: 10px;
 `;

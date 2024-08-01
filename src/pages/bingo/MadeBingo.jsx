@@ -116,7 +116,7 @@ const MadeBingo = () => {
     <>
     <HeaderHook></HeaderHook>
       <Body>
-        <Bingomain></Bingomain>
+        {/* <Bingomain></Bingomain> */}
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30}/>
@@ -146,17 +146,18 @@ const MadeBingo = () => {
               {inputConfigs[selectedCategory].map((config, index) => {
                 if (config.type === 'date') {
                   return (
-                    <DateInfo key={index}>날짜를 선택하세요<MdOutlineEditCalendar /></DateInfo>
+                    <DateInfo>
+                      {examDates[0] && examDates[1] 
+                        ? `${examDates[0].toLocaleDateString()}` : '날짜를 입력하세요.'}
+                        <CustomCalendar onChange={handleExamDateChange} value={examDates} />
+                    </DateInfo>
                   );
                 } else if (config.type === 'date-range') {
                   return (
-                    // <DateInfo key={index}>기간을 선택하세요<MdOutlineEditCalendar /></DateInfo>
                     <DateInfo>
-                      key={index}
-                      {prepDates[0] && prepDates[1] 
-                      ? `${prepDates[0].toLocaleDateString()} ~ ${prepDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
-                      <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
-                      기간을 선택하세요
+                    {prepDates[0] && prepDates[1] 
+                    ? `${prepDates[0].toLocaleDateString()} ~ ${prepDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
+                    <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
                     </DateInfo>
                   );
                 } else if (config.type === 'select') {
@@ -219,6 +220,7 @@ export const Category = styled.div`
   align-items: center;
   height: 20px;
   border: 1px solid rgba(30, 58, 138, 0.5);
+  color : rgba(30, 58, 138, 1);
   background: white;
   border-radius: 10px;
   padding: 7px;
@@ -264,7 +266,7 @@ export const TitleLine = styled.div`
   margin-left: 10px;
 `;
 
-const CheckLists = styled.div`
+export const CheckLists = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -274,7 +276,7 @@ const CheckLists = styled.div`
   padding: 10px;
 `;
 
-const CheckList = styled.div`
+export const CheckList = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -289,12 +291,12 @@ export const CheckBox = styled.div`
   margin : 2px;
 `;
 
-const InputBox = styled.input`
+export const InputBox = styled.input`
   padding: 0 12px;
   border-radius: 10px;
   border: 0.2px solid rgba(30, 58, 138, 1);
   height: 24px;
-  width: 84%;
+  width: 80%;
   margin-top: 3px;
   // margin-bottom: -12px;
 `;
