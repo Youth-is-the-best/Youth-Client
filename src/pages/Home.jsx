@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getHueInfo, getInfo, getUpcomming, postBingo } from '../apis/testapis';
+import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 
@@ -16,6 +16,8 @@ const Home = () => {
   const [endDate, setEndDate] = useState();
   const [bingos, setBingos] = useState(Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })));
   const [upcomming, setUpcomming] = useState([]);
+  const [saved, setSaved] = useState([]);
+  const [typeRecommend, setTypeRecommend] = useState([]);
 
   const [array, setArray] = useState(options[0]);
 
@@ -51,7 +53,28 @@ const Home = () => {
     setUpcomming(upcommings);
     // console.log(response);
   }
+
+  const viewSaved = async() => {
+    const response = await getSaved();
+    const saveds = response.results.map(item => ({
+      title: item.title,
+      id: item.id,
+    }));
+    setSaved(saveds);
+    // console.log(response);
+  }
   
+  const viewTypeRecommend = async(type) => {
+    const response = await getTypeRecommend(type);
+    const typeData = response.data.map(item => ({
+      title: item.title,
+      id: item.id,
+    }));
+    setTypeRecommend(typeData);
+    // console.log(response);
+    // console.log(typeData);  
+  }
+
   const getBingos = async() => {
     const response = await getBingo();
     const username = response.username;
@@ -109,6 +132,8 @@ const Home = () => {
 
   useEffect(() => {
     viewRecommend();
+    // viewSaved();
+    viewTypeRecommend("panda");
     // getBingos();
   }, []);
 
@@ -160,11 +185,14 @@ const Home = () => {
   const [draggingInfo, setDraggingInfo] = useState(null);
 
   const handleDragStart = (index, type) => {
-    if (type === 'bingo') {
-      setDraggingIndex(index);
-      setDraggingInfo(null);
+    if (type === 'upcomming') {
+      setDraggingInfo(upcomming[index].title);
+      setDraggingIndex(null);
+    } else if (type === 'saved') {
+      setDraggingInfo(saved[index].title);
+      setDraggingIndex(null);
     } else {
-      setDraggingInfo(infoItems[index]);
+      setDraggingInfo(typeRecommend[index].title);
       setDraggingIndex(null);
     }
   };
@@ -235,23 +263,37 @@ const Home = () => {
             ))}
           </Selector>
           <InfoDom>
-          {array === '마감순' ? upcomming.map((item, index) => (
+          {array === '마감순' ? (
+            upcomming.map((item, index) => (
               <Info 
                 key={index}
                 draggable
-                onDragStart={() => handleDragStart(index, 'item')}
+                onDragStart={() => handleDragStart(index, 'upcomming')}
                 onClick={() => handleInfoClick(item.id)}>
                 {item.title}<IoIosInformationCircleOutline/>
               </Info>
-            )) : infoItems.map((info, index) => (
+            ))
+          ) : (array === '보관함' ? (
+            saved.map((item, index) => (
+              <Info 
+                key={index}
+                draggable
+                onDragStart={() => handleDragStart(index, 'saved')}
+                onClick={() => handleInfoClick(item.id)}>
+                {item.title}<IoIosInformationCircleOutline/>
+              </Info>
+            ))
+          ) : (
+            typeRecommend.map((item, index) => (
               <Info
                 key={index}
                 draggable
-                onDragStart={() => handleDragStart(index, 'info')}
+                onDragStart={() => handleDragStart(index, 'typeRecommend')}
               >
-                {info}<IoIosInformationCircleOutline onClick={viewBingoInfo} />
+                {item.title}<IoIosInformationCircleOutline onClick={viewBingoInfo} />
               </Info>
-            ))}
+            ))
+          ))}
           </InfoDom>
         </RightDom>
       </Body>

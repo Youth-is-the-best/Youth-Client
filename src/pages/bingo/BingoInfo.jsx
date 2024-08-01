@@ -3,12 +3,10 @@ import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
-import { BsThreeDots } from 'react-icons/bs';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getInfo } from '../../apis/testapis';
 import { Category } from './MadeBingo';
-import { PiEmptyBold } from 'react-icons/pi';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
@@ -31,14 +29,14 @@ const BingoInfo = () => {
         end_date: response.end_date,
         host: response.host,
         prep_period: response.prep_period,
-        area : response.area,
-        employment_form : response.employment_form,
-        field : response.field,
-        duty : response.duty,
+        area: response.area,
+        employment_form: response.employment_form,
+        field: response.field,
+        duty: response.duty,
       };
       setInfo(info);
-      console.log(info);
-      console.log(response);
+      // console.log(info);
+      // console.log(response);
     } catch (error) {
       console.error('Error in getInfos:', error.response ? error.response.data : error.message);
       throw error;
@@ -58,11 +56,10 @@ const BingoInfo = () => {
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <BsThreeDots size={30} />
+            <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo>
           </TitleLine>
           <TitleLine>
             <h1>{info ? info.title : 'Loading...'}</h1>
-            <DateInfo>더 많은 정보 보러가기<IoPaperPlaneOutline /></DateInfo>
           </TitleLine>
           <Line>
             <Category>분류</Category>
@@ -146,15 +143,15 @@ export default BingoInfo;
 export const RightDom = styled.div`
   display: flex;
   flex-direction: column;
-  width : 550px;
-  height : 630px;
-  margin : 100px;
+  width: 550px;
+  height: 630px;
+  margin: 100px;
   background: rgba(246, 247, 251, 1);
   border-radius: 20px;
   border: 0.4px solid rgba(30, 58, 138, 1);
   box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
-  gap : 15px;
-  padding : 20px;
+  gap: 15px;
+  padding: 20px;
   overflow-y: auto;
 `;
 
@@ -168,7 +165,7 @@ const Button = styled.div`
   gap: 10px;
   border-radius: 10px;
   background: rgba(30, 58, 138, 1);
-  color : white;
+  color: white;
 `;
 
 const DateInfo = styled.div`
@@ -176,11 +173,11 @@ const DateInfo = styled.div`
   justify-content: center;
   align-items: center;
   height: 20px;
-  color :rgba(30, 58, 138, 0.6);
+  color: rgba(30, 58, 138, 0.6);
   background: rgba(30, 58, 138, 0.1);
-  border-radius : 10px;
-  padding : 8px;
-  gap : 5px;
+  border-radius: 10px;
+  padding: 8px;
+  gap: 5px;
 `;
 
 const Line = styled.div`
@@ -188,8 +185,8 @@ const Line = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  gap : 20px;
-  margin-left : 10px;
+  gap: 20px;
+  margin-left: 10px;
 `;
 
 const TitleLine = styled.div`
@@ -198,17 +195,20 @@ const TitleLine = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  gap : 20px;
-  margin-left : 10px;
+  gap: 20px;
+  margin-left: 10px;
+  position: sticky;
+  top: 0;
+  background: rgba(246, 247, 251, 1);
+  z-index: 1;
+  // padding-top: 10px;
 `;
 
 export const ReviewDom = styled.div`
   display: flex;
   flex-direction: row;
   width: 530px;
-  height: 150px;
   border-radius: 10px;
-  overflow-x: auto;
   gap: 10px;
   padding: 10px;
 `;

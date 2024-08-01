@@ -27,12 +27,18 @@ const Noti = () => {
       <Line>대외활동</Line>
       <Line>
         <CheckDom>
-          <AiOutlineCheckSquare size={20}/>
-          <div>전체</div>
-          <AiOutlineCheckSquare size={20}/>
-          <div>공고</div>
-          <AiOutlineCheckSquare size={20}/>
-          <div>후기</div>
+          <Check>
+            <AiOutlineCheckSquare size={20}/>
+            <div>전체</div>
+          </Check>
+          <Check>
+            <AiOutlineCheckSquare size={20}/>
+            <div>공고</div>
+          </Check>
+          <Check>
+            <AiOutlineCheckSquare size={20}/>
+            <div>후기</div>
+          </Check>
         </CheckDom>
         {/* <CheckBox/> */}
       </Line>
@@ -53,14 +59,17 @@ const Body = styled.div`
   flex-direction : column;
   align-items : center;
   width : 100%;
-  margin-top : 100px;
+  margin-top : 40px;
 `
 const Line = styled.div`
   display : flex;
   flex-direction : row;
   width : 100%;
-  height : 50px;
+  height : 80px;
   border : 0.2px solid black;
+  padding : 0 16px;
+  font-size : 24px;
+  color : rgba(30, 58, 138, 1);
 `
 
 const SearchBox = styled.input`
@@ -69,6 +78,7 @@ const SearchBox = styled.input`
   border-radius: 40px;
   border: 1px solid rgba(153, 166, 202, 1);
   padding : 10px;
+  font-size : 20px;
 `
 
 const NavigationBar = styled.div`
@@ -102,6 +112,12 @@ const CheckDom = styled.div`
   color : rgba(116, 116, 116, 1);
   text-decoration : none;
   cursor : pointer;
+  gap : 10px;
+`
+
+const Check = styled.div`
+ display : flex;
+ align-items : center;
 `
 const ContentDom = styled.div`
   display : grid;
