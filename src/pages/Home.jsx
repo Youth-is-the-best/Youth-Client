@@ -6,6 +6,7 @@ import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
+import { RightDom } from './bingo/BingoInfo';
 import { click } from '@testing-library/user-event/dist/click';
 
 const Home = () => {
@@ -317,7 +318,8 @@ export const Body = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top : 20px;
+  margin-top : 2%;
+  width : 100%;
   color : #1E3A8A;
   height : 660px;
   gap : 10px;
@@ -328,22 +330,22 @@ const LeftDom = styled.div`
   flex-direction: column;
   justify-content: center;
   width : 550px;
-  margin-right : 30px;
+  // margin-right : 30px;
 `;
 
-export const RightDom = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width : 550px;
-  height : 630px;
-  background: rgba(30, 58, 138, 0.04);
-  border-radius: 0px 20px 20px 0px;
-  border-left : 4px solid rgba(30, 58, 138, 0.4);
-  gap : 15px;
-  padding : 20px;
-  overflow-y: auto;
-`;
+// export const RightDom = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   width : 550px;
+//   height : 630px;
+//   background: rgba(30, 58, 138, 0.04);
+//   border-radius: 0px 20px 20px 0px;
+//   border-left : 4px solid rgba(30, 58, 138, 0.4);
+//   gap : 15px;
+//   padding : 20px;
+//   overflow-y: auto;
+// `;
 
 const BingoDom = styled.div`
   display: grid;

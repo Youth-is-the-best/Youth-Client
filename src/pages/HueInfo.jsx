@@ -7,6 +7,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { Category, Line, TitleLine } from './bingo/MadeBingo';
 import { ReviewDom, Review, RightDom } from './bingo/BingoInfo';
 import { getHueInfo, getInfo } from '../apis/testapis';
+import Bingomain from './bingo/Bingomain';
 
 const HueInfo = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const HueInfo = () => {
     <>
       <HeaderHook />
       <Body>
+        <Bingomain />
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />

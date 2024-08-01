@@ -6,6 +6,7 @@ import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getInfo } from '../../apis/testapis';
 import { Category } from './MadeBingo';
+import Bingomain from './Bingomain';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ const BingoInfo = () => {
     <>
       <HeaderHook />
       <Body>
+        <Bingomain/>
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
@@ -144,7 +146,6 @@ export const RightDom = styled.div`
   flex-direction: column;
   width: 550px;
   height: 630px;
-  margin: 100px;
   background: rgba(246, 247, 251, 1);
   border-radius: 20px;
   border: 0.4px solid rgba(30, 58, 138, 1);
