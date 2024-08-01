@@ -151,7 +151,7 @@ export const RightDom = styled.div`
   box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
   gap: 15px;
   padding: 20px;
-  overflow-y: auto;
+  overflow-x: auto;
 `;
 
 const Button = styled.div`
@@ -207,9 +207,12 @@ export const ReviewDom = styled.div`
   display: flex;
   flex-direction: row;
   width: 530px;
+  height: 230px;
+  flex-shrink: 0;
   border-radius: 10px;
   gap: 10px;
   padding: 10px;
+  overflow-y: auto;
 `;
 
 export const Review = styled.div`

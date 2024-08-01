@@ -27,13 +27,11 @@ const Home = () => {
     setArray(selectedValue);
     if (selectedValue === '마감순') {
       viewUpcomming();
-    } else {
+    } else if (selectedValue === '추천순') {
       viewRecommend();
+    } else if (selectedValue === '보관함') {
+      viewSaved();
     }
-  };
-
-  const viewBingoInfo = () => {
-    navigate("/info");
   };
 
   const viewRecommend = async() => {
@@ -63,7 +61,7 @@ const Home = () => {
       id: item.id,
     }));
     setSaved(saveds);
-    // console.log(response);
+    console.log(response);
   };
   
   const viewTypeRecommend = async(type) => {
