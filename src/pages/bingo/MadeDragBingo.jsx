@@ -5,10 +5,15 @@ import styled from 'styled-components';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getInfo } from '../../apis/testapis';
-import { Category } from './MadeBingo';
+import { Category, CheckLists, CheckList, CheckBox, InputBox } from './MadeBingo';
+import { AiOutlineMinusCircle } from 'react-icons/ai';
+import { CiSquarePlus } from 'react-icons/ci';
 
-const BingoInfo = () => {
+const MadeDragBingo = () => {
   const navigate = useNavigate();
+  const [checklists, setChecklists] = useState([]);
+  const [newChecklistText, setNewChecklistText] = useState('');
+  const [examDates, setExamDates] = useState([null, null]);
   const { id } = useParams();
   const [info, setInfo] = useState(null);
 
@@ -34,12 +39,27 @@ const BingoInfo = () => {
         duty: response.duty,
       };
       setInfo(info);
-      // console.log(info);
-      // console.log(response);
     } catch (error) {
       console.error('Error in getInfos:', error.response ? error.response.data : error.message);
       throw error;
     }
+  };
+
+  const madeCheckList = () => {
+    if (newChecklistText.trim() === '') return;
+    const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
+    setChecklists([...checklists, newChecklist]);
+    setNewChecklistText('');
+    // 여기에 백엔드 연결
+  };
+
+  const deleteCheckList = (id) => {
+    const updatedChecklists = checklists.filter(item => item.id !== id);
+    setChecklists(updatedChecklists);
+  };
+
+  const handleExamDateChange = (dates) => {
+    setExamDates(dates);
   };
 
   useEffect(() => {
@@ -55,7 +75,7 @@ const BingoInfo = () => {
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20}/></DateInfo>
+            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20} /></DateInfo>
           </TitleLine>
           <TitleLine>
             <h1>{info ? info.title : 'Loading...'}</h1>
@@ -114,30 +134,40 @@ const BingoInfo = () => {
               <div>{info.prep_period}</div>
             </Line>
           ) : null}
-          {info && info.start_date ? ((
+          {info && info.start_date ? (
             <Line>
               <Category>활동 기간</Category>
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
-          )) : null}
+          ) : null}
           <TitleLine>
-            <h2>빙고 미션 완료 후기</h2>
+            <div> | 세부계획 </div>
           </TitleLine>
-          <ReviewDom>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <Review key={index}>
-                <div>리뷰 사진</div>
-                <div>리뷰 제목</div>
-              </Review>
+          <CheckLists>
+            {checklists.map((item) => (
+              <CheckList key={item.id}>
+                <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)} />
+                <span>{item.text}</span>
+              </CheckList>
             ))}
-          </ReviewDom>
+            <Line>
+              <InputBox
+                type="text"
+                value={newChecklistText}
+                onChange={(e) => setNewChecklistText(e.target.value)}
+                placeholder="세부 계획을 입력하세요"
+              />
+              <CiSquarePlus size={30} onClick={madeCheckList} />
+            </Line>
+          </CheckLists>
+          <DateInfo style={{ width: '140px', marginLeft: '410x' }}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
     </>
   );
 };
 
-export default BingoInfo;
+export default MadeDragBingo;
 
 export const RightDom = styled.div`
   display: flex;
@@ -173,7 +203,8 @@ const DateInfo = styled.div`
   align-items: center;
   height: 20px;
   color: rgba(30, 58, 138, 0.6);
-  background: rgba(30, 58, 138, 0.1);
+  background: rgba(142, 156, 196, 1);
+  color: white;
   border-radius: 10px;
   padding: 8px;
   gap: 5px;
@@ -200,7 +231,6 @@ const TitleLine = styled.div`
   top: 0;
   background: rgba(246, 247, 251, 1);
   z-index: 1;
-  // padding-top: 10px;
 `;
 
 export const ReviewDom = styled.div`
