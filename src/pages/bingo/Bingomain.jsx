@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { MdOutlineEditCalendar } from 'react-icons/md';
-import { bingoState, usernameState, startDateState, endDateState } from '../../recoil/atoms';
+import { bingoState, usernameState, startDateState, endDateState,titleState } from '../../recoil/atoms';
 
 const Bingomain = () => {
   const bingos = useRecoilValue(bingoState);
   const username = useRecoilValue(usernameState);
   const startDate = useRecoilValue(startDateState);
   const endDate = useRecoilValue(endDateState);
+  const title = useRecoilValue(titleState);
 
   const getBackgroundColor = (inBingo, index) => {
     if (inBingo) {
@@ -47,8 +48,12 @@ const Bingomain = () => {
       </div>
       <BingoDom>
         {bingos.map((bingo, index) => (
-          <Bingo key={index} inBingo={bingo.title !== ''} style={{ background: getBackgroundColor(bingo.title !== '', index) }}>
-            {bingo.title || ''}
+          <Bingo
+            key={index}
+            inBingo={bingo.title !== ''}
+            style={{ background: getBackgroundColor(bingo.title !== '', index) }}
+          >
+            {title}
           </Bingo>
         ))}
       </BingoDom>

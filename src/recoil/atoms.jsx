@@ -20,12 +20,7 @@ export const endDateState = atom({
   default: '',
 });
 
-export const draggingIndexState = atom({
-    key: 'draggingIndexState',
-    default: null,
-});
-
-export const draggingInfoState = atom({
-key: 'draggingInfoState',
-default: null,
+export const titleState = atom({
+  key: 'titleState',
+  default: '',
 });

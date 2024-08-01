@@ -4,28 +4,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
+import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
-import { bingoState, usernameState, startDateState, endDateState} from '../recoil/atoms'; 
+import { bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
-  const [recommend, setRecommend] = useState([]);
+  const navigate = useNavigate();
   const [bingos, setBingos] = useRecoilState(bingoState);
-  const [username, setUsername] = useRecoilState(usernameState);
-  const [startDate, setStartDate] = useRecoilState(startDateState);
-  const [endDate, setEndDate] = useRecoilState(endDateState);
+  const [recommend, setRecommend] = useState([]);
   const [upcomming, setUpcomming] = useState([]);
   const [saved, setSaved] = useState([]);
   const [typeRecommend, setTypeRecommend] = useState([]);
   const [array, setArray] = useState('추천순');
   const [error, setError] = useState(null);
-  const [draggingIndex, setDraggingIndex] = useState(null);
-  const [draggingInfo, setDraggingInfo] = useState(null);
-
-  const navigate = useNavigate();
+  const [username, setUsername] = useRecoilState(usernameState);
+  const [startDate, setStartDate] = useRecoilState(startDateState);
+  const [endDate, setEndDate] = useRecoilState(endDateState);
+  const [title, setTitle] = useRecoilState(titleState);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -90,6 +88,7 @@ const Home = () => {
     setStartDate(start_date);
     setEndDate(end_date);
     setBingos(bingoData);
+    setTitle(bingoData.title);
   };
 
   const getBackgroundColor = (inBingo, index) => {
@@ -121,31 +120,44 @@ const Home = () => {
     }
   };
 
+  const [draggingInfo, setDraggingInfo] = useState(null);
+  const [draggingIndex, setDraggingIndex] = useState(null);
+
   const handleDragStart = (index, type) => {
-    if (type === 'upcomming') {
-      setDraggingInfo(upcomming[index]);
-      setDraggingIndex(null);
-    } else if (type === 'saved') {
-      setDraggingInfo(saved[index]);
-      setDraggingIndex(null);
-    } else if (type === 'typeRecommend') {
-      setDraggingInfo(typeRecommend[index]);
-      setDraggingIndex(null);
-    } else {
-      setError('드래그할 수 없습니다');
+    if (type === 'bingo') {
+      setDraggingIndex(index);
       setDraggingInfo(null);
+    } else {
+      if (type === 'upcomming') {
+        setDraggingInfo(upcomming[index]);
+        setDraggingIndex(null);
+      } else if (type === 'saved') {
+        setDraggingInfo(saved[index]);
+        setDraggingIndex(null);
+      } else if (type === 'typeRecommend') {
+        setDraggingInfo(typeRecommend[index]);
+        setDraggingIndex(null);
+      } else {
+        setError('드래그할 수 없습니다');
+        setDraggingInfo(null);
+      }
     }
   };
 
   const handleDrop = (index) => {
+    const newBingos = [...bingos];
     try {
       if (draggingInfo !== null) {
-        navigate(`/madedragbingo/${draggingInfo.id}/${index}`);
+        newBingos[index] = { location: index, title: draggingInfo.title };
+        setDraggingInfo(null);
+        setBingos(newBingos);
+        setTitle(draggingInfo[draggingIndex].title);
+        navigate(`/madedragbingo/${draggingInfo.id}/${draggingInfo.index}`);
       } else if (draggingIndex !== null) {
-        const newBingos = [...bingos];
         [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
         setDraggingIndex(null);
         setBingos(newBingos);
+        setTitle(newBingos[index].title);
       } else {
         throw new Error('드래그할 수 없습니다');
       }
@@ -168,7 +180,7 @@ const Home = () => {
   };
 
   const clickBingo = (id) => {
-    // navigate(`/info/${id}`);
+    navigate(`/info/${id}`);
   };
 
   useEffect(() => {
