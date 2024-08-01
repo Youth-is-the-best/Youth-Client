@@ -3,9 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getInfo, getUpcomming, postBingo } from '../apis/testapis';
+import { getBingo, getHueInfo, getInfo, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
-import Bingomain from './bingo/Bingomain';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 
 const Home = () => {
@@ -35,7 +34,7 @@ const Home = () => {
   }
 
   const viewRecommend = async() => {
-    const response = await getInfo();
+    const response = await getHueInfo();
     const recommendations = response.map(item => ({
       title: item.title,
       image: item.images[0]?.image || '',
@@ -190,6 +189,10 @@ const Home = () => {
     navigate(`/info/${id}`);
   };
 
+  const goHueInfo = () => {
+    navigate("/hueInfo");
+  };
+
   return (
     <>
       <HeaderHook />
@@ -215,9 +218,8 @@ const Home = () => {
           <Button style={{ marginLeft: '473px', marginTop: '4px' }}>완료</Button>
         </LeftDom>
         <RightDom>
-          <div><FiThumbsUp /> 후알유 추천</div>
-          <div>마음에 드는 활동을 빙고판에 끌어서 옮겨보세요 </div>
-          <RecommendDom>
+          <div><FiThumbsUp /> 휴알유 추천</div>
+          <RecommendDom onClick={goHueInfo}>
             {recommend.map((item, index) => (
               <RecommendCom key={index}>
                 <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
