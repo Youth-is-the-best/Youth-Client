@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import HeaderHook from '../../hook/HeaderHook'
-import SaveModal from './SaveModal'
 import AiOutlineFilePdf from '../../images/AiOutlineFilePdf.png'
 import 다람쥐 from '../../images/다람쥐.jpg'
 import AiOutlineRocket from '../../images/AiOutlineRocket.png'

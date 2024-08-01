@@ -44,7 +44,7 @@ const Headers = styled.div`
 `;
 
 const Header = styled(Link)`
-  color : rgba(30, 58, 138, 1);
+  color : #1E3A8A;
   text-decoration : none;
   font-size: 16px;
   font-weight: 600;
