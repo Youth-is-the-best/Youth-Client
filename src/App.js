@@ -36,6 +36,7 @@ function App() {
       <Route path="/info/:id" element={<BingoInfo />} />
       <Route path="/made" element={<MadeBingo/>}></Route>
       <Route path="/madedragbingo" element={<MadeDragBingo/>}></Route>
+      <Route path="/madedragbingo/:id" element={<MadeDragBingo/>}></Route>
       <Route path="/login" element={<Login/>}></Route>
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/cal" element={<Calendar />}/>

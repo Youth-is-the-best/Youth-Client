@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getInfo } from '../../apis/testapis';
-import { Category, CheckLists, CheckList, CheckBox, InputBox } from './MadeBingo';
+import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
 
@@ -50,7 +50,6 @@ const MadeDragBingo = () => {
     const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
-    // 여기에 백엔드 연결
   };
 
   const deleteCheckList = (id) => {
@@ -60,6 +59,10 @@ const MadeDragBingo = () => {
 
   const handleExamDateChange = (dates) => {
     setExamDates(dates);
+  };
+
+  const postBingoloc = () => {
+
   };
 
   useEffect(() => {
@@ -82,62 +85,62 @@ const MadeDragBingo = () => {
           </TitleLine>
           <Line>
             <Category>분류</Category>
-            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>
-              {info ? info.large_category_display : 'Loading...'}
-            </Category>
+            <StyledDiv>
+                {info ? info.large_category_display : 'Loading...'}
+            </StyledDiv>
           </Line>
           {info && info.host ? (
             <Line>
               <Category>주최사</Category>
-              <div>{info.host}</div>
+              <StyledDiv>{info.host}</StyledDiv>
             </Line>
           ) : null}
           {info && info.field ? (
             <Line>
               <Category>활동 분야</Category>
-              <div>{info.field}</div>
+              <StyledDiv>{info.field}</StyledDiv>
             </Line>
           ) : null}
           {info && info.app_fee ? (
             <Line>
               <Category>응시료</Category>
-              <div>{info.app_fee}원</div>
+              <StyledDiv>{info.app_fee}원</StyledDiv>
             </Line>
           ) : null}
           {info && info.duty ? (
             <Line>
               <Category>직무</Category>
-              <div>{info.duty}</div>
+              <StyledDiv>{info.duty}</StyledDiv>
             </Line>
           ) : null}
           {info && info.employment_form ? (
             <Line>
               <Category>채용 형태</Category>
-              <div>{info.employment_form}</div>
+              <StyledDiv>{info.employment_form}</StyledDiv>
             </Line>
           ) : null}
           {info && info.area ? (
             <Line>
               <Category>활동 지역</Category>
-              <div>{info.area}</div>
+              <StyledDiv>{info.area}</StyledDiv>
             </Line>
           ) : null}
           {info && info.app_due ? (
             <Line>
               <Category>지원 마감</Category>
-              <div>{info.app_due}</div>
+              <StyledDiv>{info.app_due}</StyledDiv>
             </Line>
           ) : null}
           {info && info.prep_period ? (
             <Line>
               <Category>준비 기간</Category>
-              <div>{info.prep_period}</div>
+              <StyledDiv>{info.prep_period}</StyledDiv>
             </Line>
           ) : null}
           {info && info.start_date ? (
             <Line>
               <Category>활동 기간</Category>
-              <div>{info.start_date} ~ {info.end_date}</div>
+              <StyledDiv>{info.start_date} ~ {info.end_date}</StyledDiv>
             </Line>
           ) : null}
           <TitleLine>
@@ -145,8 +148,8 @@ const MadeDragBingo = () => {
           </TitleLine>
           <CheckLists>
             {checklists.map((item) => (
-              <CheckList key={item.id}>
-                <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)} />
+              <CheckList key={item.id} style={{color : 'rgba(116, 116, 116, 1)'}}>
+                <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)}/>
                 <span>{item.text}</span>
               </CheckList>
             ))}
@@ -157,10 +160,10 @@ const MadeDragBingo = () => {
                 onChange={(e) => setNewChecklistText(e.target.value)}
                 placeholder="세부 계획을 입력하세요"
               />
-              <CiSquarePlus size={30} onClick={madeCheckList} />
+              <CiSquarePlus size={30} onClick={madeCheckList}/>
             </Line>
           </CheckLists>
-          <DateInfo style={{ width: '140px', marginLeft: '410x' }}>목표 달성 기록 남기기</DateInfo>
+          <DateInfo style={{ width : '15%', marginLeft: '82%' }} onClick={postBingoloc}>저장</DateInfo>
         </RightDom>
       </Body>
     </>
@@ -217,6 +220,7 @@ const Line = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
+  color : rgba(142, 156, 196, 1);
 `;
 
 const TitleLine = styled.div`
@@ -253,3 +257,9 @@ export const Review = styled.div`
   border: 1px solid rgba(30, 58, 138, 0.5);
   border-radius: 10px;
 `;
+
+const StyledDiv = styled.div`
+  border: 0.4px solid rgba(142, 156, 196, 1);
+  border-radius: 10px;
+  padding: 7px;
+`

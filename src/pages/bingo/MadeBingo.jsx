@@ -220,6 +220,7 @@ export const Category = styled.div`
   align-items: center;
   height: 20px;
   border: 1px solid rgba(30, 58, 138, 0.5);
+  color : rgba(30, 58, 138, 1);
   background: white;
   border-radius: 10px;
   padding: 7px;
