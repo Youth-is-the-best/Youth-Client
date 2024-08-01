@@ -292,8 +292,8 @@ const Home = () => {
                 key={index}
                 draggable
                 onDragStart={() => handleDragStart(index, 'typeRecommend')}
-              >
-                {item.title}<IoIosInformationCircleOutline onClick={viewBingoInfo} />
+                onClick={() => handleInfoClick(item.id)}>
+                {item.title}<IoIosInformationCircleOutline />
               </Info>
             ))
           ))}
