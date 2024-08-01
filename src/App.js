@@ -19,7 +19,6 @@ import Alarm from './pages/myPage/Alarm';
 import AlarmManage from './pages/myPage/AlarmManage';
 import Noti from './pages/Noti';
 import HueInfo from './pages/HueInfo';
-import MadeReview from './pages/MadeReview';
 
 function App() {
   const [year, setYear] = useState(2024);
