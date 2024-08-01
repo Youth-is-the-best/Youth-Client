@@ -19,6 +19,7 @@ const Home = () => {
   const [saved, setSaved] = useState([]);
   const [typeRecommend, setTypeRecommend] = useState([]);
   const [array, setArray] = useState(options[0]);
+  const [error, setError] = useState(null);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -166,22 +167,32 @@ const Home = () => {
     } else if (type === 'saved') {
       setDraggingInfo(saved[index]);
       setDraggingIndex(null);
-    } else {
+    } else if (type === 'typeRecommend') {
       setDraggingInfo(typeRecommend[index]);
       setDraggingIndex(null);
+    } else {
+      setError('드래그할 수 없습니다');
+      setDraggingInfo(null);
     }
   };
 
   const handleDrop = (index) => {
-    if (draggingInfo !== null) {
-      navigate(`/madedragbingo/${draggingInfo.id}/${index}`);
-    } else {
-      const newBingos = [...bingos];
-      [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
-      setDraggingIndex(null);
-      setBingos(newBingos);
-    }
-  };
+      try {
+        if (draggingInfo !== null) {
+          navigate(`/madedragbingo/${draggingInfo.id}/${index}`);
+        } else if (draggingIndex !== null) {
+          const newBingos = [...bingos];
+          [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
+          setDraggingIndex(null);
+          setBingos(newBingos);
+        } else {
+          throw new Error('드래그할 수 없습니다');
+        }
+      } catch (error) {
+        setError(error.message);
+        console.error('Error in handleDrop:', error.response ? error.response.data : error.message);
+      }
+    };
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -223,7 +234,7 @@ const Home = () => {
           <div><FiThumbsUp /> 휴알유 추천</div>
           <RecommendDom onClick={goHueInfo}>
             {recommend.map((item, index) => (
-              <RecommendCom key={index}>
+              <RecommendCom key={index} draggable={false}>
                 <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
                 <div>{item.title}</div>
               </RecommendCom>
