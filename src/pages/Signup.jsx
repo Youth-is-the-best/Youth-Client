@@ -213,6 +213,7 @@ const Signup = () => {
         <MessageGroup>
           { hash && <SuccessMessage>인증이 완료되었습니다.</SuccessMessage> }
           { authcodeError && <ErrorMessage>{authcodeError}</ErrorMessage> }
+          {/* 삼항연산자로 인증완료 되면 errorMessage는 없어지게! */}
           { remainingTime < 0 && <ErrorMessage>인증번호 입력 시간이 지났습니다. <br>인증번호 재발송을 요청해주세요.</br></ErrorMessage>}
         </MessageGroup>
         <FormGroup>

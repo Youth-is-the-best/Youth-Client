@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from 'styled-components';
 import user from '../images/user.png'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import MyPageModal from "./MyPageModal";
 
 const HeaderHook = () => {
-  const navigate = useNavigate();
-  const goLogin = () => {
-    navigate("/login");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleBtn = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   return (
+    <>
     <Headers>
           <Logo>Logo</Logo>
           <Nav>
@@ -17,9 +20,11 @@ const HeaderHook = () => {
             <Header to="/">투두리스트 빙고</Header>
             <Header to="/info">공고/후기</Header>
             <Header to="/portfolio">나의 포트폴리오</Header>
-            <img src={user} style={{ height: '70px', marginLeft: '5px' }} onClick={goLogin}></img>
+            <img src={user} style={{ height: '70px', marginLeft: '5px' }} onClick={handleBtn}></img>
           </Nav>
     </Headers>
+    <MyPageModal isOpen={isModalOpen}></MyPageModal>
+    </>
   )
 }
 
@@ -41,6 +46,8 @@ const Headers = styled.div`
 const Header = styled(Link)`
   color : rgba(30, 58, 138, 1);
   text-decoration : none;
+  font-size: 16px;
+  font-weight: 600;
 `;
 
 const Logo = styled.div`
