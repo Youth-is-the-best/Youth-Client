@@ -10,6 +10,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import HeaderHook from '../../hook/HeaderHook';
 import Bingomain from './Bingomain';
 import CustomCalendar from './CustomCalendar';
+import { useRecoilState } from 'recoil';
+import { bingoState, bingoBodyState } from '../../recoil/atoms';
 
 const MadeBingo = () => {
   const navigate = useNavigate();
@@ -19,7 +21,8 @@ const MadeBingo = () => {
   const [title, setTitle] = useState('');
   const [examDates, setExamDates] = useState([null, null]);
   const [prepDates, setPrepDates] = useState([null, null]);
-  
+  const [bingos, setBingos] = useRecoilState(bingoState);
+  const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
 
   const goHome = () => {
     navigate("/");
@@ -95,7 +98,6 @@ const MadeBingo = () => {
     const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
-    // 여기에 백엔드 연결
   };
 
   const toggleCheck = (id) => {
@@ -111,6 +113,30 @@ const MadeBingo = () => {
 
   const handlePrepDateChange = (dates) => {
     setPrepDates(dates);
+  };
+  const updateBingo = () => {
+    const locationIndex = parseInt(location);
+    const updatedBingoObj = [...bingoBody.bingo_obj];
+    updatedBingoObj[locationIndex] = {
+      ...updatedBingoObj[locationIndex],
+      todo: checklists.map(item => ({ title: item.text })),
+      title: title,
+      choice: 0,
+    };
+  
+    setBingoBody(prevState => ({
+      ...prevState,
+      bingo_obj: updatedBingoObj
+    }));
+
+    setBingos(prevState => {
+      const updatedBingos = [...prevState];
+      updatedBingos[locationIndex] = { location: locationIndex, title: title };
+      return updatedBingos;
+    });
+    console.log(bingos);
+    console.log(bingoBody);
+    navigate('/');
   };
 
   return (
@@ -206,7 +232,7 @@ const MadeBingo = () => {
             <CiSquarePlus size={30} onClick={madeCheckList} />
             </Line>
           </CheckLists>
-            <Category style={{ width : '15%', marginLeft: '82%' }}>저장</Category>
+            <Category style={{ width : '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</Category>
             {/* <DateInfo style={{ width: '140px', marginLeft: '410x' }}>목표 달성 기록 남기기</DateInfo> */}
         </RightDom>
       </Body>
