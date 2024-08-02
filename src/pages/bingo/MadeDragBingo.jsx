@@ -10,6 +10,8 @@ import { RightDom } from './BingoInfo';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
 import Bingomain from './Bingomain';
+import { useRecoilState } from 'recoil';
+import { bingoState, bingoBodyState } from '../../recoil/atoms';
 
 const MadeDragBingo = () => {
   const navigate = useNavigate();
@@ -18,6 +20,8 @@ const MadeDragBingo = () => {
   const [examDates, setExamDates] = useState([null, null]);
   const { id, location } = useParams();
   const [info, setInfo] = useState(null);
+  const [bingos, setBingos] = useRecoilState(bingoState);
+  const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
 
   const goHome = () => {
     navigate("/");
@@ -63,8 +67,31 @@ const MadeDragBingo = () => {
     setExamDates(dates);
   };
 
-  const postBingoloc = () => {
+  const updateBingo = () => {
+    if (!info) return;
 
+    const locationIndex = parseInt(location);
+    const updatedBingoObj = [...bingoBody.bingo_obj];
+    updatedBingoObj[locationIndex] = {
+      ...updatedBingoObj[locationIndex],
+      todo: checklists.map(item => ({ title: item.text })),
+      title: info.title,
+      choice: 1,
+    };
+  
+    setBingoBody(prevState => ({
+      ...prevState,
+      bingo_obj: updatedBingoObj
+    }));
+
+    setBingos(prevState => {
+      const updatedBingos = [...prevState];
+      updatedBingos[locationIndex] = { location: locationIndex, title: info.title };
+      return updatedBingos;
+    });
+    // console.log(bingos);
+    // console.log(bingoBody);
+    navigate('/');
   };
 
   useEffect(() => {
@@ -77,7 +104,7 @@ const MadeDragBingo = () => {
     <>
       <HeaderHook />
       <Body>
-        <Bingomain/>
+        <Bingomain />
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
@@ -89,7 +116,7 @@ const MadeDragBingo = () => {
           <Line>
             <Category>분류</Category>
             <StyledDiv>
-                {info ? info.large_category_display : 'Loading...'}
+              {info ? info.large_category_display : 'Loading...'}
             </StyledDiv>
           </Line>
           {info && info.host ? (
@@ -151,8 +178,8 @@ const MadeDragBingo = () => {
           </TitleLine>
           <CheckLists>
             {checklists.map((item) => (
-              <CheckList key={item.id} style={{color : 'rgba(116, 116, 116, 1)'}}>
-                <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)}/>
+              <CheckList key={item.id} style={{ color: 'rgba(116, 116, 116, 1)' }}>
+                <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)} />
                 <span>{item.text}</span>
               </CheckList>
             ))}
@@ -163,10 +190,10 @@ const MadeDragBingo = () => {
                 onChange={(e) => setNewChecklistText(e.target.value)}
                 placeholder="세부 계획을 입력하세요"
               />
-              <CiSquarePlus size={30} onClick={madeCheckList}/>
+              <CiSquarePlus size={30} onClick={madeCheckList} />
             </Line>
           </CheckLists>
-          <DateInfo style={{ width : '15%', marginLeft: '82%' }} onClick={postBingoloc}>저장</DateInfo>
+          <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</DateInfo>
         </RightDom>
       </Body>
     </>
@@ -208,7 +235,7 @@ const Line = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
-  color : rgba(142, 156, 196, 1);
+  color: rgba(142, 156, 196, 1);
 `;
 
 const TitleLine = styled.div`
@@ -250,4 +277,4 @@ const StyledDiv = styled.div`
   border: 0.4px solid rgba(142, 156, 196, 1);
   border-radius: 10px;
   padding: 7px;
-`
+`;

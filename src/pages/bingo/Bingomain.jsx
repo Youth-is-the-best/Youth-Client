@@ -1,15 +1,33 @@
-import React from 'react';
-import { useRecoilValue } from 'recoil';
+import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { MdOutlineEditCalendar } from 'react-icons/md';
-import { bingoState, usernameState, startDateState, endDateState,titleState } from '../../recoil/atoms';
+import { bingoState, usernameState, startDateState, endDateState, titleState } from '../../recoil/atoms';
+import { getBingo } from '../../apis/testapis';
 
 const Bingomain = () => {
-  const bingos = useRecoilValue(bingoState);
-  const username = useRecoilValue(usernameState);
-  const startDate = useRecoilValue(startDateState);
-  const endDate = useRecoilValue(endDateState);
-  const title = useRecoilValue(titleState);
+  const [bingos, setBingos] = useRecoilState(bingoState);
+  const [username, setUsername] = useRecoilState(usernameState);
+  const [startDate, setStartDate] = useRecoilState(startDateState);
+  const [endDate, setEndDate] = useRecoilState(endDateState);
+  const [title, setTitle] = useRecoilState(titleState);
+
+  const getBingos = async () => {
+    const response = await getBingo();
+    const username = response.username;
+    const start_date = response.start_date;
+    const end_date = response.end_date;
+    const bingos = Array.from({ length: 9 }, (_, index) => ({
+      location: index,
+      title: response.bingo_obj.find((item) => item.location === index)?.title || '',
+    }));
+
+    setUsername(username);
+    setStartDate(start_date);
+    setEndDate(end_date);
+    setBingos(bingos);
+    setTitle(bingos.map((item) => item.title));
+  };
 
   const getBackgroundColor = (inBingo, index) => {
     if (inBingo) {
@@ -39,6 +57,12 @@ const Bingomain = () => {
       }
     }
   };
+  useEffect(() => {
+    if (bingos.every(bingo => !bingo.title)) {
+      getBingos();
+    }
+    // getBingos();
+  }, [bingos]);
 
   return (
     <LeftDom>
@@ -47,17 +71,16 @@ const Bingomain = () => {
         {startDate} ~ {endDate} <MdOutlineEditCalendar />
       </div>
       <BingoDom>
-        {bingos.map((bingo, index) => (
+      {Array.isArray(bingos) && bingos.map((item, index) => (
           <Bingo
             key={index}
-            inBingo={bingo.title !== ''}
-            style={{ background: getBackgroundColor(bingo.title !== '', index) }}
+            inBingo={item.title !== ''}
+            style={{ background: getBackgroundColor(item.title !== '', index) }}
           >
             {title[index]}
           </Bingo>
-        ))}
+      ))}
       </BingoDom>
-      <Button style={{ marginLeft: '473px', marginTop: '4px' }}>완료</Button>
     </LeftDom>
   );
 };

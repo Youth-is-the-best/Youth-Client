@@ -15,7 +15,7 @@ export const postTest = async (reason) => {
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 401) {
-            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            alert("로그인 후 사용하실 수 있는 기능입니다");
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             window.location.href = "/login";
@@ -24,6 +24,7 @@ export const postTest = async (reason) => {
             throw error;
         }
     }
+    //로그인 없는 버전
     // try {
     //     const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason);
     //     return response.data;
@@ -58,7 +59,7 @@ export const getBingo = async () => {
         return result.data;
     } catch (error) {
         if (error.response && error.response.status === 401) {
-            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            alert("로그인 후 사용하실 수 있는 기능입니다");
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             window.location.href = "/login";
@@ -83,7 +84,7 @@ export const postBingo = async (bingoData) => {
         return result.data;
     } catch (error) {
         if (error.response && error.response.status === 401) {
-            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            alert("로그인 후 사용하실 수 있는 기능입니다");
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             window.location.href = "/login";
@@ -118,11 +119,12 @@ export const getSaved = async () => {
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 401) {
-            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            alert("로그인 후 사용하실 수 있는 기능입니다");
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             window.location.href = "/login";
         } else {
+            alert(error.response);
             console.error('Error in getBingo:', error.response ? error.response.data : error.message);
             throw error;
         }
@@ -146,7 +148,7 @@ export const getTypeRecommend = async (type) => {
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 401) {
-            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            alert("로그인 후 사용하실 수 있는 기능입니다");
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             window.location.href = "/login";
@@ -170,7 +172,7 @@ export const getBingoloc = async (location) => {
         return result.data;
     } catch (error) {
         if (error.response && error.response.status === 401) {
-            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            alert("로그인 후 사용하실 수 있는 기능입니다");
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             window.location.href = "/login";
@@ -188,6 +190,17 @@ export const getInfo = async (id) => {
         return response.data;
     } catch (error) {
         console.error('Error in getBingoId:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+// I 눌렀을 때 후기 가져오기
+export const getReviewInInfo = async (id) => {
+    try {
+        const response = await axios.get(`${baseURL}/review/related/${id}/`);
+        return response.data;
+    } catch (error) {
+        console.error('Error in getReviewInInfo:', error.response ? error.response.data : error.message);
         throw error;
     }
 }

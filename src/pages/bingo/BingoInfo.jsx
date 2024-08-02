@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
-import { getInfo } from '../../apis/testapis';
+import { getInfo, getReviewInInfo } from '../../apis/testapis';
 import { Category } from './MadeBingo';
 import Bingomain from './Bingomain';
 
@@ -12,6 +12,7 @@ const BingoInfo = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [info, setInfo] = useState(null);
+  const [review, setReview] = useState([]);
 
   const goHome = () => {
     navigate("/");
@@ -43,9 +44,28 @@ const BingoInfo = () => {
     }
   };
 
+  const getReview = async (id) => {
+    try {
+      const response = await getReviewInInfo(id);
+      const review = response.data.map((item) => ({
+        id: item.id,
+        title: item.title,
+        image: item.images[0]?.image || '',
+      }));
+      setReview(review);
+      // console.log(response);
+      // console.log(review);
+    } catch (error) {
+      console.error('Error in getReview:', error.response ? error.response.data : error.message);
+      throw error;
+    }
+  };
+  
+
   useEffect(() => {
     if (id) {
       getInfos(id);
+      getReview(id);
     }
   }, [id]);
 
@@ -126,10 +146,10 @@ const BingoInfo = () => {
             <h2>빙고 미션 완료 후기</h2>
           </TitleLine>
           <ReviewDom>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <Review key={index}>
-                <div>리뷰 사진</div>
-                <div>리뷰 제목</div>
+            {review.map((item) => (
+              <Review key={item.id}>
+                <img src={item.image} alt={item.title} style={{ width: '90%', height: 'auto', borderRadius: '10px' }} />
+                <div>{item.title}</div>
               </Review>
             ))}
           </ReviewDom>
@@ -220,6 +240,7 @@ export const Review = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   width: 200px;
   height: 200px;

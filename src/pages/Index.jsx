@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
+import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
-import { bingoBodyState, bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
+import { bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState } from '../recoil/atoms';
 
-//드래그가능 홈화면
-const Home = () => {
+const Index = () => {
   const options = ["추천순", "마감순", "보관함"];
   const navigate = useNavigate();
   const [bingos, setBingos] = useRecoilState(bingoState);
@@ -21,11 +20,11 @@ const Home = () => {
   const [typeRecommend, setTypeRecommend] = useState([]);
   const [array, setArray] = useState('추천순');
   const [error, setError] = useState(null);
-  const [username] = useRecoilState(usernameState);
-  const [startDate] = useRecoilState(startDateState);
-  const [endDate] = useRecoilState(endDateState);
+  const [username, setUsername] = useRecoilState(usernameState);
+  const [startDate, setStartDate] = useRecoilState(startDateState);
+  const [endDate, setEndDate] = useRecoilState(endDateState);
   const [title, setTitle] = useRecoilState(titleState);
-  const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
+  const [id, setId] = useState(bingoIdState);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -40,69 +39,80 @@ const Home = () => {
   };
 
   const viewRecommend = async () => {
-    const response = await getHueInfo();
-    const recommendations = response.map((item) => ({
-      title: item.title,
-      image: item.images[0]?.image || '',
-      id: item.id,
-    }));
-    setRecommend(recommendations);
+    try {
+      const response = await getHueInfo();
+      const recommendations = response.map((item) => ({
+        title: item.title,
+        image: item.images[0]?.image || '',
+        id: item.id,
+      }));
+      setRecommend(recommendations);
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const viewUpcomming = async () => {
-    const response = await getUpcomming();
-    const upcommings = response.results.map((item) => ({
-      title: item.title,
-      id: item.id,
-    }));
-    setUpcomming(upcommings);
+    try {
+      const response = await getUpcomming();
+      const upcommings = response.results.map((item) => ({
+        title: item.title,
+        id: item.id,
+      }));
+      setUpcomming(upcommings);
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const viewSaved = async () => {
-    const response = await getSaved();
-    const saveds = response.stored_reviews.map((item) => ({
-      title: item.title,
-      id: item.id,
-    }));
-    setSaved(saveds);
+    try {
+      const response = await getSaved();
+      const saveds = response.stored_reviews.map((item) => ({
+        title: item.title,
+        id: item.id,
+      }));
+      setSaved(saveds);
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const viewTypeRecommend = async (type) => {
-    const response = await getTypeRecommend(type);
-    const typeData = response.data.map((item) => ({
-      title: item.title,
-      id: item.id,
-    }));
-    setTypeRecommend(typeData);
+    try {
+      const response = await getTypeRecommend(type);
+      const typeData = response.data.map((item) => ({
+        title: item.title,
+        id: item.id,
+      }));
+      setTypeRecommend(typeData);
+    } catch (error) {
+      setError(error);
+    }
   };
 
-  //처음 패치
-  const fetchBingoData = async () => {
+  const getBingos = async () => {
     try {
       const response = await getBingo();
-      const bingos = Array.from({ length: 9 }, (_, index) => ({
-        id : response.bingo_obj.find((item) => item.location === index)?.id || '',
+      const username = response.username;
+      const start_date = response.start_date;
+      const end_date = response.end_date;
+      const bingoData = Array.from({ length: 9 }, (_, index) => ({
+        id: response.bingo_obj.find((item) => item.location === index)?.id || '',
         location: index,
         title: response.bingo_obj.find((item) => item.location === index)?.title || '',
       }));
-      setBingos(bingos);
-      setTitle(bingos.map((item) => item.title));
+
+      setUsername(username);
+      setStartDate(start_date);
+      setEndDate(end_date);
+      setBingos(bingoData);
+      setTitle(bingoData.map((item) => item.title));
     } catch (error) {
-      setError('Error fetching bingo data');
+      setError(error);
     }
   };
 
-  const postBingos = async () => {
-    try {
-      const response = await postBingo(bingoBody);
-      console.log(bingoBody);
-      console.log(response);
-    } catch (error) {
-      setError('Error posting bingo data');
-      console.error('Error in postBingo:', error.response ? error.response.data : error.message);
-    }
-  };
-  
   const getBackgroundColor = (inBingo, index) => {
     if (inBingo) {
       return 'white';
@@ -132,61 +142,6 @@ const Home = () => {
     }
   };
 
-  const [draggingInfo, setDraggingInfo] = useState(null);
-  const [draggingIndex, setDraggingIndex] = useState(null);
-
-  const handleDragStart = (index, type) => {
-    if (type === 'bingo') {
-      setDraggingIndex(index);
-      setDraggingInfo(null);
-    } else {
-      if (type === 'upcomming') {
-        setDraggingInfo(upcomming[index]);
-        setDraggingIndex(null);
-      } else if (type === 'saved') {
-        setDraggingInfo(saved[index]);
-        setDraggingIndex(null);
-      } else if (type === 'typeRecommend') {
-        setDraggingInfo(typeRecommend[index]);
-        setDraggingIndex(null);
-      } else {
-        setError('드래그할 수 없습니다');
-        setDraggingInfo(null);
-      }
-    }
-  };
-
-  const handleDrop = (index) => {
-    const newBingos = [...bingos];
-    const newTitles = [...title];
-    try {
-      if (draggingInfo !== null) {
-        newBingos[index] = { location: index, title: draggingInfo.title };
-        newTitles[index] = draggingInfo.title;
-        setDraggingInfo(null);
-        setBingos(newBingos);
-        setTitle(newTitles);
-        // console.log(bingos);
-        navigate(`/madedragbingo/${draggingInfo.id}/${newBingos[index].location}`);
-      } else if (draggingIndex !== null) {
-        [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
-        [newTitles[draggingIndex], newTitles[index]] = [newTitles[index], newTitles[draggingIndex]];
-        setDraggingIndex(null);
-        setBingos(newBingos);
-        setTitle(newTitles);
-      } else {
-        throw new Error('드래그할 수 없습니다');
-      }
-    } catch (error) {
-      setError(error.message);
-      console.error('Error in handleDrop:', error.response ? error.response.data : error.message);
-    }
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
   const handleInfoClick = (id) => {
     navigate(`/info/${id}`);
   };
@@ -195,24 +150,15 @@ const Home = () => {
     navigate('/hueInfo');
   };
 
-  const clickBingo = (index) => {
-    alert('이미 만들어진 빙고입니다. 드래그하여 수정하세요');
-    const selectedBingo = bingos[index];
-    // navigate(`/madedragbingo/${selectedBingo.id}/${selectedBingo.location}`);
-    //bingo에 아이디 아직 안 된 거 같아서 추가해야됨
-  };
-
-  const clickemptyBingo = (location) => {
-    navigate(`/made/${location}`);
+  const clickBingo = (location) => {
+    navigate(`/madedbingo/${location}`);
   };
 
   useEffect(() => {
     viewRecommend();
     viewSaved();
-    viewTypeRecommend();
-    if(bingos.every(bingo => !bingo.title)){
-      fetchBingoData();
-    }
+    viewTypeRecommend('panda');
+    getBingos();
   }, []);
 
   return (
@@ -225,33 +171,25 @@ const Home = () => {
             {startDate} ~ {endDate} <MdOutlineEditCalendar />
           </div>
           <BingoDom>
-          {bingos.map((bingo, index) => {
-            const inBingo = bingo.title !== '';
-            return (
+            {bingos.map((bingo, index) => (
               <Bingo
                 key={index}
-                draggable
-                onDragStart={() => handleDragStart(index, 'bingo')}
-                onDrop={() => handleDrop(index)}
-                onDragOver={handleDragOver}
-                inBingo={inBingo}
-                style={{ background: getBackgroundColor(inBingo, index) }}
-                onClick={() => inBingo ? clickBingo(index) : clickemptyBingo(index)}
+                inBingo={bingo.title !== ''}
+                style={{ background: getBackgroundColor(bingo.title !== '', index) }}
+                onClick={() => clickBingo(index)}
               >
                 {bingo.title || ''}
               </Bingo>
-            );
-          })}
+            ))}
           </BingoDom>
-          <Button style={{ marginLeft: '473px', marginTop: '4px' }} onClick={postBingos}>완료</Button>
         </LeftDom>
         <RightDom>
           <div>
             <FiThumbsUp /> 휴알유 추천
           </div>
           <RecommendDom onClick={goHueInfo}>
-            {recommend.map((item, index) => (
-              <RecommendCom key={index} draggable={false}>
+            {recommend.map((item) => (
+              <RecommendCom key={item.id}>
                 <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
                 <div>{item.title}</div>
               </RecommendCom>
@@ -278,21 +216,21 @@ const Home = () => {
           <InfoDom>
             {array === '마감순' ? (
               upcomming.map((item, index) => (
-                <Info key={index} draggable onDragStart={() => handleDragStart(index, 'upcomming')} onClick={() => handleInfoClick(item.id)}>
+                <Info key={index} onClick={() => handleInfoClick(item.id)}>
                   {item.title}
                   <IoIosInformationCircleOutline />
                 </Info>
               ))
             ) : array === '보관함' ? (
               saved.map((item, index) => (
-                <Info key={index} draggable onDragStart={() => handleDragStart(index, 'saved')} onClick={() => handleInfoClick(item.id)}>
+                <Info key={index} onClick={() => handleInfoClick(item.id)}>
                   {item.title}
                   <IoIosInformationCircleOutline />
                 </Info>
               ))
             ) : (
               typeRecommend.map((item, index) => (
-                <Info key={index} draggable onDragStart={() => handleDragStart(index, 'typeRecommend')} onClick={() => handleInfoClick(item.id)}>
+                <Info key={index} onClick={() => handleInfoClick(item.id)}>
                   {item.title}
                   <IoIosInformationCircleOutline />
                 </Info>
@@ -305,7 +243,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Index;
 
 export const Headers = styled.div`
   display: flex;
@@ -319,6 +257,7 @@ export const Headers = styled.div`
   font-size: 20px;
   color: rgba(30, 58, 138, 1);
 `;
+
 export const Header = styled(Link)`
   color: rgba(30, 58, 138, 1);
   text-decoration: none;
