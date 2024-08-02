@@ -22,5 +22,5 @@ export const endDateState = atom({
 
 export const titleState = atom({
   key: 'titleState',
-  default: '',
+  default: Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })),
 });

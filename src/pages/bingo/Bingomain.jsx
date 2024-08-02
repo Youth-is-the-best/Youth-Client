@@ -53,7 +53,7 @@ const Bingomain = () => {
             inBingo={bingo.title !== ''}
             style={{ background: getBackgroundColor(bingo.title !== '', index) }}
           >
-            {title}
+            {title[index]}
           </Bingo>
         ))}
       </BingoDom>

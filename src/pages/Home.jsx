@@ -88,7 +88,7 @@ const Home = () => {
     setStartDate(start_date);
     setEndDate(end_date);
     setBingos(bingoData);
-    setTitle(bingoData.title);
+    setTitle(bingoData.map((item) => item.title)); // Ensure title is an array of strings
   };
 
   const getBackgroundColor = (inBingo, index) => {
@@ -146,18 +146,21 @@ const Home = () => {
 
   const handleDrop = (index) => {
     const newBingos = [...bingos];
+    const newTitles = [...title];
     try {
       if (draggingInfo !== null) {
         newBingos[index] = { location: index, title: draggingInfo.title };
-        setDraggingInfo(null);
+        newTitles[index] = draggingInfo.title;
+        // setDraggingInfo(null);
         setBingos(newBingos);
-        setTitle(draggingInfo[draggingIndex].title);
-        navigate(`/madedragbingo/${draggingInfo.id}/${draggingInfo.index}`);
+        setTitle(newTitles);
+        navigate(`/madedragbingo/${draggingInfo.id}/${newBingos[index].location}`);
       } else if (draggingIndex !== null) {
         [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
+        [newTitles[draggingIndex], newTitles[index]] = [newTitles[index], newTitles[draggingIndex]];
         setDraggingIndex(null);
         setBingos(newBingos);
-        setTitle(newBingos[index].title);
+        setTitle(newTitles);
       } else {
         throw new Error('드래그할 수 없습니다');
       }

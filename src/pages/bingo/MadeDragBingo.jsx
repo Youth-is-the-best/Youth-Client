@@ -71,7 +71,7 @@ const MadeDragBingo = () => {
     if (id) {
       getInfos(id);
     }
-  }, [id]);
+  }, [id, location]);
 
   return (
     <>
