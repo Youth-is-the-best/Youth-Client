@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingos, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
+import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
-import { bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
+import { bingoBodyState, bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
 
 //드래그가능 홈화면
 const Home = () => {
@@ -25,6 +25,7 @@ const Home = () => {
   const [startDate] = useRecoilState(startDateState);
   const [endDate] = useRecoilState(endDateState);
   const [title, setTitle] = useRecoilState(titleState);
+  const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -75,6 +76,33 @@ const Home = () => {
     setTypeRecommend(typeData);
   };
 
+  //처음 패치
+  const fetchBingoData = async () => {
+    try {
+      const response = await getBingo();
+      const bingos = Array.from({ length: 9 }, (_, index) => ({
+        id : response.bingo_obj.find((item) => item.location === index)?.id || '',
+        location: index,
+        title: response.bingo_obj.find((item) => item.location === index)?.title || '',
+      }));
+      setBingos(bingos);
+      setTitle(bingos.map((item) => item.title));
+    } catch (error) {
+      setError('Error fetching bingo data');
+    }
+  };
+
+  const postBingos = async () => {
+    try {
+      const response = await postBingo(bingoBody);
+      console.log(bingoBody);
+      console.log(response);
+    } catch (error) {
+      setError('Error posting bingo data');
+      console.error('Error in postBingo:', error.response ? error.response.data : error.message);
+    }
+  };
+  
   const getBackgroundColor = (inBingo, index) => {
     if (inBingo) {
       return 'white';
@@ -138,7 +166,7 @@ const Home = () => {
         setDraggingInfo(null);
         setBingos(newBingos);
         setTitle(newTitles);
-        console.log(bingos);
+        // console.log(bingos);
         navigate(`/madedragbingo/${draggingInfo.id}/${newBingos[index].location}`);
       } else if (draggingIndex !== null) {
         [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
@@ -167,8 +195,11 @@ const Home = () => {
     navigate('/hueInfo');
   };
 
-  const clickBingo = (id,location) => {
-    // navigate(`/madedragbingo/${id}/${location}`);
+  const clickBingo = (index) => {
+    alert('이미 만들어진 빙고입니다. 드래그하여 수정하세요');
+    const selectedBingo = bingos[index];
+    // navigate(`/madedragbingo/${selectedBingo.id}/${selectedBingo.location}`);
+    //bingo에 아이디 아직 안 된 거 같아서 추가해야됨
   };
 
   const clickemptyBingo = (location) => {
@@ -179,6 +210,9 @@ const Home = () => {
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
+    if(bingos.every(bingo => !bingo.title)){
+      fetchBingoData();
+    }
   }, []);
 
   return (
@@ -202,14 +236,14 @@ const Home = () => {
                 onDragOver={handleDragOver}
                 inBingo={inBingo}
                 style={{ background: getBackgroundColor(inBingo, index) }}
-                onClick={() => inBingo ? clickBingo(bingo.id) : clickemptyBingo(bingo.location)}
+                onClick={() => inBingo ? clickBingo(index) : clickemptyBingo(index)}
               >
                 {bingo.title || ''}
               </Bingo>
             );
           })}
           </BingoDom>
-          <Button style={{ marginLeft: '473px', marginTop: '4px' }}>완료</Button>
+          <Button style={{ marginLeft: '473px', marginTop: '4px' }} onClick={postBingos}>완료</Button>
         </LeftDom>
         <RightDom>
           <div>
