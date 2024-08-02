@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
+import { getBingos, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
@@ -21,9 +21,9 @@ const Home = () => {
   const [typeRecommend, setTypeRecommend] = useState([]);
   const [array, setArray] = useState('추천순');
   const [error, setError] = useState(null);
-  const [username] = useRecoilValue(usernameState);
-  const [startDate] = useRecoilValue(startDateState);
-  const [endDate] = useRecoilValue(endDateState);
+  const [username] = useRecoilState(usernameState);
+  const [startDate] = useRecoilState(startDateState);
+  const [endDate] = useRecoilState(endDateState);
   const [title, setTitle] = useRecoilState(titleState);
 
   const handleArrayChange = (event) => {
@@ -167,8 +167,8 @@ const Home = () => {
     navigate('/hueInfo');
   };
 
-  const clickBingo = (id) => {
-    // navigate(`/info/${id}`);
+  const clickBingo = (id,location) => {
+    // navigate(`/madedragbingo/${id}/${location}`);
   };
 
   const clickemptyBingo = (location) => {

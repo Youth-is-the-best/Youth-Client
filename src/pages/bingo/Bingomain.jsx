@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { MdOutlineEditCalendar } from 'react-icons/md';
-import { bingoState, usernameState, startDateState, endDateState,titleState } from '../../recoil/atoms';
+import { bingoState, usernameState, startDateState, endDateState, titleState } from '../../recoil/atoms';
 import { getBingo } from '../../apis/testapis';
 
 const Bingomain = () => {
@@ -58,7 +58,7 @@ const Bingomain = () => {
     }
   };
   useEffect(() => {
-    if (bingos.length === 0 || bingos.every(bingo => !bingo.title)) {
+    if (bingos.every(bingo => !bingo.title)) {
       getBingos();
     }
     // getBingos();
