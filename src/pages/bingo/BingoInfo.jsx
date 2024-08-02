@@ -53,8 +53,8 @@ const BingoInfo = () => {
         image: item.images[0]?.image || '',
       }));
       setReview(review);
-      console.log(response);
-      console.log(review);
+      // console.log(response);
+      // console.log(review);
     } catch (error) {
       console.error('Error in getReview:', error.response ? error.response.data : error.message);
       throw error;

@@ -10,8 +10,8 @@ import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
 import { bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
 
-//로그인 된 후 홈화면 (수정 가능)
-const Home = () => {
+//빙고가 만들어진 후 보는 빙고 (드래그앤드롭 불가능)
+const Index = () => {
   const options = ["추천순", "마감순", "보관함"];
   const navigate = useNavigate();
   const [bingos, setBingos] = useRecoilState(bingoState);
@@ -121,60 +121,6 @@ const Home = () => {
     }
   };
 
-  const [draggingInfo, setDraggingInfo] = useState(null);
-  const [draggingIndex, setDraggingIndex] = useState(null);
-
-  const handleDragStart = (index, type) => {
-    if (type === 'bingo') {
-      setDraggingIndex(index);
-      setDraggingInfo(null);
-    } else {
-      if (type === 'upcomming') {
-        setDraggingInfo(upcomming[index]);
-        setDraggingIndex(null);
-      } else if (type === 'saved') {
-        setDraggingInfo(saved[index]);
-        setDraggingIndex(null);
-      } else if (type === 'typeRecommend') {
-        setDraggingInfo(typeRecommend[index]);
-        setDraggingIndex(null);
-      } else {
-        setError('드래그할 수 없습니다');
-        setDraggingInfo(null);
-      }
-    }
-  };
-
-  const handleDrop = (index) => {
-    const newBingos = [...bingos];
-    const newTitles = [...title];
-    try {
-      if (draggingInfo !== null) {
-        newBingos[index] = { location: index, title: draggingInfo.title };
-        newTitles[index] = draggingInfo.title;
-        setDraggingInfo(null);
-        setBingos(newBingos);
-        setTitle(newTitles);
-        navigate(`/madedragbingo/${draggingInfo.id}/${newBingos[index].location}`);
-      } else if (draggingIndex !== null) {
-        [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
-        [newTitles[draggingIndex], newTitles[index]] = [newTitles[index], newTitles[draggingIndex]];
-        setDraggingIndex(null);
-        setBingos(newBingos);
-        setTitle(newTitles);
-      } else {
-        throw new Error('드래그할 수 없습니다');
-      }
-    } catch (error) {
-      setError(error.message);
-      console.error('Error in handleDrop:', error.response ? error.response.data : error.message);
-    }
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
   const handleInfoClick = (id) => {
     navigate(`/info/${id}`);
   };
@@ -183,18 +129,14 @@ const Home = () => {
     navigate('/hueInfo');
   };
 
-  const clickBingo = (id) => {
-    navigate(`/info/${id}`);
-  };
-
-  const clickemptyBingo = (location) => {
-    navigate(`/made/${location}`);
+  const clickBingo = (location) => {
+    navigate(`/madedbingo/${location}`);
   };
 
   useEffect(() => {
     viewRecommend();
     viewSaved();
-    viewTypeRecommend('panda');
+    viewTypeRecommend();
     getBingos();
   }, []);
 
@@ -213,20 +155,14 @@ const Home = () => {
             return (
               <Bingo
                 key={index}
-                draggable
-                onDragStart={() => handleDragStart(index, 'bingo')}
-                onDrop={() => handleDrop(index)}
-                onDragOver={handleDragOver}
-                inBingo={inBingo}
                 style={{ background: getBackgroundColor(inBingo, index) }}
-                onClick={() => inBingo ? clickBingo(bingo.id) : clickemptyBingo(bingo.location)}
+                onClick={clickBingo(bingo.location)}
               >
                 {bingo.title || ''}
               </Bingo>
             );
           })}
           </BingoDom>
-          <Button style={{ marginLeft: '473px', marginTop: '4px' }}>완료</Button>
         </LeftDom>
         <RightDom>
           <div>
@@ -234,7 +170,7 @@ const Home = () => {
           </div>
           <RecommendDom onClick={goHueInfo}>
             {recommend.map((item, index) => (
-              <RecommendCom key={index} draggable={false}>
+              <RecommendCom key={index}>
                 <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
                 <div>{item.title}</div>
               </RecommendCom>
@@ -261,21 +197,21 @@ const Home = () => {
           <InfoDom>
             {array === '마감순' ? (
               upcomming.map((item, index) => (
-                <Info key={index} draggable onDragStart={() => handleDragStart(index, 'upcomming')} onClick={() => handleInfoClick(item.id)}>
+                <Info key={index} onClick={() => handleInfoClick(item.id)}>
                   {item.title}
                   <IoIosInformationCircleOutline />
                 </Info>
               ))
             ) : array === '보관함' ? (
               saved.map((item, index) => (
-                <Info key={index} draggable onDragStart={() => handleDragStart(index, 'saved')} onClick={() => handleInfoClick(item.id)}>
+                <Info key={index} onClick={() => handleInfoClick(item.id)}>
                   {item.title}
                   <IoIosInformationCircleOutline />
                 </Info>
               ))
             ) : (
               typeRecommend.map((item, index) => (
-                <Info key={index} draggable onDragStart={() => handleDragStart(index, 'typeRecommend')} onClick={() => handleInfoClick(item.id)}>
+                <Info key={index} onClick={() => handleInfoClick(item.id)}>
                   {item.title}
                   <IoIosInformationCircleOutline />
                 </Info>
@@ -288,7 +224,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Index;
 
 export const Headers = styled.div`
   display: flex;

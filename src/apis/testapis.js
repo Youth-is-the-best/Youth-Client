@@ -24,6 +24,7 @@ export const postTest = async (reason) => {
             throw error;
         }
     }
+    //로그인 없는 버전
     // try {
     //     const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason);
     //     return response.data;

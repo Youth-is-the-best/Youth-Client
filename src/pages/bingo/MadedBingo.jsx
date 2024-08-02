@@ -7,6 +7,7 @@ import HeaderHook from '../../hook/HeaderHook';
 import { getBingoloc, getInfo } from '../../apis/testapis';
 import { Category,CheckLists,CheckList,CheckBox } from './MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
+import Bingomain from './Bingomain';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const BingoInfo = () => {
   const [info, setInfo] = useState(null);
 
   const goHome = () => {
-    navigate("/");
+    navigate("/view");
   };
 
   const getInfos = async (location) => {
@@ -67,6 +68,7 @@ const BingoInfo = () => {
     <>
       <HeaderHook />
       <Body>
+        <Bingomain/>
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />

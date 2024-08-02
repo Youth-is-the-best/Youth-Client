@@ -22,6 +22,7 @@ import HueInfo from './pages/HueInfo';
 import MadeDragBingo from './pages/bingo/MadeDragBingo';
 import MadedBingo from './pages/bingo/MadedBingo';
 import { RecoilRoot } from 'recoil';
+import Index from './pages/Index';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -35,6 +36,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home/>}></Route>
+      <Route path="/view" element={<Index/>}></Route>
       <Route path="/info" element={<BingoInfo/>}></Route>
       <Route path="/info/:id" element={<BingoInfo />} />
       <Route path="/made/:location" element={<MadeBingo/>}></Route>
