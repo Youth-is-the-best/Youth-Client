@@ -21,6 +21,7 @@ import Noti from './pages/Noti';
 import HueInfo from './pages/HueInfo';
 import MadeDragBingo from './pages/bingo/MadeDragBingo';
 import MadedBingo from './pages/bingo/MadedBingo';
+import { RecoilRoot } from 'recoil';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -30,6 +31,7 @@ function App() {
   const [inputValue, setInputValue] = useState('');
 
   return (
+    <RecoilRoot>
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home/>}></Route>
@@ -62,6 +64,7 @@ function App() {
       <Route path="/alarmManage" element={<AlarmManage />}></Route>
     </Routes>
     </BrowserRouter>
+    </RecoilRoot>
   );
 }
 

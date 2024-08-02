@@ -6,8 +6,10 @@ import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getInfo } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
+import { RightDom } from './BingoInfo';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
+import Bingomain from './Bingomain';
 
 const MadeDragBingo = () => {
   const navigate = useNavigate();
@@ -69,12 +71,13 @@ const MadeDragBingo = () => {
     if (id) {
       getInfos(id);
     }
-  }, [id]);
+  }, [id, location]);
 
   return (
     <>
       <HeaderHook />
       <Body>
+        <Bingomain/>
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
@@ -171,21 +174,6 @@ const MadeDragBingo = () => {
 };
 
 export default MadeDragBingo;
-
-export const RightDom = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 550px;
-  height: 630px;
-  margin: 100px;
-  background: rgba(246, 247, 251, 1);
-  border-radius: 20px;
-  border: 0.4px solid rgba(30, 58, 138, 1);
-  box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
-  gap: 15px;
-  padding: 20px;
-  overflow-y: auto;
-`;
 
 const Button = styled.div`
   display: flex;

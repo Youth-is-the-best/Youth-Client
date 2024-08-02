@@ -5,12 +5,32 @@ export const baseURL = "https://maknaengee.p-e.kr";
 // 테스트 답변 입력하기
 export const postTest = async (reason) => {
     try {
-        const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason);
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
         return response.data;
     } catch (error) {
-        console.error('Error in postTest:', error.response ? error.response.data : error.message);
-        throw error;
+        if (error.response && error.response.status === 401) {
+            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getBingo:', error.response ? error.response.data : error.message);
+            throw error;
+        }
     }
+    // try {
+    //     const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason);
+    //     return response.data;
+    // } catch (error) {
+    //     console.error('Error in postTest:', error.response ? error.response.data : error.message);
+    //     throw error;
+    // }
 }
 
 // 휴아유 추천 게시물 가져오기
@@ -112,13 +132,28 @@ export const getSaved = async () => {
 // ["/" 경로에서 볼 수 있는 인포메이션] "추천순"
 export const getTypeRecommend = async (type) => {
     try {
-        const response = await axios.get(`${baseURL}/bingo/recs`, {
-            params: { type: type }
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/bingo/recs`, 
+        // {
+        //     params: { type: type }
+        // },
+        {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
         });
         return response.data;
     } catch (error) {
-        console.error('Error in getTypeRecommend:', error.response ? error.response.data : error.message);
-        throw error;
+        if (error.response && error.response.status === 401) {
+            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getBingo:', error.response ? error.response.data : error.message);
+            throw error;
+        }
     }
 }
 
