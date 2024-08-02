@@ -29,3 +29,15 @@ export const bingoIdState = atom({
   key: 'bingoIdState',
   default: [],
 });
+
+// 끌어와서 만든 빙고
+export const bingoBodyState = atom({
+  key: 'bingoBodyState',
+  default: {
+    size: 9,
+    start_date: '',
+    end_date: '',
+    bingo_obj: Array.from({ length: 9 }, (_, index) => 
+      ({ location: index, id: '', title: '', choice: '', todo: [] }))
+  },
+});

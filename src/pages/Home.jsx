@@ -184,7 +184,7 @@ const Home = () => {
   };
 
   const clickBingo = (id) => {
-    navigate(`/info/${id}`);
+    // navigate(`/info/${id}`);
   };
 
   const clickemptyBingo = (location) => {

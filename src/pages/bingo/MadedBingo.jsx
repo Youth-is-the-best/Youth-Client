@@ -168,7 +168,6 @@ export const RightDom = styled.div`
   flex-direction: column;
   width: 550px;
   height: 630px;
-  margin: 100px;
   background: rgba(246, 247, 251, 1);
   border-radius: 20px;
   border: 0.4px solid rgba(30, 58, 138, 1);
