@@ -24,3 +24,8 @@ export const titleState = atom({
   key: 'titleState',
   default: Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })),
 });
+
+export const bingoIdState = atom({
+  key: 'bingoIdState',
+  default: [],
+});

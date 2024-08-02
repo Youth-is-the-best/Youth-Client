@@ -8,9 +8,8 @@ import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
-import { bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
+import { bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState } from '../recoil/atoms';
 
-//빙고가 만들어진 후 보는 빙고 (드래그앤드롭 불가능)
 const Index = () => {
   const options = ["추천순", "마감순", "보관함"];
   const navigate = useNavigate();
@@ -25,6 +24,7 @@ const Index = () => {
   const [startDate, setStartDate] = useRecoilState(startDateState);
   const [endDate, setEndDate] = useRecoilState(endDateState);
   const [title, setTitle] = useRecoilState(titleState);
+  const [id, setId] = useState(bingoIdState);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -39,57 +39,78 @@ const Index = () => {
   };
 
   const viewRecommend = async () => {
-    const response = await getHueInfo();
-    const recommendations = response.map((item) => ({
-      title: item.title,
-      image: item.images[0]?.image || '',
-      id: item.id,
-    }));
-    setRecommend(recommendations);
+    try {
+      const response = await getHueInfo();
+      const recommendations = response.map((item) => ({
+        title: item.title,
+        image: item.images[0]?.image || '',
+        id: item.id,
+      }));
+      setRecommend(recommendations);
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const viewUpcomming = async () => {
-    const response = await getUpcomming();
-    const upcommings = response.results.map((item) => ({
-      title: item.title,
-      id: item.id,
-    }));
-    setUpcomming(upcommings);
+    try {
+      const response = await getUpcomming();
+      const upcommings = response.results.map((item) => ({
+        title: item.title,
+        id: item.id,
+      }));
+      setUpcomming(upcommings);
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const viewSaved = async () => {
-    const response = await getSaved();
-    const saveds = response.stored_reviews.map((item) => ({
-      title: item.title,
-      id: item.id,
-    }));
-    setSaved(saveds);
+    try {
+      const response = await getSaved();
+      const saveds = response.stored_reviews.map((item) => ({
+        title: item.title,
+        id: item.id,
+      }));
+      setSaved(saveds);
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const viewTypeRecommend = async (type) => {
-    const response = await getTypeRecommend(type);
-    const typeData = response.data.map((item) => ({
-      title: item.title,
-      id: item.id,
-    }));
-    setTypeRecommend(typeData);
+    try {
+      const response = await getTypeRecommend(type);
+      const typeData = response.data.map((item) => ({
+        title: item.title,
+        id: item.id,
+      }));
+      setTypeRecommend(typeData);
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const getBingos = async () => {
-    const response = await getBingo();
-    const username = response.username;
-    const start_date = response.start_date;
-    const end_date = response.end_date;
-    const bingoData = Array.from({ length: 9 }, (_, index) => ({
-      location: index,
-      title: response.bingo_obj.find((item) => item.location === index)?.title || '',
-    }));
+    try {
+      const response = await getBingo();
+      const username = response.username;
+      const start_date = response.start_date;
+      const end_date = response.end_date;
+      const bingoData = Array.from({ length: 9 }, (_, index) => ({
+        id: response.bingo_obj.find((item) => item.location === index)?.id || '',
+        location: index,
+        title: response.bingo_obj.find((item) => item.location === index)?.title || '',
+      }));
 
-    setUsername(username);
-    setStartDate(start_date);
-    setEndDate(end_date);
-    setBingos(bingoData);
-    setTitle(bingoData.map((item) => item.title));
+      setUsername(username);
+      setStartDate(start_date);
+      setEndDate(end_date);
+      setBingos(bingoData);
+      setTitle(bingoData.map((item) => item.title));
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const getBackgroundColor = (inBingo, index) => {
@@ -136,7 +157,7 @@ const Index = () => {
   useEffect(() => {
     viewRecommend();
     viewSaved();
-    viewTypeRecommend();
+    viewTypeRecommend('panda');
     getBingos();
   }, []);
 
@@ -150,18 +171,16 @@ const Index = () => {
             {startDate} ~ {endDate} <MdOutlineEditCalendar />
           </div>
           <BingoDom>
-          {bingos.map((bingo, index) => {
-            const inBingo = bingo.title !== '';
-            return (
+            {bingos.map((bingo, index) => (
               <Bingo
                 key={index}
-                style={{ background: getBackgroundColor(inBingo, index) }}
-                onClick={clickBingo(bingo.location)}
+                inBingo={bingo.title !== ''}
+                style={{ background: getBackgroundColor(bingo.title !== '', index) }}
+                onClick={() => clickBingo(index)}
               >
                 {bingo.title || ''}
               </Bingo>
-            );
-          })}
+            ))}
           </BingoDom>
         </LeftDom>
         <RightDom>
@@ -169,8 +188,8 @@ const Index = () => {
             <FiThumbsUp /> 휴알유 추천
           </div>
           <RecommendDom onClick={goHueInfo}>
-            {recommend.map((item, index) => (
-              <RecommendCom key={index}>
+            {recommend.map((item) => (
+              <RecommendCom key={item.id}>
                 <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
                 <div>{item.title}</div>
               </RecommendCom>
@@ -238,6 +257,7 @@ export const Headers = styled.div`
   font-size: 20px;
   color: rgba(30, 58, 138, 1);
 `;
+
 export const Header = styled(Link)`
   color: rgba(30, 58, 138, 1);
   text-decoration: none;
