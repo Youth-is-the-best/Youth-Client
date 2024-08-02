@@ -2,7 +2,8 @@ import { atom } from 'recoil';
 
 export const bingoState = atom({
   key: 'bingoState',
-  default: Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })),
+  default:[],
+  // default: Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })),
 });
 
 export const usernameState = atom({

@@ -74,7 +74,7 @@ const MadeDragBingo = () => {
     const updatedBingoObj = [...bingoBody.bingo_obj];
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
-      todo: checklists,
+      todo: checklists.map(item => ({ title: item.text })),
       title: info.title,
       choice: 1,
     };
@@ -89,8 +89,9 @@ const MadeDragBingo = () => {
       updatedBingos[locationIndex] = { location: locationIndex, title: info.title };
       return updatedBingos;
     });
-    console.log(bingos);
-    console.log(bingoBody);
+    // console.log(bingos);
+    // console.log(bingoBody);
+    navigate('/');
   };
 
   useEffect(() => {

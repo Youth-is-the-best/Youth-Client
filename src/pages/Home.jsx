@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
+import { getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
 import { bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
 
-//로그인 된 후 홈화면 (수정 가능)
+//드래그가능 홈화면
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
   const navigate = useNavigate();
@@ -21,9 +21,9 @@ const Home = () => {
   const [typeRecommend, setTypeRecommend] = useState([]);
   const [array, setArray] = useState('추천순');
   const [error, setError] = useState(null);
-  const [username, setUsername] = useRecoilState(usernameState);
-  const [startDate, setStartDate] = useRecoilState(startDateState);
-  const [endDate, setEndDate] = useRecoilState(endDateState);
+  const [username] = useRecoilValue(usernameState);
+  const [startDate] = useRecoilValue(startDateState);
+  const [endDate] = useRecoilValue(endDateState);
   const [title, setTitle] = useRecoilState(titleState);
 
   const handleArrayChange = (event) => {
@@ -73,23 +73,6 @@ const Home = () => {
       id: item.id,
     }));
     setTypeRecommend(typeData);
-  };
-
-  const getBingos = async () => {
-    const response = await getBingo();
-    const username = response.username;
-    const start_date = response.start_date;
-    const end_date = response.end_date;
-    const bingoData = Array.from({ length: 9 }, (_, index) => ({
-      location: index,
-      title: response.bingo_obj.find((item) => item.location === index)?.title || '',
-    }));
-
-    setUsername(username);
-    setStartDate(start_date);
-    setEndDate(end_date);
-    setBingos(bingoData);
-    setTitle(bingoData.map((item) => item.title));
   };
 
   const getBackgroundColor = (inBingo, index) => {
@@ -155,6 +138,7 @@ const Home = () => {
         setDraggingInfo(null);
         setBingos(newBingos);
         setTitle(newTitles);
+        console.log(bingos);
         navigate(`/madedragbingo/${draggingInfo.id}/${newBingos[index].location}`);
       } else if (draggingIndex !== null) {
         [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
@@ -194,8 +178,7 @@ const Home = () => {
   useEffect(() => {
     viewRecommend();
     viewSaved();
-    viewTypeRecommend('panda');
-    getBingos();
+    viewTypeRecommend();
   }, []);
 
   return (
