@@ -191,3 +191,14 @@ export const getInfo = async (id) => {
         throw error;
     }
 }
+
+// I 눌렀을 때 후기 가져오기
+export const getReviewInInfo = async (id) => {
+    try {
+        const response = await axios.get(`${baseURL}/review/related/${id}/`);
+        return response.data;
+    } catch (error) {
+        console.error('Error in getReviewInInfo:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
