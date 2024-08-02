@@ -6,13 +6,14 @@ import { CiSquarePlus } from 'react-icons/ci';
 import { Body } from '../Home';
 import { RightDom } from './BingoInfo';
 import { BsThreeDots } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import HeaderHook from '../../hook/HeaderHook';
 import Bingomain from './Bingomain';
 import CustomCalendar from './CustomCalendar';
 
 const MadeBingo = () => {
   const navigate = useNavigate();
+  const {location} = useParams();
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
   const [title, setTitle] = useState('');
@@ -205,7 +206,8 @@ const MadeBingo = () => {
             <CiSquarePlus size={30} onClick={madeCheckList} />
             </Line>
           </CheckLists>
-            <DateInfo style={{ width: '140px', marginLeft: '410x' }}>목표 달성 기록 남기기</DateInfo>
+            <Category style={{ width : '15%', marginLeft: '82%' }}>저장</Category>
+            {/* <DateInfo style={{ width: '140px', marginLeft: '410x' }}>목표 달성 기록 남기기</DateInfo> */}
         </RightDom>
       </Body>
     </>

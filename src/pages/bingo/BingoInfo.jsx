@@ -73,7 +73,7 @@ const BingoInfo = () => {
     <>
       <HeaderHook />
       <Body>
-        {/* <Bingomain/> */}
+        <Bingomain/>
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />

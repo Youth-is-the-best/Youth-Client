@@ -37,7 +37,7 @@ function App() {
       <Route path="/" element={<Home/>}></Route>
       <Route path="/info" element={<BingoInfo/>}></Route>
       <Route path="/info/:id" element={<BingoInfo />} />
-      <Route path="/made" element={<MadeBingo/>}></Route>
+      <Route path="/made/:location" element={<MadeBingo/>}></Route>
       <Route path="/madedragbingo" element={<MadeDragBingo/>}></Route>
       <Route path="/madedragbingo/:id" element={<MadeDragBingo/>}></Route>
       <Route path="/madedragbingo/:id/:location" element={<MadeDragBingo/>}></Route>

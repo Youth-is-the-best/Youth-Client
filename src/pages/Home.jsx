@@ -88,7 +88,7 @@ const Home = () => {
     setStartDate(start_date);
     setEndDate(end_date);
     setBingos(bingoData);
-    setTitle(bingoData.map((item) => item.title)); // Ensure title is an array of strings
+    setTitle(bingoData.map((item) => item.title));
   };
 
   const getBackgroundColor = (inBingo, index) => {
@@ -186,6 +186,10 @@ const Home = () => {
     navigate(`/info/${id}`);
   };
 
+  const clickemptyBingo = (location) => {
+    navigate(`/made/${location}`);
+  };
+
   useEffect(() => {
     viewRecommend();
     viewSaved();
@@ -203,20 +207,23 @@ const Home = () => {
             {startDate} ~ {endDate} <MdOutlineEditCalendar />
           </div>
           <BingoDom>
-            {bingos.map((bingo, index) => (
+          {bingos.map((bingo, index) => {
+            const inBingo = bingo.title !== '';
+            return (
               <Bingo
                 key={index}
                 draggable
                 onDragStart={() => handleDragStart(index, 'bingo')}
                 onDrop={() => handleDrop(index)}
                 onDragOver={handleDragOver}
-                onClick={() => clickBingo(bingo.id)}
-                inBingo={bingo.title !== ''}
-                style={{ background: getBackgroundColor(bingo.title !== '', index) }}
+                inBingo={inBingo}
+                style={{ background: getBackgroundColor(inBingo, index) }}
+                onClick={() => inBingo ? clickBingo(bingo.id) : clickemptyBingo(bingo.location)}
               >
                 {bingo.title || ''}
               </Bingo>
-            ))}
+            );
+          })}
           </BingoDom>
           <Button style={{ marginLeft: '473px', marginTop: '4px' }}>완료</Button>
         </LeftDom>
