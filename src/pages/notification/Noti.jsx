@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import HeaderHook from '../hook/HeaderHook';
+import HeaderHook from '../../hook/HeaderHook';
 import styled from 'styled-components';
 import { AiOutlineCheckSquare, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import CheckBox from './bingo/MadeBingo';
-import { getReview } from '../apis/reviewapis';
+
+import { getReview } from '../../apis/reviewapis';
 
 const Noti = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];

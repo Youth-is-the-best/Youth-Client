@@ -60,6 +60,11 @@ const BingoInfo = () => {
       throw error;
     }
   };
+
+  const goReview = () => {
+    // alert("리뷰로 이동");
+    // navigate("/`${item.id}`");
+  }
   
 
   useEffect(() => {
@@ -77,7 +82,7 @@ const BingoInfo = () => {
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20}/></DateInfo>
+            <DateInfo onClick={goReview}>더 많은 정보 보러가기<MdOutlineNearMe size={20}/></DateInfo>
           </TitleLine>
           <TitleLine>
             <h1>{info ? info.title : 'Loading...'}</h1>
@@ -147,7 +152,8 @@ const BingoInfo = () => {
           </TitleLine>
           <ReviewDom>
             {review.map((item) => (
-              <Review key={item.id}>
+              <Review key={item.id}
+               onClick={goReview}>
                 <img src={item.image} alt={item.title} style={{ width: '90%', height: 'auto', borderRadius: '10px' }} />
                 <div>{item.title}</div>
               </Review>
@@ -228,7 +234,7 @@ export const ReviewDom = styled.div`
   display: flex;
   flex-direction: row;
   width: 530px;
-  height: 230px;
+  // height: 230px;
   flex-shrink: 0;
   border-radius: 10px;
   gap: 10px;

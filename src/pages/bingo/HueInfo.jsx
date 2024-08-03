@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HeaderHook from '../hook/HeaderHook';
-import { Body } from './Home';
+import HeaderHook from '../../hook/HeaderHook';
+import { Body } from '../Home';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
-import { Category, Line, TitleLine } from './bingo/MadeBingo';
-import { ReviewDom, Review, RightDom } from './bingo/BingoInfo';
-import { getHueInfo } from '../apis/testapis';
-import Bingomain from './bingo/Bingomain';
+import { Category, Line, TitleLine } from './MadeBingo';
+import { ReviewDom, Review, RightDom } from './BingoInfo';
+import { getHueInfo } from '../../apis/testapis';
+import Bingomain from './Bingomain';
 
 const HueInfo = () => {
   const navigate = useNavigate();

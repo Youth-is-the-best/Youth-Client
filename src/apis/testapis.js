@@ -204,3 +204,27 @@ export const getReviewInInfo = async (id) => {
         throw error;
     }
 }
+
+// 개별 투두리스트 수정
+export const postTodolist = async (todo_id,postmessage) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.post(`${baseURL}/bingo/todo/${todo_id}/`, postmessage, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getBingo:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    }
+}
