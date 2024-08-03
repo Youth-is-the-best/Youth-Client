@@ -12,7 +12,7 @@ const Alarm = () => {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   const toSetting = () => {
-    router('/alarmManage')
+    router('/alarmmanage')
   };
 
   const handleBtn = () => {

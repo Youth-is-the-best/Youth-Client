@@ -21,6 +21,8 @@ import Noti from './pages/Noti';
 import HueInfo from './pages/HueInfo';
 import MadeDragBingo from './pages/bingo/MadeDragBingo';
 import MadedBingo from './pages/bingo/MadedBingo';
+import ReadPortfolio from './pages/portFolio/ReadPortfolio';
+import ChangePortfolio from './pages/portFolio/ChangePortfolio';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -56,10 +58,11 @@ function App() {
       selectedReason={selectedReason} setSelectedReason={setSelectedReason}
       inputValue={inputValue} setInputValue={setInputValue}
       />}></Route>
-      <Route path="/portfolio" element={<Portfolio/>}></Route>
+      <Route path="/readportfolio" element={<ReadPortfolio/>}></Route>
+      <Route path="/changeportfolio" element={<ChangePortfolio />}></Route>
       <Route path="/mypage" element={<MyPage />}></Route>
       <Route path="/alarm" element={<Alarm />}></Route>
-      <Route path="/alarmManage" element={<AlarmManage />}></Route>
+      <Route path="/alarmmanage" element={<AlarmManage />}></Route>
     </Routes>
     </BrowserRouter>
   );

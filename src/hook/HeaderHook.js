@@ -14,12 +14,12 @@ const HeaderHook = () => {
   return (
     <>
     <Headers>
-          <Logo>Logo</Logo>
+          <Logo to ="/">Logo</Logo>
           <Nav>
             <Header to="/test/0">휴학 유형 테스트</Header>
             <Header to="/">투두리스트 빙고</Header>
             <Header to="/notification">공고/후기</Header>
-            <Header to="/portfolio">나의 포트폴리오</Header>
+            <Header to="/readPortfolio">나의 포트폴리오</Header>
             <img src={user} style={{ height: '70px', marginLeft: '5px' }} onClick={handleBtn}></img>
           </Nav>
     </Headers>
@@ -50,7 +50,7 @@ const Header = styled(Link)`
   font-weight: 600;
 `;
 
-const Logo = styled.div`
+const Logo = styled(Link)`
   margin-left: 20px;
 `;
 
