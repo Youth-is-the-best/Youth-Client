@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Row, Line} from './bingo/MadeBingo';
 import styled from 'styled-components';
+import { Row,Line} from '../bingo/MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
-import HeaderHook from '../hook/HeaderHook';
+import HeaderHook from '../../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 
 const MadeReview = () => {

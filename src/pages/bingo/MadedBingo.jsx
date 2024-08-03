@@ -65,13 +65,13 @@ const MadedBingo = () => {
       "is_completed": isChecked
     };
     postTodolists(id, postmessage);
-    console.log(postmessage);
+    // console.log(postmessage);
   };
 
   const postTodolists = async (id, postmessage) => {
     try {
       const response = await postTodolist(id, postmessage);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.error('Error in postTodolists:', error.response ? error.response.data : error.message);
       throw error;

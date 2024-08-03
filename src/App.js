@@ -13,7 +13,7 @@ import MadeBingo from './pages/bingo/MadeBingo';
 import BingoInfo from './pages/bingo/BingoInfo';
 import Calendar from 'react-calendar';
 import Portfolio from './pages/portFolio/ChangePortfolio';
-import MadeReview from './pages/MadeReview';
+import MadeReview from './pages/notification/MadeReview';
 import MyPage from './pages/myPage/MyPage';
 import Alarm from './pages/myPage/Alarm';
 import AlarmManage from './pages/myPage/AlarmManage';
