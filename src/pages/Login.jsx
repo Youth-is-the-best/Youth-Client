@@ -18,6 +18,10 @@ const Login = () => {
     setShowPw(prevState => !prevState);
   };
 
+  const toHome = () => {
+    navigate('/');
+  };
+
   const onClick = async () => {
     try{
       const result = await login(username, password);
@@ -41,7 +45,7 @@ const Login = () => {
   return (
   <>
     <Header>
-      <img src={Frame8} style={{ width: '200px', height: '40px' }}></img>
+      <img src={Frame8} style={{ width: '200px', height: '40px', cursor: 'pointer' }} onClick={toHome}></img>
     </Header>
     <Wrapper>
       <Title>로그인</Title>

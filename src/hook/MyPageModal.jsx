@@ -10,8 +10,6 @@ const MyPageModal = ({ isOpen }) => {
     const savedAccessToken = localStorage.getItem("access_token");
     if (savedAccessToken) {
       setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
     }
   }, []);
 
@@ -32,6 +30,7 @@ const MyPageModal = ({ isOpen }) => {
     localStorage.removeItem("refresh_token")
     setIsLoggedIn(false);
     router('/');
+    window.location.reload();
   };
 
     
