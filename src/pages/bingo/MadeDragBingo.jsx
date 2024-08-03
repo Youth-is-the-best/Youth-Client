@@ -6,8 +6,12 @@ import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getInfo } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
+import { RightDom } from './BingoInfo';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
+import Bingomain from './Bingomain';
+import { useRecoilState } from 'recoil';
+import { bingoState, bingoBodyState } from '../../recoil/atoms';
 
 const MadeDragBingo = () => {
   const navigate = useNavigate();
@@ -16,6 +20,8 @@ const MadeDragBingo = () => {
   const [examDates, setExamDates] = useState([null, null]);
   const { id, location } = useParams();
   const [info, setInfo] = useState(null);
+  const [bingos, setBingos] = useRecoilState(bingoState);
+  const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
 
   const goHome = () => {
     navigate("/");
@@ -61,20 +67,44 @@ const MadeDragBingo = () => {
     setExamDates(dates);
   };
 
-  const postBingoloc = () => {
+  const updateBingo = () => {
+    if (!info) return;
 
+    const locationIndex = parseInt(location);
+    const updatedBingoObj = [...bingoBody.bingo_obj];
+    updatedBingoObj[locationIndex] = {
+      ...updatedBingoObj[locationIndex],
+      todo: checklists.map(item => ({ title: item.text })),
+      title: info.title,
+      choice: 1,
+    };
+  
+    setBingoBody(prevState => ({
+      ...prevState,
+      bingo_obj: updatedBingoObj
+    }));
+
+    setBingos(prevState => {
+      const updatedBingos = [...prevState];
+      updatedBingos[locationIndex] = { location: locationIndex, title: info.title };
+      return updatedBingos;
+    });
+    // console.log(bingos);
+    // console.log(bingoBody);
+    navigate('/');
   };
 
   useEffect(() => {
     if (id) {
       getInfos(id);
     }
-  }, [id]);
+  }, [id, location]);
 
   return (
     <>
       <HeaderHook />
       <Body>
+        <Bingomain />
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
@@ -86,7 +116,7 @@ const MadeDragBingo = () => {
           <Line>
             <Category>분류</Category>
             <StyledDiv>
-                {info ? info.large_category_display : 'Loading...'}
+              {info ? info.large_category_display : 'Loading...'}
             </StyledDiv>
           </Line>
           {info && info.host ? (
@@ -148,8 +178,8 @@ const MadeDragBingo = () => {
           </TitleLine>
           <CheckLists>
             {checklists.map((item) => (
-              <CheckList key={item.id} style={{color : 'rgba(116, 116, 116, 1)'}}>
-                <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)}/>
+              <CheckList key={item.id} style={{ color: 'rgba(116, 116, 116, 1)' }}>
+                <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)} />
                 <span>{item.text}</span>
               </CheckList>
             ))}
@@ -160,10 +190,10 @@ const MadeDragBingo = () => {
                 onChange={(e) => setNewChecklistText(e.target.value)}
                 placeholder="세부 계획을 입력하세요"
               />
-              <CiSquarePlus size={30} onClick={madeCheckList}/>
+              <CiSquarePlus size={30} onClick={madeCheckList} />
             </Line>
           </CheckLists>
-          <DateInfo style={{ width : '15%', marginLeft: '82%' }} onClick={postBingoloc}>저장</DateInfo>
+          <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</DateInfo>
         </RightDom>
       </Body>
     </>
@@ -171,21 +201,6 @@ const MadeDragBingo = () => {
 };
 
 export default MadeDragBingo;
-
-export const RightDom = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 550px;
-  height: 630px;
-  margin: 100px;
-  background: rgba(246, 247, 251, 1);
-  border-radius: 20px;
-  border: 0.4px solid rgba(30, 58, 138, 1);
-  box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
-  gap: 15px;
-  padding: 20px;
-  overflow-y: auto;
-`;
 
 const Button = styled.div`
   display: flex;
@@ -220,7 +235,7 @@ const Line = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
-  color : rgba(142, 156, 196, 1);
+  color: rgba(142, 156, 196, 1);
 `;
 
 const TitleLine = styled.div`
@@ -262,4 +277,4 @@ const StyledDiv = styled.div`
   border: 0.4px solid rgba(142, 156, 196, 1);
   border-radius: 10px;
   padding: 7px;
-`
+`;

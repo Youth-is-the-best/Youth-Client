@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HeaderHook from '../hook/HeaderHook';
 import styled from 'styled-components';
 import { AiOutlineCheckSquare, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import CheckBox from './bingo/MadeBingo';
+import { getReview } from '../apis/reviewapis';
 
 const Noti = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
   const [selectedCategory, setSelectedCategory] = useState("대외활동");
+  const [review, setReview] = useState([]);
 
   const inputConfigs = {
     "채용(인턴)": [
@@ -48,6 +50,28 @@ const Noti = () => {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+  };
+
+  const getAllReview = async () => {
+    try {
+      const response = await getReview();
+      const review = response.map((item) => ({
+        id: item.id,
+        title: item.title,
+        image: item.images[0]?.image || '',
+      }));
+      setReview(review);
+      // console.log(response);
+      // console.log(review);
+    } catch (error) {
+      console.error('Error in getReview:', error.response ? error.response.data : error.message);
+      throw error
+  }
+
+
+  // useEffect(() => {
+  //   getAllReview();
+  // }, [review]);
   };
 
   return (
@@ -99,21 +123,21 @@ const Noti = () => {
           ))}
         </Bar>
         <ContentDom>
-          {Array(4).fill(null).map((_, index) => (
-            <Content key={index}>
+          {review.map((item) => (
+            <Content key={item.id}>
               <WriterDom>
                 <div>천재PM</div>
                 <div>2024.07.24</div>
               </WriterDom>
-              <PhotoBox></PhotoBox>
-              <div>토익 900점 맞기 <AiOutlineHeart />12 <AiOutlineMessage />12</div>
+              <PhotoBox src={item.image} alt={item.title}></PhotoBox>
+              <div>{item.title} <AiOutlineHeart />12 <AiOutlineMessage />12</div>
             </Content>
           ))}
         </ContentDom>
       </Body>
     </>
   );
-}
+};
 
 export default Noti;
 
@@ -229,7 +253,7 @@ const WriterDom = styled.div`
   align-items : center;
   justify-content : space-between;
 `;
-const PhotoBox = styled.div`
+const PhotoBox = styled.img`
   width : 100%;
   height : 200px;
   border : 0.2px solid black;

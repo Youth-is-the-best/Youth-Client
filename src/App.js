@@ -12,7 +12,8 @@ import { useState } from 'react';
 import MadeBingo from './pages/bingo/MadeBingo';
 import BingoInfo from './pages/bingo/BingoInfo';
 import Calendar from 'react-calendar';
-import Portfolio from './pages/portFolio/ChangePortfolio';
+import ReadPortfolio from './pages/portFolio/ReadPortfolio';
+import ChangePortfolio from './pages/portFolio/ChangePortfolio';
 import MadeReview from './pages/MadeReview';
 import MyPage from './pages/myPage/MyPage';
 import Alarm from './pages/myPage/Alarm';
@@ -21,8 +22,8 @@ import Noti from './pages/Noti';
 import HueInfo from './pages/HueInfo';
 import MadeDragBingo from './pages/bingo/MadeDragBingo';
 import MadedBingo from './pages/bingo/MadedBingo';
-import ReadPortfolio from './pages/portFolio/ReadPortfolio';
-import ChangePortfolio from './pages/portFolio/ChangePortfolio';
+import { RecoilRoot } from 'recoil';
+import Index from './pages/Index';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -32,12 +33,14 @@ function App() {
   const [inputValue, setInputValue] = useState('');
 
   return (
+    <RecoilRoot>
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home/>}></Route>
+      <Route path="/view" element={<Index/>}></Route>
       <Route path="/info" element={<BingoInfo/>}></Route>
       <Route path="/info/:id" element={<BingoInfo />} />
-      <Route path="/made" element={<MadeBingo/>}></Route>
+      <Route path="/made/:location" element={<MadeBingo/>}></Route>
       <Route path="/madedragbingo" element={<MadeDragBingo/>}></Route>
       <Route path="/madedragbingo/:id" element={<MadeDragBingo/>}></Route>
       <Route path="/madedragbingo/:id/:location" element={<MadeDragBingo/>}></Route>
@@ -65,6 +68,7 @@ function App() {
       <Route path="/alarmmanage" element={<AlarmManage />}></Route>
     </Routes>
     </BrowserRouter>
+    </RecoilRoot>
   );
 }
 
