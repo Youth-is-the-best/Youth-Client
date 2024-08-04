@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeaderHook from '../../hook/HeaderHook';
-import { getHandleLike, getHandleReviewLike, getHandleReviewStorage, getReviewById } from '../../apis/reviewapis';
+import { getHandleLike, getHandleNoticeLike, getHandleNoticeStorage, getNoticeById, getReviewById } from '../../apis/reviewapis';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { AiOutlineHeart, AiOutlineStar } from 'react-icons/ai';
 
-const ViewReview = () => {
+const ViewNotice = () => {
   const { id } = useParams();
   const [info, setInfo] = useState(null);
   const [images, setImages] = useState([]);
   const [detailplans, setDetailplans] = useState([]);
 
-  const getReview = async (id) => {
+  const getNotice = async (id) => {
     try {
-      const response = await getReviewById(id);
+      const response = await getNoticeById(id);
       const info = {
         id: response.id,
         title: response.title,
@@ -60,7 +60,7 @@ const ViewReview = () => {
 
   useEffect(() => {
     if (id) {
-      getReview(id);
+      getNotice(id);
     }
   }, [id]);
 
@@ -71,7 +71,7 @@ const ViewReview = () => {
 
   const handleStorage = async() => {
     try {
-      const response = await getHandleReviewStorage(id);
+      const response = await getHandleNoticeStorage(id);
       console.log(response);
     }catch(error) {
       console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
@@ -81,7 +81,7 @@ const ViewReview = () => {
 
   const handleLike = async() => {
     try {
-      const response = await getHandleReviewLike(id);
+      const response = await getHandleNoticeLike(id);
       console.log(response);
     }catch(error) {
       console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
@@ -194,7 +194,7 @@ const ViewReview = () => {
   )
 };
 
-export default ViewReview;
+export default ViewNotice;
 
 const Line = styled.div`
   display : flex;

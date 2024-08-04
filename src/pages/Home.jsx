@@ -212,7 +212,7 @@ const Home = () => {
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
-    if(bingos.every(bingo => !bingo.title)){
+    if(bingos.length===0){
       fetchBingoData();
     }
   }, []);
@@ -225,7 +225,7 @@ const Home = () => {
           <h2>{username}의 빙고판</h2>
           <Line style={{ color: 'grey'}}>
             {startDate && endDate
-              ? `${startDate} ~ ${endDate}` : '날짜를 입력하세요.'}
+              ? `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}` : '날짜를 입력하세요.'}
             <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
           </Line>
           <BingoDom>

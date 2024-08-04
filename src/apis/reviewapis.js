@@ -25,14 +25,75 @@ export const getReviewById = async (id) => {
     }
 }
 
+// 공고 가져오기
+export const getNotice = async () => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/notice`, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    }
+};
+
+// 공고 가져오기
+export const getNoticeById = async (notice_id) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/notice/${notice_id}/`, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    }
+};
+
 // 카테고리에 따른 공고,후기 가져오기 → /search/?large_category=CAREER
 export const getSearchByCategory = async (category) => {
     try {
-        const response = await axios.get(`${baseURL}/search/?large_category=${category}`);
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/search/?large_category=${category}`, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
         return response.data;
     } catch (error) {
-        console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
-        throw error;
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+            throw error;
+        }
     }
 }
 
@@ -44,6 +105,101 @@ export const getReviewByCategory = async (category) => {
     } catch (error) {
         console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
         throw error;
+    }
+}
+
+// 리뷰 좋아요하기
+export const getHandleReviewLike = async (notice_id) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/review/likes/${notice_id}`, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    }
+};
+
+//공고 좋아요하기
+export const getHandleNoticeLike = async (notice_id) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/notice/likes/${notice_id}`, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    }
+}
+
+// 리뷰 보관함에 담기
+export const getHandleReviewStorage = async (notice_id) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/review/storages/${notice_id}`, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    }
+}
+// 공고 보관함에 담기
+export const getHandleNoticeStorage = async (notice_id) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/notice/storages/${notice_id}`, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+            throw error;
+        }
     }
 }
 

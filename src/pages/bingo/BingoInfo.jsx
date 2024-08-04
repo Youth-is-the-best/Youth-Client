@@ -223,9 +223,9 @@ const TitleLine = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
+  background: rgba(246, 247, 251, 1);
   position: sticky;
   top: 0;
-  background: rgba(246, 247, 251, 1);
   z-index: 1;
   // padding-top: 10px;
 `;

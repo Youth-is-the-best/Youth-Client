@@ -26,6 +26,7 @@ import MadedBingo from './pages/bingo/MadedBingo';
 import { RecoilRoot } from 'recoil';
 import Index from './pages/Index';
 import ViewReview from './pages/notification/viewReview';
+import ViewNotice from './pages/notification/viewNotice';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -52,6 +53,7 @@ function App() {
       <Route path="/cal" element={<Calendar />}/>
       <Route path="/review" element={<MadeReview />}/>
       <Route path="/viewreview/:id" element={<ViewReview />}/>
+      <Route path="/viewnotice/:id" element={<ViewNotice />}/>
       <Route path="/notification" element={<Noti />}/>
       <Route path="/hueInfo" element={<HueInfo/>}></Route>
       <Route path="/hueInfo2" element={<HueInfo2/>}></Route>

@@ -93,15 +93,13 @@ const Noti = () => {
       const response = await getSearchByCategory(category);
       const notice = response.notice.map((item) => ({
         id: item.id,
-        author: "천재PM",
-        created_at : "2024.07.24",
+        author: item.author,
+        created_at : item.created_at,
         title: item.title,
-        image: item.images[0]?.image || '',
+        image: item.image_url,
         likes_count: item.likes_count,
-        comments_count: item.comments_count,
       }));
       setNotice(notice);
-
       const review = response.review.map((item) => ({
         id: item.id,
         author: item.author,
@@ -112,7 +110,7 @@ const Noti = () => {
         comments_count: item.comments_count,
       }));
       setReview(review);
-      // console.log(review);
+      // console.log(response);
     } catch (error) {
       console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
     }
@@ -122,9 +120,12 @@ const Noti = () => {
   const goReview = (id) => {
     navigate(`/viewreview/${id}`);
   };
+  const goNotice = (id) => {
+    navigate(`/viewnotice/${id}`);
+  };
 
   useEffect(() => {
-    getSearchByCategory("CAREER");
+    getReviewsByCategory("CAREER");
   }, []);
 
   return (
@@ -179,7 +180,8 @@ const Noti = () => {
         </Bar>
         <ContentDom>
           {showNotice && notice.map((item) => (
-            <Content key={item.id}>
+            <Content key={item.id}
+            onClick={() => goNotice(item.id)}>
               <WriterDom>
                 <div>{item.author}</div>
                 <div>{item.created_at}</div>
