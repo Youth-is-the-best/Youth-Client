@@ -147,9 +147,10 @@ const Noti = () => {
     navigate(`/viewnotice/${id}`);
   };
 
-  const doSearch = async (searchKeyword) => {
+  const doSearch = async (keyword) => {
     try {
-      const response = await getSearchByCategory(searchKeyword);
+      const searchStr = keyword.toString();
+      const response = await getSearchByCategory(searchStr);
       const notice = response.notice.map((item) => ({
         id: item.id,
         author: item.author,
@@ -170,9 +171,6 @@ const Noti = () => {
       }));
       setNotice(notice);
       setReview(review);
-      console.log(searchKeyword);
-      console.log(notice);
-      console.log(response);
       if (notice.length === 0 && review.length === 0) {
         alert('검색 결과가 없습니다.');
       }
@@ -187,7 +185,7 @@ const Noti = () => {
 
   return (
     <>
-      <HeaderHook></HeaderHook>
+      <HeaderHook />
       <Body>
         <SearchDom>
           <SearchBox
@@ -245,7 +243,6 @@ const Noti = () => {
             <Content key={item.id}>
               <WriterDom>
                 <div>{item.author}</div>
-                {/* <div>휴알유</div> */}
                 <div>{item.created_at}</div>
                 <AiOutlineStar
                   size={20}
@@ -254,7 +251,7 @@ const Noti = () => {
                 />
               </WriterDom>
               <PhotoBox src={item.image} alt={item.title}
-                onClick={() => goNotice(item.id)}></PhotoBox>
+                onClick={() => goNotice(item.id)} />
               <div>{item.title}</div>
               <div><AiOutlineMessage />{item.comments_count}</div>
             </Content>
@@ -271,7 +268,7 @@ const Noti = () => {
                 />
               </WriterDom>
               <PhotoBox src={item.image} alt={item.title}
-                onClick={() => goReview(item.id)}></PhotoBox>
+                onClick={() => goReview(item.id)} />
               <div>{item.title}</div>
               <div><AiOutlineHeart style={{ color: 'rgba(255, 0, 0, 1)' }} />{item.likes_count} <AiOutlineMessage style={{ color: 'rgba(27, 52, 124, 1)' }} />{item.comments_count}</div>
             </Content>
@@ -285,46 +282,46 @@ const Noti = () => {
 export default Noti;
 
 const Body = styled.div`
-  display : flex;
-  flex-direction : column;
-  width : 100%;
-  margin-top : 40px;
-  scroll-behavior : smooth;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 40px;
+  scroll-behavior: smooth;
 `;
 const Line = styled.div`
-  display : flex;
-  flex-direction : row;
-  align-items : center;
-  height : 80px;
-  border-bottom : 0.2px solid rgba(30, 58, 138, 0.5);
-  padding : 1%;
-  padding-left : 4.8%;
-  font-size : 24px;
-  color : rgba(30, 58, 138, 1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 80px;
+  border-bottom: 0.2px solid rgba(30, 58, 138, 0.5);
+  padding: 1%;
+  padding-left: 4.8%;
+  font-size: 24px;
+  color: rgba(30, 58, 138, 1);
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
 `;
 const Bar = styled.div`
-  display : flex;
-  flex-direction : row;
-  align-items : center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  height : 1%;
-  padding-top : 5%;
-  padding-left : 4.8%;
-  font-size : 24px;
+  height: 1%;
+  padding-top: 5%;
+  padding-left: 4.8%;
+  font-size: 24px;
   color: rgba(142, 156, 196, 1);
 `;
 const DropdownDom = styled.div`
-  display : flex;
-  flex-direction : row;
-  align-items : center;
-  font-size : 20px;
-  color : rgba(116, 116, 116, 1);
-  text-decoration : none;
-  cursor : pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 20px;
+  color: rgba(116, 116, 116, 1);
+  text-decoration: none;
+  cursor: pointer;
   border: 0.4px solid rgba(27, 52, 124, 1);
   border-radius: 10px;
-  height : 40px;
+  height: 40px;
 `;
 const Dropdown = styled.div`
   select, input {
@@ -334,20 +331,20 @@ const Dropdown = styled.div`
   }
 `;
 const SearchDom = styled.div`
-  display : flex;
-  flex-direction : row;
-  align-items : center;
-  width : 30%;
-  height : 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 30%;
+  height: 20px;
   border-radius: 40px;
   border: 1px solid rgba(153, 166, 202, 1);
-  padding : 15px 20px;
-  margin-left : auto;
+  padding: 15px 20px;
+  margin-left: auto;
 `;
 const SearchBox = styled.input`
-  width : 100%;
-  border : none;
-  font-size : 20px;
+  width: 100%;
+  border: none;
+  font-size: 20px;
 `;
 const NavigationBar = styled.div`
   display: flex;
@@ -356,33 +353,33 @@ const NavigationBar = styled.div`
   align-items: center;
   margin-bottom: 20px;
   height: 50px;
-  padding : 1%;
-  margin-top : 2%;
+  padding: 1%;
+  margin-top: 2%;
   border: 0.2px solid rgba(30, 58, 138, 1);
 `;
 const Navigation = styled(Link)`
-  font-size : 20px;
-  font-weight : 600;
-  color : rgba(116, 116, 116, 1);
-  text-decoration : none;
-  cursor : pointer;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(116, 116, 116, 1);
+  text-decoration: none;
+  cursor: pointer;
 `;
 const CheckDom = styled.div`
-  display : flex;
-  flex-direction : row;
-  align-items : center;
-  margin-left : 10px;
-  margin-right : 10px;
-  font-size : 20px;
-  font-weight : 600;
-  color : rgba(116, 116, 116, 1);
-  text-decoration : none;
-  cursor : pointer;
-  gap : 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(116, 116, 116, 1);
+  text-decoration: none;
+  cursor: pointer;
+  gap: 10px;
 `;
 const Check = styled.div`
- display : flex;
- align-items : center;
+ display: flex;
+ align-items: center;
  cursor: pointer;
 `;
 const CheckBox = styled.div`
@@ -395,32 +392,31 @@ const CheckBox = styled.div`
 `;
 
 const ContentDom = styled.div`
-  display : grid;
-  grid-template-columns : repeat(4, 1fr);
-  flex-direction : row;
-  justify-content : center;
-  align-items : center;
-  width : 100%;
-  padding : 1%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 1%;
 `;
 const Content = styled.div`
-  display : flex;
-  flex-direction : column;
-  width : 80%;
-  height : 70%;
-  // border : 0.2px solid black;
-  color : rgba(27, 52, 124, 1);
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 70%;
+  color: rgba(27, 52, 124, 1);
   padding: 3%;
 `;
 const WriterDom = styled.div`
-  display : flex;
-  flex-direction : row;
-  align-items : center;
-  justify-content : space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 const PhotoBox = styled.img`
-  width : 300px;
-  height : 200px;
-  object-fit : cover;
-  border-radius : 10px;
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
 `;
