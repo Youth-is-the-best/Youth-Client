@@ -8,6 +8,7 @@ import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '
 import HeaderHook from '../hook/HeaderHook';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
+import { RecommendDom, RecommendCom } from './Home';
 import { bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState } from '../recoil/atoms';
 
 const Index = () => {
@@ -150,6 +151,10 @@ const Index = () => {
     navigate('/hueInfo');
   };
 
+  const goHueInfo2 = () => {
+    navigate('/hueInfo2');
+  };
+
   const clickBingo = (location) => {
     navigate(`/madedbingo/${location}`);
   };
@@ -187,14 +192,20 @@ const Index = () => {
           <div>
             <FiThumbsUp /> 휴알유 추천
           </div>
-          <RecommendDom onClick={goHueInfo}>
-            {recommend.map((item) => (
-              <RecommendCom key={item.id}>
-                <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
-                <div>{item.title}</div>
-              </RecommendCom>
-            ))}
+          {recommend && recommend.length > 1 && (
+          <RecommendDom>
+            <RecommendCom draggable={false}
+            onClick={goHueInfo}>
+              <img src={recommend[0].image} alt={recommend[0].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
+              <div>{recommend[0].title}</div>
+            </RecommendCom>
+            <RecommendCom draggable={false}
+            onClick={goHueInfo2}>
+              <img src={recommend[1].image} alt={recommend[1].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
+              <div>{recommend[1].title}</div>
+            </RecommendCom>
           </RecommendDom>
+          )}
           <Line>
             <Selector
               value={array}
@@ -320,29 +331,6 @@ const Button = styled.div`
   border-radius: 10px;
   background: rgba(30, 58, 138, 1);
   color: white;
-`;
-
-const RecommendDom = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 0.4px solid rgba(30, 58, 138, 0.7);
-  padding-bottom: 30px;
-`;
-
-const RecommendCom = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 250px;
-  height: 155px;
-  gap: 0px;
-  border-radius: 10px;
-  background: #ffffff;
-  padding: 10px;
 `;
 
 const InfoDom = styled.div`

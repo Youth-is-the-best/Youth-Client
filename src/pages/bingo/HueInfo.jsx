@@ -74,7 +74,7 @@ const HueInfo = () => {
                 <img src={image} alt={`Recommendation ${index + 1}`} style={{ maxWidth: '100%', height: 'auto' }} />
               </Review>
             ))}
-          </ReviewDom>
+          </ReviewDom>휴
         </RightDom>
       </Body>
     </>

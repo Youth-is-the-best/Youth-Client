@@ -394,7 +394,7 @@ const Button = styled.div`
   color: white;
 `;
 
-const RecommendDom = styled.div`
+export const RecommendDom = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -404,7 +404,7 @@ const RecommendDom = styled.div`
   padding-bottom: 30px;
 `;
 
-const RecommendCom = styled.div`
+export const RecommendCom = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
