@@ -3,8 +3,7 @@ import HeaderHook from '../../hook/HeaderHook';
 import styled from 'styled-components';
 import { AiOutlineCheckSquare, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-
-import { getReview } from '../../apis/reviewapis';
+import { getReview, getReviewByCategory} from '../../apis/reviewapis';
 
 const Noti = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
@@ -50,6 +49,25 @@ const Noti = () => {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+    if (category === "채용(인턴)"){
+      getReviewsByCategory("CAREER");
+    } else if (category === "자격증"){
+      getReviewsByCategory("CERTIFICATE");
+    } else if (category === "대외활동"){
+      getReviewsByCategory("OUTBOUND");
+    } else if (category === "공모전"){
+      getReviewsByCategory("CONTEST");
+    } else if (category === "취미"){
+      getReviewsByCategory("HOBBY");
+    } else if (category === "여행"){
+      getReviewsByCategory("TRAVEL");
+    } else if (category === "자기계발"){
+      getReviewsByCategory("SELFIMPROVEMENT");
+    } else if (category === "휴식"){
+      getReviewsByCategory("REST");
+    } else {
+      getAllReview();
+    }
   };
 
   const getAllReview = async () => {
@@ -61,18 +79,28 @@ const Noti = () => {
         image: item.images[0]?.image || '',
       }));
       setReview(review);
-      // console.log(response);
-      // console.log(review);
     } catch (error) {
       console.error('Error in getReview:', error.response ? error.response.data : error.message);
-      throw error
-  }
-
-
-  // useEffect(() => {
-  //   getAllReview();
-  // }, [review]);
+    }
   };
+
+  const getReviewsByCategory = async (category) => {
+    try {
+      const response = await getReviewByCategory(category);
+      const review = response.map((item) => ({
+        id: item.id,
+        title: item.title,
+        image: item.images[0]?.image || '',
+      }));
+      setReview(review);
+    } catch (error) {
+      console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  useEffect(() => {
+    getAllReview();
+  }, []);
 
   return (
     <>
@@ -146,6 +174,7 @@ const Body = styled.div`
   flex-direction : column;
   width : 100%;
   margin-top : 40px;
+  scroll-behavior : smooth;
 `;
 const Line = styled.div`
   display : flex;

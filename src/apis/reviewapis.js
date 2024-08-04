@@ -13,6 +13,7 @@ export const getReview = async () => {
     }
 }
 
+// id로 리뷰 가져오기
 export const getReviewById = async (id) => {
     try {
         const response = await axios.get(`${baseURL}/review/${id}`);
@@ -22,4 +23,19 @@ export const getReviewById = async (id) => {
         console.error('Error in getReviewById:', error.response ? error.response.data : error.message);
         throw error;
     }
+}
+
+// 카테고리에 따른 리뷰 가져오기 → /review/?large_category=CAREER
+export const getReviewByCategory = async (category) => {
+    try {
+        const response = await axios.get(`${baseURL}/review/?large_category=${category}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+// 일반 후기글 작성하기
+export const postMyReview = async (review) => {
 }
