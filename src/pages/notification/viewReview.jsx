@@ -141,15 +141,9 @@ const ViewReview = () => {
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
           )) : null}
-          {info && info.procedure ? ((
-            <Line>
-              <Category>모집 절차</Category>
-              <div>{info.procedure}</div>
-            </Line>
-          )) : null}
           </InfoDom>
-          <Row>
-            <Category>세부 계획</Category>
+          <ReviewDom>
+            <Category2>세부 계획</Category2>
             {detailplans && detailplans.map((item, index) => (
               <Line key={index}>
                 <FiCheck />
@@ -158,18 +152,15 @@ const ViewReview = () => {
                 </CheckList>
               </Line>
             ))}
-          </Row>
-          <Row>
-            <Category>활동내용/합격팁/소감</Category>
-            <CheckList>{info ? info.content : ''}</CheckList>
-          </Row>
-          <style>
-            {`
-              ::placeholder { 
-                  color: rgba(142, 156, 196, 1); 
-              }
-            `}
-          </style>
+            {info && info.procedure ? ((
+              <>
+              <Category2>모집 절차</Category2>
+              <div>{info.procedure}</div>
+              </>
+          )) : null}
+            <Category2>활동내용/합격팁/소감</Category2>
+            <div>{info ? info.content : ''}</div>
+          </ReviewDom>
           <PhotoDom>
             {images && images.map((item) => (
               <img key={item.image_id} src={item.image} alt="사진" style={{ width: '200px', height: '200px', objectFit:'cover', borderRadius:'10px' }} />
@@ -191,7 +182,20 @@ const Line = styled.div`
 const Row = styled.div`
   display : flex;
   flex-direction : column;
+  // align-items : center;
+  // justify-content : center;
   padding : 10px;
+`
+
+const ReviewDom = styled.div`
+  display : flex;
+  flex-direction : column;
+  // align-items : center;
+  padding-top : 2%;
+  padding-left : 21%;
+  padding-right : 21%;
+  width : 60%;
+  gap : 30px;
 `
 
 const BigBody = styled.div`
@@ -217,13 +221,10 @@ const StyledTitle = styled.div`
 const CheckList = styled.div`
   display : flex;
   flex-direction : column;
-  width : 100%;
-  // height : 30%;
-  border-radius: 10px;
-  // border: 0.2px solid rgba(142, 156, 196, 1);
-  gap : 10px;
+  align-items : center;
+  justify-content : center;
+  width : 80%;
   font-size : 16px;
-  padding-left : 16%;
 `
 
 const Infobutton = styled.div`
@@ -232,7 +233,9 @@ const Infobutton = styled.div`
   align-items : center;
   font-size : 18px;
   color: rgba(81, 81, 81, 1);
-  width : 100px;
+  min-width : 100px;
+  padding-left : 10px;
+  padding-right : 10px;
   height : 30px;
   border: 0.2px solid rgba(81, 81, 81, 1);
   border-radius : 10px;
@@ -291,7 +294,10 @@ const Category = styled.div`
   font-size : 24px;
   color : rgba(27, 52, 124, 1);
 `
-
+const Category2 = styled.div`
+  font-size : 24px;
+  color : rgba(27, 52, 124, 1);
+`
 const PhotoDom = styled.div`
   display : flex;
   flex-direction : row;
@@ -299,4 +305,5 @@ const PhotoDom = styled.div`
   justify-content : center;
   width : 100%;
   gap : 5%;
+  margin-top : 5%;
 `

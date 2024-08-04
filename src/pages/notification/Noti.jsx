@@ -8,7 +8,7 @@ import { GoCheck } from 'react-icons/go';
 
 const Noti = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
-  const [selectedCategory, setSelectedCategory] = useState("대외활동");
+  const [selectedCategory, setSelectedCategory] = useState("채용(인턴)");
   const [notice, setNotice] = useState([]);
   const [review, setReview] = useState([]);
   const [showNotice, setShowNotice] = useState(true);
@@ -123,9 +123,9 @@ const Noti = () => {
     navigate(`/viewreview/${id}`);
   };
 
-  // useEffect(() => {
-  //   getAllReview();
-  // }, []);
+  useEffect(() => {
+    getSearchByCategory("CAREER");
+  }, []);
 
   return (
     <>
