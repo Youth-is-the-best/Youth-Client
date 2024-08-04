@@ -4,4 +4,6 @@
 - react-icons
 - react-calendar
 - --save-dev @babel/plugin-proposal-private-property-in-object
+- emoji-picker-react
 - recoil
+

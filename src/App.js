@@ -12,8 +12,9 @@ import { useState } from 'react';
 import MadeBingo from './pages/bingo/MadeBingo';
 import BingoInfo from './pages/bingo/BingoInfo';
 import Calendar from 'react-calendar';
-import Portfolio from './pages/portFolio/ChangePortfolio';
-import MadeReview from './pages/notification/MadeReview';
+import ReadPortfolio from './pages/portFolio/ReadPortfolio';
+import ChangePortfolio from './pages/portFolio/ChangePortfolio';
+import MadeReview from './pages/MadeReview';
 import MyPage from './pages/myPage/MyPage';
 import Alarm from './pages/myPage/Alarm';
 import AlarmManage from './pages/myPage/AlarmManage';
@@ -60,10 +61,11 @@ function App() {
       selectedReason={selectedReason} setSelectedReason={setSelectedReason}
       inputValue={inputValue} setInputValue={setInputValue}
       />}></Route>
-      <Route path="/portfolio" element={<Portfolio/>}></Route>
+      <Route path="/readportfolio" element={<ReadPortfolio/>}></Route>
+      <Route path="/changeportfolio" element={<ChangePortfolio />}></Route>
       <Route path="/mypage" element={<MyPage />}></Route>
       <Route path="/alarm" element={<Alarm />}></Route>
-      <Route path="/alarmManage" element={<AlarmManage />}></Route>
+      <Route path="/alarmmanage" element={<AlarmManage />}></Route>
     </Routes>
     </BrowserRouter>
     </RecoilRoot>

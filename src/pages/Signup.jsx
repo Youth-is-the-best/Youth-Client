@@ -28,6 +28,12 @@ const Signup = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const navigate = useNavigate();
+
+  const toHome = () => {
+    navigate('/');
+  };
+
   // const [referrerAvailable, setReferrerAvailable] = useState(null);
 
   //1.1.3 단과대 계열 선택 드롭다운
@@ -182,7 +188,7 @@ const Signup = () => {
   return (
     <>
     <Header>
-      <img src={Frame8} style={{ width: '200px', height: '40px' }}></img>
+      <img src={Frame8} style={{ width: '200px', height: '40px', cursor: 'pointer' }} onClick={toHome}></img>
     </Header>
     <Wrapper> 
       <Form>
