@@ -17,7 +17,7 @@ const HeaderHook = () => {
           <Logo to ="/">Logo</Logo>
           <Nav>
             <Header to="/test/0">휴학 유형 테스트</Header>
-            <Header to="/">투두리스트 빙고</Header>
+            <Header to="/view">투두리스트 빙고</Header>
             <Header to="/notification">공고/후기</Header>
             <Header to="/readPortfolio">나의 포트폴리오</Header>
             <img src={user} style={{ height: '70px', marginLeft: '5px' }} onClick={handleBtn}></img>
