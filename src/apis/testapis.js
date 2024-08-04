@@ -177,6 +177,7 @@ export const getBingoloc = async (location) => {
             localStorage.removeItem("refresh_token");
             window.location.href = "/login";
         } else {
+            alert("빈 빙고입니다.");
             console.error('Error in getBingo:', error.response ? error.response.data : error.message);
             throw error;
         }
