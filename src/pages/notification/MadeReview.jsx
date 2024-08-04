@@ -106,6 +106,12 @@ const MadeReview = () => {
     setNewChecklistText('');
   };
 
+  const postReview = async () => {
+    const body = {
+      
+    }
+  };
+
   return (
     <>
     <HeaderHook></HeaderHook>

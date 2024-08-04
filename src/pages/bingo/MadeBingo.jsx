@@ -291,8 +291,12 @@ export const TitleLine = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap: 20px;
+  background: rgba(246, 247, 251, 1);
   margin-bottom: 15px;
   margin-left: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 `;
 
 export const CheckLists = styled.div`

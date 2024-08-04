@@ -61,9 +61,8 @@ const BingoInfo = () => {
     }
   };
 
-  const goReview = () => {
-    // alert("리뷰로 이동");
-    // navigate("/`${item.id}`");
+  const goReview = (id) => {
+    navigate(`/viewreview/${id}`);
   }
   
 
@@ -153,8 +152,8 @@ const BingoInfo = () => {
           <ReviewDom>
             {review.map((item) => (
               <Review key={item.id}
-               onClick={goReview}>
-                <img src={item.image} alt={item.title} style={{ width: '90%', height: 'auto', borderRadius: '10px' }} />
+               onClick={()=>goReview(item.id)}>
+                <img src={item.image} alt={item.title} style={{ width: '90%', height: '80%', borderRadius: '10px' }} />
                 <div>{item.title}</div>
               </Review>
             ))}
@@ -223,9 +222,9 @@ const TitleLine = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
+  background: rgba(246, 247, 251, 1);
   position: sticky;
   top: 0;
-  background: rgba(246, 247, 251, 1);
   z-index: 1;
   // padding-top: 10px;
 `;
@@ -251,6 +250,7 @@ export const Review = styled.div`
   width: 50%;
   height: 70%;
   object-fit: contain;
+  padding-top : 1%;
   gap: 5px;
   border: 1px solid rgba(30, 58, 138, 0.5);
   border-radius: 10px;

@@ -124,7 +124,7 @@ export const getSaved = async () => {
             localStorage.removeItem("refresh_token");
             window.location.href = "/login";
         } else {
-            alert(error.response);
+            // alert(error.response);
             console.error('Error in getBingo:', error.response ? error.response.data : error.message);
             throw error;
         }
