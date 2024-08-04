@@ -14,7 +14,7 @@ import BingoInfo from './pages/bingo/BingoInfo';
 import Calendar from 'react-calendar';
 import ReadPortfolio from './pages/portFolio/ReadPortfolio';
 import ChangePortfolio from './pages/portFolio/ChangePortfolio';
-import MadeReview from './pages/MadeReview';
+import MadeReview from './pages/notification/MadeReview';
 import MyPage from './pages/myPage/MyPage';
 import Alarm from './pages/myPage/Alarm';
 import AlarmManage from './pages/myPage/AlarmManage';
