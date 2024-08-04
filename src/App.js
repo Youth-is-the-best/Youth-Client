@@ -27,6 +27,7 @@ import { RecoilRoot } from 'recoil';
 import Index from './pages/Index';
 import ViewReview from './pages/notification/viewReview';
 import ViewNotice from './pages/notification/viewNotice';
+import ImageUploadForm from './pages/notification/ImageUploadForm';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -39,6 +40,7 @@ function App() {
     <RecoilRoot>
     <BrowserRouter>
     <Routes>
+      <Route path="/data" element={<ImageUploadForm/>}></Route>
       <Route path="/" element={<Home/>}></Route>
       <Route path="/view" element={<Index/>}></Route>
       <Route path="/info" element={<BingoInfo/>}></Route>

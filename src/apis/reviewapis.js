@@ -228,5 +228,19 @@ export const getSearchByKeyword = async (keyword) => {
 }
 
 // 일반 후기글 작성하기
-export const postMyReview = async () => {
+export const postMyReview = async (data) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.post(`${baseURL}/review/`, data, {
+            headers: {
+                Authorization: `Bearer ${access}`,
+                'Content-Type': 'multipart/form-data'
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error in postMyReview:', error.response ? error.response.data : error.message);
+        throw error;
+    }
 }
