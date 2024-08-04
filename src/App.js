@@ -28,6 +28,7 @@ import Index from './pages/Index';
 import ViewReview from './pages/notification/viewReview';
 import ViewNotice from './pages/notification/viewNotice';
 import ImageUploadForm from './pages/notification/ImageUploadForm';
+import Introduce from './pages/Introduce';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -41,7 +42,8 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/data" element={<ImageUploadForm/>}></Route>
-      <Route path="/" element={<Home/>}></Route>
+      <Route path="/" element={<Introduce/>}></Route>
+      <Route path="/bingo" element={<Home/>}></Route>
       <Route path="/view" element={<Index/>}></Route>
       <Route path="/info" element={<BingoInfo/>}></Route>
       <Route path="/info/:id" element={<BingoInfo />} />
