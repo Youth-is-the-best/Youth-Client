@@ -2,8 +2,7 @@ import { atom } from 'recoil';
 
 export const bingoState = atom({
   key: 'bingoState',
-  default:[],
-  // default: Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })),
+  default: [],
 });
 
 export const usernameState = atom({
@@ -21,6 +20,11 @@ export const endDateState = atom({
   default: '',
 });
 
+export const prepDateState = atom({
+  key: 'prepDateState',
+  default: [],
+});
+
 export const titleState = atom({
   key: 'titleState',
   default: Array.from({ length: 9 }, (_, index) => ({ location: index, title: '' })),
@@ -31,7 +35,6 @@ export const bingoIdState = atom({
   default: [],
 });
 
-// 끌어와서 만든 빙고
 export const bingoBodyState = atom({
   key: 'bingoBodyState',
   default: {

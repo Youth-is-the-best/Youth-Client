@@ -61,14 +61,14 @@ const Bingomain = () => {
     if (bingos.every(bingo => !bingo.title)) {
       getBingos();
     }
-    // getBingos();
   }, [bingos]);
 
   return (
     <LeftDom>
       <h2>{username}의 빙고판</h2>
       <div style={{ color: 'grey' }}>
-        {startDate} ~ {endDate} <MdOutlineEditCalendar />
+        투두리스트를 수정하세요.
+        {/* {startDate.toLocaleDateString} ~ {endDate.toLocaleDateString} <MdOutlineEditCalendar /> */}
       </div>
       <BingoDom>
       {Array.isArray(bingos) && bingos.map((item, index) => (

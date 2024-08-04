@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
+import { getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
-import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
-import { bingoBodyState, bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
+import { prepDateState, bingoBodyState, bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
+import CustomCalendar from './bingo/CustomCalendar';
 
-//드래그가능 홈화면
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
   const navigate = useNavigate();
@@ -22,10 +21,11 @@ const Home = () => {
   const [array, setArray] = useState('추천순');
   const [error, setError] = useState(null);
   const [username] = useRecoilState(usernameState);
-  const [startDate] = useRecoilState(startDateState);
-  const [endDate] = useRecoilState(endDateState);
   const [title, setTitle] = useRecoilState(titleState);
   const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
+  const [startDate, setStartDate] = useRecoilState(startDateState);
+  const [endDate, setEndDate] = useRecoilState(endDateState);
+  const [prepDates, setPrepDates] = useRecoilState(prepDateState);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -76,20 +76,14 @@ const Home = () => {
     setTypeRecommend(typeData);
   };
 
-  //처음 패치
-  const fetchBingoData = async () => {
-    try {
-      const response = await getBingo();
-      const bingos = Array.from({ length: 9 }, (_, index) => ({
-        id : response.bingo_obj.find((item) => item.location === index)?.id || '',
-        location: index,
-        title: response.bingo_obj.find((item) => item.location === index)?.title || '',
-      }));
-      setBingos(bingos);
-      setTitle(bingos.map((item) => item.title));
-    } catch (error) {
-      setError('Error fetching bingo data');
-    }
+  const fetchBingoData = () => {
+    const initialBingos = Array.from({ length: 9 }, (_, index) => ({
+      id: '',
+      location: index,
+      title: '',
+    }));
+    setBingos(initialBingos);
+    setTitle(initialBingos.map((item) => item.title));
   };
 
   const postBingos = async () => {
@@ -102,7 +96,7 @@ const Home = () => {
       console.error('Error in postBingo:', error.response ? error.response.data : error.message);
     }
   };
-  
+
   const getBackgroundColor = (inBingo, index) => {
     if (inBingo) {
       return 'white';
@@ -166,7 +160,6 @@ const Home = () => {
         setDraggingInfo(null);
         setBingos(newBingos);
         setTitle(newTitles);
-        // console.log(bingos);
         navigate(`/madedragbingo/${draggingInfo.id}/${newBingos[index].location}`);
       } else if (draggingIndex !== null) {
         [newBingos[draggingIndex], newBingos[index]] = [newBingos[index], newBingos[draggingIndex]];
@@ -198,12 +191,17 @@ const Home = () => {
   const clickBingo = (index) => {
     alert('이미 만들어진 빙고입니다. 드래그하여 수정하세요');
     const selectedBingo = bingos[index];
-    // navigate(`/madedragbingo/${selectedBingo.id}/${selectedBingo.location}`);
-    //bingo에 아이디 아직 안 된 거 같아서 추가해야됨
   };
 
   const clickemptyBingo = (location) => {
     navigate(`/made/${location}`);
+  };
+
+  const handlePrepDateChange = (prepDates) => {
+    setPrepDates(prepDates); 
+    const [startDate, endDate] = prepDates;
+    setStartDate(startDate); // Update Recoil state
+    setEndDate(endDate);     // Update Recoil state
   };
 
   useEffect(() => {
@@ -221,9 +219,11 @@ const Home = () => {
       <Body>
         <LeftDom>
           <h2>{username}의 빙고판</h2>
-          <div style={{ color: 'grey' }}>
-            {startDate} ~ {endDate} <MdOutlineEditCalendar />
-          </div>
+          <Line style={{ color: 'grey'}}>
+            {startDate && endDate
+              ? `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}` : '날짜를 입력하세요.'}
+            <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
+          </Line>
           <BingoDom>
           {bingos.map((bingo, index) => {
             const inBingo = bingo.title !== '';
@@ -319,6 +319,7 @@ export const Headers = styled.div`
   font-size: 20px;
   color: rgba(30, 58, 138, 1);
 `;
+
 export const Header = styled(Link)`
   color: rgba(30, 58, 138, 1);
   text-decoration: none;
@@ -453,3 +454,4 @@ const Line = styled.div`
   width: 100%;
   gap: 3%;
 `;
+
