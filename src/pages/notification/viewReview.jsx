@@ -40,8 +40,11 @@ const ViewReview = () => {
         author: response.author,
         created_at: response.created_at,
         profile: response.profile,
+        saved : response.saved,
       };
       setInfo(info);
+      setIsStarred(info.saved);
+      // setIsLiked(info.likes);
 
       const images = response.images ? response.images.map((item) => ({
         image_id: item.image_id,

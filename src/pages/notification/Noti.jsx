@@ -13,6 +13,7 @@ const Noti = () => {
   const [review, setReview] = useState([]);
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
+  const [isStarred, setIsStarred] = useState(false);
 
   const inputConfigs = {
     "채용(인턴)": [
@@ -98,8 +99,10 @@ const Noti = () => {
         title: item.title,
         image: item.image_url,
         likes_count: item.likes_count,
+        saved : item.saved,
       }));
       setNotice(notice);
+      setIsStarred(notice.saved);
       const review = response.review.map((item) => ({
         id: item.id,
         author: item.author,
@@ -108,8 +111,10 @@ const Noti = () => {
         image: item.images[0]?.image || '',
         likes_count: item.likes_count,
         comments_count: item.comments_count,
+        saved : item.saved,
       }));
       setReview(review);
+      setIsStarred(review.saved);
       // console.log(response);
     } catch (error) {
       console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
@@ -188,7 +193,7 @@ const Noti = () => {
               </WriterDom>
               <PhotoBox src={item.image} alt={item.title}></PhotoBox>
               <div>{item.title} </div>
-              <div><AiOutlineHeart />{item.likes_count} <AiOutlineMessage />{item.comments_count}</div>
+              <div><AiOutlineMessage />{item.comments_count}</div>
             </Content>
           ))}
           {showReview && review.map((item) => (
@@ -200,7 +205,7 @@ const Noti = () => {
               </WriterDom>
               <PhotoBox src={item.image} alt={item.title}></PhotoBox>
               <div>{item.title}</div>
-              <div><AiOutlineHeart />{item.likes_count} <AiOutlineMessage />{item.comments_count}</div>
+              <div><AiOutlineHeart style={{color : 'rgba(255, 0, 0, 1)'}}/>{item.likes_count} <AiOutlineMessage style={{color : 'rgba(27, 52, 124, 1)'}}/>{item.comments_count}</div>
             </Content>
           ))}
         </ContentDom>

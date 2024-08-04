@@ -13,7 +13,6 @@ const ViewNotice = () => {
   const [images, setImages] = useState([]);
   const [detailplans, setDetailplans] = useState([]);
   const [isStarred, setIsStarred] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
 
   const getNotice = async (id) => {
     try {
@@ -82,16 +81,16 @@ const ViewNotice = () => {
     }
   };
 
-  const handleLike = async () => {
-    try {
-      const response = await getHandleNoticeLike(id);
-      console.log(response);
-      setIsLiked(!isLiked);
-    } catch (error) {
-      console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
-      throw error;
-    }
-  };
+  // const handleLike = async () => {
+  //   try {
+  //     const response = await getHandleNoticeLike(id);
+  //     console.log(response);
+  //     setIsLiked(!isLiked);
+  //   } catch (error) {
+  //     console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
+  //     throw error;
+  //   }
+  // };
 
   return (
     <>
@@ -104,11 +103,11 @@ const ViewNotice = () => {
             onClick={handleStorage} 
             style={{ color: isStarred ? 'yellow' : 'black' }} 
           />
-          <AiOutlineHeart 
+          {/* <AiOutlineHeart 
             size={40} 
             onClick={handleLike} 
             style={{ color: isLiked ? 'red' : 'black' }} 
-          />
+          /> */}
         </Line>
       </Line>
       <BigBody>
