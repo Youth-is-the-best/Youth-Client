@@ -250,6 +250,7 @@ export const Review = styled.div`
   width: 50%;
   height: 70%;
   object-fit: contain;
+  padding-top : 1%;
   gap: 5px;
   border: 1px solid rgba(30, 58, 138, 0.5);
   border-radius: 10px;
