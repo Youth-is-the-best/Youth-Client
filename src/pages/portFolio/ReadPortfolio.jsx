@@ -8,12 +8,19 @@ import AiOutLineBank from '../../images/AiOutlineBank.png'
 import MdOutlinedFeed from '../../images/MdOutlineFeed.png'
 import Vector from '../../images/Vector.png'
 import { useNavigate } from 'react-router-dom'
+import editimg from '../../images/FiEdit3.png'
+import checkimg from '../../images/AiOutlineCheckSquare.png'
 
 const ReadPortfolio = () => {
+  const [isChecked, setIsChecked] = useState(false);
   const router = useNavigate();
 
   const toChangeMode = () => {
     router('/changeportfolio');
+  };
+
+  const handleCheck = () => {
+    setIsChecked(!isChecked);
   };
 
   return (
@@ -24,7 +31,7 @@ const ReadPortfolio = () => {
         <img src={다람쥐} style={{ height: '128px', width: '128px', borderRadius: '50%'}}></img>
     </ProfileImage>
     <ChangeBtn>
-      <button onClick={toChangeMode} style={{ cursor: 'pointer' }}>수정하기</button>
+      <button onClick={toChangeMode}><img src={editimg}></img></button>
     </ChangeBtn>
     <Body>
       <ProfileWrapper>
@@ -69,10 +76,12 @@ const ReadPortfolio = () => {
         <PostWrapper style={{ float: 'bottom' }}>
           <PostTitle>
             <SectionTitle><img src={MdOutlinedFeed} style={{ height: '21px', width: '19px' }}></img>내가 쓴 포스트 보기</SectionTitle>
-            <Checklist>
-              <img src={Vector} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img>
+            <CheckBox onClick={handleCheck}>
+              { isChecked ? 
+                <img src={checkimg} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img> :
+                <img src={Vector} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img> }
               <p>빙고 인증 후기만 보기</p>
-            </Checklist>
+            </CheckBox>
           </PostTitle>
           <PostContent>
             {/* 사용자가 입력한 목표 달성 후기 post & 빙고 외 후기 post가 보여짐 */}
@@ -109,15 +118,21 @@ const ChangeBtn = styled.div`
   position: relative;
   bottom: 80px;
   button {
-    font-size: 14px;
-    font-weight: 600;
     background-color: white;
-    color: #1E3A8A;
-    width: 90px;
-    height: 28px;
-    border: 0.4px solid #1E3A8A;
+    width: 44px;
+    height: 44px;
+    border: 0.2px solid rgba(165, 176, 208, 1);
     border-radius: 8px;
+    box-shadow: 1px 1px 3px 0px rgba(165, 176, 208, 1);
+    cursor: pointer;
   }
+  img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+  } 
 `;
 
 const ProfileWrapper = styled.div`
@@ -256,7 +271,7 @@ const PostTitle = styled.div`
 const PostContent = styled.div`
 `;
 
-const Checklist = styled.div`
+const CheckBox = styled.div`
   display: flex;
   align-items: center;
 `;

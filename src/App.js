@@ -25,6 +25,7 @@ import MadeDragBingo from './pages/bingo/MadeDragBingo';
 import MadedBingo from './pages/bingo/MadedBingo';
 import { RecoilRoot } from 'recoil';
 import Index from './pages/Index';
+import Introduce from './pages/Introduce';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -37,7 +38,8 @@ function App() {
     <RecoilRoot>
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Home/>}></Route>
+      <Route path="/" element={<Introduce/>}></Route>
+      <Route path="/bingo" element={<Home/>}></Route>
       <Route path="/view" element={<Index/>}></Route>
       <Route path="/info" element={<BingoInfo/>}></Route>
       <Route path="/info/:id" element={<BingoInfo />} />
