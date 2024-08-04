@@ -20,6 +20,7 @@ import Alarm from './pages/myPage/Alarm';
 import AlarmManage from './pages/myPage/AlarmManage';
 import Noti from './pages/notification/Noti';
 import HueInfo from './pages/bingo/HueInfo';
+import HueInfo2 from './pages/bingo/HueInfo2';
 import MadeDragBingo from './pages/bingo/MadeDragBingo';
 import MadedBingo from './pages/bingo/MadedBingo';
 import { RecoilRoot } from 'recoil';
@@ -51,6 +52,7 @@ function App() {
       <Route path="/review" element={<MadeReview />}/>
       <Route path="/notification" element={<Noti />}/>
       <Route path="/hueInfo" element={<HueInfo/>}></Route>
+      <Route path="/hueInfo2" element={<HueInfo2/>}></Route>
       <Route path="/test/0" element={<Test year={year} setYear={setYear} semester={semester} setSemester={setSemester}/>}/>
       <Route path="/test/1" element={<Test1 selectedReason={selectedReason} setSelectedReason={setSelectedReason}/>} />
       <Route path="/test/2" element={<Test2 selectedAnswers={selectedAnswers} setSelectedAnswers={setSelectedAnswers} />}/>

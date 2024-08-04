@@ -188,6 +188,10 @@ const Home = () => {
     navigate('/hueInfo');
   };
 
+  const goHueInfo2 = () => {
+    navigate('/hueInfo2');
+  };
+
   const clickBingo = (index) => {
     alert('이미 만들어진 빙고입니다. 드래그하여 수정하세요');
     const selectedBingo = bingos[index];
@@ -221,7 +225,7 @@ const Home = () => {
           <h2>{username}의 빙고판</h2>
           <Line style={{ color: 'grey'}}>
             {startDate && endDate
-              ? `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}` : '날짜를 입력하세요.'}
+              ? `${startDate} ~ ${endDate}` : '날짜를 입력하세요.'}
             <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
           </Line>
           <BingoDom>
@@ -249,14 +253,20 @@ const Home = () => {
           <div>
             <FiThumbsUp /> 휴알유 추천
           </div>
-          <RecommendDom onClick={goHueInfo}>
-            {recommend.map((item, index) => (
-              <RecommendCom key={index} draggable={false}>
-                <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
-                <div>{item.title}</div>
-              </RecommendCom>
-            ))}
+          {recommend && recommend.length > 1 && (
+          <RecommendDom>
+          <RecommendCom draggable={false}
+          onClick={goHueInfo}>
+            <img src={recommend[0].image} alt={recommend[0].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
+            <div>{recommend[0].title}</div>
+          </RecommendCom>
+          <RecommendCom draggable={false}
+          onClick={goHueInfo2}>
+            <img src={recommend[1].image} alt={recommend[1].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
+            <div>{recommend[1].title}</div>
+          </RecommendCom>
           </RecommendDom>
+          )}
           <Line>
             <Selector
               value={array}
