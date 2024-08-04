@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeaderHook from '../../hook/HeaderHook';
-import { getHandleLike, getHandleNoticeLike, getHandleNoticeStorage, getNoticeById, getReviewById } from '../../apis/reviewapis';
+import { getHandleLike, getHandleNoticeLike, getHandleNoticeSaved, getHandleNoticeStorage, getNoticeById, getReviewById } from '../../apis/reviewapis';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
@@ -72,7 +72,7 @@ const ViewNotice = () => {
 
   const handleStorage = async () => {
     try {
-      const response = await getHandleNoticeStorage(id);
+      const response = await getHandleNoticeSaved(id);
       console.log(response);
       setIsStarred(!isStarred);
     } catch (error) {

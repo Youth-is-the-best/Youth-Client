@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import HeaderHook from '../../hook/HeaderHook';
 import styled from 'styled-components';
-import { AiOutlineHeart, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineHeart, AiOutlineMessage, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import { getReview, getReviewByCategory, getSearchByCategory} from '../../apis/reviewapis';
+import { getHandleNoticeSaved, getReview, getSearchByCategory } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
 
 const Noti = () => {
@@ -13,7 +13,6 @@ const Noti = () => {
   const [review, setReview] = useState([]);
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
-  const [isStarred, setIsStarred] = useState(false);
 
   const inputConfigs = {
     "채용(인턴)": [
@@ -22,56 +21,54 @@ const Noti = () => {
       { placeholder: "근무 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
       { placeholder: "지원 마감", type: "date" }
     ],
-    "자격증":[
-      { placeholder: "시험 분야", type: "select", options: ["경영/경제", "IT/컴퓨터", "어학", "디자인", "기타"]},
+    "자격증": [
+      { placeholder: "시험 분야", type: "select", options: ["경영/경제", "IT/컴퓨터", "어학", "디자인", "기타"] },
       { placeholder: "시험 날짜", type: "date" },
-      // { placeholder: "휴아유 사용자 평균 준비 기간", type: "selet", options: ["1개월", "2개월", "3개월", "4개월", "5개월", "6개월", "6개월 이상"] }      
     ],
     "대외활동": [
       { placeholder: "활동 분야", type: "select", options: ["봉사", "기자단", "홍보단(서포터즈)", "강연", "멘토링", "모임(동아리)", "해외탐방", "기타"] },
       { placeholder: "활동 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
       { placeholder: "활동 기간", type: "date-range" },
-      
     ],
     "공모전": [
       { placeholder: "공모 분야", type: "select", options: ["기획/아이디어", "광고/마케팅", "사진/영상", "디자인/순수미술", "캐릭터/만화/게임", "공간/건축", "과학/공학", "예체능", "학술", "창업", "기타"] },
       { placeholder: "마감일", type: "date" },
-      
     ],
-    "취미": [
-      // { placeholder: "분야", type: "select", options: ["그림 및 공예", "음악", "운동", "레저 및 야외 활동", "요리 및 베이킹", "독서 및 글쓰기", "원예", "기타"] },
-    ],
-    "여행": [
-      // { placeholder: "장소", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "해외"] },
-    ],
-    "자기계발": [
-      // { placeholder: "분야", type: "select", options: ["언어", "독서", "자격증", "전문 기술", "재정 관리", "건강 관리", "네트워킹", "기타"] },
-    ],
-    "휴식": [
-      // { placeholder: "장소", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "해외"] },
-    ]
+    "취미": [],
+    "여행": [],
+    "자기계발": [],
+    "휴식": []
   };
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    if (category === "채용(인턴)"){
-      getReviewsByCategory("CAREER");
-    } else if (category === "자격증"){
-      getReviewsByCategory("CERTIFICATE");
-    } else if (category === "대외활동"){
-      getReviewsByCategory("OUTBOUND");
-    } else if (category === "공모전"){
-      getReviewsByCategory("CONTEST");
-    } else if (category === "취미"){
-      getReviewsByCategory("HOBBY");
-    } else if (category === "여행"){
-      getReviewsByCategory("TRAVEL");
-    } else if (category === "자기계발"){
-      getReviewsByCategory("SELFIMPROVEMENT");
-    } else if (category === "휴식"){
-      getReviewsByCategory("REST");
-    } else {
-      getAllReview();
+    switch (category) {
+      case "채용(인턴)":
+        getReviewsByCategory("CAREER");
+        break;
+      case "자격증":
+        getReviewsByCategory("CERTIFICATE");
+        break;
+      case "대외활동":
+        getReviewsByCategory("OUTBOUND");
+        break;
+      case "공모전":
+        getReviewsByCategory("CONTEST");
+        break;
+      case "취미":
+        getReviewsByCategory("HOBBY");
+        break;
+      case "여행":
+        getReviewsByCategory("TRAVEL");
+        break;
+      case "자기계발":
+        getReviewsByCategory("SELFIMPROVEMENT");
+        break;
+      case "휴식":
+        getReviewsByCategory("REST");
+        break;
+      default:
+        getAllReview();
     }
   };
 
@@ -95,33 +92,53 @@ const Noti = () => {
       const notice = response.notice.map((item) => ({
         id: item.id,
         author: item.author,
-        created_at : item.created_at,
+        created_at: item.created_at,
         title: item.title,
         image: item.image_url,
-        likes_count: item.likes_count,
-        saved : item.saved,
+        saved: item.saved,
       }));
       setNotice(notice);
-      setIsStarred(notice.saved);
       const review = response.review.map((item) => ({
         id: item.id,
         author: item.author,
-        created_at : item.created_at,
+        created_at: item.created_at,
         title: item.title,
         image: item.images[0]?.image || '',
         likes_count: item.likes_count,
         comments_count: item.comments_count,
-        saved : item.saved,
+        saved: item.saved,
       }));
       setReview(review);
-      setIsStarred(review.saved);
-      // console.log(response);
     } catch (error) {
       console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
     }
   };
 
+  const handleStorage = async (id, type) => {
+    try {
+      const response = await getHandleNoticeSaved(id);
+      console.log(response);
+      if (type === 'notice') {
+        setNotice((prevNotice) =>
+          prevNotice.map((item) =>
+            item.id === id ? { ...item, saved: !item.saved } : item
+          )
+        );
+      } else {
+        setReview((prevReview) =>
+          prevReview.map((item) =>
+            item.id === id ? { ...item, saved: !item.saved } : item
+          )
+        );
+      }
+    } catch (error) {
+      console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
+      throw error;
+    }
+  };
+
   const navigate = useNavigate();
+
   const goReview = (id) => {
     navigate(`/viewreview/${id}`);
   };
@@ -138,7 +155,7 @@ const Noti = () => {
       <HeaderHook></HeaderHook>
       <Body>
         <SearchDom>
-          <SearchBox placeholder="키워드 검색"/><AiOutlineSearch size={40}/>
+          <SearchBox placeholder="키워드 검색" /><AiOutlineSearch size={40} />
         </SearchDom>
         <NavigationBar>
           {categorys.map((category) => (
@@ -152,60 +169,70 @@ const Noti = () => {
           <CheckDom>
             <Check onClick={() => setShowNotice(!showNotice)}>
               <CheckBox>
-                {showNotice && <GoCheck size={19}/>}
+                {showNotice && <GoCheck size={19} />}
               </CheckBox>
               <div>공고</div>
             </Check>
             <Check onClick={() => setShowReview(!showReview)}>
               <CheckBox>
-                {showReview && <GoCheck size={19}/>}
+                {showReview && <GoCheck size={19} />}
               </CheckBox>
               <div>후기</div>
             </Check>
           </CheckDom>
           <DropdownDom>
-          {inputConfigs[selectedCategory]?.map((config, index) => (
-            <Dropdown key={index}>
-              {config.type === "select" ? (
-                <select>
-                  <option>{config.placeholder}</option>
-                  {config.options.map((option, idx) => (
-                    <option key={idx} value={option}>{option}</option>
-                  ))}
-                </select>
-              ) : (
-                <Line style={{fontSize : '12px'}}>
-                  <div>{config.placeholder}</div>
-                  <input type={config.type} placeholder={config.placeholder} />
-                </Line>
-              )}
-            </Dropdown>
-          ))}
+            {inputConfigs[selectedCategory]?.map((config, index) => (
+              <Dropdown key={index}>
+                {config.type === "select" ? (
+                  <select>
+                    <option>{config.placeholder}</option>
+                    {config.options.map((option, idx) => (
+                      <option key={idx} value={option}>{option}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <Line style={{ fontSize: '12px' }}>
+                    <div>{config.placeholder}</div>
+                    <input type={config.type} placeholder={config.placeholder} />
+                  </Line>
+                )}
+              </Dropdown>
+            ))}
           </DropdownDom>
         </Bar>
         <ContentDom>
           {showNotice && notice.map((item) => (
-            <Content key={item.id}
-            onClick={() => goNotice(item.id)}>
+            <Content key={item.id}>
               <WriterDom>
                 <div>{item.author}</div>
                 <div>{item.created_at}</div>
+                <AiOutlineStar
+                  size={20}
+                  onClick={() => handleStorage(item.id, 'notice')}
+                  style={{ color: item.saved ? 'yellow' : 'black' }}
+                />
               </WriterDom>
-              <PhotoBox src={item.image} alt={item.title}></PhotoBox>
-              <div>{item.title} </div>
+              <PhotoBox src={item.image} alt={item.title}
+                onClick={() => goNotice(item.id)}></PhotoBox>
+              <div>{item.title}</div>
               <div><AiOutlineMessage />{item.comments_count}</div>
             </Content>
           ))}
           {showReview && review.map((item) => (
-            <Content key={item.id}
-            onClick={() => goReview(item.id)}>
+            <Content key={item.id}>
               <WriterDom>
                 <div>{item.author}</div>
                 <div>{item.created_at}</div>
+                <AiOutlineStar
+                  size={20}
+                  onClick={() => handleStorage(item.id, 'review')}
+                  style={{ color: item.saved ? 'yellow' : 'black' }}
+                />
               </WriterDom>
-              <PhotoBox src={item.image} alt={item.title}></PhotoBox>
+              <PhotoBox src={item.image} alt={item.title}
+                onClick={() => goReview(item.id)}></PhotoBox>
               <div>{item.title}</div>
-              <div><AiOutlineHeart style={{color : 'rgba(255, 0, 0, 1)'}}/>{item.likes_count} <AiOutlineMessage style={{color : 'rgba(27, 52, 124, 1)'}}/>{item.comments_count}</div>
+              <div><AiOutlineHeart style={{ color: 'rgba(255, 0, 0, 1)' }} />{item.likes_count} <AiOutlineMessage style={{ color: 'rgba(27, 52, 124, 1)' }} />{item.comments_count}</div>
             </Content>
           ))}
         </ContentDom>
@@ -262,7 +289,6 @@ const Dropdown = styled.div`
     font-size: 18px;
     padding: 5px;
     border: 1px solid white;
-    // border-radius: 5px;
   }
 `;
 const SearchDom = styled.div`
@@ -287,7 +313,6 @@ const NavigationBar = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-bottom: 20px;
-  // width: 100%;
   height: 50px;
   padding : 1%;
   margin-top : 2%;
@@ -334,7 +359,6 @@ const ContentDom = styled.div`
   justify-content : center;
   align-items : center;
   width : 100%;
-  // height : 1000px;
   padding : 1%;
 `;
 const Content = styled.div`
@@ -356,5 +380,4 @@ const PhotoBox = styled.img`
   height : 200px;
   object-fit : cover;
   border-radius : 10px;
-  // margin-bottom: 10px;
 `;

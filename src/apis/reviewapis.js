@@ -157,7 +157,7 @@ export const getHandleNoticeLike = async (notice_id) => {
 }
 
 // 리뷰 보관함에 담기
-export const getHandleReviewStorage = async (notice_id) => {
+export const getHandleReviewSaved = async (notice_id) => {
     try {
         const access = localStorage.getItem("access_token");
         if (!access) throw new Error("No access token found in localStorage");
@@ -180,7 +180,7 @@ export const getHandleReviewStorage = async (notice_id) => {
     }
 }
 // 공고 보관함에 담기
-export const getHandleNoticeStorage = async (notice_id) => {
+export const getHandleNoticeSaved = async (notice_id) => {
     try {
         const access = localStorage.getItem("access_token");
         if (!access) throw new Error("No access token found in localStorage");
