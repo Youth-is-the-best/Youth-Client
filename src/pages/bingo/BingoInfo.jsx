@@ -233,8 +233,8 @@ const TitleLine = styled.div`
 export const ReviewDom = styled.div`
   display: flex;
   flex-direction: row;
-  width: 530px;
-  // height: 230px;
+  width: 100%;
+  height: 50%;
   flex-shrink: 0;
   border-radius: 10px;
   gap: 10px;
@@ -248,8 +248,9 @@ export const Review = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 200px;
-  height: 200px;
+  width: 50%;
+  height: 70%;
+  object-fit: contain;
   gap: 5px;
   border: 1px solid rgba(30, 58, 138, 0.5);
   border-radius: 10px;

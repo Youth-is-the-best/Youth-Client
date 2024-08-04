@@ -102,12 +102,12 @@ const Index = () => {
         location: index,
         title: response.bingo_obj.find((item) => item.location === index)?.title || '',
       }));
-
       setUsername(username);
       setStartDate(start_date);
       setEndDate(end_date);
       setBingos(bingoData);
       setTitle(bingoData.map((item) => item.title));
+      // console.log(response);
     } catch (error) {
       setError(error);
     }
