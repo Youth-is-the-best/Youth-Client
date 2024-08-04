@@ -25,7 +25,18 @@ export const getReviewById = async (id) => {
     }
 }
 
-// 카테고리에 따른 리뷰 가져오기 → /review/?large_category=CAREER
+// 카테고리에 따른 공고,후기 가져오기 → /search/?large_category=CAREER
+export const getSearchByCategory = async (category) => {
+    try {
+        const response = await axios.get(`${baseURL}/search/?large_category=${category}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+// 카테고리에 따른 공고,후기 가져오기 → /review/?large_category=CAREER
 export const getReviewByCategory = async (category) => {
     try {
         const response = await axios.get(`${baseURL}/review/?large_category=${category}`);

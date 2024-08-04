@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import HeaderHook from '../../hook/HeaderHook';
 import styled from 'styled-components';
-import { AiOutlineCheckSquare, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
-import { getReview, getReviewByCategory} from '../../apis/reviewapis';
+import { AiOutlineHeart, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
+import { getReview, getReviewByCategory, getSearchByCategory} from '../../apis/reviewapis';
+import { GoCheck } from 'react-icons/go';
 
 const Noti = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
   const [selectedCategory, setSelectedCategory] = useState("대외활동");
+  const [notice, setNotice] = useState([]);
   const [review, setReview] = useState([]);
+  const [showNotice, setShowNotice] = useState(true);
+  const [showReview, setShowReview] = useState(true);
 
   const inputConfigs = {
     "채용(인턴)": [
@@ -86,21 +90,42 @@ const Noti = () => {
 
   const getReviewsByCategory = async (category) => {
     try {
-      const response = await getReviewByCategory(category);
-      const review = response.map((item) => ({
+      const response = await getSearchByCategory(category);
+      const notice = response.notice.map((item) => ({
         id: item.id,
+        author: "천재PM",
+        created_at : "2024.07.24",
         title: item.title,
         image: item.images[0]?.image || '',
+        likes_count: item.likes_count,
+        comments_count: item.comments_count,
+      }));
+      setNotice(notice);
+
+      const review = response.review.map((item) => ({
+        id: item.id,
+        author: item.author,
+        created_at : item.created_at,
+        title: item.title,
+        image: item.images[0]?.image || '',
+        likes_count: item.likes_count,
+        comments_count: item.comments_count,
       }));
       setReview(review);
+      // console.log(review);
     } catch (error) {
       console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
     }
   };
 
-  useEffect(() => {
-    getAllReview();
-  }, []);
+  const navigate = useNavigate();
+  const goReview = (id) => {
+    navigate(`/viewreview/${id}`);
+  };
+
+  // useEffect(() => {
+  //   getAllReview();
+  // }, []);
 
   return (
     <>
@@ -119,19 +144,20 @@ const Noti = () => {
         <Line>{selectedCategory}</Line>
         <Bar>
           <CheckDom>
-            <Check>
-              <AiOutlineCheckSquare size={20}/>
-              <div>전체</div>
-            </Check>
-            <Check>
-              <AiOutlineCheckSquare size={20}/>
+            <Check onClick={() => setShowNotice(!showNotice)}>
+              <CheckBox>
+                {showNotice && <GoCheck size={19}/>}
+              </CheckBox>
               <div>공고</div>
             </Check>
-            <Check>
-              <AiOutlineCheckSquare size={20}/>
+            <Check onClick={() => setShowReview(!showReview)}>
+              <CheckBox>
+                {showReview && <GoCheck size={19}/>}
+              </CheckBox>
               <div>후기</div>
             </Check>
           </CheckDom>
+          <DropdownDom>
           {inputConfigs[selectedCategory]?.map((config, index) => (
             <Dropdown key={index}>
               {config.type === "select" ? (
@@ -149,16 +175,30 @@ const Noti = () => {
               )}
             </Dropdown>
           ))}
+          </DropdownDom>
         </Bar>
         <ContentDom>
-          {review.map((item) => (
+          {showNotice && notice.map((item) => (
             <Content key={item.id}>
               <WriterDom>
-                <div>천재PM</div>
-                <div>2024.07.24</div>
+                <div>{item.author}</div>
+                <div>{item.created_at}</div>
               </WriterDom>
               <PhotoBox src={item.image} alt={item.title}></PhotoBox>
-              <div>{item.title} <AiOutlineHeart />12 <AiOutlineMessage />12</div>
+              <div>{item.title} </div>
+              <div><AiOutlineHeart />{item.likes_count} <AiOutlineMessage />{item.comments_count}</div>
+            </Content>
+          ))}
+          {showReview && review.map((item) => (
+            <Content key={item.id}
+            onClick={() => goReview(item.id)}>
+              <WriterDom>
+                <div>{item.author}</div>
+                <div>{item.created_at}</div>
+              </WriterDom>
+              <PhotoBox src={item.image} alt={item.title}></PhotoBox>
+              <div>{item.title}</div>
+              <div><AiOutlineHeart />{item.likes_count} <AiOutlineMessage />{item.comments_count}</div>
             </Content>
           ))}
         </ContentDom>
@@ -192,18 +232,30 @@ const Bar = styled.div`
   display : flex;
   flex-direction : row;
   align-items : center;
-  height : 80px;
+  justify-content: space-between;
+  height : 1%;
+  padding-top : 5%;
   padding-left : 4.8%;
   font-size : 24px;
   color: rgba(142, 156, 196, 1);
 `;
+const DropdownDom = styled.div`
+  display : flex;
+  flex-direction : row;
+  align-items : center;
+  font-size : 20px;
+  color : rgba(116, 116, 116, 1);
+  text-decoration : none;
+  cursor : pointer;
+  border: 0.4px solid rgba(27, 52, 124, 1);
+  height : 40px;
+`;
 const Dropdown = styled.div`
-  margin-right: 20px;
   select, input {
     font-size: 18px;
     padding: 5px;
-    border: 1px solid rgba(142, 156, 196, 1);
-    border-radius: 5px;
+    border: 1px solid white;
+    // border-radius: 5px;
   }
 `;
 const SearchDom = styled.div`
@@ -257,24 +309,34 @@ const CheckDom = styled.div`
 const Check = styled.div`
  display : flex;
  align-items : center;
+ cursor: pointer;
 `;
+const CheckBox = styled.div`
+  width: 16px;
+  height: 16px;
+  border: 1.2px solid rgba(30, 58, 138, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const ContentDom = styled.div`
   display : grid;
   grid-template-columns : repeat(4, 1fr);
   flex-direction : row;
   justify-content : center;
+  align-items : center;
   width : 100%;
-  height : 1000px;
-  padding : 10px;
+  // height : 1000px;
+  padding : 1%;
 `;
 const Content = styled.div`
   display : flex;
   flex-direction : column;
-  width : 70%;
-  height : 300px;
+  width : 80%;
+  height : 70%;
   border : 0.2px solid black;
-  margin: 10px;
-  padding: 10px;
+  padding: 3%;
 `;
 const WriterDom = styled.div`
   display : flex;
@@ -283,9 +345,9 @@ const WriterDom = styled.div`
   justify-content : space-between;
 `;
 const PhotoBox = styled.img`
-  width : 100%;
+  width : 300px;
   height : 200px;
-  border : 0.2px solid black;
+  object-fit : cover;
   border-radius : 10px;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
 `;

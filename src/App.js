@@ -25,6 +25,7 @@ import MadeDragBingo from './pages/bingo/MadeDragBingo';
 import MadedBingo from './pages/bingo/MadedBingo';
 import { RecoilRoot } from 'recoil';
 import Index from './pages/Index';
+import ViewReview from './pages/notification/viewReview';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -50,6 +51,7 @@ function App() {
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/cal" element={<Calendar />}/>
       <Route path="/review" element={<MadeReview />}/>
+      <Route path="/viewreview/:id" element={<ViewReview />}/>
       <Route path="/notification" element={<Noti />}/>
       <Route path="/hueInfo" element={<HueInfo/>}></Route>
       <Route path="/hueInfo2" element={<HueInfo2/>}></Route>
