@@ -39,8 +39,10 @@ const ViewNotice = () => {
         author: response.author,
         created_at: response.created_at,
         profile: response.profile,
+        saved : response.saved,
       };
       setInfo(info);
+      setIsStarred(info.saved);
 
       const images = response.images ? response.images.map((item) => ({
         image_id: item.image_id,
@@ -80,17 +82,6 @@ const ViewNotice = () => {
       throw error;
     }
   };
-
-  // const handleLike = async () => {
-  //   try {
-  //     const response = await getHandleNoticeLike(id);
-  //     console.log(response);
-  //     setIsLiked(!isLiked);
-  //   } catch (error) {
-  //     console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
-  //     throw error;
-  //   }
-  // };
 
   return (
     <>
