@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import moneyimg from '../images/MdOutlineCopyright.png'
 
 const MyPageModal = ({ isOpen }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useNavigate();
-
-  useEffect(() => {
-    const savedAccessToken = localStorage.getItem("access_token");
-    if (savedAccessToken) {
-      setIsLoggedIn(true);
-    }
-  }, []);
 
   const toMyPage = () => {
     router('/myPage');
@@ -21,43 +14,19 @@ const MyPageModal = ({ isOpen }) => {
     router('/alarm');
   };
 
-  const toLogin = () => {
-    router('/login');
-  };
-
-  const handleLogout = ()=>{
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("refresh_token")
-    setIsLoggedIn(false);
-    router('/');
-    window.location.reload();
-  };
-
-    
   if (!isOpen) return null;
   return (
     <>
     <ModalWrapper>
       <ModalBtn>
+        <img src={moneyimg} style={{width: '20px', height: '20px', marginRight: '5px'}}></img>
+        <span>1,050P</span>
+      </ModalBtn>
+      <ModalBtn>
         <StyledButton onClick={toMyPage}>내 정보</StyledButton>
       </ModalBtn>
       <ModalBtn>
-        <StyledButton onClick={toAlarm}>알림</StyledButton>
-      </ModalBtn>
-      <ModalBtn>
-        {isLoggedIn ? (
-          <StyledButton
-            style={{ backgroundColor: 'white', border: '0.4px solid #1E3A8A', color: '#1E3A8A' }}
-            onClick={handleLogout}
-          >로그아웃
-          </StyledButton>
-        ) : (
-          <StyledButton 
-            style={{ backgroundColor: 'white', border: '0.4px solid #1E3A8A', color: '#1E3A8A' }}
-            onClick={toLogin}
-          >로그인
-          </StyledButton>
-        )}
+        <StyledButton onClick={toAlarm}>알림설정</StyledButton>
       </ModalBtn>
     </ModalWrapper>
     </>
@@ -73,30 +42,23 @@ const ModalWrapper = styled.div`
   align-items: center;
   position: absolute;
   right: 3%;
-  width: 180px;
-  height: 120px;
-  border: 0.4px solid #1E3A8A;
-  border-radius: 10px 0px 10px 10px;
+  top: 12%;
+  width: 145px;
+  height: 140px;
+  border: 0.4px solid rgba(196, 196, 196, 1);
   background-color: white;
 `;
 
 const ModalBtn = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 70%;
 `;
 
 const StyledButton = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 78%;
-    height: 26px;
-    background-color: #1E3A8A;
-    border-radius: 10px;
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-`
+  display: flex;
+  align-items: center;
+  width: 78%;
+  height: 26px;
+  cursor: pointer;
+`;

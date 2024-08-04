@@ -1,24 +1,27 @@
-import React, { useRef, useState } from 'react'
-import styled from 'styled-components'
-import HeaderHook from '../../hook/HeaderHook'
-import 다람쥐 from '../../images/다람쥐.jpg'
-import MdOutlinedFeed from '../../images/MdOutlineFeed.png'
-import Vector from '../../images/Vector.png'
-import { useNavigate } from 'react-router-dom'
-import Minus from '../../images/AiOutlineMinusCircle.png'
-import PlusSquare from '../../images/FiPlusSquare.png'
+import React, { useRef, useState } from 'react';
+import styled from 'styled-components';
+import HeaderHook from '../../hook/HeaderHook';
+import 다람쥐 from '../../images/다람쥐.jpg';
+import MdOutlinedFeed from '../../images/MdOutlineFeed.png';
+import Vector from '../../images/Vector.png';
+import { useNavigate } from 'react-router-dom';
+import Minus from '../../images/AiOutlineMinusCircle.png';
+import PlusSquare from '../../images/FiPlusSquare.png';
 import EmojiPicker from 'emoji-picker-react';
-import EmojiEmotion from '../../images/MdOutlineEmojiEmotions.png'
+import EmojiEmotion from '../../images/MdOutlineEmojiEmotions.png';
+import saveimg from '../../images/FiSave.png';
+import checkimg from '../../images/AiOutlineCheckSquare.png';
 
 
 const ChangePortfolio = () => {
   const textarea = useRef();
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [contentlists, setContentlists] = useState([]);
-  const [newContentText, setNewContentText] = useState('');
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState('');
-  const router = useNavigate  ();
+  const [contentLists, setContentLists] = useState([[], [], []]);
+  const [newContentTexts, setNewContentTexts] = useState(['', '', '']);
+  const [showEmojiPickers, setShowEmojiPickers] = useState([false, false, false]);
+  const [selectedEmojis, setSelectedEmojis] = useState(['', '', '']);
+  const [isChecked, setIsChecked] = useState(false);
+  const router = useNavigate();
 
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
@@ -38,48 +41,63 @@ const ChangePortfolio = () => {
     router('/readportfolio');
   };
 
-  const madeContent = () => {
-    if (newContentText.trim() === '') return;
-    const newContent = { id: contentlists.length + 1, text: newContentText };
-    setContentlists([...contentlists, newContent]);
-    setNewContentText('');
+  const madeContent = (index) => {
+    if (newContentTexts[index].trim() === '') return;
+    const newContent = { id: contentLists[index].length + 1, text: newContentTexts[index] };
+    const updatedContentLists = [...contentLists];
+    updatedContentLists[index] = [...updatedContentLists[index], newContent];
+    setContentLists(updatedContentLists);
+
+    const updatedNewContentTexts = [...newContentTexts];
+    updatedNewContentTexts[index] = '';
+    setNewContentTexts(updatedNewContentTexts);
     // 여기에 백엔드 연결
   };
 
-  const clickDelete = (id) => {
-    const deleteContent = contentlists.filter((item) => item.id !== id);
-    setContentlists(deleteContent);
+  const clickDelete = (index, id) => {
+    const updatedContentLists = [...contentLists];
+    updatedContentLists[index] = updatedContentLists[index].filter((item) => item.id !== id);
+    setContentLists(updatedContentLists);
   };
 
-  const handleEmojiClick = (emojiObject) => {
-    setSelectedEmoji(emojiObject.emoji);
-    setShowEmojiPicker(false);
+  const handleEmojiClick = (index, emojiObject) => {
+    const updatedSelectedEmojis = [...selectedEmojis];
+    updatedSelectedEmojis[index] = emojiObject.emoji;
+    setSelectedEmojis(updatedSelectedEmojis);
+
+    const updatedShowEmojiPickers = [...showEmojiPickers];
+    updatedShowEmojiPickers[index] = false;
+    setShowEmojiPickers(updatedShowEmojiPickers);
   };
 
+  const handleCheck = () => {
+    setIsChecked(!isChecked);
+  };
+  
   return (
     <>
       <HeaderHook></HeaderHook>
       <BackgroundWrapper />
       <ProfileImage>
-        <img src={다람쥐} style={{ height: '128px', width: '128px', borderRadius: '50%'}}></img>
+        <img src={다람쥐} style={{ height: '128px', width: '128px', borderRadius: '50%' }}></img>
       </ProfileImage>
       <SaveBtn>
-        <button onClick={toReadMode} style={{ cursor: 'pointer' }}>저장하기</button>
+        <button onClick={toReadMode} style={{ cursor: 'pointer' }}><img src={saveimg}></img></button>
       </SaveBtn>
       <Body>
         <ProfileWrapper>
           <ProfileTitle>
-              <SectionTitle style={{ position: 'relative', bottom: '10px' }}>@닉네임, who are you?</SectionTitle>
-              <textarea 
-                ref={textarea} 
-                onChange={handleResizeHeight} 
-                rows={3}
-                placeholder='나에게 맞는 수식어를 입력해주세요.'></textarea>
+            <SectionTitle style={{ position: 'relative', bottom: '10px' }}>@닉네임, who are you?</SectionTitle>
+            <textarea
+              ref={textarea}
+              onChange={handleResizeHeight}
+              rows={3}
+              placeholder='나에게 맞는 수식어를 입력해주세요.'></textarea>
           </ProfileTitle>
           <Info>
-            <InfoItem><InfoLabel>생년월일</InfoLabel><input type='date'></input></InfoItem>
+            <InfoItem><InfoLabel>생년월일</InfoLabel><input type='date' ></input></InfoItem>
             <InfoItem><InfoLabel>학교 & 전공</InfoLabel><input type='text' placeholder='학교와 전공을 입력해주세요.'></input></InfoItem>
-            <InfoItem><InfoLabel>연락처</InfoLabel><input type='tel' value={phoneNumber} onChange={handlePhoneNumberChange}  placeholder='연락처를 입력해주세요.'></input></InfoItem>
+            <InfoItem><InfoLabel>연락처</InfoLabel><input type='tel' value={phoneNumber} onChange={handlePhoneNumberChange} placeholder='연락처를 입력해주세요.'></input></InfoItem>
             <InfoItem><InfoLabel>E-mail</InfoLabel><input type='email' placeholder='자주 쓰는 이메일을 입력해주세요.'></input></InfoItem>
             {/* 이메일은 백에서 받아오기 */}
           </Info>
@@ -89,81 +107,107 @@ const ChangePortfolio = () => {
           <p>휴학 기간에 달성한 사소한 목표부터 자랑하고픈 업적까지 모두 기록해보세요.</p>
           <AboutMeWrapper>
             <SubTitle>
-              <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                {selectedEmoji ? <span>{selectedEmoji}</span> : <img src={EmojiEmotion} style={{width: '24px', height: '24px'}}></img> }
+              <button onClick={() => {
+                const updatedShowEmojiPickers = [...showEmojiPickers];
+                updatedShowEmojiPickers[0] = !updatedShowEmojiPickers[0];
+                setShowEmojiPickers(updatedShowEmojiPickers);
+              }}>
+                {selectedEmojis[0] ? <span>{selectedEmojis[0]}</span> : <img src={EmojiEmotion} style={{ width: '24px', height: '24px' }}></img>}
               </button>
               @닉네임, Who are you?
-              {showEmojiPicker && <EmojiPicker onEmojiClick={handleEmojiClick} />}
+              {showEmojiPickers[0] && <EmojiPicker onEmojiClick={(emojiObject) => handleEmojiClick(0, emojiObject)} />}
             </SubTitle>
             <ContentLists>
-              {contentlists.map((item) => (
+              {contentLists[0].map((item) => (
                 <ContentList key={item.id}>
-                  <img src={Minus} style={{width: '16px', height: '16px'}} onClick={() => clickDelete(item.id)} />
+                  <img src={Minus} style={{ width: '16px', height: '16px' }} onClick={() => clickDelete(0, item.id)} />
                   <span>{item.text}</span>
                 </ContentList>
               ))}
               <AddContent>
                 <InputBox
                   type="text"
-                  value={newContentText}
-                  onChange={(e) => setNewContentText(e.target.value)}
+                  value={newContentTexts[0]}
+                  onChange={(e) => {
+                    const updatedNewContentTexts = [...newContentTexts];
+                    updatedNewContentTexts[0] = e.target.value;
+                    setNewContentTexts(updatedNewContentTexts);
+                  }}
                   placeholder="@닉네임 님에 대해 이야기해주세요"
                 />
-                <img src={PlusSquare} style={{ width: '26px', height: '26px'}} onClick={madeContent} />
+                <img src={PlusSquare} style={{ width: '26px', height: '26px' }} onClick={() => madeContent(0)} />
               </AddContent>
             </ContentLists>
           </AboutMeWrapper>
           <HueWrapper>
             <ClearWrapper>
               <SubTitle>
-                <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                  {selectedEmoji ? <span>{selectedEmoji}</span> : <img src={EmojiEmotion} style={{width: '24px', height: '24px'}}></img> }
+                <button onClick={() => {
+                  const updatedShowEmojiPickers = [...showEmojiPickers];
+                  updatedShowEmojiPickers[1] = !updatedShowEmojiPickers[1];
+                  setShowEmojiPickers(updatedShowEmojiPickers);
+                }}>
+                  {selectedEmojis[1] ? <span>{selectedEmojis[1]}</span> : <img src={EmojiEmotion} style={{ width: '24px', height: '24px' }}></img>}
                 </button>
                 달성한 빙고 한 눈에 보기
+                {showEmojiPickers[1] && <EmojiPicker onEmojiClick={(emojiObject) => handleEmojiClick(1, emojiObject)} />}
               </SubTitle>
               <Content>
                 <ContentLists>
-                  {contentlists.map((item) => (
+                  {contentLists[1].map((item) => (
                     <ContentList key={item.id}>
-                      <img src={Minus} style={{width: '16px', height: '16px'}} onClick={() => clickDelete(item.id)} />
+                      <img src={Minus} style={{ width: '16px', height: '16px' }} onClick={() => clickDelete(1, item.id)} />
                       <span>{item.text}</span>
                     </ContentList>
                   ))}
                   <AddContent>
                     <InputBox
                       type="text"
-                      value={newContentText}
-                      onChange={(e) => setNewContentText(e.target.value)}
+                      value={newContentTexts[1]}
+                      onChange={(e) => {
+                        const updatedNewContentTexts = [...newContentTexts];
+                        updatedNewContentTexts[1] = e.target.value;
+                        setNewContentTexts(updatedNewContentTexts);
+                      }}
                       placeholder="달성한 빙고에 대해 이야기해주세요."
                     />
-                    <img src={PlusSquare} style={{ width: '26px', height: '26px'}} onClick={madeContent} />
+                    <img src={PlusSquare} style={{ width: '26px', height: '26px' }} onClick={() => madeContent(1)} />
                   </AddContent>
                 </ContentLists>
               </Content>
             </ClearWrapper>
             <ClearWrapper>
               <SubTitle>
-                <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                  {selectedEmoji ? <span>{selectedEmoji}</span> : <img src={EmojiEmotion} style={{width: '24px', height: '24px'}}></img> }
+                <button onClick={() => {
+                  const updatedShowEmojiPickers = [...showEmojiPickers];
+                  updatedShowEmojiPickers[2] = !updatedShowEmojiPickers[2];
+                  setShowEmojiPickers(updatedShowEmojiPickers);
+                }}>
+                  {selectedEmojis[2] ? <span>{selectedEmojis[2]}</span> : <img src={EmojiEmotion} style={{ width: '24px', height: '24px' }}></img>}
                 </button>
                 다른 성과 한 눈에 보기
+                {showEmojiPickers[2] && <EmojiPicker onEmojiClick={(emojiObject) => handleEmojiClick(2, emojiObject)} />}
               </SubTitle>
               <Content>
                 <ContentLists>
-                  {contentlists.map((item) => (
+                  {contentLists[2].map((item) => (
                     <ContentList key={item.id}>
-                      <img src={Minus} style={{width: '16px', height: '16px'}} onClick={() => clickDelete(item.id)} />
+                      <img src={Minus} style={{ width: '16px', height: '16px' }} onClick={() => clickDelete(2, item.id)} />
                       <span>{item.text}</span>
                     </ContentList>
                   ))}
                   <AddContent>
                     <InputBox
                       type="text"
-                      value={newContentText}
-                      onChange={(e) => setNewContentText(e.target.value)}
+                      value={newContentTexts[2]}
+                      onChange={(e) => {
+                        const updatedNewContentTexts = [...newContentTexts];
+                        updatedNewContentTexts[2] = e.target.value;
+                        setNewContentTexts(updatedNewContentTexts);
+                      }}
                       placeholder="휴알유 이외의 성과에 대해 이야기해주세요."
                     />
-                    <img src={PlusSquare} style={{ width: '26px', height: '26px'}} onClick={madeContent} />
+                    <img src={PlusSquare} style={{ width: '26px', height: '26px' }} onClick={() => madeContent(2)} />
                   </AddContent>
                 </ContentLists>
               </Content>
@@ -173,8 +217,10 @@ const ChangePortfolio = () => {
         <PostWrapper style={{ float: 'bottom' }}>
           <PostTitle>
             <SectionTitle><img src={MdOutlinedFeed} style={{ height: '21px', width: '19px' }}></img>내가 쓴 포스트 보기</SectionTitle>
-            <CheckBox>
-              <img src={Vector} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img>
+            <CheckBox onClick={handleCheck}>
+              { isChecked ? 
+                <img src={checkimg} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img> :
+                <img src={Vector} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img> }
               <p>빙고 인증 후기만 보기</p>
             </CheckBox>
           </PostTitle>
@@ -184,10 +230,10 @@ const ChangePortfolio = () => {
         </PostWrapper>
       </Body>
     </>
-  )
-}
+  );
+};
 
-export default ChangePortfolio
+export default ChangePortfolio;
 
 const BackgroundWrapper = styled.div`
  background-image: linear-gradient(to bottom, rgba(30, 58, 138, 0.8), #FFFFFF);
@@ -213,13 +259,20 @@ const SaveBtn = styled.div`
   position: relative;
   bottom: 80px;
   button {
-    font-size: 14px;
-    font-weight: 600;
-    background-color: #1E3A8A;
-    color: white;
-    width: 90px;
-    height: 28px;
+    background-color: white;
+    width: 44px;
+    height: 44px;
+    border: 0.2px solid rgba(165, 176, 208, 1);
     border-radius: 8px;
+    box-shadow: 1px 1px 3px 0px rgba(165, 176, 208, 1);
+    cursor: pointer;
+  }
+  img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
   }
 `;
 
@@ -257,7 +310,7 @@ const SectionTitle = styled.div`
 `;
 
 const SubTitle = styled.div`
-  color: #A3A3A3;
+  color: rgba(196, 196, 196, 1);
   font-size: 16px;
   font-weight: 700;
   width: 100%;
@@ -299,12 +352,16 @@ const InfoItem = styled.div`
     border: none;
     font-size: 15px;
     font-weight: 500;
-    width: 40%;
+    width: 20%;
+    border: 0.2px solid rgba(30, 58, 138, 0.2);
+    border-radius: 8px;
+    text-indent: 10px;
     &::placeholder {
         color: #A3A3A3;
         font-family: 'Pretendard-Regular';
         font-size: 16px;
         font-weight: 700;
+        padding: 4px 10px 4px 0px;
     }
   }
 `;

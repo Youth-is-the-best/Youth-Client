@@ -1,27 +1,46 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
-import user from '../images/user.png'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MyPageModal from "./MyPageModal";
+import modalopenimg from "../images/modalopen.png";
+import modalcloseimg from "../images/modalclose.png";
 
 const HeaderHook = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useNavigate();
 
   const handleBtn = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const handleLogout = ()=>{
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("refresh_token")
+    router('/');
+    // window.location.reload();
+  };
+
   return (
     <>
+    <LogoutBtn>
+      <button onClick={handleLogout}>로그아웃</button>
+    </LogoutBtn>
     <Headers>
-          <Logo to ="/">Logo</Logo>
-          <Nav>
-            <Header to="/test/0">휴학 유형 테스트</Header>
-            <Header to="/view">투두리스트 빙고</Header>
-            <Header to="/notification">공고/후기</Header>
-            <Header to="/readPortfolio">나의 포트폴리오</Header>
-            <img src={user} style={{ height: '70px', marginLeft: '5px' }} onClick={handleBtn}></img>
-          </Nav>
+      <Logo to ="/">Logo</Logo>
+      <Nav>
+        <Header to="/test/0">휴학 유형 테스트</Header>
+        <Header to="/view">투두리스트 빙고</Header>
+        <Header to="/notification">공고/후기</Header>
+        <Header to="/readportfolio">나의 포트폴리오</Header>
+        <Mypage>
+          <Header to="/mypage">마이페이지</Header>
+          <Modal onClick={handleBtn}>
+            { isModalOpen ?
+              <img src={modalopenimg}></img> :
+              <img src={modalcloseimg}></img> }
+          </Modal>
+        </Mypage>
+      </Nav>
     </Headers>
     <MyPageModal isOpen={isModalOpen}></MyPageModal>
     </>
@@ -29,6 +48,24 @@ const HeaderHook = () => {
 }
 
 export default HeaderHook;
+
+const LogoutBtn = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-right: 3%;
+  margin-top: 1%;
+  button {
+    height: 24px;
+    padding: 4px 10px 4px 10px;
+    gap: 10px;
+    border: 0.4px solid rgba(217, 217, 217, 1);
+    background-color: white;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(81, 81, 81, 1);
+  }
+`;
 
 const Headers = styled.div`
   display: flex;
@@ -44,8 +81,8 @@ const Headers = styled.div`
 `;
 
 const Header = styled(Link)`
-  color : #1E3A8A;
-  text-decoration : none;
+  color: rgba(81, 81, 81, 1);
+  text-decoration: none;
   font-size: 16px;
   font-weight: 600;
 `;
@@ -57,6 +94,21 @@ const Logo = styled(Link)`
 const Nav = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 40px;
   font-size: 18px;
+`;
+
+const Mypage = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Modal = styled.div`
+  display: flex;
+  align-items: center;
+  img {
+    margin-left: 8px;
+    width: 16px;
+    height: 16px;
+  }
 `;
