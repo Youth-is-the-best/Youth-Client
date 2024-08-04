@@ -203,6 +203,30 @@ export const getHandleNoticeSaved = async (notice_id) => {
     }
 }
 
+// 키워드 검색하기 
+export const getSearchByKeyword = async (keyword) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.get(`${baseURL}/search/?search=${keyword}`, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    }
+}
+
 // 일반 후기글 작성하기
-export const postMyReview = async (review) => {
+export const postMyReview = async () => {
 }

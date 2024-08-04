@@ -13,6 +13,7 @@ const Noti = () => {
   const [review, setReview] = useState([]);
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const inputConfigs = {
     "채용(인턴)": [
@@ -117,7 +118,7 @@ const Noti = () => {
   const handleStorage = async (id, type) => {
     try {
       const response = await getHandleNoticeSaved(id);
-      console.log(response);
+      // console.log(response);
       if (type === 'notice') {
         setNotice((prevNotice) =>
           prevNotice.map((item) =>
@@ -146,6 +147,40 @@ const Noti = () => {
     navigate(`/viewnotice/${id}`);
   };
 
+  const doSearch = async (searchKeyword) => {
+    try {
+      const response = await getSearchByCategory(searchKeyword);
+      const notice = response.notice.map((item) => ({
+        id: item.id,
+        author: item.author,
+        created_at: item.created_at,
+        title: item.title,
+        image: item.image_url,
+        saved: item.saved,
+      }));
+      const review = response.review.map((item) => ({
+        id: item.id,
+        author: item.author,
+        created_at: item.created_at,
+        title: item.title,
+        image: item.images[0]?.image || '',
+        likes_count: item.likes_count,
+        comments_count: item.comments_count,
+        saved: item.saved,
+      }));
+      setNotice(notice);
+      setReview(review);
+      console.log(searchKeyword);
+      console.log(notice);
+      console.log(response);
+      if (notice.length === 0 && review.length === 0) {
+        alert('검색 결과가 없습니다.');
+      }
+    } catch (error) {
+      console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
+    }
+  };
+
   useEffect(() => {
     getReviewsByCategory("CAREER");
   }, []);
@@ -155,7 +190,12 @@ const Noti = () => {
       <HeaderHook></HeaderHook>
       <Body>
         <SearchDom>
-          <SearchBox placeholder="키워드 검색" /><AiOutlineSearch size={40} />
+          <SearchBox
+            placeholder="키워드 검색"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+          />
+          <AiOutlineSearch size={40} onClick={() => doSearch(searchKeyword)} />
         </SearchDom>
         <NavigationBar>
           {categorys.map((category) => (
@@ -205,6 +245,7 @@ const Noti = () => {
             <Content key={item.id}>
               <WriterDom>
                 <div>{item.author}</div>
+                {/* <div>휴알유</div> */}
                 <div>{item.created_at}</div>
                 <AiOutlineStar
                   size={20}
@@ -282,6 +323,7 @@ const DropdownDom = styled.div`
   text-decoration : none;
   cursor : pointer;
   border: 0.4px solid rgba(27, 52, 124, 1);
+  border-radius: 10px;
   height : 40px;
 `;
 const Dropdown = styled.div`
@@ -366,7 +408,8 @@ const Content = styled.div`
   flex-direction : column;
   width : 80%;
   height : 70%;
-  border : 0.2px solid black;
+  // border : 0.2px solid black;
+  color : rgba(27, 52, 124, 1);
   padding: 3%;
 `;
 const WriterDom = styled.div`
