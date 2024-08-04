@@ -114,6 +114,7 @@ const MadeBingo = () => {
   const handlePrepDateChange = (dates) => {
     setPrepDates(dates);
   };
+  
   const updateBingo = () => {
     const locationIndex = parseInt(location);
     const updatedBingoObj = [...bingoBody.bingo_obj];

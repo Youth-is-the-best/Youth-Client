@@ -4,12 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
-import { getBingoloc, getInfo } from '../../apis/testapis';
-import { Category,CheckLists,CheckList,CheckBox } from './MadeBingo';
+import { getBingoloc, postTodolist } from '../../apis/testapis';
+import { Category, CheckLists, CheckList, CheckBox } from './MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import Bingomain from './Bingomain';
 
-const BingoInfo = () => {
+const MadedBingo = () => {
   const navigate = useNavigate();
   const { location } = useParams();
   const [checklists, setChecklists] = useState([]);
@@ -43,8 +43,6 @@ const BingoInfo = () => {
       }));
       setInfo(info);
       setChecklists(todos);
-      // console.log(info);
-      // console.log(response);
     } catch (error) {
       console.error('Error in getInfos:', error.response ? error.response.data : error.message);
       throw error;
@@ -62,17 +60,33 @@ const BingoInfo = () => {
       item.id === id ? { ...item, checked: !item.checked } : item
     );
     setChecklists(updatedChecklists);
+    const isChecked = updatedChecklists.find(item => item.id === id)?.checked;
+    const postmessage = {
+      "is_completed": isChecked
+    };
+    postTodolists(id, postmessage);
+    // console.log(postmessage);
+  };
+
+  const postTodolists = async (id, postmessage) => {
+    try {
+      const response = await postTodolist(id, postmessage);
+      // console.log(response);
+    } catch (error) {
+      console.error('Error in postTodolists:', error.response ? error.response.data : error.message);
+      throw error;
+    }
   };
 
   return (
     <>
       <HeaderHook />
       <Body>
-        <Bingomain/>
+        <Bingomain />
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20}/></DateInfo>
+            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20} /></DateInfo>
           </TitleLine>
           <TitleLine>
             <h1>{info ? info.title : 'Loading...'}</h1>
@@ -83,85 +97,84 @@ const BingoInfo = () => {
               {info ? info.large_category_display : 'Loading...'}
             </Category>
           </Line>
-          {info && info.host ? (
+          {info && info.host && (
             <Line>
               <Category>주최사</Category>
               <div>{info.host}</div>
             </Line>
-          ) : null}
-          {info && info.field ? (
+          )}
+          {info && info.field && (
             <Line>
               <Category>활동 분야</Category>
               <div>{info.field}</div>
             </Line>
-          ) : null}
-          {info && info.app_fee ? (
+          )}
+          {info && info.app_fee && (
             <Line>
               <Category>응시료</Category>
               <div>{info.app_fee}원</div>
             </Line>
-          ) : null}
-          {info && info.duty ? (
+          )}
+          {info && info.duty && (
             <Line>
               <Category>직무</Category>
               <div>{info.duty}</div>
             </Line>
-          ) : null}
-          {info && info.employment_form ? (
+          )}
+          {info && info.employment_form && (
             <Line>
               <Category>채용 형태</Category>
               <div>{info.employment_form}</div>
             </Line>
-          ) : null}
-          {info && info.area ? (
+          )}
+          {info && info.area && (
             <Line>
               <Category>활동 지역</Category>
               <div>{info.area}</div>
             </Line>
-          ) : null}
-          {info && info.app_due ? (
+          )}
+          {info && info.app_due && (
             <Line>
               <Category>지원 마감</Category>
               <div>{info.app_due}</div>
             </Line>
-          ) : null}
-          {info && info.prep_period ? (
+          )}
+          {info && info.prep_period && (
             <Line>
               <Category>준비 기간</Category>
               <div>{info.prep_period}</div>
             </Line>
-          ) : null}
-          {info && info.start_date ? ((
+          )}
+          {info && info.start_date && (
             <Line>
               <Category>활동 기간</Category>
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
-          )) : null}
+          )}
           <TitleLine>
             <div> | 세부계획 </div>
           </TitleLine>
           <CheckLists>
-            {checklists.map((item) => (
-              <CheckList key={item.id} checked={item.checked}>
+            {checklists.map((item, index) => (
+              <CheckList key={index} checked={item.checked}>
                 {item.checked ? (
                   <AiOutlineCheckSquare size={20} onClick={() => toggleCheck(item.id)} />
                 ) : (
-                  <CheckBox onClick={() => toggleCheck(item.id)}/>
+                  <CheckBox onClick={() => toggleCheck(item.id)} />
                 )}
                 <span>{item.text}</span>
               </CheckList>
             ))}
-            <Line>
-            </Line>
+            <Line></Line>
           </CheckLists>
-            <DateInfo style={{ width : '30%', marginLeft: '67%'}}>목표 달성 기록 남기기</DateInfo>
+          <DateInfo style={{ width: '30%', marginLeft: '67%' }}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
     </>
   );
 };
 
-export default BingoInfo;
+export default MadedBingo;
 
 export const RightDom = styled.div`
   display: flex;
@@ -223,5 +236,4 @@ const TitleLine = styled.div`
   top: 0;
   background: rgba(246, 247, 251, 1);
   z-index: 1;
-  // padding-top: 10px;
 `;

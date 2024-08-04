@@ -12,3 +12,14 @@ export const getReview = async () => {
         throw error;
     }
 }
+
+export const getReviewById = async (id) => {
+    try {
+        const response = await axios.get(`${baseURL}/review/${id}`);
+        return response.data;
+    } catch (error) {
+        alert('리뷰를 찾을 수 없습니다.');
+        console.error('Error in getReviewById:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
