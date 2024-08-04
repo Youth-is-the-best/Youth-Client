@@ -221,7 +221,7 @@ const Home = () => {
           <h2>{username}의 빙고판</h2>
           <Line style={{ color: 'grey'}}>
             {startDate && endDate
-              ? `${startDate.toLocaleDateString()} ~ ${endDate.toLocaleDateString()}` : '날짜를 입력하세요.'}
+              ? `${startDate} ~ ${endDate}` : '날짜를 입력하세요.'}
             <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
           </Line>
           <BingoDom>
