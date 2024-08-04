@@ -153,7 +153,7 @@ const BingoInfo = () => {
             {review.map((item) => (
               <Review key={item.id}
                onClick={()=>goReview(item.id)}>
-                <img src={item.image} alt={item.title} style={{ width: '90%', height: 'auto', borderRadius: '10px' }} />
+                <img src={item.image} alt={item.title} style={{ width: '90%', height: '80%', borderRadius: '10px' }} />
                 <div>{item.title}</div>
               </Review>
             ))}
