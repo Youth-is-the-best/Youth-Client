@@ -1,12 +1,22 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import HeaderHook from '../../hook/HeaderHook'
 import { useNavigate } from 'react-router-dom';
+import { myInfo } from '../../apis/mypageapis';
 
 
 const MyPage = () => {
+  const [userInfo, setUserInfo] = useState({ name: '', username: '', type_result: '', email: ''});
   const premiumRef = useRef(null);
   const router = useNavigate();
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const data = await myInfo();
+      setUserInfo(data);
+    };
+    fetchUserInfo();
+  }, [])
 
   const scrollToPremium = () => {
     if (premiumRef.current) {
@@ -16,7 +26,12 @@ const MyPage = () => {
 
   const toResult = () => {
     router('/result');
-  }
+  };
+
+  const handleSub = () => {
+    alert('준비중입니다... 🐇🐇')
+  };
+
 
   return (
     <>
@@ -25,25 +40,22 @@ const MyPage = () => {
           <MyInfoWrapper>
             <InfoTitle>내 정보</InfoTitle>
             <Info>
-              <InfoItem><InfoLabel>이름</InfoLabel><input placeholder='조하정'></input></InfoItem>
-              <InfoItem><InfoLabel>닉네임</InfoLabel><input placeholder='dylan_lee'></input></InfoItem>
-              <InfoItem><InfoLabel>휴학 유형</InfoLabel><input placeholder='열정 가득 토끼' style={{ width: '150px'}}></input><button onClick={toResult}>유형 테스트 결과 보기</button></InfoItem>
-              <InfoItem><InfoLabel>가입 이메일</InfoLabel><input placeholder='huareyou@gmail.com'></input></InfoItem>
-              <InfoItem><InfoLabel>요금제</InfoLabel><p>휴알유 BASIC</p><button style={{ width: '110px' }} onClick={scrollToPremium}>요금제 살펴보기</button></InfoItem>
-              <InfoItem><InfoLabel>포인트</InfoLabel><input placeholder='1,510p'></input></InfoItem>
+              <InfoItem><InfoLabel>이름</InfoLabel><p>{userInfo.name}</p></InfoItem>
+              <InfoItem><InfoLabel>닉네임</InfoLabel><p>{userInfo.username}</p></InfoItem>
+              <InfoItem><InfoLabel>휴학 유형</InfoLabel><p>{userInfo.type_result}</p><button onClick={toResult}>유형 테스트 결과 보기</button></InfoItem>
+              <InfoItem><InfoLabel>가입 이메일</InfoLabel><p>{userInfo.email}</p></InfoItem>
+              <InfoItem><InfoLabel>요금제</InfoLabel><p>휴알유 basic</p><button style={{ width: '110px' }} onClick={scrollToPremium}>요금제 살펴보기</button></InfoItem>
+              <InfoItem><InfoLabel>포인트</InfoLabel><p>1,050p</p></InfoItem>
             </Info>
           </MyInfoWrapper>
           <PremiumWrapper ref={premiumRef}>
-            <PremTitle>PREMIUM</PremTitle>
+            <PremTitle>휴알유 요금제</PremTitle>
             <PremGrade>
-              <div>휴알유 BASIC</div>
-              <div>휴알유 PLUS</div>
-              <div>휴알유 FOCUS</div>
+              <div>휴알유 basic</div>
+              <div>휴알유 plus</div>
+              <div>휴알유 focus</div>
             </PremGrade>
             <PremContainer>
-              <PremItem>₩ 0</PremItem>
-              <PremItem>₩ 5,000/3개월<br />₩ 15,000/년</PremItem>
-              <PremItem>₩ 6,000/3개월<br />₩ 18,000/년<br />*개인별 보증금 별도</PremItem>
               <PremItem>-</PremItem>
               <PremItem>광고 제거</PremItem>
               <PremItem>광고 제거</PremItem>
@@ -52,12 +64,40 @@ const MyPage = () => {
               <PremItem>빙고 개수 무제한</PremItem>
               <PremItem>빙고 수정 3회</PremItem>
               <PremItem>빙고 수정 5회</PremItem>
-              <PremItem>빙고 수정 10회</PremItem>
-              <PremItem>기한 마감<br />7일 전 알림</PremItem>
-              <PremItem>기한 마감<br />15/7/3일 전 알림</PremItem>
-              <PremItem>기한 마감<br />15/7/3일 전 알림<br /><br />
-              매일 이행 여부를<br />체크할 수 있는<br />데일리 빙고 체크리스트<br /><br />
-              계획 이행률<br />시각화 자료 제공<br /><br /> 보증금 설정 가능</PremItem>
+              <PremItem>빙고 수정 1회</PremItem>
+              <PremItem>
+                <ul>
+                  <li>기한 마감</li>
+                  <li style={{listStyleType: 'none'}}>7일 전 알림</li>
+                </ul>
+              </PremItem>
+              <PremItem>
+                <ul>
+                  <li>기한 마감</li>
+                  <li style={{listStyleType: 'none'}}>15/7/3일 전 알림</li>
+                </ul>
+              </PremItem>
+              <PremItem>
+                <ul>
+                  <li>기한 마감</li>
+                  <li style={{listStyleType: 'none'}}>15/7/3일 전 알림</li>
+                  <li style={{listStyleType: 'none', color: 'white'}}>.</li>
+                  <li>매일 이행 여부를<br />체크할 수 있는<br />데일리 빙고 체크리스트</li>
+                  <li style={{listStyleType: 'none', color: 'white'}}>.</li>
+                  <li>계획 이행률<br />시각화 자료 제공</li>
+                  <li style={{listStyleType: 'none', color: 'white'}}>.</li>
+                  <li>보증금 설정 가능</li>
+                </ul>
+              </PremItem>
+              <PremItem style={{fontWeight: '700'}}>₩ 0</PremItem>
+              <PremItemSpc style={{fontWeight: '700'}}>
+                <span>₩ 5,000/3개월<br />₩ 15,000/년<br /><br /></span>
+                <span style={{color: 'rgba(27, 52, 124, 1)'}} onClick={handleSub}>구독하기 &gt;</span> 
+              </PremItemSpc>
+              <PremItemSpc style={{fontWeight: '700'}}>
+                <span>₩ 6,000/3개월<br />₩ 18,000/년<br /><br /></span>
+                <span style={{color: 'rgba(27, 52, 124, 1)'}} onClick={handleSub}>구독하기 &gt;</span> 
+              </PremItemSpc>
             </PremContainer>
           </PremiumWrapper>
         </Body>
@@ -74,7 +114,7 @@ const Body = styled.div`
 `;
 
 const MyInfoWrapper = styled.div`
-  padding-bottom: 20px;
+  padding-bottom: 50%;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 `;
 
@@ -138,32 +178,29 @@ const InfoLabel = styled.div`
 `;
 
 const PremiumWrapper = styled.div`
-  padding-top: 40px;
   padding-bottom: 150px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 `;
 
 const PremTitle = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #8E9CC4;
-  color: white;
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  font-size: 22px;
+  color: #1E3A8A;
+  font-size: 24px;
   font-weight: 700;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  padding: 20px;
 `;
 
 const PremGrade = styled.div`
+  width: 85%;
   display: flex;
   justify-content: space-between;
-  padding: 50px 50px;
+  padding: 100px 50px 50px 50px;
   div {
     height: 30px;
     color: #1E3A8A;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     white-space: nowrap;
   } 
@@ -172,7 +209,7 @@ const PremGrade = styled.div`
 const PremContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(5, minmax(100px, auto));
+  grid-template-rows: repeat(5, minmax(150px, auto));
   gap: 10px;
 `;
 
@@ -181,9 +218,27 @@ const PremItem = styled.div`
   border-bottom: 1px solid #A3A3A3;
   text-align: center;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: #515151;
   display: flex;
   justify-content: center;
   align-items: center;
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    text-align: left;
+  }
 `;
+
+const PremItemSpc = styled.div`
+  padding: 10px;
+  border-bottom: 1px solid #A3A3A3;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #515151;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
