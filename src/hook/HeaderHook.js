@@ -49,7 +49,7 @@ const HeaderHook = () => {
 
 export default HeaderHook;
 
-const LogoutBtn = styled.div`
+export const LogoutBtn = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
@@ -67,7 +67,7 @@ const LogoutBtn = styled.div`
   }
 `;
 
-const Headers = styled.div`
+export const Headers = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -80,30 +80,30 @@ const Headers = styled.div`
   color : rgba(30, 58, 138, 1);
 `;
 
-const Header = styled(Link)`
+export const Header = styled(Link)`
   color: rgba(81, 81, 81, 1);
   text-decoration: none;
   font-size: 16px;
   font-weight: 600;
 `;
 
-const Logo = styled(Link)`
+export const Logo = styled(Link)`
   margin-left: 20px;
 `;
 
-const Nav = styled.div`
+export const Nav = styled.div`
   display: flex;
   align-items: center;
   gap: 40px;
   font-size: 18px;
 `;
 
-const Mypage = styled.div`
+export const Mypage = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const Modal = styled.div`
+export const Modal = styled.div`
   display: flex;
   align-items: center;
   img {
