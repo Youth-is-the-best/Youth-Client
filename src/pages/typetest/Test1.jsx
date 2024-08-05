@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, Button } from './Test.jsx';
 import ProgressBar from '../../hook/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { answer2State } from '../../recoil/testatoms.jsx';
 
 const Test1 = ({selectedReason, setSelectedReason}) => {
   const navigate = useNavigate();
+  const [answer2, setAnswer2] = useRecoilState(answer2State);
+
+  useEffect(() => {
+    if (answer2) {
+      setSelectedReason(answer2);
+    }
+  }, [answer2, setSelectedReason]);
 
   const handleNextClick = () => {
     if (!selectedReason) {
-      alert("답변을 선택해주세요.")
+      alert("답변을 선택해주세요.");
     } else {
+      setAnswer2(selectedReason);
       navigate("/test/2");
     }
   };
 
   const handleBeforeClick = () => {
+    setAnswer2(selectedReason);
     navigate("/test/0");
   };
 
@@ -51,10 +62,9 @@ const Test1 = ({selectedReason, setSelectedReason}) => {
         ))}
       </Answers>
       <ButtonDom>
-        <Button to="/test/0" onClick={handleBeforeClick}>이전</Button>
+        <Button onClick={handleBeforeClick}>이전</Button>
         <Button 
           style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} 
-          to="/test/2" 
           onClick={handleNextClick}
         >
           다음
@@ -82,7 +92,7 @@ const Test1 = ({selectedReason, setSelectedReason}) => {
       case "newCareerExploration":
         return "새로운 진로 탐색을 위해서";
       default:
-        return 0;
+        return "";
     }
   }
 };

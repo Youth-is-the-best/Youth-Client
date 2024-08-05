@@ -3,10 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import YearSemesterSelector from '../../hook/YearSemesterSelector';
 import ProgressBar from '../../hook/ProgressBar';
+import { useRecoilState } from 'recoil';
+import { semesterState, yearState } from '../../recoil/testatoms';
 
-const Test = ({year, setYear, semester, setSemester}) => {
+const Test = () => {
     const navigate = useNavigate();
-
+    const [year,setYear] = useRecoilState(yearState);
+    const [semester,setSemester] = useRecoilState(semesterState);
+    
     const handleYearSemesterChange = (newYear, newSemester) => {
         setYear(newYear);
         setSemester(newSemester);

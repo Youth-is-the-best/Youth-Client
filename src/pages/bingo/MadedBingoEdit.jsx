@@ -45,7 +45,7 @@ const MadedBingoEdit = () => {
       };
       const todos = response.todo.map(todo => ({
         id: todo.id,
-        text: todo.title,
+        title: todo.title,
       }));
       console.log('Fetched info:', info);
       console.log('Fetched todos:', todos);
@@ -59,21 +59,24 @@ const MadedBingoEdit = () => {
 
   const madeCheckList = () => {
     if (newChecklistText.trim() === '') return;
-    const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
+    const newChecklist = { id: checklists.length + 1, title: newChecklistText };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
+    console.log(checklists);
   };
 
   const deleteCheckList = (id) => {
     const updatedChecklists = checklists.filter(item => item.id !== id);
     setChecklists(updatedChecklists);
+    console.log(checklists);
   };
 
   const putBingoChecklist = async (location, checklists) => {
     try {
-      const response = await putBingoloc(location, { todo: checklists.map(item => ({ title: item.text })) });
+      const response = await putBingoloc(location, { todo: checklists.map(item => ({ title: item.title })) });
+      console.log(checklists);
       console.log(response);
-      alert(`${response.message} 수정할 기회는 ${response.change_chance}회 남았습니다.`);
+      alert(`${response.success} 수정할 기회는 ${response.change_chance}회 남았습니다.`);
     }
     catch (error) {
       console.error('Error in putBingo:', error.response ? error.response.data : error.message);
