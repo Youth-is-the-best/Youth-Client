@@ -4,7 +4,7 @@ import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../hook
 import MyPageModal from '../../hook/MyPageModal'
 import modalopenimg from '../../images/modalopen.png'
 import modalcloseimg from '../../images/modalclose.png'
-import { AiOutlineCheckSquare, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineCheckSquare, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { getReview } from '../../apis/reviewapis';
 import { AiFillStar, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';

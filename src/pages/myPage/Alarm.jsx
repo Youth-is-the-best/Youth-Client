@@ -30,10 +30,14 @@ const Alarm = () => {
         </TitleWrapper>
         <ControlWrapper onClick={handleBtn}>
           안읽음 보기
-          { isSwitchOn ? <img src={onSwitch}></img> : <img src={offSwitch}></img>}
+          { isSwitchOn ? 
+            <img src={onSwitch}></img> : <img src={offSwitch}></img>}
         </ControlWrapper>
         <AlarmWrapper>
-          <div></div>
+          <div>
+            <span>회원가입을 축하드립니다. 휴알유와 함께 알차고 유익한 휴학 생활을 시작해보세요!</span>
+            <span>2024.08.07</span>
+          </div>
         </AlarmWrapper>
       </Body>
     </>
@@ -43,7 +47,7 @@ const Alarm = () => {
 export default Alarm
 
 const Body = styled.div`
-  padding: 3% 30%;
+  padding: 3% 25%;
 `;
 
 const TitleWrapper = styled.div`
@@ -74,5 +78,17 @@ const ControlWrapper = styled.div`
 `;
 
 const AlarmWrapper = styled.div`
-  
+  div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+    height: 120px;
+    border: 0.2px solid rgba(116, 116, 116, 0.3);
+    border-radius: 10px;
+    span {
+      display: flex;
+      align-items: center;
+    }
+  }
 `;
