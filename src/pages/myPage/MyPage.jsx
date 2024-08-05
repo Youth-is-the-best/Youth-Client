@@ -51,9 +51,9 @@ const MyPage = () => {
           <PremiumWrapper ref={premiumRef}>
             <PremTitle>휴알유 요금제</PremTitle>
             <PremGrade>
-              <div>휴알유 basic</div>
-              <div>휴알유 plus</div>
-              <div>휴알유 focus</div>
+              <div style={{border: '1px solid rgba(116, 116, 116, 1)'}}>휴알유 basic</div>
+              <div style={{border: '1px solid rgba(73, 95, 159, 1)', backgroundColor: 'rgba(153, 166, 202, 1)', color: 'white'}}>휴알유 plus</div>
+              <div style={{backgroundColor: 'rgba(27, 52, 124, 1)', color: 'white'}}>휴알유 focus</div>
             </PremGrade>
             <PremContainer>
               <PremItem>-</PremItem>
@@ -193,13 +193,17 @@ const PremTitle = styled.div`
 `;
 
 const PremGrade = styled.div`
-  width: 85%;
+  width: 88%;
   display: flex;
   justify-content: space-between;
   padding: 100px 50px 50px 50px;
   div {
-    height: 30px;
-    color: #1E3A8A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 170px;
+    height: 60px;
+    border-radius: 4px;
     font-size: 20px;
     font-weight: 700;
     white-space: nowrap;

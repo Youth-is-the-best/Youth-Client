@@ -4,7 +4,7 @@ import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../hook
 import MyPageModal from '../../hook/MyPageModal'
 import modalopenimg from '../../images/modalopen.png'
 import modalcloseimg from '../../images/modalclose.png'
-import { AiOutlineCheckSquare, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineCheckSquare, AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 import { getReview } from '../../apis/reviewapis';
@@ -188,7 +188,7 @@ const Noti = () => {
                 <div>2024.07.24</div>
               </WriterDom>
               <PhotoBox src={item.image} alt={item.title}></PhotoBox>
-              <div>{item.title} <AiOutlineHeart />12 <AiOutlineMessage />12</div>
+              <div>{item.title} 12 <AiOutlineMessage />12</div>
             </Content>
           ))}
         </ContentDom>

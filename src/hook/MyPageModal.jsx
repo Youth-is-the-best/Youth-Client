@@ -26,7 +26,7 @@ const MyPageModal = ({ isOpen }) => {
         <StyledButton onClick={toMyPage}>내 정보</StyledButton>
       </ModalBtn>
       <ModalBtn>
-        <StyledButton onClick={toAlarm}>알림설정</StyledButton>
+        <StyledButton onClick={toAlarm}>알림</StyledButton>
       </ModalBtn>
     </ModalWrapper>
     </>
