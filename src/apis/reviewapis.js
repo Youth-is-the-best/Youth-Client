@@ -244,3 +244,32 @@ export const postMyReview = async (data) => {
         throw error;
     }
 }
+
+// 후기글 댓글 가져오기 
+export const getReviewComment = async (review_id) => {
+    try {
+        const response = await axios.get(`${baseURL}/review/${review_id}/comments/`);
+        return response.data;
+    } catch (error) {
+        console.error('Error in getReviewComment:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+// 후기글 댓글 작성하기
+export const postReviewComment = async (review_id, comment) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.post(`${baseURL}/review/${review_id}/comments/`, comment, {
+            headers: {
+                Authorization: `Bearer ${access}`,
+                'Content-Type': 'application/json'
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error in postReviewComment:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}

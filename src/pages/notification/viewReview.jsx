@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeaderHook from '../../hook/HeaderHook';
-import { getHandleLike, getHandleReviewLike, getHandleReviewSaved, getHandleReviewStorage, getReviewById } from '../../apis/reviewapis';
+import { getHandleReviewLike, getHandleReviewSaved, getReviewById } from '../../apis/reviewapis';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { AiFillStar, AiOutlineHeart, AiOutlineStar } from 'react-icons/ai';
+import CommentSection from './CommentSection';
 
 const ViewReview = () => {
   const { id } = useParams();
@@ -223,11 +224,7 @@ const ViewReview = () => {
               <img key={item.image_id} src={item.image} alt="사진" style={{ width: '200px', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
             ))}
           </PhotoDom>
-          <CommentDom>
-            <Comment>
-              <InputBox placeholder="댓글을 입력하세요" />
-            </Comment>
-          </CommentDom>
+          <CommentSection reviewId={id} />
         </Body>
       </BigBody>
     </>
@@ -368,20 +365,4 @@ const PhotoDom = styled.div`
   width: 100%;
   gap: 5%;
   margin-top: 5%;
-`
-const CommentDom = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 5%;
-`
-const Comment = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  gap: 5%;
 `
