@@ -17,7 +17,11 @@ const CommentSection = ({ reviewId }) => {
       const response = await getReviewComment(id);
       setComments(response);
     } catch (error) {
-      console.error('Error in getReviewComment:', error.response ? error.response.data : error.message);
+      console.error('Error in getReviewComment:', {
+        message: error.message,
+        response: error.response ? error.response.data : null,
+        stack: error.stack
+      });
       throw error;
     }
   };
@@ -31,7 +35,11 @@ const CommentSection = ({ reviewId }) => {
       await postReviewComment(id, data);
       getComments(id);
     } catch (error) {
-      console.error('Error in postReviewComment:', error.response ? error.response.data : error.message);
+      console.error('Error in postReviewComment:', {
+        message: error.message,
+        response: error.response ? error.response.data : null,
+        stack: error.stack
+      });
       throw error;
     }
   }
@@ -46,7 +54,11 @@ const CommentSection = ({ reviewId }) => {
         await postComment(reviewId, newCommentObject);
         setNewComment('');
       } catch (error) {
-        console.error('Error posting comment:', error);
+        console.error('Error posting comment:', {
+          message: error.message,
+          response: error.response ? error.response.data : null,
+          stack: error.stack
+        });
       }
     }
   };

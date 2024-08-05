@@ -47,8 +47,8 @@ const ViewReview = () => {
         is_liked_by_user : response.is_liked_by_user,
       };
       setInfo(info);
-      setProcedure(info.procedure.split('\n'));
-      setContent(info.content.split('\n'));
+      setProcedure(info.procedure ? info.procedure.split('\n') : []);
+      setContent(info.content ? info.content.split('\n') : []);
       setIsStarred(info.saved);
       setIsLiked(info.is_liked_by_user);
 
@@ -101,6 +101,7 @@ const ViewReview = () => {
       throw error;
     }
   };
+
 
   return (
     <>
