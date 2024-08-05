@@ -51,7 +51,7 @@ const MadeDragBingo = () => {
 
   const addChecklist = () => {
     if (newChecklistText.trim() === '') return;
-    const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
+    const newChecklist = { id: checklists.length + 1, title: newChecklistText};
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
   };
@@ -71,7 +71,7 @@ const MadeDragBingo = () => {
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
       id: idIndex,
-      todo: checklists.map(item => ({ title: item.text })),
+      todo: checklists.map(item => ({ title: item.title })),
       title: info.title,
       choice: "1",
     };
@@ -178,7 +178,7 @@ const MadeDragBingo = () => {
             {checklists.map((item) => (
               <CheckList key={item.id} style={{ color: 'rgba(116, 116, 116, 1)' }}>
                 <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)} />
-                <span>{item.text}</span>
+                <span>{item.title}</span>
               </CheckList>
             ))}
             <Line>

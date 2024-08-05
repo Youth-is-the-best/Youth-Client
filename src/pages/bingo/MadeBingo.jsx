@@ -94,7 +94,7 @@ const MadeBingo = () => {
 
   const addChecklist = () => {
     if (newChecklistText.trim() === '') return;
-    const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
+    const newChecklist = { id: checklists.length + 1, text : newChecklistText };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
   };
@@ -113,11 +113,12 @@ const MadeBingo = () => {
   };
 
   const updateBingo = () => {
-    const locationIndex = parseInt(location, 10);
+    const locationIndex = location.toString();
     const updatedBingoObj = JSON.parse(JSON.stringify(bingoObject.bingo_obj));
 
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
+      id: null,
       todo: checklists.map(item => ({ title: item.text })),
       title: title,
       choice: "0",
@@ -134,6 +135,7 @@ const MadeBingo = () => {
       bingo_obj: updatedBingoObj,
     }));
     console.log(bingoObject);
+    console.log(bingos);
     navigate('/bingo');
   };
 
