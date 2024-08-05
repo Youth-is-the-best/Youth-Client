@@ -25,12 +25,15 @@ import MadeDragBingo from './pages/bingo/MadeDragBingo';
 import MadedBingo from './pages/bingo/MadedBingo';
 import { RecoilRoot } from 'recoil';
 import Index from './pages/Index';
+import ViewReview from './pages/notification/viewReview';
+import ViewNotice from './pages/notification/viewNotice';
+import ImageUploadForm from './pages/notification/ImageUploadForm';
 import Introduce from './pages/Introduce';
 
 function App() {
   const [year, setYear] = useState(2024);
   const [semester, setSemester] = useState(1);
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [selectedAnswers, setSelectedAnswers] = useState('');
   const [selectedReason, setSelectedReason] = useState('');
   const [inputValue, setInputValue] = useState('');
 
@@ -38,6 +41,7 @@ function App() {
     <RecoilRoot>
     <BrowserRouter>
     <Routes>
+      <Route path="/data" element={<ImageUploadForm/>}></Route>
       <Route path="/" element={<Introduce/>}></Route>
       <Route path="/bingo" element={<Home/>}></Route>
       <Route path="/view" element={<Index/>}></Route>
@@ -52,6 +56,8 @@ function App() {
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/cal" element={<Calendar />}/>
       <Route path="/review" element={<MadeReview />}/>
+      <Route path="/viewreview/:id" element={<ViewReview />}/>
+      <Route path="/viewnotice/:id" element={<ViewNotice />}/>
       <Route path="/notification" element={<Noti />}/>
       <Route path="/hueInfo" element={<HueInfo/>}></Route>
       <Route path="/hueInfo2" element={<HueInfo2/>}></Route>

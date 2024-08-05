@@ -6,7 +6,6 @@ import modalopenimg from '../images/modalopen.png'
 import modalcloseimg from '../images/modalclose.png'
 import { Link } from 'react-router-dom'
 
-
 const Introduce = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,11 +20,15 @@ const Introduce = () => {
   const handleBtn = () => {
     setIsModalOpen(!isModalOpen);
   };
-
-  const handleLogout = ()=>{
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("refresh_token")
-    window.location.reload();
+  
+  const handleLogout = () => {
+    if (localStorage.getItem("access_token") && localStorage.getItem("refresh_token")) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      window.location.reload();
+    } else {
+      navigate("/login");
+    }
   };
 
   return (

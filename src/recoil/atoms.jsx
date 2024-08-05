@@ -1,5 +1,10 @@
 import { atom } from 'recoil';
 
+export const username = atom({
+  key: 'usernameState',
+  default: '',
+});
+
 export const bingoState = atom({
   key: 'bingoState',
   default: [],
@@ -35,13 +40,20 @@ export const bingoIdState = atom({
   default: [],
 });
 
-export const bingoBodyState = atom({
-  key: 'bingoBodyState',
-  default: {
-    size: 9,
-    start_date: '',
-    end_date: '',
-    bingo_obj: Array.from({ length: 9 }, (_, index) => 
-      ({ location: index, id: '', title: '', choice: '', todo: [] }))
-  },
-});
+// export const bingoBodyState = atom({
+//   key: 'bingoBodyState',
+//   default: {
+//     size: 9,
+//     start_date: '',
+//     end_date: '',
+//     bingo_obj: Array.from({ length: 9 }, (_, index) => 
+//       ({ location: index, id: '', title: '', choice: '', todo: [] }))
+//   },
+// });
+
+export const bingoObjectState = atom({
+  key: 'bingoObjectState',
+  default: Array.from({ length: 9 }, (_, index) => 
+    ({ location: index.toString(), id: '', title: '', choice: "0", todo: [] }))
+},
+);
