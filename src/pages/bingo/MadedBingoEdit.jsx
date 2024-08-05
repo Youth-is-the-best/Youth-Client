@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Bingo, Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
-import { getBingoloc, getInfo } from '../../apis/testapis';
+import { getBingoloc, getInfo, putBingoloc } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
 import { RightDom } from './BingoInfo';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
@@ -26,7 +26,7 @@ const MadedBingoEdit = () => {
     navigate("/view");
   };
 
-  const getInfos = async (location) => {
+  const getBingo = async (location) => {
     try {
       const response = await getBingoloc(location);
       const info = {
@@ -46,7 +46,6 @@ const MadedBingoEdit = () => {
       const todos = response.todo.map(todo => ({
         id: todo.id,
         text: todo.title,
-        checked: todo.is_completed
       }));
       console.log('Fetched info:', info);
       console.log('Fetched todos:', todos);
@@ -70,17 +69,29 @@ const MadedBingoEdit = () => {
     setChecklists(updatedChecklists);
   };
 
+  const putBingoChecklist = async (location, checklists) => {
+    try {
+      const response = await putBingoloc(location, { todo: checklists.map(item => ({ title: item.text })) });
+      console.log(response);
+      alert(`${response.message} 수정할 기회는 ${response.change_chance}회 남았습니다.`);
+    }
+    catch (error) {
+      console.error('Error in putBingo:', error.response ? error.response.data : error.message);
+      throw error;
+    }
+  };
+
   const updateBingo = () => {
     if (!info) return;
 
-    const locationIndex = parseInt(location, 10);
+    const locationIndex = location.toString();
     const updatedBingoObj = JSON.parse(JSON.stringify(bingoObject.bingo_obj));
 
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
       todo: checklists.map(item => ({ title: item.text })),
       title: info.title,
-      choice: 1,
+      choice: "1",
     };
 
     setBingoObject(prevState => ({
@@ -94,14 +105,15 @@ const MadedBingoEdit = () => {
       return updatedBingos;
     });
 
-    navigate('/bingo');
+    putBingoChecklist(locationIndex, checklists);
+    navigate('/view');
   };
-  
+
   useEffect(() => {
-    if (id) {
-      getInfos(id);
+    if (location) {
+      getBingo(location);
     }
-  }, [id, location]);
+  }, [location]);
 
   return (
     <>

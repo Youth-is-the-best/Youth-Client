@@ -95,6 +95,32 @@ export const postBingo = async (bingoData) => {
     }
 };
 
+// 빙고 수정하기
+export const putBingoloc = async (location,todo) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const result = await axios.put(`${baseURL}/bingo/loc/${location}/`,todo, {
+            headers: {
+                Authorization: `Bearer ${access}`
+            },
+        });
+        return result.data;
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            alert("로그인 후 사용하실 수 있는 기능입니다");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        } else {
+            alert("빈 빙고입니다.");
+            console.error('Error in getBingo:', error.response ? error.response.data : error.message);
+            throw error;
+        }
+    }
+}
+
+
 // ["/" 경로에서 볼 수 있는 인포메이션] "최신순"
 export const getUpcomming = async () => {
     try {
