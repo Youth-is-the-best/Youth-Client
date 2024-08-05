@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Row, Line} from '../bingo/MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import HeaderHook from '../../hook/HeaderHook';
+import FooterHook from '../../hook/FooterHook';
 import CustomCalendar from '../bingo/CustomCalendar';
 import { CiSquarePlus } from 'react-icons/ci';
 
@@ -226,6 +227,7 @@ const MadeReview = () => {
           </PhotoDom>
     </Body>
     </BigBody>
+    <FooterHook />
     </>
   )
 };
@@ -246,6 +248,7 @@ const Body = styled.div`
     // align-items: center;
     color : rgba(30, 58, 138, 1);
     font-size : 24px;
+    margin-bottom: 10%;
 `
 
 const CheckList = styled.div`

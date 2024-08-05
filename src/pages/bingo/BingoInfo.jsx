@@ -7,6 +7,7 @@ import HeaderHook from '../../hook/HeaderHook';
 import { getInfo, getReviewInInfo } from '../../apis/testapis';
 import { Category } from './MadeBingo';
 import Bingomain from './Bingomain';
+import FooterHook from '../../hook/FooterHook';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
@@ -169,6 +170,7 @@ const BingoInfo = () => {
           </ReviewDom>
         </RightDom>
       </Body>
+      <FooterHook />
     </>
   );
 };

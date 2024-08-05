@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import HeaderHook from '../../hook/HeaderHook';
+import FooterHook from '../../hook/FooterHook';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getBingoloc } from '../../apis/testapis';
@@ -192,6 +193,7 @@ const MadeDragReview = () => {
           <Infobutton onClick={postReviews}>업로드</Infobutton>
         </Body>
       </BigBody>
+      <FooterHook />
     </>
   )
 };
@@ -231,6 +233,7 @@ const Body = styled.div`
   justify-content: center;
   width: 80%;
   padding: 50px; // Adjusted from 50% to 50px
+  margin-bottom: 10%;
 `
 const StyledTitle = styled.div`
   display: flex;

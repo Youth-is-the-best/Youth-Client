@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import HeaderHook from '../../hook/HeaderHook'
+import FooterHook from '../../hook/FooterHook';
 import { useNavigate } from 'react-router-dom';
 import { myInfo } from '../../apis/mypageapis';
 
@@ -101,6 +102,7 @@ const MyPage = () => {
             </PremContainer>
           </PremiumWrapper>
         </Body>
+        <FooterHook />
     </>
   )
 };
@@ -111,6 +113,7 @@ const Body = styled.div`
   padding-top: 100px;
   padding-left: 400px;
   padding-right: 400px;
+  margin-bottom: 20%;
 `;
 
 const MyInfoWrapper = styled.div`
@@ -179,7 +182,6 @@ const InfoLabel = styled.div`
 
 const PremiumWrapper = styled.div`
   padding-bottom: 150px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 `;
 
 const PremTitle = styled.div`

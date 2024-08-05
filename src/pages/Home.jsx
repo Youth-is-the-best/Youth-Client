@@ -6,6 +6,7 @@ import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
+import FooterHook from '../hook/FooterHook'
 import { RightDom } from './bingo/BingoInfo';
 import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState, Day1State, Day2State } from '../recoil/atoms';
 import CustomCalendar from './bingo/CustomCalendar';
@@ -364,6 +365,7 @@ const Home = () => {
           </InfoDom>
         </RightDom>
       </Body>
+      <FooterHook />
     </>
   );
 };
@@ -414,6 +416,7 @@ export const Body = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2%;
+  margin-bottom: 10%;
   width: 100%;
   color: #1e3a8a;
   height: 660px;

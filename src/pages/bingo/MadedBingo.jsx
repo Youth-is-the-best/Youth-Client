@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
+import FooterHook from '../../hook/FooterHook';
 import { getBingoloc, postTodolist } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, CheckBox, InputBox } from './MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
@@ -179,6 +180,7 @@ const MadedBingo = () => {
           <DateInfo style={{ width: '30%', marginLeft: '67%' }} onClick={() => handleMadeReviewClick(location)}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
+      <FooterHook />
     </>
   );
 };

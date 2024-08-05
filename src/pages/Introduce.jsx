@@ -5,6 +5,7 @@ import MyPageModal from '../hook/MyPageModal'
 import modalopenimg from '../images/modalopen.png'
 import modalcloseimg from '../images/modalclose.png'
 import { Link, useNavigate } from 'react-router-dom'
+import FooterHook from '../hook/FooterHook'
 
 const Introduce = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -71,6 +72,10 @@ const Introduce = () => {
       </Headers>
       <MyPageModal isOpen={isModalOpen}></MyPageModal>
     </HeaderofHome>
+    <Body>
+
+    </Body>
+    <FooterHook></FooterHook>
   </>
   )
 }
@@ -89,4 +94,8 @@ const SignupLink = styled(Link)`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+`;
+
+const Body = styled.div`
+  margin-bottom: 10%; 
 `;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../hook/HeaderHook'
+import FooterHook from '../../hook/FooterHook';
 import MyPageModal from '../../hook/MyPageModal'
 import modalopenimg from '../../images/modalopen.png'
 import modalcloseimg from '../../images/modalclose.png'
@@ -10,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
 import { getHueInfo } from '../../apis/testapis';
-import { username } from '../../recoil/atoms';
 import heartimg from '../../images/AiOutlineHeart.png';
 import msgimg from '../../images/AiOutlineMessage.png';
 
@@ -494,6 +494,7 @@ const Noti = () => {
             ))}
         </ContentDom>
       </Body>
+      <FooterHook />
     </>
   );
 };
@@ -520,7 +521,9 @@ const Body = styled.div`
   width: 100%;
   margin-top: 40px;
   scroll-behavior: smooth;
+  margin-bottom: 10%;
 `;
+
 const Line = styled.div`
   display: flex;
   flex-direction: row;
