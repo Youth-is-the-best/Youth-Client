@@ -105,6 +105,12 @@ const ViewNotice = () => {
             </Line>
           </Line>
           <InfoDom>
+            {info && info.large_category_display ? (
+              <Line>
+                <Category>분류</Category>
+                <Infobutton>{info.large_category_display}</Infobutton>
+              </Line>
+            ) : null}
             {info && info.host && (
               <Line>
                 <Category>주최사</Category>
