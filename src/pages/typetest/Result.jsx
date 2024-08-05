@@ -35,7 +35,7 @@ const Result = () => {
       setContent(response.content.split('\n'));
       setImage(response.image);
       setUsername(response.username);
-      // console.log(response);
+      console.log(response);
       // console.log(answer);
     } catch (error) {
       setContent(["모든 문항을 답해주세요."]);
@@ -62,7 +62,7 @@ const Result = () => {
           ))}
         </ResultInfo>
         <ButtonDom>
-          <ButtonLink> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
+          <ButtonLink to="/hueRU/PANDA"> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
           <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/view">
             <FiArrowRightCircle/> 빙고판 채우러가기
           </ButtonLink>
@@ -74,7 +74,7 @@ const Result = () => {
 
 export default Result;
 
-const Title = styled.div`
+export const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
   padding: 10px;
@@ -85,19 +85,19 @@ const Title = styled.div`
   color : rgba(30, 58, 138, 1);
 `;
 
-const ResultInfo = styled.div`
+export const ResultInfo = styled.div`
   height: auto;
   color : rgba(30, 58, 138);
   padding : 10px;
 `;
 
-const Image = styled.div`
+export const Image = styled.div`
   width: 200px;
   height: 200px;
   margin-top : 10px;
 `;
 
-const ResultDom = styled.div`
+export const ResultDom = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
