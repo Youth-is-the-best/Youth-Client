@@ -203,12 +203,12 @@ export const getHandleNoticeSaved = async (notice_id) => {
     }
 }
 
-// 키워드 검색하기 
+// 검색하기 
 export const getSearchByKeyword = async (keyword) => {
     try {
         const access = localStorage.getItem("access_token");
         if (!access) throw new Error("No access token found in localStorage");
-        const response = await axios.get(`${baseURL}/search/?search=${keyword}`, {
+        const response = await axios.get(`${baseURL}/search/${keyword}`, {
             headers: {
                 Authorization: `Bearer ${access}`
             },

@@ -3,17 +3,38 @@ import HeaderHook from '../../hook/HeaderHook';
 import styled from 'styled-components';
 import { AiOutlineHeart, AiOutlineMessage, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import { getHandleNoticeSaved, getReview, getSearchByCategory } from '../../apis/reviewapis';
+import { getHandleNoticeSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
 
 const Noti = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
+  const categoryMap = {
+    "채용(인턴)": "CAREER",
+    "자격증": "CERTIFICATE",
+    "대외활동": "OUTBOUND",
+    "공모전": "CONTEST",
+    "취미": "HOBBY",
+    "여행": "TRAVEL",
+    "자기계발": "SELFIMPROVEMENT",
+    "휴식": "REST",
+  };
   const [selectedCategory, setSelectedCategory] = useState("채용(인턴)");
   const [notice, setNotice] = useState([]);
   const [review, setReview] = useState([]);
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState('');
+
+  const [selectedOptions, setSelectedOptions] = useState({
+    option1: '',
+    option2: '',
+    option3: '',
+    option4: '',
+    option5: '',
+    option6: '',
+    option7: '',
+    option8: '',
+  });
 
   const inputConfigs = {
     "채용(인턴)": [
@@ -43,34 +64,8 @@ const Noti = () => {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    switch (category) {
-      case "채용(인턴)":
-        getReviewsByCategory("CAREER");
-        break;
-      case "자격증":
-        getReviewsByCategory("CERTIFICATE");
-        break;
-      case "대외활동":
-        getReviewsByCategory("OUTBOUND");
-        break;
-      case "공모전":
-        getReviewsByCategory("CONTEST");
-        break;
-      case "취미":
-        getReviewsByCategory("HOBBY");
-        break;
-      case "여행":
-        getReviewsByCategory("TRAVEL");
-        break;
-      case "자기계발":
-        getReviewsByCategory("SELFIMPROVEMENT");
-        break;
-      case "휴식":
-        getReviewsByCategory("REST");
-        break;
-      default:
-        getAllReview();
-    }
+    setSelectedOptions({ option1: '', option2: '', option3: '', option4: '' }); 
+    getReviewsByCategory(categoryMap[category]);
   };
 
   const getAllReview = async () => {
@@ -118,7 +113,6 @@ const Noti = () => {
   const handleStorage = async (id, type) => {
     try {
       const response = await getHandleNoticeSaved(id);
-      // console.log(response);
       if (type === 'notice') {
         setNotice((prevNotice) =>
           prevNotice.map((item) =>
@@ -147,10 +141,17 @@ const Noti = () => {
     navigate(`/viewnotice/${id}`);
   };
 
-  const doSearch = async (keyword) => {
+  const doSearch = async () => {
     try {
-      const searchStr = keyword.toString();
-      const response = await getSearchByCategory(searchStr);
+      const searchParams = new URLSearchParams({
+        search : searchKeyword,
+        large_category: categoryMap[selectedCategory],
+        area: selectedOptions.option3 || '',
+        field: selectedOptions.option1 || '',
+        start_date: selectedOptions.option4 || '',
+        end_date: selectedOptions.option4 || '',
+      });
+      const response = await getSearchByKeyword(searchParams.toString());
       const notice = response.notice.map((item) => ({
         id: item.id,
         author: item.author,
@@ -171,6 +172,10 @@ const Noti = () => {
       }));
       setNotice(notice);
       setReview(review);
+      console.log(selectedOptions);
+      console.log(searchParams);
+      console.log(notice, review);
+      
       if (notice.length === 0 && review.length === 0) {
         alert('검색 결과가 없습니다.');
       }
@@ -193,7 +198,7 @@ const Noti = () => {
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
           />
-          <AiOutlineSearch size={40} onClick={() => doSearch(searchKeyword)} />
+          <AiOutlineSearch size={40} onClick={doSearch} />
         </SearchDom>
         <NavigationBar>
           {categorys.map((category) => (
@@ -222,57 +227,92 @@ const Noti = () => {
             {inputConfigs[selectedCategory]?.map((config, index) => (
               <Dropdown key={index}>
                 {config.type === "select" ? (
-                  <select>
+                  <select
+                    onChange={(e) =>
+                      setSelectedOptions({
+                        ...selectedOptions,
+                        [`option${index + 1}`]: e.target.value,
+                      })
+                    }
+                  >
                     <option>{config.placeholder}</option>
                     {config.options.map((option, idx) => (
-                      <option key={idx} value={option}>{option}</option>
+                      <option key={idx} value={option}>
+                        {option}
+                      </option>
                     ))}
                   </select>
                 ) : (
                   <Line style={{ fontSize: '12px' }}>
                     <div>{config.placeholder}</div>
-                    <input type={config.type} placeholder={config.placeholder} />
+                    <input
+                      type={config.type}
+                      placeholder={config.placeholder}
+                      onChange={(e) =>
+                        setSelectedOptions({
+                          ...selectedOptions,
+                          [`option${index + 1}`]: e.target.value,
+                        })
+                      }
+                    />
                   </Line>
                 )}
               </Dropdown>
             ))}
+            <AiOutlineSearch size={30} onClick={doSearch} />
           </DropdownDom>
         </Bar>
         <ContentDom>
-          {showNotice && notice.map((item) => (
-            <Content key={item.id}>
-              <WriterDom>
-                <div>{item.author}</div>
-                <div>{item.created_at}</div>
-                <AiOutlineStar
-                  size={20}
-                  onClick={() => handleStorage(item.id, 'notice')}
-                  style={{ color: item.saved ? 'yellow' : 'black' }}
+          {showNotice &&
+            notice.map((item) => (
+              <Content key={item.id}>
+                <WriterDom>
+                  <div>{item.author}</div>
+                  <div>{item.created_at}</div>
+                  <AiOutlineStar
+                    size={20}
+                    onClick={() => handleStorage(item.id, 'notice')}
+                    style={{ color: item.saved ? 'yellow' : 'black' }}
+                  />
+                </WriterDom>
+                <PhotoBox
+                  src={item.image}
+                  alt={item.title}
+                  onClick={() => goNotice(item.id)}
                 />
-              </WriterDom>
-              <PhotoBox src={item.image} alt={item.title}
-                onClick={() => goNotice(item.id)} />
-              <div>{item.title}</div>
-              <div><AiOutlineMessage />{item.comments_count}</div>
-            </Content>
-          ))}
-          {showReview && review.map((item) => (
-            <Content key={item.id}>
-              <WriterDom>
-                <div>{item.author}</div>
-                <div>{item.created_at}</div>
-                <AiOutlineStar
-                  size={20}
-                  onClick={() => handleStorage(item.id, 'review')}
-                  style={{ color: item.saved ? 'yellow' : 'black' }}
+                <div>{item.title}</div>
+                <div>
+                  <AiOutlineMessage />
+                  {item.comments_count}
+                </div>
+              </Content>
+            ))}
+          {showReview &&
+            review.map((item) => (
+              <Content key={item.id}>
+                <WriterDom>
+                  <div>{item.author}</div>
+                  <div>{item.created_at}</div>
+                  <AiOutlineStar
+                    size={20}
+                    onClick={() => handleStorage(item.id, 'review')}
+                    style={{ color: item.saved ? 'yellow' : 'black' }}
+                  />
+                </WriterDom>
+                <PhotoBox
+                  src={item.image}
+                  alt={item.title}
+                  onClick={() => goReview(item.id)}
                 />
-              </WriterDom>
-              <PhotoBox src={item.image} alt={item.title}
-                onClick={() => goReview(item.id)} />
-              <div>{item.title}</div>
-              <div><AiOutlineHeart style={{ color: 'rgba(255, 0, 0, 1)' }} />{item.likes_count} <AiOutlineMessage style={{ color: 'rgba(27, 52, 124, 1)' }} />{item.comments_count}</div>
-            </Content>
-          ))}
+                <div>{item.title}</div>
+                <div>
+                  <AiOutlineHeart style={{ color: 'rgba(255, 0, 0, 1)' }} />
+                  {item.likes_count}{' '}
+                  <AiOutlineMessage style={{ color: 'rgba(27, 52, 124, 1)' }} />
+                  {item.comments_count}
+                </div>
+              </Content>
+            ))}
         </ContentDom>
       </Body>
     </>
@@ -393,7 +433,7 @@ const CheckBox = styled.div`
 
 const ContentDom = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   flex-direction: row;
   justify-content: center;
   align-items: center;
