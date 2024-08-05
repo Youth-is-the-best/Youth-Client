@@ -11,7 +11,7 @@ import HeaderHook from '../../hook/HeaderHook';
 import Bingomain from './Bingomain';
 import CustomCalendar from './CustomCalendar';
 import { useRecoilState } from 'recoil';
-import { bingoState, bingoBodyState } from '../../recoil/atoms';
+import { bingoState, bingoObjectState } from '../../recoil/atoms';
 
 const MadeBingo = () => {
   const navigate = useNavigate();
@@ -22,10 +22,10 @@ const MadeBingo = () => {
   const [examDates, setExamDates] = useState([null, null]);
   const [prepDates, setPrepDates] = useState([null, null]);
   const [bingos, setBingos] = useRecoilState(bingoState);
-  const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
+  const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const goHome = () => {
-    navigate("/");
+    navigate("/view");
   };
 
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
@@ -116,18 +116,19 @@ const MadeBingo = () => {
   };
   
   const updateBingo = () => {
-    const locationIndex = parseInt(location);
-    const updatedBingoObj = [...bingoBody.bingo_obj];
+    const locationIndex = parseInt(location, 10);
+    const updatedBingoObj = JSON.parse(JSON.stringify(bingoObject.bingo_obj));
+
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
       todo: checklists.map(item => ({ title: item.text })),
       title: title,
       choice: 0,
     };
-  
-    setBingoBody(prevState => ({
+
+    setBingoObject(prevState => ({
       ...prevState,
-      bingo_obj: updatedBingoObj
+      bingo_obj: updatedBingoObj,
     }));
 
     setBingos(prevState => {
@@ -135,9 +136,8 @@ const MadeBingo = () => {
       updatedBingos[locationIndex] = { location: locationIndex, title: title };
       return updatedBingos;
     });
-    console.log(bingos);
-    console.log(bingoBody);
-    navigate('/');
+
+    navigate('/view');
   };
 
   return (

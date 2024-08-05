@@ -108,9 +108,9 @@ const Index = () => {
       setEndDate(end_date);
       setBingos(bingoData);
       setTitle(bingoData.map((item) => item.title));
-      // console.log(response);
     } catch (error) {
       setError(error);
+      navigate("/bingo");
     }
   };
 
