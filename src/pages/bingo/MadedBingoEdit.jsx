@@ -46,6 +46,10 @@ const MadedBingoEdit = () => {
       const todos = response.todo.map(todo => ({
         id: todo.id,
         title: todo.title,
+        is_completed: todo.is_completed,
+        bingo: todo.bingo,
+        bingo_space: todo.bingo_space,
+        user: todo.user
       }));
       console.log('Fetched info:', info);
       console.log('Fetched todos:', todos);
@@ -59,7 +63,13 @@ const MadedBingoEdit = () => {
 
   const madeCheckList = () => {
     if (newChecklistText.trim() === '') return;
-    const newChecklist = { id: checklists.length + 1, title: newChecklistText };
+    const newChecklist = {
+      title: newChecklistText,
+      is_completed: false,
+      bingo: 43,
+      bingo_space: 61,
+      user: 8
+    };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
     console.log(checklists);
@@ -73,7 +83,34 @@ const MadedBingoEdit = () => {
 
   const putBingoChecklist = async (location, checklists) => {
     try {
-      const response = await putBingoloc(location, { todo: checklists.map(item => ({ title: item.title })) });
+      // 새로 추가된 항목들에 대해서는 id를 포함하지 않도록 함
+      const newChecklists = checklists.map(item => {
+        const { id, ...rest } = item;
+        return rest;
+      });
+
+      // 요청 데이터 구성
+      const data = {
+        todo: [
+          ...checklists.filter(item => item.id).map(item => ({
+            id: item.id,
+            title: item.title,
+            is_completed: item.is_completed,
+            bingo: item.bingo,
+            bingo_space: item.bingo_space,
+            user: item.user
+          })),
+          ...newChecklists.filter(item => !item.id).map(item => ({
+            title: item.title,
+            is_completed: item.is_completed,
+            bingo: item.bingo,
+            bingo_space: item.bingo_space,
+            user: item.user
+          }))
+        ]
+      };
+
+      const response = await putBingoloc(location, data);
       console.log(checklists);
       console.log(response);
       alert(`${response.success} 수정할 기회는 ${response.change_chance}회 남았습니다.`);
@@ -92,7 +129,7 @@ const MadedBingoEdit = () => {
 
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
-      todo: checklists.map(item => ({ title: item.text })),
+      todo: checklists.map(item => ({ title: item.title })),
       title: info.title,
       choice: "1",
     };
@@ -198,7 +235,7 @@ const MadedBingoEdit = () => {
             {checklists.map((item) => (
               <CheckList key={item.id} style={{ color: 'rgba(116, 116, 116, 1)' }}>
                 <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)} />
-                <span>{item.text}</span>
+                <span>{item.title}</span>
               </CheckList>
             ))}
             <Line>
