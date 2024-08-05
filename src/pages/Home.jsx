@@ -7,7 +7,7 @@ import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { RightDom } from './bingo/BingoInfo';
-import { prepDateState, bingoBodyState, bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
+import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState } from '../recoil/atoms';
 import CustomCalendar from './bingo/CustomCalendar';
 
 const Home = () => {
@@ -22,10 +22,10 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [username] = useRecoilState(usernameState);
   const [title, setTitle] = useRecoilState(titleState);
-  const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
   const [startDate, setStartDate] = useRecoilState(startDateState);
   const [endDate, setEndDate] = useRecoilState(endDateState);
   const [prepDates, setPrepDates] = useRecoilState(prepDateState);
+  const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -89,6 +89,12 @@ const Home = () => {
 
   const postBingos = async () => {
     try {
+      const bingoBody = {
+        size: 9,
+        start_date: startDate,
+        end_date: endDate,
+        bingo_obj: bingoObject,
+      };
       const response = await postBingo(bingoBody);
       console.log(bingoBody);
       console.log(response);
@@ -205,8 +211,21 @@ const Home = () => {
   const handlePrepDateChange = (prepDates) => {
     setPrepDates(prepDates); 
     const [startDate, endDate] = prepDates;
-    setStartDate(startDate); // Update Recoil state
-    setEndDate(endDate);     // Update Recoil state
+    
+    [startDate, endDate].forEach(date => {
+      const formattedDate = date.toLocaleDateString();
+      const [year, month, day] = formattedDate.split('.').map(element => element.trim());
+      const formattedDateString = `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
+      
+      // Check if this date is the start or end date and set accordingly
+      if (date === startDate) {
+        setStartDate(formattedDateString);
+        // console.log(`Start Date: ${formattedDateString}`);
+      } else {
+        setEndDate(formattedDateString);
+        // console.log(`End Date: ${formattedDateString}`);
+      }
+    });
   };
 
   useEffect(() => {

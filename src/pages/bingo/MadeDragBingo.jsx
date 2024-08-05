@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace, MdOutlineNearMe } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Body } from '../Home';
+import { Bingo, Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getInfo } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
@@ -11,7 +11,7 @@ import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
 import Bingomain from './Bingomain';
 import { useRecoilState } from 'recoil';
-import { bingoState, bingoBodyState } from '../../recoil/atoms';
+import { bingoState, bingoObjectState } from '../../recoil/atoms';
 
 const MadeDragBingo = () => {
   const navigate = useNavigate();
@@ -21,10 +21,10 @@ const MadeDragBingo = () => {
   const { id, location } = useParams();
   const [info, setInfo] = useState(null);
   const [bingos, setBingos] = useRecoilState(bingoState);
-  const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
+  const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const goHome = () => {
-    navigate("/");
+    navigate(`/bingo`);
   };
 
   const getInfos = async (id) => {
@@ -70,18 +70,19 @@ const MadeDragBingo = () => {
   const updateBingo = () => {
     if (!info) return;
 
-    const locationIndex = parseInt(location);
-    const updatedBingoObj = [...bingoBody.bingo_obj];
+    const locationIndex = parseInt(location, 10);
+    const updatedBingoObj = JSON.parse(JSON.stringify(bingoObject.bingo_obj));
+
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
       todo: checklists.map(item => ({ title: item.text })),
       title: info.title,
       choice: 1,
     };
-  
-    setBingoBody(prevState => ({
+
+    setBingoObject(prevState => ({
       ...prevState,
-      bingo_obj: updatedBingoObj
+      bingo_obj: updatedBingoObj,
     }));
 
     setBingos(prevState => {
@@ -89,9 +90,8 @@ const MadeDragBingo = () => {
       updatedBingos[locationIndex] = { location: locationIndex, title: info.title };
       return updatedBingos;
     });
-    // console.log(bingos);
-    // console.log(bingoBody);
-    navigate('/');
+
+    navigate('/view');
   };
 
   useEffect(() => {

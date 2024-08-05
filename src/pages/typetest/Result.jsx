@@ -5,11 +5,14 @@ import { postTest } from '../../apis/testapis';
 import styled from 'styled-components';
 import { Line } from '../bingo/MadeBingo';
 import { useNavigate } from 'react-router-dom';
+import { usernameState } from '../../recoil/atoms';
+import { useRecoilState } from 'recoil';
 
 const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue }) => {
   const [userType, setUserType] = useState("");
   const [content, setContent] = useState([]);
   const [image, setImage] = useState("");
+  const [username, setUsername] = useRecoilState(usernameState);
   
   const showResult = async () => {
     const answer = {
@@ -24,6 +27,7 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
       setUserType(response.user_type);
       setContent(response.content.split('\n')); // Split the content into lines
       setImage(response.image);
+      setUsername(response.username);
     } catch (error) {
       setContent(["모든 문항을 답해주세요."]);
     }
@@ -36,7 +40,7 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
   return (
     <>
       <ResultDom>
-        <div>00 님의 유형은</div>
+        <div> {username} 님의 유형은</div>
         <Image>
           <img src={image} style={{width:'100%'}} alt="result"></img>
         </Image>
@@ -51,7 +55,7 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
         </ResultInfo>
         <ButtonDom>
           <ButtonLink> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
-          <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/bingo">
+          <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/view">
             <FiArrowRightCircle/> 빙고판 채우러가기
           </ButtonLink>
         </ButtonDom>

@@ -18,7 +18,7 @@ const HueInfo = () => {
   const [images, setImages] = useState([]);
 
   const goHome = () => {
-    navigate("/");
+    navigate("/view");
   }
 
   const viewRecommend = async () => {
