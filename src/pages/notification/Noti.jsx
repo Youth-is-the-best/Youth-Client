@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import HeaderHook from '../../hook/HeaderHook';
 import styled from 'styled-components';
-import { AiOutlineHeart, AiOutlineMessage, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
+import { AiFillStar, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import { getHandleNoticeSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
+import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
 
 const Noti = () => {
@@ -112,14 +112,15 @@ const Noti = () => {
 
   const handleStorage = async (id, type) => {
     try {
-      const response = await getHandleNoticeSaved(id);
       if (type === 'notice') {
+        const response = await getHandleNoticeSaved(id);
         setNotice((prevNotice) =>
           prevNotice.map((item) =>
             item.id === id ? { ...item, saved: !item.saved } : item
           )
         );
       } else {
+        const response = await getHandleReviewSaved(id);
         setReview((prevReview) =>
           prevReview.map((item) =>
             item.id === id ? { ...item, saved: !item.saved } : item
@@ -268,12 +269,14 @@ const Noti = () => {
               <Content key={item.id}>
                 <WriterDom>
                   <div>{item.author}</div>
-                  <div>{item.created_at}</div>
-                  <AiOutlineStar
-                    size={20}
-                    onClick={() => handleStorage(item.id, 'notice')}
-                    style={{ color: item.saved ? 'yellow' : 'black' }}
-                  />
+                  <div>{item.created_at}</div>                  
+                  {item.saved ? (
+                    <AiFillStar size={20} style={{ color: 'rgba(252, 211, 77, 1)' }} 
+                    onClick={()=> handleStorage(item.id, 'notice')}/>
+                  ) : (
+                    <AiOutlineStar size={20} style={{ color: 'black' }} 
+                    onClick={()=> handleStorage(item.id, 'notice')}/>
+                  )}
                 </WriterDom>
                 <PhotoBox
                   src={item.image}
@@ -375,7 +378,7 @@ const SearchDom = styled.div`
   flex-direction: row;
   align-items: center;
   width: 30%;
-  height: 20px;
+  height: 40%;
   border-radius: 40px;
   border: 1px solid rgba(153, 166, 202, 1);
   padding: 15px 20px;
@@ -383,6 +386,7 @@ const SearchDom = styled.div`
 `;
 const SearchBox = styled.input`
   width: 100%;
+  height: 100%;
   border: none;
   font-size: 20px;
 `;

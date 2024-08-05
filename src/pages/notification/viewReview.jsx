@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeaderHook from '../../hook/HeaderHook';
-import { getHandleLike, getHandleReviewLike, getHandleReviewSaved, getHandleReviewStorage, getReviewById } from '../../apis/reviewapis';
+import { getHandleReviewLike, getHandleReviewSaved, getReviewById } from '../../apis/reviewapis';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
-import { AiOutlineHeart, AiOutlineStar } from 'react-icons/ai';
+import { AiFillStar, AiOutlineHeart, AiOutlineStar } from 'react-icons/ai';
+import CommentSection from './CommentSection';
 
 const ViewReview = () => {
   const { id } = useParams();
@@ -14,6 +15,8 @@ const ViewReview = () => {
   const [detailplans, setDetailplans] = useState([]);
   const [isStarred, setIsStarred] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [procedure, setProcedure] = useState([]);
+  const [content, setContent] = useState([]);
 
   const getReview = async (id) => {
     try {
@@ -44,6 +47,8 @@ const ViewReview = () => {
         is_liked_by_user : response.is_liked_by_user,
       };
       setInfo(info);
+      setProcedure(info.procedure.split('\n'));
+      setContent(info.content.split('\n'));
       setIsStarred(info.saved);
       setIsLiked(info.is_liked_by_user);
 
@@ -100,14 +105,19 @@ const ViewReview = () => {
   return (
     <>
       <HeaderHook />
-      <Line style={{ color: 'rgba(27, 52, 124, 1)', justifyContent: 'space-between', padding: '2%' }}>
+      <Line style={{ color: 'rgba(27, 52, 124, 1)', justifyContent: 'space-between', paddingLeft: '10%',paddingRight: '10%', paddingTop:'5%' }}>
         <MdOutlineKeyboardBackspace onClick={goNoti} size={40} />
         <Line style={{ gap: '10%' }}>
-          <AiOutlineStar 
+          {isStarred ? (
+          <AiFillStar 
             size={40} 
             onClick={handleStorage} 
-            style={{ color: isStarred ? 'yellow' : 'black' }} 
+            style={{ color: 'rgba(252, 211, 77, 1)' }} 
           />
+          ):(
+            <AiOutlineStar size={40} style={{ color: 'black' }} 
+            onClick={handleStorage}/>
+          )}
           <AiOutlineHeart 
             size={40} 
             onClick={handleLike} 
@@ -125,6 +135,12 @@ const ViewReview = () => {
             </Line>
           </Line>
           <InfoDom>
+            {info && info.large_category_display ? (
+              <Line>
+                <Category>분류</Category>
+                <Infobutton>{info.large_category_display}</Infobutton>
+              </Line>
+            ) : null}
             {info && info.host ? (
               <Line>
                 <Category>주최사</Category>
@@ -183,7 +199,7 @@ const ViewReview = () => {
           <ReviewDom>
             <Category2>세부 계획</Category2>
             {detailplans && detailplans.map((item, index) => (
-              <Line key={index}>
+              <Line key={index} style={{gap : '1%', padding: '0'}}>
                 <FiCheck />
                 <CheckList>
                   {item.content}
@@ -193,17 +209,22 @@ const ViewReview = () => {
             {info && info.procedure ? (
               <>
                 <Category2>모집 절차</Category2>
-                <div>{info.procedure}</div>
+                {procedure.map((line, index) => (
+                    <div key={index}>{line}</div>
+                ))}
               </>
             ) : null}
             <Category2>활동내용/합격팁/소감</Category2>
-            <div>{info ? info.content : ''}</div>
+              {content.map((line, index) => (
+                  <div key={index}>{line}</div>
+              ))}
           </ReviewDom>
           <PhotoDom>
             {images && images.map((item) => (
               <img key={item.image_id} src={item.image} alt="사진" style={{ width: '200px', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
             ))}
           </PhotoDom>
+          <CommentSection reviewId={id} />
         </Body>
       </BigBody>
     </>
@@ -259,8 +280,8 @@ const StyledTitle = styled.div`
 const CheckList = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  // align-items: center;
+  // justify-content: center;
   width: 80%;
   font-size: 16px;
 `

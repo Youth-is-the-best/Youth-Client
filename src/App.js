@@ -33,7 +33,7 @@ import Introduce from './pages/Introduce';
 function App() {
   const [year, setYear] = useState(2024);
   const [semester, setSemester] = useState(1);
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [selectedAnswers, setSelectedAnswers] = useState('');
   const [selectedReason, setSelectedReason] = useState('');
   const [inputValue, setInputValue] = useState('');
 
