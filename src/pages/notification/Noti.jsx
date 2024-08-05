@@ -1,15 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import HeaderHook from '../../hook/HeaderHook';
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import { AiFillStar, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
-import { Link, useNavigate } from 'react-router-dom';
+import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../hook/HeaderHook'
+import MyPageModal from '../../hook/MyPageModal'
+import modalopenimg from '../../images/modalopen.png'
+import modalcloseimg from '../../images/modalclose.png'
+import { Link } from 'react-router-dom';
+import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
 import { getHueInfo } from '../../apis/testapis';
 import { username } from '../../recoil/atoms';
+import heartimg from '../../images/AiOutlineHeart.png';
+import msgimg from '../../images/AiOutlineMessage.png';
+
 
 const Noti = () => {
-  const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식","휴알유"];
+  const [selectedCategory, setSelectedCategory] = useState("채용(인턴)");
+  const [notice, setNotice] = useState([]);
+  const [review, setReview] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const [showNotice, setShowNotice] = useState(true);
+  const [showReview, setShowReview] = useState(true);
+  const [searchKeyword, setSearchKeyword] = useState("인턴");
+  const [recommend, setRecommend] = useState([]);
+  
+  const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식", "휴알유"];
   const categoryMap = {
     "채용(인턴)": "CAREER",
     "자격증": "CERTIFICATE",
@@ -21,13 +39,23 @@ const Noti = () => {
     "휴식": "REST",
     "휴알유": "information",
   };
-  const [selectedCategory, setSelectedCategory] = useState("채용(인턴)");
-  const [notice, setNotice] = useState([]);
-  const [review, setReview] = useState([]);
-  const [showNotice, setShowNotice] = useState(true);
-  const [showReview, setShowReview] = useState(true);
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [recommend, setRecommend] = useState([]);
+  
+  useEffect(() => {
+    const savedAccessToken = localStorage.getItem("access_token");
+    if (savedAccessToken) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleBtn = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleLogout = ()=>{
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("refresh_token")
+    window.location.reload();
+  };
 
   const [selectedOptions, setSelectedOptions] = useState({
     option1: '',
@@ -272,7 +300,43 @@ const Noti = () => {
 
   return (
     <>
-      <HeaderHook />
+      <HeaderofHome>
+        <LogoutBtn>
+          { isLoggedIn ? 
+            <button onClick={handleLogout}>로그아웃</button> :
+            <SignupLink>
+              <StyledLink to="/signup" style={{color: 'rgba(27, 52, 124, 1)'}}>회원가입</StyledLink>
+              <span style={{color: 'rgba(196, 196, 196, 1)'}}>|</span>
+              <StyledLink to="/login" style={{color: 'rgba(81, 81, 81, 1)'}}>로그인</StyledLink>
+            </SignupLink>
+          }
+        </LogoutBtn>
+        <Headers>
+          <Logo to ="/">Logo</Logo>
+          <Nav>
+            { isLoggedIn ?
+            <>
+              <Header to="/test/0">휴학 유형 테스트</Header>
+              <Header to="/view">투두리스트 빙고</Header>
+              <Header to="/notification">공고/후기</Header>
+              <Header to="/readportfolio">나의 포트폴리오</Header>
+              <Mypage>
+                <Header to="/mypage">마이페이지</Header>
+                <Modal onClick={handleBtn}>
+                  { isModalOpen ?
+                    <img src={modalopenimg}></img> :
+                    <img src={modalcloseimg}></img> }
+                </Modal>
+              </Mypage> 
+            </> :
+            <>
+              <Header to="/test/0">휴학 유형 테스트</Header>
+              <Header to="/notification">공고/후기</Header>
+            </> }
+          </Nav>
+        </Headers>
+        <MyPageModal isOpen={isModalOpen}></MyPageModal>
+      </HeaderofHome>
       <Body>
         <SearchDom>
           <SearchBox
@@ -379,7 +443,7 @@ const Noti = () => {
                 />
                 <div>{item.title}</div>
                 <div>
-                  <AiOutlineMessage />
+                  <img src={msgimg} />
                   {item.comments_count}
                 </div>
               </Content>
@@ -421,9 +485,9 @@ const Noti = () => {
                 />
                 <div>{item.title}</div>
                 <div>
-                  <AiOutlineHeart style={{ color: 'rgba(255, 0, 0, 1)' }} />
+                  <img src={heartimg} style={{ color: 'rgba(255, 0, 0, 1)' }} />
                   {item.likes_count}{' '}
-                  <AiOutlineMessage style={{ color: 'rgba(27, 52, 124, 1)' }} />
+                  <img src={msgimg} style={{ color: 'rgba(27, 52, 124, 1)' }} />
                   {item.comments_count}
                 </div>
               </Content>
@@ -435,6 +499,20 @@ const Noti = () => {
 };
 
 export default Noti;
+
+const HeaderofHome = styled.div`
+`;
+
+const SignupLink = styled(Link)`
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
 
 const Body = styled.div`
   display: flex;

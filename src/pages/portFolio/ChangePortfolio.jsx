@@ -1,213 +1,320 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import HeaderHook from '../../hook/HeaderHook';
-import 다람쥐 from '../../images/다람쥐.jpg';
 import MdOutlinedFeed from '../../images/MdOutlineFeed.png';
 import Vector from '../../images/Vector.png';
 import { useNavigate } from 'react-router-dom';
 import Minus from '../../images/AiOutlineMinusCircle.png';
 import PlusSquare from '../../images/FiPlusSquare.png';
-import EmojiPicker from 'emoji-picker-react';
 import EmojiEmotion from '../../images/MdOutlineEmojiEmotions.png';
 import saveimg from '../../images/FiSave.png';
 import checkimg from '../../images/AiOutlineCheckSquare.png';
+import { useForm } from '../../hook/useForm';
+import { getData, putFormData, postThisIsMe, postOthers, postBingo, delThisIsMe, delBingo, delOthers } from '../../apis/portFolioapis';
 
 
 const ChangePortfolio = () => {
   const textarea = useRef();
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [contentLists, setContentLists] = useState([[], [], []]);
-  const [newContentTexts, setNewContentTexts] = useState(['', '', '']);
-  const [showEmojiPickers, setShowEmojiPickers] = useState([false, false, false]);
-  const [selectedEmojis, setSelectedEmojis] = useState(['', '', '']);
+
+  const [birth, onChangeBirth] = useForm();
+  const [phoneNumber, onChangePhoneNumber] = useForm();
+  const [email, onChangeEmail] = useForm();
+  const [modifier, setModifier] = useState('');
+  const [schoolMajor, onChangeSchMajor] = useForm();
+  const [image, onChangeImage] = useForm();
+
+  const [aboutMeTexts, onChangeAboutMeTexts] = useForm(); //post용
+  const [bingoTexts, onChangeBingoTexts] = useForm();
+  const [othersTexts, onChangeOthersTexts] = useForm();
+
+  const [newAboutMeTexts, setNewAboutMeTexts] = useState(['']); //get용
+  const [newBingoTexts, setNewBingoTexts] = useState(['']);
+  const [newOthersTexts, setNewOthersTexts] = useState(['']);
+  const [basicInfo, setBasicInfo] = useState('');
+  const [username, setUsername] = useState('');
+
   const [isChecked, setIsChecked] = useState(false);
+
   const router = useNavigate();
 
-  const handleResizeHeight = () => {
-    textarea.current.style.height = 'auto';
-    textarea.current.style.height = textarea.current.scrollHeight + 'px';
+
+  //전체 데이터 get 해오기
+  useEffect(() => {
+    const fetchDatas = async () => {
+      try {
+        const response = await getData();
+        setUsername(response.username);
+        setBasicInfo(response.basic_information);
+        setNewAboutMeTexts(response.this_is_me);
+        setNewBingoTexts(response.bingo_complete);
+        setNewOthersTexts(response.other_complete);
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    };
+    fetchDatas();
+  }, []);
+
+  
+  //textarea 크기 조정
+  const handleResizeHeight = (e) => {
+    const textarea = e.target;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   };
 
-  const handlePhoneNumberChange = (e) => {
+  const handleTextChange = (e) => {
+    setModifier(e.target.value);
+    handleResizeHeight(e);
+  };
+
+  /* const handlePhoneNumberChange = (e) => {
     const userInput = e.target.value.replace(/\D/g, '');
     const formattedInput = userInput
       .replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
       .slice(0, 13);
 
     setPhoneNumber(formattedInput);
-  };
+  }; */
 
-  const toReadMode = () => {
-    router('/readportfolio');
-  };
 
-  const madeContent = (index) => {
-    if (newContentTexts[index].trim() === '') return;
-    const newContent = { id: contentLists[index].length + 1, text: newContentTexts[index] };
-    const updatedContentLists = [...contentLists];
-    updatedContentLists[index] = [...updatedContentLists[index], newContent];
-    setContentLists(updatedContentLists);
-
-    const updatedNewContentTexts = [...newContentTexts];
-    updatedNewContentTexts[index] = '';
-    setNewContentTexts(updatedNewContentTexts);
-    // 여기에 백엔드 연결
-  };
-
-  const clickDelete = (index, id) => {
-    const updatedContentLists = [...contentLists];
-    updatedContentLists[index] = updatedContentLists[index].filter((item) => item.id !== id);
-    setContentLists(updatedContentLists);
-  };
-
-  const handleEmojiClick = (index, emojiObject) => {
-    const updatedSelectedEmojis = [...selectedEmojis];
-    updatedSelectedEmojis[index] = emojiObject.emoji;
-    setSelectedEmojis(updatedSelectedEmojis);
-
-    const updatedShowEmojiPickers = [...showEmojiPickers];
-    updatedShowEmojiPickers[index] = false;
-    setShowEmojiPickers(updatedShowEmojiPickers);
-  };
-
+  //빙고 인증 후기만 보기
   const handleCheck = () => {
     setIsChecked(!isChecked);
   };
-  
+
+
+  //Info formdata 형식으로 put
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formdata = new FormData();
+
+    if (birth) formdata.append("birth", birth);
+    if (phoneNumber) formdata.append("phone_number", phoneNumber);
+    if (email) formdata.append("email", email);
+    if (modifier) formdata.append("modifier", modifier);
+    if (schoolMajor) formdata.append("school_major", schoolMajor);
+    if (image) formdata.append("image", image);
+
+    const response = await putFormData(formdata);
+    console.log(response.data);
+    router('/readportfolio');
+  };
+
+
+  // AboutMe post & del
+  const aboutMe = async () => {
+    const content =
+    {
+      "content": aboutMeTexts,
+    };
+    const response = await postThisIsMe(content);
+    console.log(response.data);
+    window.location.reload();
+  };
+
+  const delAboutMe = async (id) => {
+    const response = await delThisIsMe(id);
+    console.log(response.data);
+    window.location.reload();
+  }
+
+
+  // Bingo post & del
+  const bingoComplete = async () => {
+    const content =
+    {
+      "content": bingoTexts,
+    }
+    const response = await postBingo(content);
+    console.log(response.data);
+    window.location.reload();
+  };
+
+  const delBingoComplete = async (id) => {
+    const response = await delBingo(id);
+    console.log(response.data);
+    window.location.reload();
+  };
+
+
+
+  // Others post & del
+  const othersComplete = async () => {
+    const content =
+    {
+      "content": othersTexts,
+    }
+    const response = await postOthers(content);
+    console.log(response.data);
+    window.location.reload();
+  };
+
+  const delOthersComplete = async (id) => {
+    const response = await delOthers(id);
+    console.log(response.data);
+    window.location.reload();
+  };
+
+
   return (
     <>
       <HeaderHook></HeaderHook>
       <BackgroundWrapper />
       <ProfileImage>
-        <img src={다람쥐} style={{ height: '128px', width: '128px', borderRadius: '50%' }}></img>
+        <input
+          style={{ height: '128px', width: '128px', borderRadius: '50%' }}
+          type='file'
+          value={image} 
+          onChange={onChangeImage}></input>
       </ProfileImage>
       <SaveBtn>
-        <button onClick={toReadMode} style={{ cursor: 'pointer' }}><img src={saveimg}></img></button>
+        <button onClick={handleSubmit} style={{ cursor: 'pointer' }}><img src={saveimg}></img></button>
       </SaveBtn>
       <Body>
         <ProfileWrapper>
           <ProfileTitle>
-            <SectionTitle style={{ position: 'relative', bottom: '10px' }}>@닉네임, who are you?</SectionTitle>
+            <SectionTitle style={{ position: 'relative', bottom: '10px' }}>{username}, who are you?</SectionTitle>
             <textarea
               ref={textarea}
-              onChange={handleResizeHeight}
+              value={modifier}
+              onChange={handleTextChange}
               rows={3}
-              placeholder='나에게 맞는 수식어를 입력해주세요.'></textarea>
+              placeholder={basicInfo.modifier ? basicInfo.modifier : '나에게 맞는 수식어를 입력해주세요.'}></textarea>
           </ProfileTitle>
           <Info>
-            <InfoItem><InfoLabel>생년월일</InfoLabel><input type='date' ></input></InfoItem>
-            <InfoItem><InfoLabel>학교 & 전공</InfoLabel><input type='text' placeholder='학교와 전공을 입력해주세요.'></input></InfoItem>
-            <InfoItem><InfoLabel>연락처</InfoLabel><input type='tel' value={phoneNumber} onChange={handlePhoneNumberChange} placeholder='연락처를 입력해주세요.'></input></InfoItem>
-            <InfoItem><InfoLabel>E-mail</InfoLabel><input type='email' placeholder='자주 쓰는 이메일을 입력해주세요.'></input></InfoItem>
-            {/* 이메일은 백에서 받아오기 */}
+            <InfoItem>
+              <InfoLabel>생년월일</InfoLabel>
+              <input type='date' value={birth} onChange={onChangeBirth}></input>
+            </InfoItem>
+            <InfoItem>
+              <InfoLabel>학교 & 전공</InfoLabel>
+              <input 
+                type='text' 
+                value={schoolMajor} 
+                onChange={onChangeSchMajor}
+                placeholder={basicInfo.school_major ? basicInfo.school_major : '학교와 전공을 입력해주세요.'} > 
+              </input>
+            </InfoItem>
+            <InfoItem>
+              <InfoLabel>연락처</InfoLabel>
+              <input 
+                type='tel' 
+                value={phoneNumber} 
+                onChange={onChangePhoneNumber} 
+                placeholder={basicInfo.phone_number ? basicInfo.phone_number : '연락처를 입력해주세요.'} >
+              </input>
+            </InfoItem>
+            <InfoItem>
+              <InfoLabel>E-mail</InfoLabel>
+              <input 
+                type='email' 
+                value={email} 
+                onChange={onChangeEmail} 
+                placeholder={basicInfo.email ? basicInfo.email : '자주 쓰는 이메일을 입력해주세요.'} >
+                </input>
+            </InfoItem>
           </Info>
         </ProfileWrapper>
         <AchievementWrapper>
-          <SectionTitle>@닉네임 님의 휴 are you</SectionTitle>
+          <SectionTitle> {username}님의 휴 are you</SectionTitle>
           <p>휴학 기간에 달성한 사소한 목표부터 자랑하고픈 업적까지 모두 기록해보세요.</p>
           <AboutMeWrapper>
             <SubTitle>
-              <button onClick={() => {
-                const updatedShowEmojiPickers = [...showEmojiPickers];
-                updatedShowEmojiPickers[0] = !updatedShowEmojiPickers[0];
-                setShowEmojiPickers(updatedShowEmojiPickers);
-              }}>
-                {selectedEmojis[0] ? <span>{selectedEmojis[0]}</span> : <img src={EmojiEmotion} style={{ width: '24px', height: '24px' }}></img>}
-              </button>
-              @닉네임, Who are you?
-              {showEmojiPickers[0] && <EmojiPicker onEmojiClick={(emojiObject) => handleEmojiClick(0, emojiObject)} />}
+              <img src={EmojiEmotion} style={{ width: '24px', height: '24px', paddingRight: '5px' }}></img>
+              {username}, who are you?
             </SubTitle>
             <ContentLists>
-              {contentLists[0].map((item) => (
-                <ContentList key={item.id}>
-                  <img src={Minus} style={{ width: '16px', height: '16px' }} onClick={() => clickDelete(0, item.id)} />
-                  <span>{item.text}</span>
-                </ContentList>
-              ))}
+              <ContentWrapper>
+                {newAboutMeTexts.map((data) => (
+                  <div key={data.id} style={{ display: 'flex'}}>
+                    <img 
+                      src={Minus} 
+                      style={{ width: '16px', height: '16px', marginRight: '8px' }} 
+                      onClick={() => delAboutMe(data.id)} 
+                    />
+                    <ContentList>
+                      <div>{data.content}</div>
+                    </ContentList>
+                  </div>
+                ))}
+              </ContentWrapper>
               <AddContent>
                 <InputBox
                   type="text"
-                  value={newContentTexts[0]}
-                  onChange={(e) => {
-                    const updatedNewContentTexts = [...newContentTexts];
-                    updatedNewContentTexts[0] = e.target.value;
-                    setNewContentTexts(updatedNewContentTexts);
-                  }}
-                  placeholder="@닉네임 님에 대해 이야기해주세요"
+                  value={aboutMeTexts}
+                  onChange={onChangeAboutMeTexts}
+                  placeholder={`${username} 님에 대해 이야기해주세요`}
                 />
-                <img src={PlusSquare} style={{ width: '26px', height: '26px' }} onClick={() => madeContent(0)} />
+                <img src={PlusSquare} style={{ width: '26px', height: '26px' }} onClick={aboutMe} />
               </AddContent>
             </ContentLists>
           </AboutMeWrapper>
           <HueWrapper>
             <ClearWrapper>
               <SubTitle>
-                <button onClick={() => {
-                  const updatedShowEmojiPickers = [...showEmojiPickers];
-                  updatedShowEmojiPickers[1] = !updatedShowEmojiPickers[1];
-                  setShowEmojiPickers(updatedShowEmojiPickers);
-                }}>
-                  {selectedEmojis[1] ? <span>{selectedEmojis[1]}</span> : <img src={EmojiEmotion} style={{ width: '24px', height: '24px' }}></img>}
-                </button>
+                <img src={EmojiEmotion} style={{ width: '24px', height: '24px', paddingRight: '5px' }}></img>
                 달성한 빙고 한 눈에 보기
-                {showEmojiPickers[1] && <EmojiPicker onEmojiClick={(emojiObject) => handleEmojiClick(1, emojiObject)} />}
               </SubTitle>
               <Content>
                 <ContentLists>
-                  {contentLists[1].map((item) => (
-                    <ContentList key={item.id}>
-                      <img src={Minus} style={{ width: '16px', height: '16px' }} onClick={() => clickDelete(1, item.id)} />
-                      <span>{item.text}</span>
-                    </ContentList>
-                  ))}
+                  <ContentWrapper>
+                    {newBingoTexts.map((data) => (
+                      <div key={data.id} style={{ display: 'flex'}}>
+                        <img 
+                          src={Minus} 
+                          style={{ width: '16px', height: '16px', marginRight: '8px' }} 
+                          onClick={() => delBingoComplete(data.id)} 
+                        />
+                        <ContentList>
+                          <div>{data.content}</div>
+                        </ContentList>
+                      </div>
+                    ))}
+                  </ContentWrapper>
                   <AddContent>
                     <InputBox
                       type="text"
-                      value={newContentTexts[1]}
-                      onChange={(e) => {
-                        const updatedNewContentTexts = [...newContentTexts];
-                        updatedNewContentTexts[1] = e.target.value;
-                        setNewContentTexts(updatedNewContentTexts);
-                      }}
+                      value={bingoTexts}
+                      onChange={onChangeBingoTexts}
                       placeholder="달성한 빙고에 대해 이야기해주세요."
                     />
-                    <img src={PlusSquare} style={{ width: '26px', height: '26px' }} onClick={() => madeContent(1)} />
+                    <img src={PlusSquare} style={{ width: '26px', height: '26px'}} onClick={bingoComplete} />
                   </AddContent>
                 </ContentLists>
               </Content>
             </ClearWrapper>
             <ClearWrapper>
               <SubTitle>
-                <button onClick={() => {
-                  const updatedShowEmojiPickers = [...showEmojiPickers];
-                  updatedShowEmojiPickers[2] = !updatedShowEmojiPickers[2];
-                  setShowEmojiPickers(updatedShowEmojiPickers);
-                }}>
-                  {selectedEmojis[2] ? <span>{selectedEmojis[2]}</span> : <img src={EmojiEmotion} style={{ width: '24px', height: '24px' }}></img>}
-                </button>
+                <img src={EmojiEmotion} style={{ width: '24px', height: '24px', paddingRight: '5px' }}></img>
                 다른 성과 한 눈에 보기
-                {showEmojiPickers[2] && <EmojiPicker onEmojiClick={(emojiObject) => handleEmojiClick(2, emojiObject)} />}
               </SubTitle>
               <Content>
                 <ContentLists>
-                  {contentLists[2].map((item) => (
-                    <ContentList key={item.id}>
-                      <img src={Minus} style={{ width: '16px', height: '16px' }} onClick={() => clickDelete(2, item.id)} />
-                      <span>{item.text}</span>
-                    </ContentList>
-                  ))}
+                  <ContentWrapper>
+                      {newOthersTexts.map((data) => (
+                        <div key={data.id} style={{ display: 'flex'}}>
+                          <img 
+                            src={Minus} 
+                            style={{ width: '16px', height: '16px', marginRight: '8px' }} 
+                            onClick={() => delOthersComplete(data.id)} 
+                          />
+                          <ContentList>
+                            <div>{data.content}</div>
+                          </ContentList>
+                        </div>
+                      ))}
+                    </ContentWrapper>
                   <AddContent>
                     <InputBox
                       type="text"
-                      value={newContentTexts[2]}
-                      onChange={(e) => {
-                        const updatedNewContentTexts = [...newContentTexts];
-                        updatedNewContentTexts[2] = e.target.value;
-                        setNewContentTexts(updatedNewContentTexts);
-                      }}
+                      value={othersTexts}
+                      onChange={onChangeOthersTexts}
                       placeholder="휴알유 이외의 성과에 대해 이야기해주세요."
                     />
-                    <img src={PlusSquare} style={{ width: '26px', height: '26px' }} onClick={() => madeContent(2)} />
+                    <img src={PlusSquare} style={{ width: '26px', height: '26px' }} onClick={othersComplete} />
                   </AddContent>
                 </ContentLists>
               </Content>
@@ -225,7 +332,27 @@ const ChangePortfolio = () => {
             </CheckBox>
           </PostTitle>
           <PostContent>
-            {/* 사용자가 입력한 목표 달성 후기 post & 빙고 외 후기 post가 보여짐 */}
+            {/* <PostWrapper>
+              <img></img>
+              <span></span>
+              <Comments>
+                <img></img>
+                <span></span>
+                <img></img>
+                <span></span>
+              </Comments>
+            </PostWrapper>
+              <img></img>
+              <span></span>
+              <Comments>
+                <img></img>
+                <span></span>
+                <img></img>
+                <span></span>
+              </Comments>
+            <PostWrapper>
+
+            </PostWrapper> */}
           </PostContent>
         </PostWrapper>
       </Body>
@@ -431,6 +558,12 @@ const CheckBox = styled.div`
   align-items: center;
 `;
 
+const ContentWrapper = styled.div`
+  div {
+    margin-bottom: 10px;
+  }
+`;
+
 const ContentLists = styled.div`
   display: flex;
   flex-direction: column;
@@ -443,12 +576,10 @@ const ContentLists = styled.div`
 
 const ContentList = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
   color: #747474;
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 10px;
 `;
 
 const AddContent = styled.div`
@@ -462,7 +593,6 @@ const InputBox = styled.input`
   border: 0.4px solid rgba(0, 0, 0, 0.2);
   height: 25px;
   width: 80%;
-  margin-top: 5px;
   margin-right: 10px;
   &::placeholder {
     font-size: 14px;
