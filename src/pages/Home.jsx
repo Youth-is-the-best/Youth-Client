@@ -7,7 +7,7 @@ import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { RightDom } from './bingo/BingoInfo';
-import { prepDateState, bingoBodyState, bingoState, usernameState, startDateState, endDateState, titleState } from '../recoil/atoms';
+import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState } from '../recoil/atoms';
 import CustomCalendar from './bingo/CustomCalendar';
 
 const Home = () => {
@@ -22,10 +22,10 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [username] = useRecoilState(usernameState);
   const [title, setTitle] = useRecoilState(titleState);
-  const [bingoBody, setBingoBody] = useRecoilState(bingoBodyState);
   const [startDate, setStartDate] = useRecoilState(startDateState);
   const [endDate, setEndDate] = useRecoilState(endDateState);
   const [prepDates, setPrepDates] = useRecoilState(prepDateState);
+  const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -60,11 +60,12 @@ const Home = () => {
 
   const viewSaved = async () => {
     const response = await getSaved();
-    const saveds = response.stored_reviews.map((item) => ({
+    const saveds = response.stored_reviews || [];
+    const savedData = saveds.map((item) => ({
       title: item.title,
       id: item.id,
     }));
-    setSaved(saveds);
+    setSaved(savedData);
   };
 
   const viewTypeRecommend = async (type) => {
@@ -88,6 +89,12 @@ const Home = () => {
 
   const postBingos = async () => {
     try {
+      const bingoBody = {
+        size: 9,
+        start_date: startDate,
+        end_date: endDate,
+        bingo_obj: bingoObject,
+      };
       const response = await postBingo(bingoBody);
       console.log(bingoBody);
       console.log(response);
@@ -204,15 +211,28 @@ const Home = () => {
   const handlePrepDateChange = (prepDates) => {
     setPrepDates(prepDates); 
     const [startDate, endDate] = prepDates;
-    setStartDate(startDate); // Update Recoil state
-    setEndDate(endDate);     // Update Recoil state
+    
+    [startDate, endDate].forEach(date => {
+      const formattedDate = date.toLocaleDateString();
+      const [year, month, day] = formattedDate.split('.').map(element => element.trim());
+      const formattedDateString = `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
+      
+      // Check if this date is the start or end date and set accordingly
+      if (date === startDate) {
+        setStartDate(formattedDateString);
+        // console.log(`Start Date: ${formattedDateString}`);
+      } else {
+        setEndDate(formattedDateString);
+        // console.log(`End Date: ${formattedDateString}`);
+      }
+    });
   };
 
   useEffect(() => {
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
-    if(bingos.every(bingo => !bingo.title)){
+    if(bingos.length===0){
       fetchBingoData();
     }
   }, []);
@@ -225,7 +245,7 @@ const Home = () => {
           <h2>{username}의 빙고판</h2>
           <Line style={{ color: 'grey'}}>
             {startDate && endDate
-              ? `${startDate} ~ ${endDate}` : '날짜를 입력하세요.'}
+              ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}` : '날짜를 입력하세요.'}
             <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
           </Line>
           <BingoDom>
@@ -464,4 +484,3 @@ const Line = styled.div`
   width: 100%;
   gap: 3%;
 `;
-
