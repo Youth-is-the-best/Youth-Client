@@ -30,7 +30,8 @@ const Alarm = () => {
         </TitleWrapper>
         <ControlWrapper onClick={handleBtn}>
           안읽음 보기
-          { isSwitchOn ? <img src={onSwitch}></img> : <img src={offSwitch}></img>}
+          { isSwitchOn ? 
+            <img src={onSwitch}></img> : <img src={offSwitch}></img>}
         </ControlWrapper>
         <AlarmWrapper>
           <div>
