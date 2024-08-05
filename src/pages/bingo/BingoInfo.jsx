@@ -41,7 +41,7 @@ const BingoInfo = () => {
       setInfo(info);
       setIsNotice(info.is_notice);
       // console.log(info);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.error('Error in getInfos:', error.response ? error.response.data : error.message);
       throw error;

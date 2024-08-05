@@ -39,6 +39,17 @@ const MadeBingo = () => {
     "자기계발": ["분야", "파트너", "기간"],
     "휴식": ["장소", "기간"]
   };
+  const categoryMap = {
+    "채용(인턴)": "CAREER",
+    "자격증": "CERTIFICATE",
+    "대외활동": "OUTBOUND",
+    "공모전": "CONTEST",
+    "취미": "HOBBY",
+    "여행": "TRAVEL",
+    "자기계발": "SELFIMPROVEMENT",
+    "휴식": "REST",
+    "휴알유": "information",
+  };
 
   const inputConfigs = {
     "채용(인턴)": [
@@ -118,10 +129,11 @@ const MadeBingo = () => {
 
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
-      id: null,
+      id: "",
       todo: checklists.map(item => ({ title: item.text })),
       title: title,
       choice: "0",
+      large_category: categoryMap[selectedCategory],
     };
 
     setBingos(prevState => {

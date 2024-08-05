@@ -96,7 +96,6 @@ const MadedBingo = () => {
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20} /></DateInfo>
           </TitleLine>
           <TitleLine>
             <h1>{info ? info.title : 'Loading...'}</h1>
@@ -161,9 +160,8 @@ const MadedBingo = () => {
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
           )}
-          <FiEdit3 onClick={doEdit}/>
           <TitleLine>
-            <div> | 세부계획 </div>
+            <div> | 세부계획 <FiEdit3 onClick={doEdit}/> </div>
           </TitleLine>
           <CheckLists>
             {checklists.map((item, index) => (
