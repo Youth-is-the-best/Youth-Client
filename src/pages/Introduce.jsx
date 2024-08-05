@@ -4,27 +4,32 @@ import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../hook/He
 import MyPageModal from '../hook/MyPageModal'
 import modalopenimg from '../images/modalopen.png'
 import modalcloseimg from '../images/modalclose.png'
+import { useNavigate } from 'react-router-dom'
 
 
 const Introduce = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBtn = () => {
     setIsModalOpen(!isModalOpen);
   };
-
-  const handleLogout = ()=>{
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("refresh_token")
-    window.location.reload();
+  
+  const handleLogout = () => {
+    if (localStorage.getItem("access_token") && localStorage.getItem("refresh_token")) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      window.location.reload();
+    } else {
+      navigate("/login");
+    }
   };
-
 
   return (
     <>
     <HeaderofHome>
       <LogoutBtn>
-        <button onClick={handleLogout}>로그아웃</button>
+        <button onClick={handleLogout}>{localStorage.getItem("access_token") && localStorage.getItem("refresh_token") ? "로그아웃" : "로그인"}</button>
       </LogoutBtn>
       <Headers>
         <Logo to ="/">Logo</Logo>

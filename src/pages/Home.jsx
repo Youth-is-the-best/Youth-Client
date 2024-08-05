@@ -60,11 +60,12 @@ const Home = () => {
 
   const viewSaved = async () => {
     const response = await getSaved();
-    const saveds = response.stored_reviews.map((item) => ({
+    const saveds = response.stored_reviews || [];
+    const savedData = saveds.map((item) => ({
       title: item.title,
       id: item.id,
     }));
-    setSaved(saveds);
+    setSaved(savedData);
   };
 
   const viewTypeRecommend = async (type) => {

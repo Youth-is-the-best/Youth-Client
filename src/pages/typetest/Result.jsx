@@ -1,16 +1,16 @@
-import { GoHome } from 'react-icons/go';
 import { FiShare2, FiArrowRightCircle } from 'react-icons/fi';
 import { useState, useEffect } from 'react';
 import { ButtonDom, ButtonLink } from './Test';
 import { postTest } from '../../apis/testapis';
 import styled from 'styled-components';
 import { Line } from '../bingo/MadeBingo';
+import { useNavigate } from 'react-router-dom';
 
 const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue }) => {
   const [userType, setUserType] = useState("");
   const [content, setContent] = useState([]);
   const [image, setImage] = useState("");
-
+  
   const showResult = async () => {
     const answer = {
       "return_year": year,
@@ -51,8 +51,8 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
         </ResultInfo>
         <ButtonDom>
           <ButtonLink> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
-          <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/">
-            <FiArrowRightCircle onClick={GoHome}/> 빙고판 채우러가기
+          <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/bingo">
+            <FiArrowRightCircle/> 빙고판 채우러가기
           </ButtonLink>
         </ButtonDom>
       </ResultDom>
