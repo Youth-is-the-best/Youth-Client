@@ -10,8 +10,10 @@ import Vector from '../../images/Vector.png'
 import { useNavigate } from 'react-router-dom'
 import editimg from '../../images/FiEdit3.png'
 import checkimg from '../../images/AiOutlineCheckSquare.png'
-import { getData } from '../../apis/portFolioapis'
+import { getCertifiedReview, getData, getReview } from '../../apis/portFolioapis'
 import FiCheck from '../../images/FiCheck.png';
+import heartimg from '../../images/AiOutlineHeartRed.png';
+import { ReviewWrapper, Title, ReviewContent, ReviewGrid, ReviewCard, ImageWrapper, ReviewImage, ReviewTitle, Likes } from './ChangePortfolio'
 
 const ReadPortfolio = () => {
   const [newAboutMeTexts, setNewAboutMeTexts] = useState(['']); //get용
@@ -19,6 +21,8 @@ const ReadPortfolio = () => {
   const [newOthersTexts, setNewOthersTexts] = useState(['']);
   const [basicInfo, setBasicInfo] = useState('');
   const [username, setUsername] = useState('');
+  const [everyReview, setEveryReview] = useState([]);
+  const [certifiedReview, setCertifiedReview] = useState([]);
 
   const [isChecked, setIsChecked] = useState(false);
   const router = useNavigate();
@@ -41,6 +45,34 @@ const ReadPortfolio = () => {
     fetchDatas();
   }, []);
 
+  //전체 리뷰 get
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await getReview();
+        setEveryReview(response);
+      } catch(error) {
+        console.error(error);
+        throw error;
+      }
+    };
+    fetchReviews();
+  }, []);
+
+  //빙고 인증 리뷰 get
+  useEffect(() => {
+    const fetchCertifiedReviews = async () => {
+      try {
+        const response = await getCertifiedReview();
+        setCertifiedReview(response);
+      } catch(error) {
+        console.error(error);
+        throw error;
+      }
+    };
+    fetchCertifiedReviews();
+  }, [isChecked]);
+
   const toChangeMode = () => {
     router('/changeportfolio');
   };
@@ -48,6 +80,11 @@ const ReadPortfolio = () => {
   const handleCheck = () => {
     setIsChecked(!isChecked);
   };
+  
+  const toReview = (id) => {
+    router(`/review/${id}`)
+  };
+
 
   return (
     <>
@@ -125,20 +162,37 @@ const ReadPortfolio = () => {
             </ClearWrapper>
           </HueWrapper>
         </AchievementWrapper>
-        <PostWrapper style={{ float: 'bottom' }}>
-          <PostTitle>
+        <ReviewWrapper style={{ float: 'bottom' }}>
+          <Title>
             <SectionTitle><img src={MdOutlinedFeed} style={{ height: '21px', width: '19px' }}></img>내가 쓴 포스트 보기</SectionTitle>
             <CheckBox onClick={handleCheck}>
-              { isChecked ? 
+              {isChecked ? 
                 <img src={checkimg} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img> :
-                <img src={Vector} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img> }
+                <img src={Vector} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img>}
               <p>빙고 인증 후기만 보기</p>
             </CheckBox>
-          </PostTitle>
-          <PostContent>
-            {/* 사용자가 입력한 목표 달성 후기 post & 빙고 외 후기 post가 보여짐 */}
-          </PostContent>
-        </PostWrapper>
+          </Title>
+          <ReviewContent>
+            <ReviewGrid>
+              {(isChecked ? certifiedReview : everyReview).slice(0, 8).map((review) => (
+                <ReviewCard key={review.id} onClick={() => toReview(review.id)}>
+                  <ImageWrapper>
+                    {review.images.map((img) => (
+                      <ReviewImage key={img.image_id}>
+                        <img src={img.image} />
+                      </ReviewImage>
+                    ))}
+                  </ImageWrapper>
+                  <ReviewTitle>{review.title}</ReviewTitle>
+                  <Likes>
+                    <img src={heartimg} alt="likes" />
+                    {review.likes.length}
+                  </Likes>
+                </ReviewCard>
+              ))}
+            </ReviewGrid>
+          </ReviewContent>
+        </ReviewWrapper>
     </Body>
     </>
   )
@@ -298,26 +352,6 @@ const ClearWrapper = styled.div`
   width: 49%;
   /* padding-bottom: 80px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2); */
-`;
-
-const PostWrapper = styled.div`
-  padding-top: 40px;
-  border-top: 2px solid rgba(0, 0, 0, 0.2);
-`;
-
-const PostTitle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  input {
-    color: #1E3A8A;
-    border: none;
-    &::placeholder{
-      color: #1E3A8A;
-    }
-  }
-`;
-
-const PostContent = styled.div`
 `;
 
 const CheckBox = styled.div`

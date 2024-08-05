@@ -9,8 +9,9 @@ import PlusSquare from '../../images/FiPlusSquare.png';
 import EmojiEmotion from '../../images/MdOutlineEmojiEmotions.png';
 import saveimg from '../../images/FiSave.png';
 import checkimg from '../../images/AiOutlineCheckSquare.png';
+import heartimg from '../../images/AiOutlineHeartRed.png';
 import { useForm } from '../../hook/useForm';
-import { getData, putFormData, postThisIsMe, postOthers, postBingo, delThisIsMe, delBingo, delOthers } from '../../apis/portFolioapis';
+import { getData, putFormData, postThisIsMe, postOthers, postBingo, delThisIsMe, delBingo, delOthers, getReview, getCertifiedReview } from '../../apis/portFolioapis';
 
 
 const ChangePortfolio = () => {
@@ -32,6 +33,8 @@ const ChangePortfolio = () => {
   const [newOthersTexts, setNewOthersTexts] = useState(['']);
   const [basicInfo, setBasicInfo] = useState('');
   const [username, setUsername] = useState('');
+  const [everyReview, setEveryReview] = useState([]);
+  const [certifiedReview, setCertifiedReview] = useState([]);
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -56,7 +59,34 @@ const ChangePortfolio = () => {
     fetchDatas();
   }, []);
 
-  
+  //전체 리뷰 get
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await getReview();
+        setEveryReview(response);
+      } catch(error) {
+        console.error(error);
+        throw error;
+      }
+    };
+    fetchReviews();
+  }, []);
+
+  //빙고 인증 리뷰 get
+  useEffect(() => {
+    const fetchCertifiedReviews = async () => {
+      try {
+        const response = await getCertifiedReview();
+        setCertifiedReview(response);
+      } catch(error) {
+        console.error(error);
+        throw error;
+      }
+    };
+    fetchCertifiedReviews();
+  }, [isChecked]);
+
   //textarea 크기 조정
   const handleResizeHeight = (e) => {
     const textarea = e.target;
@@ -112,14 +142,14 @@ const ChangePortfolio = () => {
     };
     const response = await postThisIsMe(content);
     console.log(response.data);
-    window.location.reload();
+    router(0);
   };
 
   const delAboutMe = async (id) => {
     const response = await delThisIsMe(id);
     console.log(response.data);
-    window.location.reload();
-  }
+    router(0);
+  };
 
 
   // Bingo post & del
@@ -130,13 +160,13 @@ const ChangePortfolio = () => {
     }
     const response = await postBingo(content);
     console.log(response.data);
-    window.location.reload();
+    router(0);
   };
 
   const delBingoComplete = async (id) => {
     const response = await delBingo(id);
     console.log(response.data);
-    window.location.reload();
+    router(0);
   };
 
 
@@ -149,15 +179,20 @@ const ChangePortfolio = () => {
     }
     const response = await postOthers(content);
     console.log(response.data);
-    window.location.reload();
+    router(0);
   };
 
   const delOthersComplete = async (id) => {
     const response = await delOthers(id);
     console.log(response.data);
-    window.location.reload();
+    router(0);
   };
 
+
+  //리뷰글로 이동
+  const toReview = (id) => {
+    router(`/review/${id}`)
+  };
 
   return (
     <>
@@ -321,40 +356,37 @@ const ChangePortfolio = () => {
             </ClearWrapper>
           </HueWrapper>
         </AchievementWrapper>
-        <PostWrapper style={{ float: 'bottom' }}>
-          <PostTitle>
+        <ReviewWrapper style={{ float: 'bottom' }}>
+          <Title>
             <SectionTitle><img src={MdOutlinedFeed} style={{ height: '21px', width: '19px' }}></img>내가 쓴 포스트 보기</SectionTitle>
             <CheckBox onClick={handleCheck}>
-              { isChecked ? 
+              {isChecked ? 
                 <img src={checkimg} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img> :
-                <img src={Vector} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img> }
+                <img src={Vector} style={{ width: '24px', height: '24px', paddingRight: '10px' }}></img>}
               <p>빙고 인증 후기만 보기</p>
             </CheckBox>
-          </PostTitle>
-          <PostContent>
-            {/* <PostWrapper>
-              <img></img>
-              <span></span>
-              <Comments>
-                <img></img>
-                <span></span>
-                <img></img>
-                <span></span>
-              </Comments>
-            </PostWrapper>
-              <img></img>
-              <span></span>
-              <Comments>
-                <img></img>
-                <span></span>
-                <img></img>
-                <span></span>
-              </Comments>
-            <PostWrapper>
-
-            </PostWrapper> */}
-          </PostContent>
-        </PostWrapper>
+          </Title>
+          <ReviewContent>
+            <ReviewGrid>
+              {(isChecked ? certifiedReview : everyReview).slice(0, 8).map((review) => (
+                <ReviewCard key={review.id} onClick={() => toReview(review.id)}>
+                  <ImageWrapper>
+                    {review.images.map((img) => (
+                      <ReviewImage key={img.image_id}>
+                        <img src={img.image} />
+                      </ReviewImage>
+                    ))}
+                  </ImageWrapper>
+                  <ReviewTitle>{review.title}</ReviewTitle>
+                  <Likes>
+                    <img src={heartimg} alt="likes" />
+                    {review.likes.length}
+                  </Likes>
+                </ReviewCard>
+              ))}
+            </ReviewGrid>
+          </ReviewContent>
+        </ReviewWrapper>
       </Body>
     </>
   );
@@ -533,12 +565,12 @@ const ClearWrapper = styled.div`
   width: 49%;
 `;
 
-const PostWrapper = styled.div`
+export const ReviewWrapper = styled.div`
   padding-top: 40px;
   border-top: 2px solid rgba(0, 0, 0, 0.2);
 `;
 
-const PostTitle = styled.div`
+export const Title = styled.div`
   display: flex;
   justify-content: space-between;
   input {
@@ -548,9 +580,6 @@ const PostTitle = styled.div`
       color: #1E3A8A;
     }
   }
-`;
-
-const PostContent = styled.div`
 `;
 
 const CheckBox = styled.div`
@@ -599,4 +628,59 @@ const InputBox = styled.input`
     font-weight: 700;
     color: #A3A3A3;
   }
+`;
+
+export const ReviewContent = styled.div`
+  display: flex;
+  padding: 30px 0px;
+`;
+
+export const ReviewGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+  justify-content: space-between;
+  width: 100%;
+  height: 300px;
+`;
+
+export const ReviewCard = styled.div`
+  padding: 0px 20px;
+  width: 100%;
+  height: 300px;
+  box-sizing: border-box;
+`;
+
+export const ImageWrapper = styled.div`
+  padding-bottom: 20px;
+`;
+ 
+export const ReviewImage = styled.div`
+  img {
+    width: 100%;
+    height: 250px; 
+    object-fit: cover;
+    border-radius: 10px;
+  }
+`;
+
+export const ReviewTitle = styled.div`
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(30, 58, 138, 1);
+  margin-bottom: 5px;
+  margin-left: 10px; 
+`;
+
+export const Likes = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 10px; 
+  img {
+    width: 24px;
+    height: 24px;
+    margin-right: 3px;
+  }
+  color: rgba(116, 116, 116, 1);
+  font-size: 14px;
 `;
