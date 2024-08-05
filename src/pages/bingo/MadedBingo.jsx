@@ -5,14 +5,16 @@ import styled from 'styled-components';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getBingoloc, postTodolist } from '../../apis/testapis';
-import { Category, CheckLists, CheckList, CheckBox } from './MadeBingo';
+import { Category, CheckLists, CheckList, CheckBox, InputBox } from './MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import Bingomain from './Bingomain';
+import { FiEdit3 } from 'react-icons/fi';
 
 const MadedBingo = () => {
   const navigate = useNavigate();
   const { location } = useParams();
   const [checklists, setChecklists] = useState([]);
+  const [newChecklistText, setNewChecklistText] = useState('');
   const [info, setInfo] = useState(null);
 
   const goHome = () => {
@@ -77,6 +79,10 @@ const MadedBingo = () => {
       throw error;
     }
   };
+
+  const doEdit = () => {
+    navigate(`/madededit/${location}`);
+  }
 
   return (
     <>
@@ -151,6 +157,7 @@ const MadedBingo = () => {
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
           )}
+          <FiEdit3 onClick={doEdit}/>
           <TitleLine>
             <div> | 세부계획 </div>
           </TitleLine>

@@ -29,6 +29,7 @@ import ViewReview from './pages/notification/viewReview';
 import ViewNotice from './pages/notification/viewNotice';
 import ImageUploadForm from './pages/notification/ImageUploadForm';
 import Introduce from './pages/Introduce';
+import MadedBingoEdit from './pages/bingo/MadedBingoEdit';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -52,6 +53,7 @@ function App() {
       <Route path="/madedragbingo/:id" element={<MadeDragBingo/>}></Route>
       <Route path="/madedragbingo/:id/:location" element={<MadeDragBingo/>}></Route>
       <Route path="/madedbingo/:location" element={<MadedBingo/>}></Route>
+      <Route path="/madededit/:location" element={<MadedBingoEdit/>}></Route>
       <Route path="/login" element={<Login/>}></Route>
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/cal" element={<Calendar />}/>

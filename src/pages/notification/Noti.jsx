@@ -5,6 +5,8 @@ import { AiFillStar, AiOutlineHeart, AiOutlineMessage, AiOutlineSearch, AiOutlin
 import { Link, useNavigate } from 'react-router-dom';
 import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
+import { getHueInfo } from '../../apis/testapis';
+import { username } from '../../recoil/atoms';
 
 const Noti = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식","휴알유"];
@@ -25,6 +27,7 @@ const Noti = () => {
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [recommend, setRecommend] = useState([]);
 
   const [selectedOptions, setSelectedOptions] = useState({
     option1: '',
@@ -96,6 +99,17 @@ const Noti = () => {
     } catch (error) {
       console.error('Error in getReview:', error.response ? error.response.data : error.message);
     }
+  };
+
+  const viewRecommend = async () => {
+    const response = await getHueInfo();
+    const recommendations = response.map((item) => ({
+      title: item.title,
+      image: item.images[0]?.image || '',
+      id: item.id,
+      username: item.username,
+    }));
+    setRecommend(recommendations);
   };
 
   const getReviewsByCategory = async (category) => {
@@ -194,7 +208,6 @@ const Noti = () => {
     try {
       const searchParams = new URLSearchParams();
 
-      // Conditionally add each parameter based on its value
       if (searchKeyword) {
         searchParams.set('search', searchKeyword);
       }
@@ -247,6 +260,10 @@ const Noti = () => {
     } catch (error) {
       console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
     }
+  };
+
+  const goHue = (id) => {
+    navigate(`/viewhue/${id}`);
   };
 
   useEffect(() => {
@@ -368,6 +385,24 @@ const Noti = () => {
               </Content>
             ))}
           {showReview &&
+            // recommend.map((item) => (
+            //   <Content key={item.id}>
+            //     <WriterDom>
+            //       <div>{item.username}</div>
+            //       <AiOutlineStar
+            //         size={20}
+            //         onClick={() => handleStorage(item.id, 'review')}
+            //         style={{ color: item.saved ? 'yellow' : 'black' }}
+            //       />
+            //     </WriterDom>
+            //     <PhotoBox
+            //       src={item.image}
+            //       alt={item.title}
+            //       onClick={() => goHue(item.id)}
+            //     />
+            //     <div>{item.title}</div>
+            //   </Content>
+            // ))
             review.map((item) => (
               <Content key={item.id}>
                 <WriterDom>

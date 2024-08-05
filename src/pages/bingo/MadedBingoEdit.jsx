@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Bingo, Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
-import { getInfo } from '../../apis/testapis';
+import { getBingoloc, getInfo } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
 import { RightDom } from './BingoInfo';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
@@ -13,38 +13,45 @@ import Bingomain from './Bingomain';
 import { useRecoilState } from 'recoil';
 import { bingoState, bingoObjectState } from '../../recoil/atoms';
 
-const MadeDragBingo = () => {
+const MadedBingoEdit = () => {
   const navigate = useNavigate();
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
-  const [examDates, setExamDates] = useState([null, null]);
   const { id, location } = useParams();
   const [info, setInfo] = useState(null);
   const [bingos, setBingos] = useRecoilState(bingoState);
   const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const goHome = () => {
-    navigate(`/bingo`);
+    navigate("/view");
   };
 
-  const getInfos = async (id) => {
+  const getInfos = async (location) => {
     try {
-      const response = await getInfo(id);
+      const response = await getBingoloc(location);
       const info = {
-        large_category_display: response.large_category_display,
-        title: response.title,
-        app_fee: response.app_fee,
-        app_due: response.app_due,
-        start_date: response.start_date,
-        end_date: response.end_date,
-        host: response.host,
-        prep_period: response.prep_period,
-        area: response.area,
-        employment_form: response.employment_form,
-        field: response.field,
-        duty: response.duty,
+        large_category_display: response.bingo_item.large_category_display,
+        title: response.bingo_item.title,
+        app_fee: response.bingo_item.app_fee,
+        app_due: response.bingo_item.app_due,
+        start_date: response.bingo_item.start_date,
+        end_date: response.bingo_item.end_date,
+        host: response.bingo_item.host,
+        prep_period: response.bingo_item.prep_period,
+        area: response.bingo_item.area,
+        employment_form: response.bingo_item.employment_form,
+        field: response.bingo_item.field,
+        duty: response.bingo_item.duty,
       };
+      const todos = response.todo.map(todo => ({
+        id: todo.id,
+        text: todo.title,
+        checked: todo.is_completed
+      }));
+      console.log('Fetched info:', info);
+      console.log('Fetched todos:', todos);
       setInfo(info);
+      setChecklists(todos);
     } catch (error) {
       console.error('Error in getInfos:', error.response ? error.response.data : error.message);
       throw error;
@@ -61,10 +68,6 @@ const MadeDragBingo = () => {
   const deleteCheckList = (id) => {
     const updatedChecklists = checklists.filter(item => item.id !== id);
     setChecklists(updatedChecklists);
-  };
-
-  const handleExamDateChange = (dates) => {
-    setExamDates(dates);
   };
 
   const updateBingo = () => {
@@ -200,7 +203,7 @@ const MadeDragBingo = () => {
   );
 };
 
-export default MadeDragBingo;
+export default MadedBingoEdit;
 
 const Button = styled.div`
   display: flex;
