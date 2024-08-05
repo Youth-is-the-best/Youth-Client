@@ -4,11 +4,12 @@ import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../hook/He
 import MyPageModal from '../hook/MyPageModal'
 import modalopenimg from '../images/modalopen.png'
 import modalcloseimg from '../images/modalclose.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Introduce = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedAccessToken = localStorage.getItem("access_token");

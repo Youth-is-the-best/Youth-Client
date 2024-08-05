@@ -5,9 +5,8 @@ import MyPageModal from '../../hook/MyPageModal'
 import modalopenimg from '../../images/modalopen.png'
 import modalcloseimg from '../../images/modalclose.png'
 import { Link } from 'react-router-dom';
-import { getReview } from '../../apis/reviewapis';
 import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
 import heartimg from '../../images/AiOutlineHeart.png';
