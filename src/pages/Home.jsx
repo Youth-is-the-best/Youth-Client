@@ -47,6 +47,7 @@ const Home = () => {
       title: item.title,
       image: item.images[0]?.image || '',
       id: item.id,
+      isNotice: item.is_notice,
     }));
     setRecommend(recommendations);
   };
@@ -220,8 +221,6 @@ const Home = () => {
     setEndDate(formattedEndDate);
 
     try {
-      const get_response = await getDday();
-      console.log(get_response);
       const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
       setDday1(response.display.rest_dday_display);
       setDday2(response.display.return_dday_display);
@@ -229,6 +228,18 @@ const Home = () => {
     } catch (error) {
       setError('Error posting dates');
       console.error('Error in putDday:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  const getDday = async () => {
+    try {
+      const get_response = await getDday();
+      setDday1(get_response.display.rest_dday_display);
+      setDday2(get_response.display.return_dday_display);
+      console.log(get_response);
+    } catch (error) {
+      setError('Error getting dates');
+      console.error('Error in getDday:', error.response ? error.response.data : error.message);
     }
   };
 
@@ -242,6 +253,7 @@ const Home = () => {
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
+    getDday();
     if(bingos.length===0){
       fetchBingoData();
     }
@@ -362,7 +374,7 @@ const LineDom = styled.div`
   padding : 10px;
 `
 
-const StyledDday1 = styled.div`
+export const StyledDday1 = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -373,7 +385,7 @@ const StyledDday1 = styled.div`
   background: linear-gradient(178.58deg, #FFFFFF -94.22%, #A3A3A3 151.7%);
   border-radius: 10px;
 `;
-const StyledDday2 = styled.div`
+export const StyledDday2 = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

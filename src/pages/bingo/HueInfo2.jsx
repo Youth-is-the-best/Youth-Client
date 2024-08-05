@@ -35,7 +35,7 @@ const HueInfo = () => {
     if (recommendations.length > 0) {
       setTitle(recommendations[1].title);
       setLargeCategory(recommendations[1].large_category);
-      setContent(recommendations[1].content);
+      setContent(recommendations[1].content ? recommendations[1].content.split('\n') : []);
       setImages(recommendations[1].images);
     }
   }
@@ -66,15 +66,15 @@ const HueInfo = () => {
             <Line style={{ fontSize: '24px' }}>휴알유 PM @chunjaePM</Line>
           </Line>
           <Line>
-            <div>{content}</div>
+            {Array.isArray(content) && content.map((line, index) => (
+              <div key={index}>{line}</div>
+            ))}
           </Line>
-          <ReviewDom>
             {images.length > 0 && images.map((image, index) => (
-              <Review key={index}>
+              <Review key={index} style={{border:'none'}}>
                 <img src={image} alt={`Recommendation ${index + 1}`} style={{ maxWidth: '100%', height: 'auto' }} />
               </Review>
             ))}
-          </ReviewDom>
         </RightDom>
       </Body>
     </>

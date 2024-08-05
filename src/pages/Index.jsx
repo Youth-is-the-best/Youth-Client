@@ -6,10 +6,9 @@ import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
-import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RightDom } from './bingo/BingoInfo';
-import { RecommendDom, RecommendCom } from './Home';
-import { bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState } from '../recoil/atoms';
+import { RecommendDom, RecommendCom, StyledDday1, StyledDday2 } from './Home';
+import { bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State } from '../recoil/atoms';
 
 const Index = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -26,6 +25,8 @@ const Index = () => {
   const [endDate, setEndDate] = useRecoilState(endDateState);
   const [title, setTitle] = useRecoilState(titleState);
   const [id, setId] = useState(bingoIdState);
+  const [Dday1, setDday1] = useRecoilState(Day1State);
+  const [Dday2, setDday2] = useRecoilState(Day2State);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -171,9 +172,13 @@ const Index = () => {
       <HeaderHook />
       <Body>
         <LeftDom>
+          <Line>
+            <StyledDday1>{Dday1}</StyledDday1> 
+            <StyledDday2>{Dday2}</StyledDday2>
+          </Line>
           <h2>{username}의 빙고판</h2>
           <div style={{ color: 'grey' }}>
-            {startDate} ~ {endDate} <MdOutlineEditCalendar />
+            {startDate} ~ {endDate}
           </div>
           <BingoDom>
             {bingos.map((bingo, index) => (

@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { MdOutlineEditCalendar } from 'react-icons/md';
-import { bingoState, usernameState, startDateState, endDateState, titleState } from '../../recoil/atoms';
-import { getBingo } from '../../apis/testapis';
+import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State } from '../../recoil/atoms';
+import { getBingo, getDday } from '../../apis/testapis';
+import { StyledDday1, StyledDday2 } from '../Home';
+import { Line } from './MadeBingo';
 
 const Bingomain = () => {
   const [bingos, setBingos] = useRecoilState(bingoState);
@@ -11,6 +13,8 @@ const Bingomain = () => {
   const [startDate, setStartDate] = useRecoilState(startDateState);
   const [endDate, setEndDate] = useRecoilState(endDateState);
   const [title, setTitle] = useRecoilState(titleState);
+  const [Dday1, setDday1] = useRecoilState(Day1State);
+  const [Dday2, setDday2] = useRecoilState(Day2State);
 
   const getBingos = async () => {
     const response = await getBingo();
@@ -65,6 +69,10 @@ const Bingomain = () => {
 
   return (
     <LeftDom>
+      <Line>
+        <StyledDday1>{Dday1}</StyledDday1> 
+        <StyledDday2>{Dday2}</StyledDday2>
+      </Line>
       <h2>{username}의 빙고판</h2>
       <div style={{ color: 'grey' }}>
         투두리스트를 수정하세요.
