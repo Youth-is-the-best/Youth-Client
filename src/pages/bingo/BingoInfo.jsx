@@ -65,11 +65,14 @@ const BingoInfo = () => {
     }
   };
 
-  const goReview = (id) => {
+  const goNotice = (id) => {
     navigate(`/viewnotice/${id}`);
   }
-  
 
+  const goReview = (id) => {
+    navigate(`/viewreview/${id}`);
+  }
+  
   useEffect(() => {
     if (id) {
       getInfos(id);
@@ -86,7 +89,7 @@ const BingoInfo = () => {
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
             {isNotice && (
-              <DateInfo onClick={()=> goReview(info.notice_id)}>더 많은 정보 보러가기<MdOutlineNearMe size={20}/> </DateInfo>
+              <DateInfo onClick={()=> goNotice(info.notice_id)}>더 많은 정보 보러가기<MdOutlineNearMe size={20}/> </DateInfo>
             )}
           </TitleLine>
           <TitleLine>
