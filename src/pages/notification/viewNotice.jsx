@@ -167,16 +167,25 @@ const ViewNotice = () => {
             )}
           </InfoDom>
           <ReviewDom>
-            {info && info.procedure && (
+            {info && info.content && (
               <>
-                <Category2>모집 절차</Category2>
-                <div>{info.procedure}</div>
+                {info.large_category_display === "자격증" ? (
+                  <>
+                    <Category2>세부 내용</Category2>
+                    {content.map((line, index) => (
+                      <div key={index}>{line}</div>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <Category2>세부 공고</Category2>
+                    {content.map((line, index) => (
+                      <div key={index}>{line}</div>
+                    ))}
+                  </>
+                )}
               </>
             )}
-            <Category2>활동내용/합격팁/소감</Category2>
-              {content.map((line, index) => (
-                  <div key={index}>{line}</div>
-              ))}
           </ReviewDom>
           <PhotoDom>
             {images && images.map((item) => (
