@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import HeaderHook from '../../hook/HeaderHook';
 import MdOutlinedFeed from '../../images/MdOutlineFeed.png';
 import Vector from '../../images/Vector.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Minus from '../../images/AiOutlineMinusCircle.png';
 import PlusSquare from '../../images/FiPlusSquare.png';
 import EmojiEmotion from '../../images/MdOutlineEmojiEmotions.png';
@@ -35,6 +36,9 @@ const ChangePortfolio = () => {
   const [username, setUsername] = useState('');
   const [everyReview, setEveryReview] = useState([]);
   const [certifiedReview, setCertifiedReview] = useState([]);
+
+  const {type} = useParams();
+  const [typeImage, setTypeImage] = useState("");
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -86,6 +90,23 @@ const ChangePortfolio = () => {
     };
     fetchCertifiedReviews();
   }, [isChecked]);
+
+  //유형화테스트 이미지 get
+  const getTypeTestResultImg = async(type) => {
+      try {
+          const response = await axios.get(`https://maknaengee.p-e.kr/typetest/result/${type}`);
+          setTypeImage(response.data.image);
+          return response.data;
+      } catch (error) {
+          console.error('Error in getInfo:', error.response ? error.response.data : error.message);
+          throw error;
+      }
+  }
+  useEffect(() => {
+      if(type) {
+      getTypeTestResultImg(type);
+      }
+  }, [type]);
 
   //textarea 크기 조정
   const handleResizeHeight = (e) => {
