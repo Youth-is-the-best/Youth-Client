@@ -84,6 +84,10 @@ const MadedBingo = () => {
     navigate(`/madededit/${location}`);
   }
 
+  const handleMadeReviewClick = (location) => {
+    navigate(`/dragreview/${location}`);
+  }
+
   return (
     <>
       <HeaderHook />
@@ -174,7 +178,7 @@ const MadedBingo = () => {
             ))}
             <Line></Line>
           </CheckLists>
-          <DateInfo style={{ width: '30%', marginLeft: '67%' }}>목표 달성 기록 남기기</DateInfo>
+          <DateInfo style={{ width: '30%', marginLeft: '67%' }} onClick={() => handleMadeReviewClick(location)}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
     </>

@@ -1,99 +1,92 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { AiOutlineCheckSquare } from 'react-icons/ai';
 import HeaderHook from '../../hook/HeaderHook';
-import { getHandleNoticeSaved, getNoticeById } from '../../apis/reviewapis';
-import { useNavigate, useParams } from 'react-router-dom';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
-import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getBingoloc } from '../../apis/testapis';
+import { InputBox } from '../bingo/MadeBingo';
+import { postReview } from '../../apis/reviewapis';
 
-const ViewNotice = () => {
-  const { id } = useParams();
+const MadeDragReview = () => {
+  const { location } = useParams();
   const [info, setInfo] = useState(null);
+  const [title, setTitle] = useState('');
+  const [todo, setTodo] = useState([]);
   const [images, setImages] = useState([]);
-  const [isStarred, setIsStarred] = useState(false);
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState('');
+  const [procedure, setProcedure] = useState('');
 
-  const getNotice = async (id) => {
-    try {
-      const response = await getNoticeById(id);
-      const info = {
-        id: response.id,
-        title: response.title,
-        large_category: response.large_category,
-        start_date: response.start_date,
-        end_date: response.end_date,
-        content: response.content,
-        duty: response.duty,
-        employment_form: response.employment_form,
-        area: response.area,
-        host: response.host,
-        app_fee: response.app_fee,
-        date: response.date,
-        app_due: response.app_due,
-        field: response.field,
-        procedure: response.procedure,
-        likes: response.likes,
-        large_category_display: response.large_category_display,
-        author_id: response.author_id,
-        author: response.author,
-        created_at: response.created_at,
-        profile: response.profile,
-        saved : response.saved,
-      };
-      setInfo(info);
-      setContent(info.content.split('\n'));
-      setIsStarred(info.saved);
+    const getReview = async(location) => {
+      try {
+        const response = await getBingoloc(location);
+        const todo = response.todo.map((item) => ({
+          title: item.title,
+          id: item.id,
+        }));
+        const info = {
+          title: response.bingo_item.title,
+          large_category_display: response.bingo_item.large_category_display,
+          large_category: response.bingo_item.large_category,
+          start_date: response.bingo_item.start_date,
+          end_date: response.bingo_item.end_date,
+          duty: response.bingo_item.duty,
+          employment_form: response.bingo_item.employment_form,
+          area: response.bingo_item.area,
+          host: response.bingo_item.host,
+          app_fee: response.bingo_item.app_fee,
+          date: response.bingo_item.date,
+          app_due: response.bingo_item.app_due,
+          field: response.bingo_item.field,
+          procedure: response.bingo_item.procedure,
+          author: response.bingo_item.author,
+          created_at: response.bingo_item.created_at,
+        };
+        setTitle(info.title);
+        setTodo(todo);
+        setInfo(info);
+        const images = response.images ? response.images.map((item) => ({
+          image_id: item.image_id,
+          image: item.image,
+        })) : [];
+        setImages(images);
+      } catch (error) {
+        console.error('Error in getNotice:', error.response ? error.response.data : error.message);
+        throw error;
+      }
+    };
 
-      const images = response.images ? response.images.map((item) => ({
-        image_id: item.image_id,
-        image: item.image,
-      })) : [];
-      setImages(images);
-      // console.log(response);
-    } catch (error) {
-      console.error('Error in getReview:', error.response ? error.response.data : error.message);
-      throw error;
+    const postReviews = async (data) => {
+      try {
+        const data = {
+          large_category: info.large_category,
+          space_location: location,
+          content: content,
+          images:'',
+          procedure: procedure,
+        };
+        const response = await postReview(data);
+        console.log(response);
+      } catch (error) {
+        console.error('Error in postReview:', error.response ? error.response.data : error.message);
+        throw error;
+      }
     }
-  }
 
   useEffect(() => {
-    if (id) {
-      getNotice(id);
-    }
-  }, [id]);
+      getReview(location);
+  }, [location]);
 
   const navigate = useNavigate();
-  const goNoti = () => { 
-    navigate("/notification");
-  }
-
-  const handleStorage = async () => {
-    try {
-      await getHandleNoticeSaved(id);
-      setIsStarred(!isStarred);
-    } catch (error) {
-      console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
-      throw error;
-    }
+  const goBingo = () => {
+    navigate('/bingo');
   };
 
   return (
     <>
       <HeaderHook />
       <Line style={{ color: 'rgba(27, 52, 124, 1)', justifyContent: 'space-between', padding: '2%' }}>
-        <MdOutlineKeyboardBackspace onClick={goNoti} size={40} />
-        <Line style={{ gap: '10%' }}>
-          {isStarred ? (
-          <AiFillStar 
-            size={40} 
-            onClick={handleStorage} 
-            style={{ color: 'rgba(252, 211, 77, 1)' }} 
-          />
-          ):(
-            <AiOutlineStar size={40} style={{ color: 'black' }} 
-            onClick={handleStorage}/>
-          )}
-        </Line>
+        <MdOutlineKeyboardBackspace onClick={goBingo} size={40} />
       </Line>
       <BigBody>
         <Body>
@@ -167,38 +160,43 @@ const ViewNotice = () => {
             )}
           </InfoDom>
           <ReviewDom>
-            {info && info.content && (
-              <>
-                {info.large_category_display === "자격증" ? (
-                  <>
-                    <Category2>세부 내용</Category2>
-                    {content.map((line, index) => (
-                      <div key={index}>{line}</div>
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    <Category2>세부 공고</Category2>
-                    {content.map((line, index) => (
-                      <div key={index}>{line}</div>
-                    ))}
-                  </>
-                )}
-              </>
-            )}
+            {todo.map((item) => (
+              <Row>
+                <Line>
+                  <AiOutlineCheckSquare size={20} />
+                  <div>{item.title}</div>
+                </Line>
+              </Row>
+            ))}
           </ReviewDom>
+          <InfoDom>
+          <div>모집 절차</div>
+          <InputBox
+              type="text"
+              value={procedure}
+              onChange={(e) => setProcedure(e.target.value)}
+              placeholder="내용을 입력해주세요"/>
+          <div>활동 내용/합격 팁/소감</div>
+          <InputBox
+              type="text"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="내용을 입력해주세요"
+            />
+          </InfoDom>
           <PhotoDom>
             {images && images.map((item) => (
               <img key={item.image_id} src={item.image} alt="사진" style={{ width: '200px', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
             ))}
           </PhotoDom>
+          <Infobutton onClick={postReviews}>업로드</Infobutton>
         </Body>
       </BigBody>
     </>
   )
 };
 
-export default ViewNotice;
+export default MadeDragReview;
 
 const Line = styled.div`
   display: flex;

@@ -15,6 +15,7 @@ import Calendar from 'react-calendar';
 import ReadPortfolio from './pages/portFolio/ReadPortfolio';
 import ChangePortfolio from './pages/portFolio/ChangePortfolio';
 import MadeReview from './pages/notification/MadeReview';
+import MadeDragReview from './pages/notification/MadeDragReview';
 import MyPage from './pages/myPage/MyPage';
 import Alarm from './pages/myPage/Alarm';
 import AlarmManage from './pages/myPage/AlarmManage';
@@ -58,6 +59,7 @@ function App() {
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/cal" element={<Calendar />}/>
       <Route path="/review" element={<MadeReview />}/>
+      <Route path="/dragreview/:location" element={<MadeDragReview />}/>
       <Route path="/viewreview/:id" element={<ViewReview />}/>
       <Route path="/viewnotice/:id" element={<ViewNotice />}/>
       <Route path="/notification" element={<Noti />}/>
