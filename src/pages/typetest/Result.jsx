@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import { ButtonDom, ButtonLink } from './Test';
 import { postTest } from '../../apis/testapis';
 import styled from 'styled-components';
+import { Line } from '../bingo/MadeBingo';
 
 const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue }) => {
   const [userType, setUserType] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState([]);
+  const [image, setImage] = useState("");
 
   const showResult = async () => {
     const answer = {
@@ -20,9 +22,10 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
     try {
       const response = await postTest(answer);
       setUserType(response.user_type);
-      setContent(response.content);
+      setContent(response.content.split('\n')); // Split the content into lines
+      setImage(response.image);
     } catch (error) {
-      setContent("모든 문항을 답해주세요.");
+      setContent(["모든 문항을 답해주세요."]);
     }
   };
 
@@ -33,10 +36,19 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
   return (
     <>
       <ResultDom>
-        <div>@9rin_t2 님의 유형은</div>
-        <Image></Image>
-        <h1>{userType}</h1>
-        <ResultInfo>{content}</ResultInfo>
+        <div>00 님의 유형은</div>
+        <Image>
+          <img src={image} style={{width:'100%'}} alt="result"></img>
+        </Image>
+        <Title>"{userType}"</Title>
+        <ResultInfo>
+          {content.map((line, index) => (
+            <Line>
+              <>🍍</>
+              <p key={index}>{line}</p>
+            </Line>
+          ))}
+        </ResultInfo>
         <ButtonDom>
           <ButtonLink> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
           <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/">
@@ -50,10 +62,19 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
 
 export default Result;
 
+const Title = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px;
+  font-family: 'SBAggroB';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  color : rgba(30, 58, 138, 1);
+`;
+
 const ResultInfo = styled.div`
-  width: 610px;
-  height: 170px;
-  border-left: 4px solid rgba(30, 58, 138);
+  height: auto;
   color : rgba(30, 58, 138);
   padding : 10px;
 `;
@@ -61,7 +82,6 @@ const ResultInfo = styled.div`
 const Image = styled.div`
   width: 200px;
   height: 200px;
-  border: 1px solid black;
   margin-top : 10px;
 `;
 
@@ -71,4 +91,5 @@ const ResultDom = styled.div`
   justify-content: center;
   align-items: center;
   padding : 100px;
+  color rgba(81, 81, 81, 1);
 `;

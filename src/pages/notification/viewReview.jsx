@@ -5,7 +5,7 @@ import { getHandleLike, getHandleReviewLike, getHandleReviewSaved, getHandleRevi
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
-import { AiOutlineHeart, AiOutlineStar } from 'react-icons/ai';
+import { AiFillStar, AiOutlineHeart, AiOutlineStar } from 'react-icons/ai';
 
 const ViewReview = () => {
   const { id } = useParams();
@@ -100,14 +100,19 @@ const ViewReview = () => {
   return (
     <>
       <HeaderHook />
-      <Line style={{ color: 'rgba(27, 52, 124, 1)', justifyContent: 'space-between', paddingLeft: '10%' }}>
+      <Line style={{ color: 'rgba(27, 52, 124, 1)', justifyContent: 'space-between', paddingLeft: '10%',paddingRight: '10%', paddingTop:'5%' }}>
         <MdOutlineKeyboardBackspace onClick={goNoti} size={40} />
         <Line style={{ gap: '10%' }}>
-          <AiOutlineStar 
+          {isStarred ? (
+          <AiFillStar 
             size={40} 
             onClick={handleStorage} 
-            style={{ color: isStarred ? 'yellow' : 'black' }} 
+            style={{ color: 'rgba(252, 211, 77, 1)' }} 
           />
+          ):(
+            <AiOutlineStar size={40} style={{ color: 'black' }} 
+            onClick={handleStorage}/>
+          )}
           <AiOutlineHeart 
             size={40} 
             onClick={handleLike} 
