@@ -4,10 +4,10 @@ import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../hook
 import MyPageModal from '../../hook/MyPageModal'
 import modalopenimg from '../../images/modalopen.png'
 import modalcloseimg from '../../images/modalclose.png'
-import { AiOutlineMessage, AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { getReview } from '../../apis/reviewapis';
-import { AiFillStar, AiOutlineMessage, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
+import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
@@ -396,7 +396,7 @@ const Noti = () => {
                 <div>
                   <img src={heartimg} style={{ color: 'rgba(255, 0, 0, 1)' }} />
                   {item.likes_count}{' '}
-                  <AiOutlineMessage style={{ color: 'rgba(27, 52, 124, 1)' }} />
+                  <img src={msgimg} style={{ color: 'rgba(27, 52, 124, 1)' }} />
                   {item.comments_count}
                 </div>
               </Content>
