@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const username = atom({
+export const usernameState = atom({
   key: 'usernameState',
   default: '',
 });
@@ -8,11 +8,6 @@ export const username = atom({
 export const bingoState = atom({
   key: 'bingoState',
   default: [],
-});
-
-export const usernameState = atom({
-  key: 'usernameState',
-  default: '',
 });
 
 export const startDateState = atom({
@@ -52,7 +47,13 @@ export const bingoIdState = atom({
 
 export const bingoObjectState = atom({
   key: 'bingoObjectState',
-  default: Array.from({ length: 9 }, (_, index) => 
-    ({ location: index.toString(), id: '', title: '', choice: "0", todo: [] }))
-},
-);
+  default: {
+    bingo_obj: Array.from({ length: 9 }, (_, index) => ({
+      location: index.toString(),
+      id: '',
+      title: '',
+      choice: "0",
+      todo: [],
+    })),
+  },
+});

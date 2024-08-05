@@ -17,7 +17,6 @@ const MadeDragBingo = () => {
   const navigate = useNavigate();
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
-  const [examDates, setExamDates] = useState([null, null]);
   const { id, location } = useParams();
   const [info, setInfo] = useState(null);
   const [bingos, setBingos] = useRecoilState(bingoState);
@@ -47,11 +46,10 @@ const MadeDragBingo = () => {
       setInfo(info);
     } catch (error) {
       console.error('Error in getInfos:', error.response ? error.response.data : error.message);
-      throw error;
     }
   };
 
-  const madeCheckList = () => {
+  const addChecklist = () => {
     if (newChecklistText.trim() === '') return;
     const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
     setChecklists([...checklists, newChecklist]);
@@ -63,21 +61,19 @@ const MadeDragBingo = () => {
     setChecklists(updatedChecklists);
   };
 
-  const handleExamDateChange = (dates) => {
-    setExamDates(dates);
-  };
-
   const updateBingo = () => {
     if (!info) return;
 
-    const locationIndex = parseInt(location, 10);
+    const locationIndex = location.toString();
+    const idIndex = id.toString();
     const updatedBingoObj = JSON.parse(JSON.stringify(bingoObject.bingo_obj));
 
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
+      id: idIndex,
       todo: checklists.map(item => ({ title: item.text })),
       title: info.title,
-      choice: 1,
+      choice: "1",
     };
 
     setBingoObject(prevState => ({
@@ -90,10 +86,12 @@ const MadeDragBingo = () => {
       updatedBingos[locationIndex] = { location: locationIndex, title: info.title };
       return updatedBingos;
     });
-
+    console.log(bingoObject);
+    console.log(bingos);
+    
     navigate('/bingo');
   };
-  
+
   useEffect(() => {
     if (id) {
       getInfos(id);
@@ -119,60 +117,60 @@ const MadeDragBingo = () => {
               {info ? info.large_category_display : 'Loading...'}
             </StyledDiv>
           </Line>
-          {info && info.host ? (
+          {info && info.host && (
             <Line>
               <Category>주최사</Category>
               <StyledDiv>{info.host}</StyledDiv>
             </Line>
-          ) : null}
-          {info && info.field ? (
+          )}
+          {info && info.field && (
             <Line>
               <Category>활동 분야</Category>
               <StyledDiv>{info.field}</StyledDiv>
             </Line>
-          ) : null}
-          {info && info.app_fee ? (
+          )}
+          {info && info.app_fee && (
             <Line>
               <Category>응시료</Category>
               <StyledDiv>{info.app_fee}원</StyledDiv>
             </Line>
-          ) : null}
-          {info && info.duty ? (
+          )}
+          {info && info.duty && (
             <Line>
               <Category>직무</Category>
               <StyledDiv>{info.duty}</StyledDiv>
             </Line>
-          ) : null}
-          {info && info.employment_form ? (
+          )}
+          {info && info.employment_form && (
             <Line>
               <Category>채용 형태</Category>
               <StyledDiv>{info.employment_form}</StyledDiv>
             </Line>
-          ) : null}
-          {info && info.area ? (
+          )}
+          {info && info.area && (
             <Line>
               <Category>활동 지역</Category>
               <StyledDiv>{info.area}</StyledDiv>
             </Line>
-          ) : null}
-          {info && info.app_due ? (
+          )}
+          {info && info.app_due && (
             <Line>
               <Category>지원 마감</Category>
               <StyledDiv>{info.app_due}</StyledDiv>
             </Line>
-          ) : null}
-          {info && info.prep_period ? (
+          )}
+          {info && info.prep_period && (
             <Line>
               <Category>준비 기간</Category>
               <StyledDiv>{info.prep_period}</StyledDiv>
             </Line>
-          ) : null}
-          {info && info.start_date ? (
+          )}
+          {info && info.start_date && (
             <Line>
               <Category>활동 기간</Category>
               <StyledDiv>{info.start_date} ~ {info.end_date}</StyledDiv>
             </Line>
-          ) : null}
+          )}
           <TitleLine>
             <div> | 세부계획 </div>
           </TitleLine>
@@ -190,7 +188,7 @@ const MadeDragBingo = () => {
                 onChange={(e) => setNewChecklistText(e.target.value)}
                 placeholder="세부 계획을 입력하세요"
               />
-              <CiSquarePlus size={30} onClick={madeCheckList} />
+              <CiSquarePlus size={30} onClick={addChecklist} />
             </Line>
           </CheckLists>
           <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</DateInfo>

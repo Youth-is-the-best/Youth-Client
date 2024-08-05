@@ -95,7 +95,7 @@ const Home = () => {
         size: 9,
         start_date: startDate,
         end_date: endDate,
-        bingo_obj: bingoObject,
+        bingo_obj: bingoObject.bingo_obj,
       };
       const response = await postBingo(bingoBody);
       console.log(bingoBody);
@@ -203,7 +203,6 @@ const Home = () => {
 
   const clickBingo = (index) => {
     alert('이미 만들어진 빙고입니다. 드래그하여 수정하세요');
-    const selectedBingo = bingos[index];
   };
 
   const clickemptyBingo = (location) => {

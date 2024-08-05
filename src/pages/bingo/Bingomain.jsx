@@ -59,7 +59,7 @@ const Bingomain = () => {
   };
   useEffect(() => {
     if (bingos.every(bingo => !bingo.title)) {
-      getBingos();
+    getBingos();
     }
   }, [bingos]);
 

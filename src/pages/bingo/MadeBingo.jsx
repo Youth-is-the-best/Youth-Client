@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/md';
+import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import styled from 'styled-components';
-import { AiOutlineCheckSquare, AiOutlineMinusCircle } from 'react-icons/ai';
-import { CiSquarePlus } from 'react-icons/ci';
 import { Body } from '../Home';
 import { RightDom } from './BingoInfo';
+import { AiOutlineMinusCircle } from 'react-icons/ai';
+import { CiSquarePlus } from 'react-icons/ci';
 import { BsThreeDots } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import HeaderHook from '../../hook/HeaderHook';
@@ -15,7 +15,7 @@ import { bingoState, bingoObjectState } from '../../recoil/atoms';
 
 const MadeBingo = () => {
   const navigate = useNavigate();
-  const {location} = useParams();
+  const { location } = useParams();
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
   const [title, setTitle] = useState('');
@@ -25,10 +25,10 @@ const MadeBingo = () => {
   const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const goHome = () => {
-    navigate("/bingo");
+    navigate(`/bingo`);
   };
 
-  const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
+  const categories = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
   const subcategories = {
     "채용(인턴)": ["직무", "채용형태", "근무 지역", "지원 마감"],
     "자격증": ["주최사", "응시료", "시험 날짜", "준비 기간"],
@@ -58,7 +58,6 @@ const MadeBingo = () => {
       { placeholder: "활동 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
       { placeholder: "지원 마감", type: "date" },
       { placeholder: "활동 기간", type: "date-range" }
-      
     ],
     "공모전": [
       { placeholder: "주최 기관" },
@@ -67,39 +66,39 @@ const MadeBingo = () => {
       { placeholder: "준비 기간", type: "date-range" }
     ],
     "취미": [
-      { placeholder: "분야" ,type: "select", options: ["그림 및 공예", "음악", "운동", "레저 및 야외 활동", "요리 및 베이킹", "독서 및 글쓰기", "원예", "기타"]},
-      { placeholder: "파트너", type: "select", options:["혼자", "친구와", "가족과", "애인과", "기타"]},
+      { placeholder: "분야", type: "select", options: ["그림 및 공예", "음악", "운동", "레저 및 야외 활동", "요리 및 베이킹", "독서 및 글쓰기", "원예", "기타"] },
+      { placeholder: "파트너", type: "select", options: ["혼자", "친구와", "가족과", "애인과", "기타"] },
       { placeholder: "기간", type: "date-range" }
     ],
     "여행": [
       { placeholder: "장소", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "해외"] },
-      { placeholder: "파트너", type: "select", options:["혼자", "친구와", "가족과", "애인과", "기타"]},
+      { placeholder: "파트너", type: "select", options: ["혼자", "친구와", "가족과", "애인과", "기타"] },
       { placeholder: "기간", type: "date-range" }
     ],
     "자기계발": [
-      { placeholder: "분야", type: "select", options:["언어", "독서", "자격증", "전문 기술", "재정 관리", "건강 관리", "네트워킹", "기타"] },
-      { placeholder: "파트너", type: "select", options:["혼자", "친구와", "가족과", "애인과", "기타"]},
+      { placeholder: "분야", type: "select", options: ["언어", "독서", "자격증", "전문 기술", "재정 관리", "건강 관리", "네트워킹", "기타"] },
+      { placeholder: "파트너", type: "select", options: ["혼자", "친구와", "가족과", "애인과", "기타"] },
       { placeholder: "기간", type: "date-range" }
     ],
     "휴식": [
       { placeholder: "장소", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "해외"] },
       { placeholder: "기간", type: "date-range" }
     ]
-};
+  };
 
-  const [selectedCategory, setSelectedCategory] = useState(categorys[0]);
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
   };
 
-  const madeCheckList = () => {
+  const addChecklist = () => {
     if (newChecklistText.trim() === '') return;
     const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
   };
-  
+
   const deleteCheckList = (id) => {
     const updatedChecklists = checklists.filter(item => item.id !== id);
     setChecklists(updatedChecklists);
@@ -112,7 +111,7 @@ const MadeBingo = () => {
   const handlePrepDateChange = (dates) => {
     setPrepDates(dates);
   };
-  
+
   const updateBingo = () => {
     const locationIndex = parseInt(location, 10);
     const updatedBingoObj = JSON.parse(JSON.stringify(bingoObject.bingo_obj));
@@ -121,13 +120,8 @@ const MadeBingo = () => {
       ...updatedBingoObj[locationIndex],
       todo: checklists.map(item => ({ title: item.text })),
       title: title,
-      choice: 0,
+      choice: "0",
     };
-
-    setBingoObject(prevState => ({
-      ...prevState,
-      bingo_obj: updatedBingoObj,
-    }));
 
     setBingos(prevState => {
       const updatedBingos = [...prevState];
@@ -135,35 +129,43 @@ const MadeBingo = () => {
       return updatedBingos;
     });
 
+    setBingoObject(prevState => ({
+      ...prevState,
+      bingo_obj: updatedBingoObj,
+    }));
+    console.log(bingoObject);
     navigate('/bingo');
   };
 
+
   return (
     <>
-    <HeaderHook></HeaderHook>
+      <HeaderHook />
       <Body>
-        <Bingomain/>
+        <Bingomain />
         <RightDom>
           <TitleLine>
-            <MdOutlineKeyboardBackspace onClick={goHome} size={30}/>
-            <BsThreeDots size={30}/>
+            <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
+            <BsThreeDots size={30} />
           </TitleLine>
           <Line>
             <InputTitleBox
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="제목을 입력하세요"/>
+              placeholder="제목을 입력하세요"
+            />
           </Line>
-          <Line style={{gap : '60px'}}>
+          <Line style={{ gap: '60px' }}>
             <Row>
               <Category>분류</Category>
               {subcategories[selectedCategory].map((item, index) => (
-              <Category key={index}>{item}</Category>))}
+                <Category key={index}>{item}</Category>
+              ))}
             </Row>
-            <Row >
+            <Row>
               <Selector value={selectedCategory} onChange={handleCategoryChange}>
-                {categorys.map((option, index) => (
+                {categories.map((option, index) => (
                   <option key={index} value={option}>
                     {option}
                   </option>
@@ -172,25 +174,29 @@ const MadeBingo = () => {
               {inputConfigs[selectedCategory].map((config, index) => {
                 if (config.type === 'date') {
                   return (
-                    <DateInfo>
-                      {examDates[0] && examDates[1] 
-                        ? `${examDates[0].toLocaleDateString()}` : '날짜를 입력하세요.'}
-                        <CustomCalendar onChange={handleExamDateChange} value={examDates} />
+                    <DateInfo key={index}>
+                      {examDates[0] && examDates[1]
+                        ? `${examDates[0].toLocaleDateString()}`
+                        : '날짜를 입력하세요.'}
+                      <CustomCalendar onChange={handleExamDateChange} value={examDates} />
                     </DateInfo>
                   );
                 } else if (config.type === 'date-range') {
                   return (
-                    <DateInfo>
-                    {prepDates[0] && prepDates[1] 
-                    ? `${prepDates[0].toLocaleDateString()} ~ ${prepDates[1].toLocaleDateString()}` : '날짜를 입력하세요.'}
-                    <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
+                    <DateInfo key={index}>
+                      {prepDates[0] && prepDates[1]
+                        ? `${prepDates[0].toLocaleDateString()} ~ ${prepDates[1].toLocaleDateString()}`
+                        : '날짜를 입력하세요.'}
+                      <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
                     </DateInfo>
                   );
                 } else if (config.type === 'select') {
                   return (
                     <SelectorCategory key={index}>
                       {config.options.map((option, idx) => (
-                        <option key={idx} value={option}>{option}</option>
+                        <option key={idx} value={option}>
+                          {option}
+                        </option>
                       ))}
                     </SelectorCategory>
                   );
@@ -199,9 +205,8 @@ const MadeBingo = () => {
                     <InputInfoBox
                       key={index}
                       type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder={config.placeholder}/>
+                      placeholder={config.placeholder}
+                    />
                   );
                 }
               })}
@@ -210,7 +215,7 @@ const MadeBingo = () => {
           <TitleLine>
             <div> | 세부계획 </div>
           </TitleLine>
-            <CheckLists>
+          <CheckLists>
             {checklists.map((item) => (
               <CheckList key={item.id} style={{ color: 'rgba(116, 116, 116, 1)' }}>
                 <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)} />
@@ -224,10 +229,12 @@ const MadeBingo = () => {
                 onChange={(e) => setNewChecklistText(e.target.value)}
                 placeholder="세부 계획을 입력하세요"
               />
-              <CiSquarePlus size={30} onClick={madeCheckList} />
+              <CiSquarePlus size={30} onClick={addChecklist} />
             </Line>
           </CheckLists>
-          <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</DateInfo>
+          <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>
+            저장
+          </DateInfo>
         </RightDom>
       </Body>
     </>
@@ -242,7 +249,7 @@ export const Category = styled.div`
   align-items: center;
   height: 20px;
   border: 1px solid rgba(30, 58, 138, 0.5);
-  color : rgba(30, 58, 138, 1);
+  color: rgba(30, 58, 138, 1);
   background: white;
   border-radius: 10px;
   padding: 7px;
@@ -250,11 +257,10 @@ export const Category = styled.div`
 
 export const DateInfo = styled.div`
   display: flex;
-  // justify-content: center;
   justify-content: space-between;
   align-items: center;
   height: 20px;
-  width : 210px;
+  width: 210px;
   color: rgba(30, 58, 138, 0.6);
   background: rgba(30, 58, 138, 0.1);
   border-radius: 10px;
@@ -271,11 +277,11 @@ export const Line = styled.div`
   margin-left: 10px;
 `;
 export const Row = styled.div`
-  display : flex;
-  flex-direction : column;
-  flex-wrap : wrap;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   align-items: start;
-  gap : 20px;
+  gap: 20px;
 `
 export const TitleLine = styled.div`
   display: flex;
@@ -307,7 +313,7 @@ export const CheckList = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  color : ${(props) => (props.checked ? 'rgba(30, 58, 138, 0.5)' : 'rgba(30, 58, 138, 1)')};
+  color: ${(props) => (props.checked ? 'rgba(30, 58, 138, 0.5)' : 'rgba(30, 58, 138, 1)')};
   text-decoration: ${(props) => (props.checked ? 'line-through' : 'none')};
 `;
 
@@ -315,7 +321,7 @@ export const CheckBox = styled.div`
   width: 14px;
   height: 14px;
   border: 1.2px solid rgba(30, 58, 138, 1);
-  margin : 2px;
+  margin: 2px;
 `;
 
 export const InputBox = styled.input`
@@ -325,44 +331,43 @@ export const InputBox = styled.input`
   height: 24px;
   width: 80%;
   margin-top: 3px;
-  // margin-bottom: -12px;
 `;
 
 const InputTitleBox = styled.input`
- border : none;
- background : rgba(246, 247, 251, 1);
- font-size : 24px;
- color: rgba(30, 58, 138, 1);
- width : 100%
+  border: none;
+  background: rgba(246, 247, 251, 1);
+  font-size: 24px;
+  color: rgba(30, 58, 138, 1);
+  width: 100%;
 `
 const Selector = styled.select`
-  font-size :15px;
+  font-size: 15px;
   padding: 10px;
   border-radius: 10px;
-  width : 110px;
+  width: 110px;
   border: none;
-  background: rgba(30, 58, 138, 1); 
+  background: rgba(30, 58, 138, 1);
   color: white;
 `
 
 const InputInfoBox = styled.input`
-  border : none;
-  font-size : 20px;
-  height : 20px;
-  color : rgba(30, 58, 138, 1);
-  background : rgba(246, 247, 251, 1);
+  border: none;
+  font-size: 20px;
+  height: 20px;
+  color: rgba(30, 58, 138, 1);
+  background: rgba(246, 247, 251, 1);
   ::placeholder {
     color: rgba(30, 58, 138, 0.5);
     font-size: 20px;
   }
-  margin-top : 12px;
+  margin-top: 12px;
 `
 const SelectorCategory = styled.select`
-  font-size :15px;
+  font-size: 15px;
   padding: 8px;
   border-radius: 10px;
-  width : 225px;
+  width: 225px;
   border: none;
-  background: rgba(30, 58, 138, 0.1); 
+  background: rgba(30, 58, 138, 0.1);
   color: rgba(30, 58, 138, 1);
 `

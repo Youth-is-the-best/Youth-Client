@@ -287,6 +287,7 @@ export const postReview = async (data) => {
         });
         return response.data;
     } catch (error) {
+        alert("이미 작성하신 후기입니다.");
         console.error('Error in postReview:', error.response ? error.response.data : error.message);
         throw error;
     }
