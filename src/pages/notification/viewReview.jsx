@@ -100,7 +100,7 @@ const ViewReview = () => {
   return (
     <>
       <HeaderHook />
-      <Line style={{ color: 'rgba(27, 52, 124, 1)', justifyContent: 'space-between', padding: '2%' }}>
+      <Line style={{ color: 'rgba(27, 52, 124, 1)', justifyContent: 'space-between', paddingLeft: '10%' }}>
         <MdOutlineKeyboardBackspace onClick={goNoti} size={40} />
         <Line style={{ gap: '10%' }}>
           <AiOutlineStar 
@@ -204,6 +204,11 @@ const ViewReview = () => {
               <img key={item.image_id} src={item.image} alt="사진" style={{ width: '200px', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
             ))}
           </PhotoDom>
+          <CommentDom>
+            <Comment>
+              <InputBox placeholder="댓글을 입력하세요" />
+            </Comment>
+          </CommentDom>
         </Body>
       </BigBody>
     </>
@@ -344,4 +349,20 @@ const PhotoDom = styled.div`
   width: 100%;
   gap: 5%;
   margin-top: 5%;
+`
+const CommentDom = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 5%;
+`
+const Comment = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 5%;
 `

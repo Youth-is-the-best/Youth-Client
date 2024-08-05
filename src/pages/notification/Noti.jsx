@@ -375,7 +375,7 @@ const SearchDom = styled.div`
   flex-direction: row;
   align-items: center;
   width: 30%;
-  height: 20px;
+  height: 40%;
   border-radius: 40px;
   border: 1px solid rgba(153, 166, 202, 1);
   padding: 15px 20px;
@@ -383,6 +383,7 @@ const SearchDom = styled.div`
 `;
 const SearchBox = styled.input`
   width: 100%;
+  height: 100%;
   border: none;
   font-size: 20px;
 `;
