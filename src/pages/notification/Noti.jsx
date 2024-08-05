@@ -392,9 +392,9 @@ const Noti = () => {
                 />
                 <div>{item.title}</div>
                 <div>
-                  <img src={heartimg} style={{ color: 'rgba(255, 0, 0, 1)' }} />
+                  <img src={heartimg} style={{ color: 'rgba(255, 0, 0, 1)', width: '20px', height:'20px' }} />
                   {item.likes_count}{' '}
-                  <img src={msgimg} style={{ color: 'rgba(27, 52, 124, 1)' }} />
+                  <img src={msgimg} style={{ color: 'rgba(27, 52, 124, 1)', width: '20px', height:'20px' }} />
                   {item.comments_count}
                 </div>
               </Content>
@@ -548,6 +548,13 @@ const Content = styled.div`
   height: 70%;
   color: rgba(27, 52, 124, 1);
   padding: 3%;
+  div {
+    display: flex;
+    align-items: center;
+    img {
+      margin-left: 5px;
+    }
+  }
 `;
 const WriterDom = styled.div`
   display: flex;

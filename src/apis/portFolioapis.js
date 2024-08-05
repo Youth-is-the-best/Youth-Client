@@ -119,3 +119,25 @@ export const getData = async () => {
     throw error;
   }
 }
+
+//후기글 전체 get
+export const getReview = async () => {
+  const token = localStorage.getItem("access_token");
+  const response = await axios.get(`${baseURL}/portfolio/review/`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+  return response.data;
+};
+
+//후기글 빙고 인증 후기 get
+export const getCertifiedReview = async () => {
+  const token = localStorage.getItem("access_token");
+  const response = await axios.get(`${baseURL}/portfolio/review/?only=bingo`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+  return response.data;
+};
