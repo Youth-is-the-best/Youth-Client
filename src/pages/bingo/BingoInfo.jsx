@@ -15,7 +15,7 @@ const BingoInfo = () => {
   const [review, setReview] = useState([]);
 
   const goHome = () => {
-    navigate("/");
+    navigate("/bingo");
   };
 
   const getInfos = async (id) => {
