@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import HeaderHook from '../../hook/HeaderHook'
 import 다람쥐 from '../../images/다람쥐.jpg'
@@ -10,10 +10,36 @@ import Vector from '../../images/Vector.png'
 import { useNavigate } from 'react-router-dom'
 import editimg from '../../images/FiEdit3.png'
 import checkimg from '../../images/AiOutlineCheckSquare.png'
+import { getData } from '../../apis/portFolioapis'
+import FiCheck from '../../images/FiCheck.png';
 
 const ReadPortfolio = () => {
+  const [newAboutMeTexts, setNewAboutMeTexts] = useState(['']); //get용
+  const [newBingoTexts, setNewBingoTexts] = useState(['']);
+  const [newOthersTexts, setNewOthersTexts] = useState(['']);
+  const [basicInfo, setBasicInfo] = useState('');
+  const [username, setUsername] = useState('');
+
   const [isChecked, setIsChecked] = useState(false);
   const router = useNavigate();
+
+  //전체 데이터 get 해오기
+  useEffect(() => {
+    const fetchDatas = async () => {
+      try {
+        const response = await getData();
+        setUsername(response.username);
+        setBasicInfo(response.basic_information);
+        setNewAboutMeTexts(response.this_is_me);
+        setNewBingoTexts(response.bingo_complete);
+        setNewOthersTexts(response.other_complete);
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    };
+    fetchDatas();
+  }, []);
 
   const toChangeMode = () => {
     router('/changeportfolio');
@@ -36,39 +62,65 @@ const ReadPortfolio = () => {
     <Body>
       <ProfileWrapper>
         <ProfileTitle>
-          <SectionTitle style={{ position: 'relative', bottom: '10px' }}>@닉네임, who are you?</SectionTitle>
-          <Keyword></Keyword>
+          <SectionTitle style={{ position: 'relative', bottom: '10px' }}>{username}, who are you?</SectionTitle>
+          <Keyword>{basicInfo.modifier}</Keyword>
         </ProfileTitle>
         <Info>
-          <InfoItem><InfoLabel>생년월일</InfoLabel></InfoItem>
-          <InfoItem><InfoLabel>학교 & 전공</InfoLabel></InfoItem>
-          <InfoItem><InfoLabel>연락처</InfoLabel></InfoItem>
-          <InfoItem><InfoLabel>E-mail</InfoLabel></InfoItem>
+          <InfoItem><InfoLabel>생년월일</InfoLabel>{basicInfo.birth}</InfoItem>
+          <InfoItem><InfoLabel>학교 & 전공</InfoLabel>{basicInfo.school_major}</InfoItem>
+          <InfoItem><InfoLabel>연락처</InfoLabel>{basicInfo.phone_number}</InfoItem>
+          <InfoItem><InfoLabel>E-mail</InfoLabel>{basicInfo.email}</InfoItem>
         </Info>
         </ProfileWrapper>
         <AchievementWrapper>
-          <SectionTitle>@닉네임 님의 휴 are you</SectionTitle>
-          <p>휴학 기간에 달성한 사소한 목표부터 자랑하고픈 업적까지 모두 기록해보세요.</p>
+          <SectionTitle style={{marginBottom: '30px'}}>{username}님의 휴 are you</SectionTitle>
           <AboutMeWrapper>
             <SubTitle style={{backgroundColor: '#7485B5'}}>
               <img src={AiOutlineRocket} style={{ height: '22px', width: '22px'}}></img>
               저는 이런 사람입니다
               </SubTitle>
             <Content>
-              
+              <ContentWrapper>
+                {newAboutMeTexts.map((data) => (
+                  <div key={data.id} style={{ display: 'flex'}}>
+                    <img src={FiCheck} style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                    <ContentList>
+                      <div>{data.content}</div>
+                    </ContentList>
+                  </div>
+                ))}
+              </ContentWrapper>
             </Content>
           </AboutMeWrapper>
           <HueWrapper>
             <ClearWrapper>
               <SubTitle style={{backgroundColor: '#A5B0D0'}}><img src={FiNavigation} style={{ height: '21px', width: '21px' }}></img>달성한 빙고 한 눈에 보기</SubTitle>
               <Content>
-    
+                 <ContentWrapper>
+                    {newBingoTexts.map((data) => (
+                      <div key={data.id} style={{ display: 'flex'}}>
+                        <img src={FiCheck} style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                        <ContentList>
+                          <div>{data.content}</div>
+                        </ContentList>
+                      </div>
+                    ))}
+                  </ContentWrapper>
               </Content>
             </ClearWrapper>
             <ClearWrapper>
               <SubTitle style={{backgroundColor: '#D2D8E8'}}><img src={AiOutLineBank} style={{ height: '21px', width: '19px' }}></img>다른 성과 한 눈에 보기</SubTitle>
               <Content>
-    
+                <ContentWrapper>
+                  {newOthersTexts.map((data) => (
+                    <div key={data.id} style={{ display: 'flex'}}>
+                      <img src={FiCheck} style={{ width: '20px', height: '20px', marginRight: '8px' }} />
+                      <ContentList>
+                        <div>{data.content}</div>
+                      </ContentList>
+                    </div>
+                  ))}
+                </ContentWrapper>
               </Content>
             </ClearWrapper>
           </HueWrapper>
@@ -169,6 +221,7 @@ const SectionTitle = styled.div`
 `;
 
 const Keyword = styled.div`
+  padding-bottom: 50px;
 `;
 
 const SubTitle = styled.div`
@@ -180,6 +233,7 @@ const SubTitle = styled.div`
   border-radius: 10px;
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
   img {
     margin-right: 10px;
     margin-left: 20px;
@@ -194,20 +248,7 @@ const Info = styled.div`
 const InfoItem = styled.div`
   display: flex;
   padding-bottom: 20px;
-  input {
-    display: flex;
-    align-items: center;
-    border: none;
-    font-size: 15px;
-    font-weight: 500;
-    width: 40%;
-    &::placeholder {
-        color: #A3A3A3;
-        font-family: 'Pretendard-Regular';
-        font-size: 16px;
-        font-weight: 700;
-    }
-  }
+  align-items: center;
 `;
 
 const InfoLabel = styled.div`
@@ -235,7 +276,14 @@ const AboutMeWrapper = styled.div`
   border-bottom: 2px solid rgba(0, 0, 0, 0.2); */
 `;
 
-const Content = styled.div`  
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 const HueWrapper = styled.div`
@@ -245,6 +293,7 @@ const HueWrapper = styled.div`
 
 const ClearWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   padding-top: 20px;
   width: 49%;
   /* padding-bottom: 80px;
@@ -274,4 +323,18 @@ const PostContent = styled.div`
 const CheckBox = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const ContentWrapper = styled.div`
+  div {
+    margin-bottom: 10px;
+  }
+`;
+
+const ContentList = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: #747474;
+  font-size: 16px;
+  font-weight: 700;
 `;
