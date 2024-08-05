@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MdOutlineEditCalendar, MdOutlineKeyboardBackspace } from 'react-icons/md';
 import styled from 'styled-components';
-import { AiOutlineCheckSquare } from 'react-icons/ai';
+import { AiOutlineCheckSquare, AiOutlineMinusCircle } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
 import { Body } from '../Home';
 import { RightDom } from './BingoInfo';
@@ -25,7 +25,7 @@ const MadeBingo = () => {
   const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const goHome = () => {
-    navigate("/view");
+    navigate("/bingo");
   };
 
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
@@ -99,11 +99,9 @@ const MadeBingo = () => {
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
   };
-
-  const toggleCheck = (id) => {
-    const updatedChecklists = checklists.map((item) =>
-      item.id === id ? { ...item, checked: !item.checked } : item
-    );
+  
+  const deleteCheckList = (id) => {
+    const updatedChecklists = checklists.filter(item => item.id !== id);
     setChecklists(updatedChecklists);
   };
 
@@ -137,7 +135,7 @@ const MadeBingo = () => {
       return updatedBingos;
     });
 
-    navigate('/view');
+    navigate('/bingo');
   };
 
   return (
@@ -212,29 +210,24 @@ const MadeBingo = () => {
           <TitleLine>
             <div> | 세부계획 </div>
           </TitleLine>
-          <CheckLists>
+            <CheckLists>
             {checklists.map((item) => (
-              <CheckList key={item.id} checked={item.checked}>
-                {item.checked ? (
-                  <AiOutlineCheckSquare size={20} onClick={() => toggleCheck(item.id)} />
-                ) : (
-                  <CheckBox onClick={() => toggleCheck(item.id)}/>
-                )}
+              <CheckList key={item.id} style={{ color: 'rgba(116, 116, 116, 1)' }}>
+                <AiOutlineMinusCircle size={20} onClick={() => deleteCheckList(item.id)} />
                 <span>{item.text}</span>
               </CheckList>
             ))}
             <Line>
-            <InputBox
-              type="text"
-              value={newChecklistText}
-              onChange={(e) => setNewChecklistText(e.target.value)}
-              placeholder="세부 계획을 입력하세요"
-            />
-            <CiSquarePlus size={30} onClick={madeCheckList} />
+              <InputBox
+                type="text"
+                value={newChecklistText}
+                onChange={(e) => setNewChecklistText(e.target.value)}
+                placeholder="세부 계획을 입력하세요"
+              />
+              <CiSquarePlus size={30} onClick={madeCheckList} />
             </Line>
           </CheckLists>
-            <Category style={{ width : '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</Category>
-            {/* <DateInfo style={{ width: '140px', marginLeft: '410x' }}>목표 달성 기록 남기기</DateInfo> */}
+          <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</DateInfo>
         </RightDom>
       </Body>
     </>
@@ -297,6 +290,7 @@ export const TitleLine = styled.div`
   position: sticky;
   top: 0;
   z-index: 1;
+  top: 0; /* Add this line */
 `;
 
 export const CheckLists = styled.div`

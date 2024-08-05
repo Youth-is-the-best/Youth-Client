@@ -59,7 +59,7 @@ const HueInfo = () => {
           </TitleLine>
           <Line>
             <Category>분류</Category>
-            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>{largeCategory}</Category>
+            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>휴알유</Category>
           </Line>
           <Line>
             <Category>작성자</Category>

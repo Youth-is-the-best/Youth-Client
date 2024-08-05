@@ -4,10 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo } from '../apis/testapis';
+import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import { RightDom } from './bingo/BingoInfo';
-import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState } from '../recoil/atoms';
+import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState, Day1State, Day2State } from '../recoil/atoms';
 import CustomCalendar from './bingo/CustomCalendar';
 
 const Home = () => {
@@ -26,6 +26,8 @@ const Home = () => {
   const [endDate, setEndDate] = useRecoilState(endDateState);
   const [prepDates, setPrepDates] = useRecoilState(prepDateState);
   const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
+  const [Dday1, setDday1] = useRecoilState(Day1State);
+  const [Dday2, setDday2] = useRecoilState(Day2State);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -208,24 +210,33 @@ const Home = () => {
     navigate(`/made/${location}`);
   };
 
-  const handlePrepDateChange = (prepDates) => {
+  const handlePrepDateChange = async (prepDates) => {
     setPrepDates(prepDates); 
     const [startDate, endDate] = prepDates;
     
-    [startDate, endDate].forEach(date => {
-      const formattedDate = date.toLocaleDateString();
-      const [year, month, day] = formattedDate.split('.').map(element => element.trim());
-      const formattedDateString = `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
-      
-      // Check if this date is the start or end date and set accordingly
-      if (date === startDate) {
-        setStartDate(formattedDateString);
-        // console.log(`Start Date: ${formattedDateString}`);
-      } else {
-        setEndDate(formattedDateString);
-        // console.log(`End Date: ${formattedDateString}`);
-      }
-    });
+    const formattedStartDate = formatDateString(startDate);
+    const formattedEndDate = formatDateString(endDate);
+
+    setStartDate(formattedStartDate);
+    setEndDate(formattedEndDate);
+
+    try {
+      const get_response = await getDday();
+      console.log(get_response);
+      const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
+      setDday1(response.display.rest_dday_display);
+      setDday2(response.display.return_dday_display);
+      console.log(response);
+    } catch (error) {
+      setError('Error posting dates');
+      console.error('Error in putDday:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  const formatDateString = (date) => {
+    const formattedDate = date.toLocaleDateString();
+    const [year, month, day] = formattedDate.split('.').map(element => element.trim());
+    return `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
   };
 
   useEffect(() => {
@@ -242,12 +253,18 @@ const Home = () => {
       <HeaderHook />
       <Body>
         <LeftDom>
-          <h2>{username}의 빙고판</h2>
-          <Line style={{ color: 'grey'}}>
-            {startDate && endDate
-              ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}` : '날짜를 입력하세요.'}
-            <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
-          </Line>
+          <LineDom>
+            <Line>
+                <StyledDday1>{Dday1}</StyledDday1> 
+                <StyledDday2>{Dday2}</StyledDday2>
+            </Line>
+            <Line style={{ color: 'grey'}}>
+              {startDate && endDate
+                ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}` : '날짜를 입력하세요.'}
+              <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
+            </Line>
+            <Line style={{fontSize : '24px'}}>{username}의 빙고판</Line>
+          </LineDom>
           <BingoDom>
           {bingos.map((bingo, index) => {
             const inBingo = bingo.title !== '';
@@ -337,17 +354,37 @@ const Home = () => {
 
 export default Home;
 
-export const Headers = styled.div`
+const LineDom = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: end;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding-right: 3rem;
-  gap: 20px;
-  height: 64px;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.08);
-  font-size: 20px;
-  color: rgba(30, 58, 138, 1);
+  gap: 10px;
+  padding : 10px;
+`
+
+const StyledDday1 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color : white ;
+  width : 84px;
+  height: 25px;
+  background: linear-gradient(178.58deg, #FFFFFF -94.22%, #A3A3A3 151.7%);
+  border-radius: 10px;
+`;
+const StyledDday2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color : white ;
+  width : 84px;
+  height: 25px;
+  background: linear-gradient(141.57deg, #FFFFFF -204.94%, #1E3A8A 93.49%);
+  border-radius: 10px;
+  box-shadow: -4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset;
 `;
 
 export const Header = styled(Link)`

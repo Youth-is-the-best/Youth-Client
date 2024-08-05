@@ -31,11 +31,12 @@ const HueInfo = () => {
       images: item.images.map(image => image.image) || [],
     }));
     setRecommend(recommendations);
+    setContent(recommendations.content ? recommendations.content.split('\n') : []);
 
     if (recommendations.length > 0) {
       setTitle(recommendations[0].title);
       setLargeCategory(recommendations[0].large_category);
-      setContent(recommendations[0].content);
+      setContent(recommendations[0].content.split('\n'));
       setImages(recommendations[0].images);
     }
   }
@@ -59,14 +60,16 @@ const HueInfo = () => {
           </TitleLine>
           <Line>
             <Category>분류</Category>
-            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>{largeCategory}</Category>
+            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>자격증</Category>
           </Line>
           <Line>
             <Category>작성자</Category>
             <Line style={{ fontSize: '24px' }}>휴알유 PM @chunjaePM</Line>
           </Line>
           <Line>
-            <div>{content}</div>
+          {content.map((line, index) => (
+                    <div key={index}>{line}</div>
+                ))}
           </Line>
           <ReviewDom>
             {images.length > 0 && images.map((image, index) => (

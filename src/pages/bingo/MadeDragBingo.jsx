@@ -91,7 +91,7 @@ const MadeDragBingo = () => {
       return updatedBingos;
     });
 
-    navigate('/view');
+    navigate('/bingo');
   };
 
   useEffect(() => {
