@@ -208,7 +208,7 @@ export const getSearchByKeyword = async (keyword) => {
     try {
         const access = localStorage.getItem("access_token");
         if (!access) throw new Error("No access token found in localStorage");
-        const response = await axios.get(`${baseURL}/search/${keyword}`, {
+        const response = await axios.get(`${baseURL}/search/?${keyword}`, {
             headers: {
                 Authorization: `Bearer ${access}`
             },

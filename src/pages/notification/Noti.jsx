@@ -23,7 +23,7 @@ const Noti = () => {
   const [review, setReview] = useState([]);
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState("인턴");
 
   const [selectedOptions, setSelectedOptions] = useState({
     option1: '',
@@ -50,7 +50,7 @@ const Noti = () => {
     "대외활동": [
       { placeholder: "활동 분야", type: "select", options: ["봉사", "기자단", "홍보단(서포터즈)", "강연", "멘토링", "모임(동아리)", "해외탐방", "기타"] },
       { placeholder: "활동 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
-      { placeholder: "활동 기간", type: "date-range" },
+      { placeholder: "활동 기간", type: "date" },
     ],
     "공모전": [
       { placeholder: "공모 분야", type: "select", options: ["기획/아이디어", "광고/마케팅", "사진/영상", "디자인/순수미술", "캐릭터/만화/게임", "공간/건축", "과학/공학", "예체능", "학술", "창업", "기타"] },
@@ -87,6 +87,7 @@ const Noti = () => {
       const response = await getSearchByCategory(category);
       const notice = response.notice.map((item) => ({
         id: item.id,
+        large_category: item.large_category,
         author: item.author,
         created_at: item.created_at,
         title: item.title,
@@ -144,14 +145,32 @@ const Noti = () => {
 
   const doSearch = async () => {
     try {
-      const searchParams = new URLSearchParams({
-        search : searchKeyword,
-        large_category: categoryMap[selectedCategory],
-        area: selectedOptions.option3 || '',
-        field: selectedOptions.option1 || '',
-        start_date: selectedOptions.option4 || '',
-        end_date: selectedOptions.option4 || '',
-      });
+      const searchParams = new URLSearchParams();
+
+      // Conditionally add each parameter based on its value
+      if (searchKeyword) {
+        searchParams.set('search', searchKeyword);
+      }
+
+      if (selectedCategory) {
+        searchParams.set('large_category', categoryMap[selectedCategory]);
+      }
+
+      if (selectedOptions.option3) {
+        searchParams.set('area', selectedOptions.option3);
+      }
+
+      if (selectedOptions.option1) {
+        searchParams.set('field', selectedOptions.option1);
+      }
+
+      if (selectedOptions.option4) {
+        searchParams.set('start_date', selectedOptions.option4);
+        searchParams.set('end_date', selectedOptions.option4);
+      }
+
+      console.log(searchParams.toString());
+
       const response = await getSearchByKeyword(searchParams.toString());
       const notice = response.notice.map((item) => ({
         id: item.id,
