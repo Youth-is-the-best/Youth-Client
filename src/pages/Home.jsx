@@ -221,6 +221,7 @@ const Home = () => {
     setEndDate(formattedEndDate);
 
     try {
+      getDday();
       const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
       setDday1(response.display.rest_dday_display);
       setDday2(response.display.return_dday_display);
@@ -253,11 +254,11 @@ const Home = () => {
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
-    getDday();
+    // getDday();
     if(bingos.length===0){
       fetchBingoData();
     }
-  }, []);
+  }, [bingoObject]);
 
   return (
     <>
