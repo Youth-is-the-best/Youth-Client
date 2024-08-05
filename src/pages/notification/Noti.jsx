@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
 import heartimg from '../../images/AiOutlineHeart.png';
+import msgimg from '../../images/AiOutlineMessage.png';
 
 
 const Noti = () => {
@@ -369,7 +370,7 @@ const Noti = () => {
                 />
                 <div>{item.title}</div>
                 <div>
-                  <AiOutlineMessage />
+                  <img src={msgimg} />
                   {item.comments_count}
                 </div>
               </Content>
