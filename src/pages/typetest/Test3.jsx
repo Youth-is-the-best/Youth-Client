@@ -4,11 +4,15 @@ import { QuizDom, QuestionContainer, ButtonDom, ButtonLink } from './Test.jsx';
 import ProgressBar from '../../hook/ProgressBar.js';
 import { FiArrowRightCircle } from 'react-icons/fi';
 import { useNavigate} from 'react-router-dom';
+import { answer4State } from '../../recoil/testatoms.jsx';
+import { useRecoilState } from 'recoil';
 
 const Test3 = ({inputValue, setInputValue}) => {
   const navigate = useNavigate();
+  const [answer4, setAnswer4] = useRecoilState(answer4State);
 
   const showResult = () => {
+    setAnswer4(inputValue);
     navigate('/result');
     // console.log(inputValue);
   }

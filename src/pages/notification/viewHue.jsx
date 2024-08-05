@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 
-const ViewNotice = () => {
+const viewHue = () => {
   const { id } = useParams();
   const [info, setInfo] = useState(null);
   const [images, setImages] = useState([]);
@@ -198,7 +198,7 @@ const ViewNotice = () => {
   )
 };
 
-export default ViewNotice;
+export default viewHue;
 
 const Line = styled.div`
   display: flex;
@@ -254,6 +254,7 @@ const Infobutton = styled.div`
   border: 0.2px solid rgba(81, 81, 81, 1);
   border-radius: 10px;
 `
+
 const InfoDom = styled.div`
   display: flex;
   flex-direction: column;

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Bingo, Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
-import { getInfo } from '../../apis/testapis';
+import { getBingoloc, getInfo, putBingoloc } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
 import { RightDom } from './BingoInfo';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
@@ -13,7 +13,7 @@ import Bingomain from './Bingomain';
 import { useRecoilState } from 'recoil';
 import { bingoState, bingoObjectState } from '../../recoil/atoms';
 
-const MadeDragBingo = () => {
+const MadedBingoEdit = () => {
   const navigate = useNavigate();
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
@@ -23,54 +23,112 @@ const MadeDragBingo = () => {
   const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const goHome = () => {
-    navigate(`/bingo`);
+    navigate("/view");
   };
 
-  const getInfos = async (id) => {
+  const getBingo = async (location) => {
     try {
-      const response = await getInfo(id);
+      const response = await getBingoloc(location);
       const info = {
-        large_category_display: response.large_category_display,
-        title: response.title,
-        app_fee: response.app_fee,
-        app_due: response.app_due,
-        start_date: response.start_date,
-        end_date: response.end_date,
-        host: response.host,
-        prep_period: response.prep_period,
-        area: response.area,
-        employment_form: response.employment_form,
-        field: response.field,
-        duty: response.duty,
+        large_category_display: response.bingo_item.large_category_display,
+        title: response.bingo_item.title,
+        app_fee: response.bingo_item.app_fee,
+        app_due: response.bingo_item.app_due,
+        start_date: response.bingo_item.start_date,
+        end_date: response.bingo_item.end_date,
+        host: response.bingo_item.host,
+        prep_period: response.bingo_item.prep_period,
+        area: response.bingo_item.area,
+        employment_form: response.bingo_item.employment_form,
+        field: response.bingo_item.field,
+        duty: response.bingo_item.duty,
       };
+      const todos = response.todo.map(todo => ({
+        id: todo.id,
+        title: todo.title,
+        is_completed: todo.is_completed,
+        bingo: todo.bingo,
+        bingo_space: todo.bingo_space,
+        user: todo.user
+      }));
+      console.log('Fetched info:', info);
+      console.log('Fetched todos:', todos);
       setInfo(info);
+      setChecklists(todos);
     } catch (error) {
       console.error('Error in getInfos:', error.response ? error.response.data : error.message);
+      throw error;
     }
   };
 
-  const addChecklist = () => {
+  const madeCheckList = () => {
     if (newChecklistText.trim() === '') return;
-    const newChecklist = { id: checklists.length + 1, title: newChecklistText};
+    const newChecklist = {
+      title: newChecklistText,
+      is_completed: false,
+      bingo: 43,
+      bingo_space: 61,
+      user: 8
+    };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
+    console.log(checklists);
   };
 
   const deleteCheckList = (id) => {
     const updatedChecklists = checklists.filter(item => item.id !== id);
     setChecklists(updatedChecklists);
+    console.log(checklists);
+  };
+
+  const putBingoChecklist = async (location, checklists) => {
+    try {
+      // 새로 추가된 항목들에 대해서는 id를 포함하지 않도록 함
+      const newChecklists = checklists.map(item => {
+        const { id, ...rest } = item;
+        return rest;
+      });
+
+      // 요청 데이터 구성
+      const data = {
+        todo: [
+          ...checklists.filter(item => item.id).map(item => ({
+            id: item.id,
+            title: item.title,
+            is_completed: item.is_completed,
+            bingo: item.bingo,
+            bingo_space: item.bingo_space,
+            user: item.user
+          })),
+          ...newChecklists.filter(item => !item.id).map(item => ({
+            title: item.title,
+            is_completed: item.is_completed,
+            bingo: item.bingo,
+            bingo_space: item.bingo_space,
+            user: item.user
+          }))
+        ]
+      };
+
+      const response = await putBingoloc(location, data);
+      console.log(checklists);
+      console.log(response);
+      alert(`${response.success} 수정할 기회는 ${response.change_chance}회 남았습니다.`);
+    }
+    catch (error) {
+      console.error('Error in putBingo:', error.response ? error.response.data : error.message);
+      throw error;
+    }
   };
 
   const updateBingo = () => {
     if (!info) return;
 
     const locationIndex = location.toString();
-    const idIndex = id.toString();
     const updatedBingoObj = JSON.parse(JSON.stringify(bingoObject.bingo_obj));
 
     updatedBingoObj[locationIndex] = {
       ...updatedBingoObj[locationIndex],
-      id: idIndex,
       todo: checklists.map(item => ({ title: item.title })),
       title: info.title,
       choice: "1",
@@ -86,17 +144,16 @@ const MadeDragBingo = () => {
       updatedBingos[locationIndex] = { location: locationIndex, title: info.title };
       return updatedBingos;
     });
-    console.log(bingoObject);
-    console.log(bingos);
-    
-    navigate('/bingo');
+
+    putBingoChecklist(locationIndex, checklists);
+    navigate('/view');
   };
 
   useEffect(() => {
-    if (id) {
-      getInfos(id);
+    if (location) {
+      getBingo(location);
     }
-  }, [id, location]);
+  }, [location]);
 
   return (
     <>
@@ -117,60 +174,60 @@ const MadeDragBingo = () => {
               {info ? info.large_category_display : 'Loading...'}
             </StyledDiv>
           </Line>
-          {info && info.host && (
+          {info && info.host ? (
             <Line>
               <Category>주최사</Category>
               <StyledDiv>{info.host}</StyledDiv>
             </Line>
-          )}
-          {info && info.field && (
+          ) : null}
+          {info && info.field ? (
             <Line>
               <Category>활동 분야</Category>
               <StyledDiv>{info.field}</StyledDiv>
             </Line>
-          )}
-          {info && info.app_fee && (
+          ) : null}
+          {info && info.app_fee ? (
             <Line>
               <Category>응시료</Category>
               <StyledDiv>{info.app_fee}원</StyledDiv>
             </Line>
-          )}
-          {info && info.duty && (
+          ) : null}
+          {info && info.duty ? (
             <Line>
               <Category>직무</Category>
               <StyledDiv>{info.duty}</StyledDiv>
             </Line>
-          )}
-          {info && info.employment_form && (
+          ) : null}
+          {info && info.employment_form ? (
             <Line>
               <Category>채용 형태</Category>
               <StyledDiv>{info.employment_form}</StyledDiv>
             </Line>
-          )}
-          {info && info.area && (
+          ) : null}
+          {info && info.area ? (
             <Line>
               <Category>활동 지역</Category>
               <StyledDiv>{info.area}</StyledDiv>
             </Line>
-          )}
-          {info && info.app_due && (
+          ) : null}
+          {info && info.app_due ? (
             <Line>
               <Category>지원 마감</Category>
               <StyledDiv>{info.app_due}</StyledDiv>
             </Line>
-          )}
-          {info && info.prep_period && (
+          ) : null}
+          {info && info.prep_period ? (
             <Line>
               <Category>준비 기간</Category>
               <StyledDiv>{info.prep_period}</StyledDiv>
             </Line>
-          )}
-          {info && info.start_date && (
+          ) : null}
+          {info && info.start_date ? (
             <Line>
               <Category>활동 기간</Category>
               <StyledDiv>{info.start_date} ~ {info.end_date}</StyledDiv>
             </Line>
-          )}
+          ) : null}
           <TitleLine>
             <div> | 세부계획 </div>
           </TitleLine>
@@ -188,7 +245,7 @@ const MadeDragBingo = () => {
                 onChange={(e) => setNewChecklistText(e.target.value)}
                 placeholder="세부 계획을 입력하세요"
               />
-              <CiSquarePlus size={30} onClick={addChecklist} />
+              <CiSquarePlus size={30} onClick={madeCheckList} />
             </Line>
           </CheckLists>
           <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</DateInfo>
@@ -198,7 +255,7 @@ const MadeDragBingo = () => {
   );
 };
 
-export default MadeDragBingo;
+export default MadedBingoEdit;
 
 const Button = styled.div`
   display: flex;

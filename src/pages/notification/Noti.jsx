@@ -9,6 +9,8 @@ import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
+import { getHueInfo } from '../../apis/testapis';
+import { username } from '../../recoil/atoms';
 import heartimg from '../../images/AiOutlineHeart.png';
 import msgimg from '../../images/AiOutlineMessage.png';
 
@@ -23,8 +25,9 @@ const Noti = () => {
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState("인턴");
+  const [recommend, setRecommend] = useState([]);
   
-  const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
+  const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식", "휴알유"];
   const categoryMap = {
     "채용(인턴)": "CAREER",
     "자격증": "CERTIFICATE",
@@ -34,8 +37,9 @@ const Noti = () => {
     "여행": "TRAVEL",
     "자기계발": "SELFIMPROVEMENT",
     "휴식": "REST",
+    "휴알유": "information",
   };
-
+  
   useEffect(() => {
     const savedAccessToken = localStorage.getItem("access_token");
     if (savedAccessToken) {
@@ -69,25 +73,40 @@ const Noti = () => {
       { placeholder: "직무", type: "select", options: ["영업/고객상담", "경영/사무/회계", "마케팅/광고/홍보", "생산/제조", "연구개발/설계", "IT", "서비스", "무역/유통", "의료", "건설", "교육", "디자인", "전문/특수", "미디어", "기타"] },
       { placeholder: "채용형태", type: "select", options: ["신입", "경력", "계약직", "인턴", "아르바이트"] },
       { placeholder: "근무 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
-      { placeholder: "지원 마감", type: "date" }
+      { placeholder: "지원 마감", type: "date" },
+      { placeholder: "키워드 검색", type: "input" },
     ],
     "자격증": [
       { placeholder: "시험 분야", type: "select", options: ["경영/경제", "IT/컴퓨터", "어학", "디자인", "기타"] },
       { placeholder: "시험 날짜", type: "date" },
+      { placeholder: "키워드 검색", type: "input" },
     ],
     "대외활동": [
       { placeholder: "활동 분야", type: "select", options: ["봉사", "기자단", "홍보단(서포터즈)", "강연", "멘토링", "모임(동아리)", "해외탐방", "기타"] },
       { placeholder: "활동 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
       { placeholder: "활동 기간", type: "date" },
+      { placeholder: "키워드 검색", type: "input" },
     ],
     "공모전": [
       { placeholder: "공모 분야", type: "select", options: ["기획/아이디어", "광고/마케팅", "사진/영상", "디자인/순수미술", "캐릭터/만화/게임", "공간/건축", "과학/공학", "예체능", "학술", "창업", "기타"] },
       { placeholder: "마감일", type: "date" },
+      { placeholder: "키워드 검색", type: "input" },
     ],
-    "취미": [],
-    "여행": [],
-    "자기계발": [],
-    "휴식": []
+    "취미": [
+      { placeholder: "키워드 검색", type: "input" },
+    ],
+    "여행": [
+      { placeholder: "키워드 검색", type: "input" },
+    ],
+    "자기계발": [
+      { placeholder: "키워드 검색", type: "input" },
+    ],
+    "휴식": [
+      { placeholder: "키워드 검색", type: "input" },
+    ],
+    "휴알유": [
+      { placeholder: "키워드 검색", type: "input" },
+    ]
   };
 
   const handleCategoryClick = (category) => {
@@ -108,6 +127,17 @@ const Noti = () => {
     } catch (error) {
       console.error('Error in getReview:', error.response ? error.response.data : error.message);
     }
+  };
+
+  const viewRecommend = async () => {
+    const response = await getHueInfo();
+    const recommendations = response.map((item) => ({
+      title: item.title,
+      image: item.images[0]?.image || '',
+      id: item.id,
+      username: item.username,
+    }));
+    setRecommend(recommendations);
   };
 
   const getReviewsByCategory = async (category) => {
@@ -170,12 +200,42 @@ const Noti = () => {
   const goNotice = (id) => {
     navigate(`/viewnotice/${id}`);
   };
+  const doKeywordSearch = async () => {
+    try {
+      const response = await getSearchByKeyword(searchKeyword);
+        const notice = response.notice.map((item) => ({
+          id: item.id,
+          author: item.author,
+          created_at: item.created_at,
+          title: item.title,
+          image: item.image_url,
+          saved: item.saved,
+        }));
+        const review = response.review.map((item) => ({
+          id: item.id,
+          author: item.author,
+          created_at: item.created_at,
+          title: item.title,
+          image: item.images[0]?.image || '',
+          likes_count: item.likes_count,
+          comments_count: item.comments_count,
+          saved: item.saved,
+        }));
+        setNotice(notice);
+        setReview(review);
+
+        if (notice.length === 0 && review.length === 0) {
+          alert('검색 결과가 없습니다.');
+        }
+      } catch (error) {
+        console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
+      }
+    };
 
   const doSearch = async () => {
     try {
       const searchParams = new URLSearchParams();
 
-      // Conditionally add each parameter based on its value
       if (searchKeyword) {
         searchParams.set('search', searchKeyword);
       }
@@ -196,8 +256,6 @@ const Noti = () => {
         searchParams.set('start_date', selectedOptions.option4);
         searchParams.set('end_date', selectedOptions.option4);
       }
-
-      console.log(searchParams.toString());
 
       const response = await getSearchByKeyword(searchParams.toString());
       const notice = response.notice.map((item) => ({
@@ -220,9 +278,9 @@ const Noti = () => {
       }));
       setNotice(notice);
       setReview(review);
-      console.log(selectedOptions);
-      console.log(searchParams);
-      console.log(notice, review);
+      // console.log(selectedOptions);
+      // console.log(searchParams);
+      // console.log(notice, review);
       
       if (notice.length === 0 && review.length === 0) {
         alert('검색 결과가 없습니다.');
@@ -230,6 +288,10 @@ const Noti = () => {
     } catch (error) {
       console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
     }
+  };
+
+  const goHue = (id) => {
+    navigate(`/viewhue/${id}`);
   };
 
   useEffect(() => {
@@ -280,7 +342,7 @@ const Noti = () => {
           <SearchBox
             placeholder="키워드 검색"
             value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
+            onChange={(e) => doKeywordSearch(e.target.value)}
           />
           <AiOutlineSearch size={40} onClick={doSearch} />
         </SearchDom>
@@ -291,18 +353,18 @@ const Noti = () => {
             </Navigation>
           ))}
         </NavigationBar>
-        <Line>{selectedCategory}</Line>
+        <Line style={{fontWeight:'900'}}>{selectedCategory}</Line>
         <Bar>
           <CheckDom>
             <Check onClick={() => setShowNotice(!showNotice)}>
               <CheckBox>
-                {showNotice && <GoCheck size={19} />}
+                {showNotice && <GoCheck size={19} style={{color : 'rgba(142, 156, 196, 1)'}}/>}
               </CheckBox>
               <div>공고</div>
             </Check>
             <Check onClick={() => setShowReview(!showReview)}>
               <CheckBox>
-                {showReview && <GoCheck size={19} />}
+                {showReview && <GoCheck size={19} style={{color : 'rgba(142, 156, 196, 1)'}}/>}
               </CheckBox>
               <div>후기</div>
             </Check>
@@ -326,6 +388,19 @@ const Noti = () => {
                       </option>
                     ))}
                   </select>
+                ) : config.type === "input" ? (
+                  <Line style={{ fontSize: '12px' }}>
+                    <input
+                      type="text"
+                      placeholder={config.placeholder}
+                      onChange={(e) =>
+                        setSelectedOptions({
+                          ...selectedOptions,
+                          [`option${index + 1}`]: e.target.value,
+                        })
+                      }
+                    />
+                  </Line>
                 ) : (
                   <Line style={{ fontSize: '12px' }}>
                     <div>{config.placeholder}</div>
@@ -374,6 +449,24 @@ const Noti = () => {
               </Content>
             ))}
           {showReview &&
+            // recommend.map((item) => (
+            //   <Content key={item.id}>
+            //     <WriterDom>
+            //       <div>{item.username}</div>
+            //       <AiOutlineStar
+            //         size={20}
+            //         onClick={() => handleStorage(item.id, 'review')}
+            //         style={{ color: item.saved ? 'yellow' : 'black' }}
+            //       />
+            //     </WriterDom>
+            //     <PhotoBox
+            //       src={item.image}
+            //       alt={item.title}
+            //       onClick={() => goHue(item.id)}
+            //     />
+            //     <div>{item.title}</div>
+            //   </Content>
+            // ))
             review.map((item) => (
               <Content key={item.id}>
                 <WriterDom>
@@ -506,6 +599,8 @@ const Navigation = styled(Link)`
   cursor: pointer;
 `;
 const CheckDom = styled.div`
+  width: 25%;
+  color : rgba(142, 156, 196, 1);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -519,6 +614,7 @@ const CheckDom = styled.div`
   gap: 10px;
 `;
 const Check = styled.div`
+color : rgba(142, 156, 196, 1);
  display: flex;
  align-items: center;
  cursor: pointer;
@@ -526,10 +622,11 @@ const Check = styled.div`
 const CheckBox = styled.div`
   width: 16px;
   height: 16px;
-  border: 1.2px solid rgba(30, 58, 138, 1);
+  border: 2px solid rgba(142, 156, 196, 1);
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 5px;
 `;
 
 const ContentDom = styled.div`
@@ -556,8 +653,8 @@ const WriterDom = styled.div`
   justify-content: space-between;
 `;
 const PhotoBox = styled.img`
-  width: 300px;
-  height: 200px;
+  width: 350px;
+  height: 213px;
   object-fit: cover;
   border-radius: 10px;
 `;

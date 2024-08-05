@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Row, Line} from '../bingo/MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import HeaderHook from '../../hook/HeaderHook';
-import { MdOutlineEditCalendar } from 'react-icons/md';
 import CustomCalendar from '../bingo/CustomCalendar';
 import { CiSquarePlus } from 'react-icons/ci';
 

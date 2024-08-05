@@ -273,3 +273,22 @@ export const postReviewComment = async (review_id, comment) => {
         throw error;
     }
 }
+
+// 후기글 작성하기
+export const postReview = async (data) => {
+    try {
+        const access = localStorage.getItem("access_token");
+        if (!access) throw new Error("No access token found in localStorage");
+        const response = await axios.post(`${baseURL}/bingo/review/`, data, {
+            headers: {
+                Authorization: `Bearer ${access}`,
+                'Content-Type': 'multipart/form-data'
+            },
+        });
+        return response.data;
+    } catch (error) {
+        alert("이미 작성하신 후기입니다.");
+        console.error('Error in postReview:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}

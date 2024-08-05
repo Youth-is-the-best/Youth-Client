@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const username = atom({
+export const usernameState = atom({
   key: 'usernameState',
   default: '',
 });
@@ -10,19 +10,24 @@ export const bingoState = atom({
   default: [],
 });
 
-export const usernameState = atom({
-  key: 'usernameState',
-  default: '',
-});
-
 export const startDateState = atom({
   key: 'startDateState',
-  default: '',
+  default: '2024.08.07',
 });
 
 export const endDateState = atom({
   key: 'endDateState',
-  default: '',
+  default: '2024.11.06',
+});
+
+export const Day1State = atom({
+  key: 'Day1State',
+  default: '휴학+??',
+});
+
+export const Day2State = atom({
+  key: 'Day2State',
+  default: '복학-??',
 });
 
 export const prepDateState = atom({
@@ -40,20 +45,15 @@ export const bingoIdState = atom({
   default: [],
 });
 
-// export const bingoBodyState = atom({
-//   key: 'bingoBodyState',
-//   default: {
-//     size: 9,
-//     start_date: '',
-//     end_date: '',
-//     bingo_obj: Array.from({ length: 9 }, (_, index) => 
-//       ({ location: index, id: '', title: '', choice: '', todo: [] }))
-//   },
-// });
-
 export const bingoObjectState = atom({
   key: 'bingoObjectState',
-  default: Array.from({ length: 9 }, (_, index) => 
-    ({ location: index.toString(), id: '', title: '', choice: "0", todo: [] }))
-},
-);
+  default: {
+    bingo_obj: Array.from({ length: 9 }, (_, index) => ({
+      location: index.toString(),
+      id: '',
+      title: '',
+      choice: "0",
+      todo: [],
+    })),
+  },
+});

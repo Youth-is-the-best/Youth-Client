@@ -14,7 +14,7 @@ const HueInfo = () => {
   const [recommendations, setRecommend] = useState([]);
   const [title, setTitle] = useState('');
   const [largeCategory, setLargeCategory] = useState('');
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState([]);
   const [images, setImages] = useState([]);
 
   const goHome = () => {
@@ -30,12 +30,13 @@ const HueInfo = () => {
       content: item.content,
       images: item.images.map(image => image.image) || [],
     }));
+    console.log(recommendations);
     setRecommend(recommendations);
 
     if (recommendations.length > 0) {
       setTitle(recommendations[0].title);
       setLargeCategory(recommendations[0].large_category);
-      setContent(recommendations[0].content);
+      setContent(recommendations[0].content ? recommendations[0].content.split('\n') : []);
       setImages(recommendations[0].images);
     }
   }
@@ -59,18 +60,20 @@ const HueInfo = () => {
           </TitleLine>
           <Line>
             <Category>분류</Category>
-            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>{largeCategory}</Category>
+            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>자격증</Category>
           </Line>
           <Line>
             <Category>작성자</Category>
-            <Line style={{ fontSize: '24px' }}>휴알유 PM @chunjaePM</Line>
+            <Line style={{ fontSize: '24px' }}></Line>
           </Line>
           <Line>
-            <div>{content}</div>
+            {Array.isArray(content) && content.map((line, index) => (
+              <div key={index}>{line}</div>
+            ))}
           </Line>
           <ReviewDom>
             {images.length > 0 && images.map((image, index) => (
-              <Review key={index}>
+              <Review key={index} style={{border:'none'}}>
                 <img src={image} alt={`Recommendation ${index + 1}`} style={{ maxWidth: '100%', height: 'auto' }} />
               </Review>
             ))}

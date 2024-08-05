@@ -7,27 +7,36 @@ import { Line } from '../bingo/MadeBingo';
 import { useNavigate } from 'react-router-dom';
 import { usernameState } from '../../recoil/atoms';
 import { useRecoilState } from 'recoil';
+import { answer2State, answer3State, answer4State, semesterState, yearState } from '../../recoil/testatoms';
 
-const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue }) => {
+const Result = () => {
   const [userType, setUserType] = useState("");
   const [content, setContent] = useState([]);
   const [image, setImage] = useState("");
+
+  const [semester, setSemester] = useRecoilState(semesterState);
+  const [year, setYear] = useRecoilState(yearState);
+  const [answer2, setAnswer2] = useRecoilState(answer2State);
+  const [answer3, setAnswer3] = useRecoilState(answer3State);
+  const [answer4, setAnswer4] = useRecoilState(answer4State);
   const [username, setUsername] = useRecoilState(usernameState);
   
   const showResult = async () => {
     const answer = {
       "return_year": year,
       "return_semester": semester,
-      "answer2": selectedReason,
-      "answer3": selectedAnswers,
-      "answer4": inputValue
+      "answer2": answer2,
+      "answer3": answer3,
+      "answer4": answer4
     };
     try {
       const response = await postTest(answer);
       setUserType(response.user_type);
-      setContent(response.content.split('\n')); // Split the content into lines
+      setContent(response.content.split('\n'));
       setImage(response.image);
       setUsername(response.username);
+      console.log(response);
+      // console.log(answer);
     } catch (error) {
       setContent(["모든 문항을 답해주세요."]);
     }
@@ -48,13 +57,12 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
         <ResultInfo>
           {content.map((line, index) => (
             <Line>
-              <>🍍</>
               <p key={index}>{line}</p>
             </Line>
           ))}
         </ResultInfo>
         <ButtonDom>
-          <ButtonLink> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
+          <ButtonLink to="/hueRU/PANDA"> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
           <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/view">
             <FiArrowRightCircle/> 빙고판 채우러가기
           </ButtonLink>
@@ -66,7 +74,7 @@ const Result = ({ year, semester, selectedAnswers, selectedReason, inputValue })
 
 export default Result;
 
-const Title = styled.div`
+export const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
   padding: 10px;
@@ -77,19 +85,19 @@ const Title = styled.div`
   color : rgba(30, 58, 138, 1);
 `;
 
-const ResultInfo = styled.div`
+export const ResultInfo = styled.div`
   height: auto;
   color : rgba(30, 58, 138);
   padding : 10px;
 `;
 
-const Image = styled.div`
+export const Image = styled.div`
   width: 200px;
   height: 200px;
   margin-top : 10px;
 `;
 
-const ResultDom = styled.div`
+export const ResultDom = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

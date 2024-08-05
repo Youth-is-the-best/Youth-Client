@@ -5,14 +5,16 @@ import styled from 'styled-components';
 import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import { getBingoloc, postTodolist } from '../../apis/testapis';
-import { Category, CheckLists, CheckList, CheckBox } from './MadeBingo';
+import { Category, CheckLists, CheckList, CheckBox, InputBox } from './MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import Bingomain from './Bingomain';
+import { FiEdit3 } from 'react-icons/fi';
 
 const MadedBingo = () => {
   const navigate = useNavigate();
   const { location } = useParams();
   const [checklists, setChecklists] = useState([]);
+  const [newChecklistText, setNewChecklistText] = useState('');
   const [info, setInfo] = useState(null);
 
   const goHome = () => {
@@ -78,6 +80,14 @@ const MadedBingo = () => {
     }
   };
 
+  const doEdit = () => {
+    navigate(`/madededit/${location}`);
+  }
+
+  const handleMadeReviewClick = (location) => {
+    navigate(`/dragreview/${location}`);
+  }
+
   return (
     <>
       <HeaderHook />
@@ -86,7 +96,6 @@ const MadedBingo = () => {
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20} /></DateInfo>
           </TitleLine>
           <TitleLine>
             <h1>{info ? info.title : 'Loading...'}</h1>
@@ -152,7 +161,7 @@ const MadedBingo = () => {
             </Line>
           )}
           <TitleLine>
-            <div> | 세부계획 </div>
+            <div> | 세부계획 <FiEdit3 onClick={doEdit}/> </div>
           </TitleLine>
           <CheckLists>
             {checklists.map((item, index) => (
@@ -167,7 +176,7 @@ const MadedBingo = () => {
             ))}
             <Line></Line>
           </CheckLists>
-          <DateInfo style={{ width: '30%', marginLeft: '67%' }}>목표 달성 기록 남기기</DateInfo>
+          <DateInfo style={{ width: '30%', marginLeft: '67%' }} onClick={() => handleMadeReviewClick(location)}>목표 달성 기록 남기기</DateInfo>
         </RightDom>
       </Body>
     </>

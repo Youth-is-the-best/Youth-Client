@@ -8,8 +8,11 @@ import { AiOutlineCoffee, AiOutlineFileSearch, AiOutlineHome, AiOutlineRead, AiO
 import { MdAirplanemodeActive, MdBadge, MdFestival, MdOutlineAutoGraph, MdOutlinePaid } from 'react-icons/md';
 import { FaDribbble } from 'react-icons/fa';
 import { FiHeadphones } from 'react-icons/fi';
+import { useRecoilState } from 'recoil';
+import { answer3State } from '../../recoil/testatoms.jsx';
 
 const Test2 = ({ selectedAnswers, setSelectedAnswers }) => {
+    const [answer3, setAnswer3] = useRecoilState(answer3State);
     const navigate = useNavigate();
 
     const handleBeforeClick = () => {
@@ -19,8 +22,10 @@ const Test2 = ({ selectedAnswers, setSelectedAnswers }) => {
     const handleAnswerClick = (answer) => {
         if (selectedAnswers.includes(answer)) {
             setSelectedAnswers(selectedAnswers.filter(item => item !== answer));
+            setAnswer3(selectedAnswers.filter(item => item !== answer));
         } else if (selectedAnswers.length < 5) {
             setSelectedAnswers([...selectedAnswers, answer]);
+            setAnswer3([...selectedAnswers, answer]);
         }
     };
 

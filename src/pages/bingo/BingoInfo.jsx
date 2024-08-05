@@ -13,6 +13,7 @@ const BingoInfo = () => {
   const { id } = useParams();
   const [info, setInfo] = useState(null);
   const [review, setReview] = useState([]);
+  const [isNotice, setIsNotice] = useState(false);
 
   const goHome = () => {
     navigate("/bingo");
@@ -34,8 +35,11 @@ const BingoInfo = () => {
         employment_form: response.employment_form,
         field: response.field,
         duty: response.duty,
+        is_notice: response.is_notice,
+        notice_id: response.notice_id,
       };
       setInfo(info);
+      setIsNotice(info.is_notice);
       // console.log(info);
       // console.log(response);
     } catch (error) {
@@ -61,11 +65,14 @@ const BingoInfo = () => {
     }
   };
 
+  const goNotice = (id) => {
+    navigate(`/viewnotice/${id}`);
+  }
+
   const goReview = (id) => {
     navigate(`/viewreview/${id}`);
   }
   
-
   useEffect(() => {
     if (id) {
       getInfos(id);
@@ -81,7 +88,9 @@ const BingoInfo = () => {
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <DateInfo onClick={goReview}>더 많은 정보 보러가기<MdOutlineNearMe size={20}/></DateInfo>
+            {isNotice && (
+              <DateInfo onClick={()=> goNotice(info.notice_id)}>더 많은 정보 보러가기<MdOutlineNearMe size={20}/> </DateInfo>
+            )}
           </TitleLine>
           <TitleLine>
             <h1>{info ? info.title : 'Loading...'}</h1>
