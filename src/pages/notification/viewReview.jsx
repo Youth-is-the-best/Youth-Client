@@ -132,8 +132,8 @@ const ViewReview = () => {
           <Line style={{ justifyContent: 'space-between' }}>
             <StyledTitle>{info ? info.title : 'Loading...'}</StyledTitle>
             <Line style={{ gap: '3%' }}>
-              <Infobutton>{info ? info.author : ''}</Infobutton>
               <Infobutton>{info ? info.large_category_display : ''}</Infobutton>
+              <Infobutton>{info ? info.author : ''}</Infobutton>
             </Line>
           </Line>
           <InfoDom>
@@ -265,6 +265,8 @@ const BigBody = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 80%;
+  margin: auto;
 `
 const Body = styled.div`
   display: flex;
@@ -278,7 +280,8 @@ const StyledTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 24px;
+  font-weight: 700;
   color: rgba(27, 52, 124, 1);
 `
 const CheckList = styled.div`
@@ -294,20 +297,21 @@ const Infobutton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 700;
   color: rgba(81, 81, 81, 1);
   min-width: 100px;
   padding-left: 10px;
   padding-right: 10px;
   height: 30px;
-  border: 0.2px solid rgba(81, 81, 81, 1);
+  border: 0.2px solid rgba(81, 81, 81, 0.2);
   border-radius: 10px;
 `
 
 const InfoDom = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
   width: 100%;
   border-top: 1px solid rgba(142, 156, 196, 1);
   border-bottom: 1px solid rgba(142, 156, 196, 1);
