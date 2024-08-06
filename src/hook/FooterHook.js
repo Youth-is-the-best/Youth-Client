@@ -36,7 +36,7 @@ const FooterHook = () => {
           </Email>
         </MainWrapper>
         <UsWrapper>
-          (c) 2024 Project 막내가좋아 Corp.
+          (C) 2024 Project 막내가좋아 Corp.
         </UsWrapper>
       </Fotter>
     </>
