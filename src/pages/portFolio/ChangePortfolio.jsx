@@ -63,6 +63,7 @@ const ChangePortfolio = () => {
     fetchDatas();
   }, []);
 
+
   //전체 리뷰 get
   useEffect(() => {
     const fetchReviews = async () => {
@@ -76,6 +77,7 @@ const ChangePortfolio = () => {
     };
     fetchReviews();
   }, []);
+
 
   //빙고 인증 리뷰 get
   useEffect(() => {
@@ -91,6 +93,7 @@ const ChangePortfolio = () => {
     fetchCertifiedReviews();
   }, [isChecked]);
 
+  
   //유형화테스트 이미지 get
   const getTypeTestResultImg = async(type) => {
       try {
@@ -212,7 +215,7 @@ const ChangePortfolio = () => {
 
   //리뷰글로 이동
   const toReview = (id) => {
-    router(`/review/${id}`)
+    router(`/viewreview/${id}`)
   };
 
   return (

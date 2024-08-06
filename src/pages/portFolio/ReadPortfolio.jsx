@@ -82,7 +82,7 @@ const ReadPortfolio = () => {
   };
   
   const toReview = (id) => {
-    router(`/review/${id}`)
+    router(`/viewreview/${id}`)
   };
 
 
