@@ -22,9 +22,7 @@ export const postTest = async (reason) => {
             alert("로그인 후 사용하실 수 있는 기능입니다");
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
-            window.location.href = "/login";
         } else {
-            console.error('Error in getBingo:', error.response ? error.response.data : error.message);
             throw error;
         }
     }
