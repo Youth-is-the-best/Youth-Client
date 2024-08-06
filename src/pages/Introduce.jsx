@@ -112,7 +112,7 @@ const Introduce = () => {
           간단한 질문과 캐릭터를 통한 해석을 통해 목표를 정확하게 정의하고 여정을 준비할 수 있습니다.</div>
         </TestText>
         <TestImg>
-          <img src={bear} />
+          <img src={bear}></img>
         </TestImg>
         <TestBox>
           <img src={test}></img>
