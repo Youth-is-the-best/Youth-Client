@@ -229,8 +229,12 @@ const Home = () => {
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
     if (!access_token) {
-      navigate('/test/0');
+      navigate('login');
       return;
+    }
+    if(!username) {
+      alert("유형화 테스트가 필요한 기능입니다");
+      navigate('/test/0');
     }
     viewRecommend();
     viewSaved();
