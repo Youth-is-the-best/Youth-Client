@@ -240,10 +240,11 @@ const Home = () => {
       navigate('login');
       return;
     }
-    if(!username) {
-      alert("유형화 테스트가 필요한 기능입니다");
-      navigate('/test/0');
-    }
+    // if(!username) {
+    //   alert("유형화 테스트가 필요한 기능입니다");
+    //   navigate('/test/0');
+    //   return;
+    // }
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
