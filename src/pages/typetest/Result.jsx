@@ -30,7 +30,7 @@ const Result = () => {
       "return_semester": semester,
       "answer2": answer2,
       "answer3": answer3,
-      "answer4": answer4
+      "answer4": answer4,
     };
     try {
       const response = await postTest(answer);

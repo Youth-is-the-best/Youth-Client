@@ -99,9 +99,17 @@ const Home = () => {
         end_date: endDate,
         bingo_obj: bingoObject.bingo_obj,
       };
+      const hasEmptyTitle = bingoBody.bingo_obj.some(item => item.title === '');
+    if (hasEmptyTitle) {
+      alert("9개의 칸을 채워야 빙고를 만드실 수 있습니다")
+      return;
+    }
       const response = await postBingo(bingoBody);
-      console.log(bingoBody);
-      console.log(response);
+      bingoBody.bingo_obj.map()
+      // console.log(bingoBody);
+      // console.log(response);
+      alert(response);
+      navigate("/veiw");
     } catch (error) {
       setError('Error posting bingo data');
       console.error('Error in postBingo:', error.response ? error.response.data : error.message);
