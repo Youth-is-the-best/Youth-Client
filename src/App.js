@@ -31,6 +31,7 @@ import ViewNotice from './pages/notification/viewNotice';
 import Introduce from './pages/Introduce';
 import MadedBingoEdit from './pages/bingo/MadedBingoEdit';
 import ViewResult from './pages/typetest/ViewResult';
+import MadedInClient from './pages/bingo/MadedInClient';
 
 function App() {
   const [year, setYear] = useState(2024);
@@ -43,7 +44,7 @@ function App() {
     <RecoilRoot>
     <BrowserRouter>
     <Routes>
-      <Route path="/madedinclient/:location" element={<ViewResult/>}></Route>
+      <Route path="/madedinclient/:location" element={<MadedInClient/>}></Route>
       <Route path="/hueRU/:type" element={<ViewResult/>}></Route>
       <Route path="/" element={<Introduce/>}></Route>
       <Route path="/bingo" element={<Home/>}></Route>

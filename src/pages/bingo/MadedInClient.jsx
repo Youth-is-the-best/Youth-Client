@@ -22,6 +22,8 @@ const MadedInClient = () => {
   const [info, setInfo] = useState(null);
   const [bingos, setBingos] = useRecoilState(bingoState);
   const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
+  const [title , setTitle] = useState("");
+  const [largecategory , setLargeCategory] = useState("");
 
   const goHome = () => {
     navigate("/bingo");
@@ -94,8 +96,7 @@ const MadedInClient = () => {
       return updatedBingos;
     });
 
-    putBingoChecklist(locationIndex, checklists);
-    navigate('/view');
+    navigate('/bingo');
   };
 
   useEffect(() => {
@@ -103,6 +104,19 @@ const MadedInClient = () => {
     if (bingoObject.bingo_obj && bingoObject.bingo_obj[locationIndex]) {
       const id = bingoObject.bingo_obj[locationIndex].id;
       getInfos(id);
+
+      // Add todo from bingo_obj to checklists
+      const todos = bingoObject.bingo_obj[locationIndex].todo || [];
+      const initialChecklists = todos.map((item, index) => ({ id: index, title: item.title, is_completed: false }));
+      setChecklists(initialChecklists);
+    }
+    if(bingoObject.bingo_obj[locationIndex].title) {
+        const title = bingoObject.bingo_obj[locationIndex].title;
+        setTitle(title);
+    }
+    if(bingoObject.bingo_obj[locationIndex].large_category){
+        const largecategory = bingoObject.bingo_obj[locationIndex].large_category;
+        setLargeCategory(largecategory);
     }
   }, [location, bingoObject]);
 
@@ -117,12 +131,12 @@ const MadedInClient = () => {
             <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20} /></DateInfo>
           </TitleLine>
           <TitleLine>
-            <h1>{info ? info.title : 'Loading...'}</h1>
+            <h1>{info ? info.title : title}</h1>
           </TitleLine>
           <Line>
             <Category>분류</Category>
             <StyledDiv>
-              {info ? info.large_category_display : 'Loading...'}
+              {info ? info.large_category_display : largecategory}
             </StyledDiv>
           </Line>
           {info && info.host ? (
