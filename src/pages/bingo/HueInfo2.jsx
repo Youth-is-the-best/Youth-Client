@@ -64,7 +64,7 @@ const HueInfo = () => {
           </Line>
           <Line>
             <Category>작성자</Category>
-            <Line style={{ fontSize: '24px' }}>휴알유 PM @chunjaePM</Line>
+            <Line style={{ fontSize: '20px' }}>휴알유</Line>
           </Line>
           <Line>
             {Array.isArray(content) && content.map((line, index) => (

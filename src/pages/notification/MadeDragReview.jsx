@@ -80,7 +80,7 @@ const MadeDragReview = () => {
 
   const navigate = useNavigate();
   const goBingo = () => {
-    navigate('/bingo');
+    navigate('/view');
   };
 
   return (

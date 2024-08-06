@@ -6,11 +6,11 @@ import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import FooterHook from '../../hook/FooterHook';
 import { getBingoloc, postTodolist } from '../../apis/testapis';
-import { Category, CheckLists, CheckList, CheckBox, InputBox } from './MadeBingo';
+import { Category, CheckLists, CheckList, CheckBox} from './MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import Bingomain from './Bingomain';
 import { FiEdit3 } from 'react-icons/fi';
-
+import { RightDom,DateInfo ,TitleLine} from './BingoInfo';
 const MadedBingo = () => {
   const navigate = useNavigate();
   const { location } = useParams();
@@ -161,8 +161,8 @@ const MadedBingo = () => {
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
           )}
-          <TitleLine>
-            <div> | 세부계획 <FiEdit3 onClick={doEdit}/> </div>
+          <TitleLine style={{fontSize : '20px'}}>
+            <div>| 세부계획 <FiEdit3 onClick={doEdit}/> </div>
           </TitleLine>
           <CheckLists>
             {checklists.map((item, index) => (
@@ -187,44 +187,7 @@ const MadedBingo = () => {
 
 export default MadedBingo;
 
-export const RightDom = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 550px;
-  height: 630px;
-  background: rgba(246, 247, 251, 1);
-  border-radius: 20px;
-  border: 0.4px solid rgba(30, 58, 138, 1);
-  box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
-  gap: 15px;
-  padding: 20px;
-  overflow-y: auto;
-`;
 
-const Button = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 20px;
-  padding: 10px;
-  gap: 10px;
-  border-radius: 10px;
-  background: rgba(30, 58, 138, 1);
-  color: white;
-`;
-
-const DateInfo = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 20px;
-  color: rgba(30, 58, 138, 0.6);
-  background: rgba(30, 58, 138, 0.1);
-  border-radius: 10px;
-  padding: 8px;
-  gap: 5px;
-`;
 
 const Line = styled.div`
   display: flex;
@@ -233,18 +196,4 @@ const Line = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
-`;
-
-const TitleLine = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 20px;
-  margin-left: 10px;
-  position: sticky;
-  top: 0;
-  background: rgba(246, 247, 251, 1);
-  z-index: 1;
 `;
