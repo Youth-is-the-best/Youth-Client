@@ -7,7 +7,7 @@ import modalcloseimg from '../images/modalclose.png'
 import { Link, useNavigate } from 'react-router-dom'
 import TermsModal from './TermsModal'
 import hueimg from '../images/HueRU.png'
-import bear from '../images/bear.png'
+import bearimg from '../images/bearimg.png'
 import test from '../images/test.png'
 import reco from '../images/reco.png'
 import bingo from '../images/bingo.png'
@@ -112,7 +112,7 @@ const Introduce = () => {
           간단한 질문과 캐릭터를 통한 해석을 통해 목표를 정확하게 정의하고 여정을 준비할 수 있습니다.</div>
         </TestText>
         <TestImg>
-          <img src={bear}></img>
+          <img src={bearimg}></img>
         </TestImg>
         <TestBox>
           <img src={test}></img>
