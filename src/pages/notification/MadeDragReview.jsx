@@ -6,8 +6,8 @@ import FooterHook from '../../hook/FooterHook';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getBingoloc } from '../../apis/testapis';
-import { InputBox } from '../bingo/MadeBingo';
 import { postReview } from '../../apis/reviewapis';
+import check from '../../images/FiCheck.png';
 
 const MadeDragReview = () => {
   const { location } = useParams();
@@ -17,6 +17,8 @@ const MadeDragReview = () => {
   const [images, setImages] = useState([]);
   const [content, setContent] = useState('');
   const [procedure, setProcedure] = useState('');
+
+  const navigate = useNavigate();
 
     const getReview = async(location) => {
       try {
@@ -68,6 +70,7 @@ const MadeDragReview = () => {
         };
         const response = await postReview(data);
         console.log(response);
+        navigate('/view');
       } catch (error) {
         console.error('Error in postReview:', error.response ? error.response.data : error.message);
         throw error;
@@ -78,7 +81,7 @@ const MadeDragReview = () => {
       getReview(location);
   }, [location]);
 
-  const navigate = useNavigate();
+
   const goBingo = () => {
     navigate('/view');
   };
@@ -87,16 +90,12 @@ const MadeDragReview = () => {
     <>
       <HeaderHook />
       <Line style={{ color: 'rgba(27, 52, 124, 1)', justifyContent: 'space-between', padding: '2%' }}>
-        <MdOutlineKeyboardBackspace onClick={goBingo} size={40} />
+        <MdOutlineKeyboardBackspace onClick={goBingo} size={40} style={{marginLeft: '5%', padidngTop: '5%'}}/>
       </Line>
       <BigBody>
         <Body>
-          <Line style={{ justifyContent: 'space-between' }}>
-            <StyledTitle>{info ? info.title : 'Loading...'}</StyledTitle>
-            <Line style={{ gap: '3%' }}>
-              <Infobutton>{info ? info.author : ''}</Infobutton>
-              <Infobutton>{info ? info.large_category_display : ''}</Infobutton>
-            </Line>
+          <Line>
+            <StyledTitle>{info ? `| ${info.title}` : 'Loading...'}</StyledTitle>
           </Line>
           <InfoDom>
             {info && info.large_category_display ? (
@@ -161,36 +160,35 @@ const MadeDragReview = () => {
             )}
           </InfoDom>
           <ReviewDom>
-            {todo.map((item) => (
-              <Row>
-                <Line>
-                  <AiOutlineCheckSquare size={20} />
-                  <div>{item.title}</div>
-                </Line>
-              </Row>
-            ))}
+            <Line>
+              <ReviewLabel>세부 계획</ReviewLabel>
+              <ReviewContent>
+                {todo.map((item) => (
+                    <Line>
+                      <img src={check} style={{width: '20px', height: '20px'}} />
+                      <div>{item.title}</div>
+                    </Line>
+                ))}
+              </ReviewContent>
+            </Line>
+            <Line>
+              <ReviewLabel>시험 절차</ReviewLabel>
+              <InputBox
+                  type="text"
+                  value={procedure}
+                  onChange={(e) => setProcedure(e.target.value)}
+                  placeholder="시험 절차를 입력하세요"/>
+            </Line>
+            <Line>
+              <ReviewLabel>활동 내용/합격 팁/소감</ReviewLabel>
+              <InputBox
+                  type="text"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="준비 과정 및 소감을 입력하세요" />
+            </Line>
           </ReviewDom>
-          <InfoDom>
-          <div>모집 절차</div>
-          <InputBox
-              type="text"
-              value={procedure}
-              onChange={(e) => setProcedure(e.target.value)}
-              placeholder="내용을 입력해주세요"/>
-          <div>활동 내용/합격 팁/소감</div>
-          <InputBox
-              type="text"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="내용을 입력해주세요"
-            />
-          </InfoDom>
-          <PhotoDom>
-            {images && images.map((item) => (
-              <img key={item.image_id} src={item.image} alt="사진" style={{ width: '200px', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
-            ))}
-          </PhotoDom>
-          <Infobutton onClick={postReviews}>업로드</Infobutton>
+          <Infobutton onClick={postReviews}>목표 달성 기록 남기기</Infobutton>
         </Body>
       </BigBody>
       <FooterHook />
@@ -203,44 +201,60 @@ export default MadeDragReview;
 const Line = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   padding: 10px;
-`
-const Row = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-`
+  div {
+
+  }
+`;
 
 const ReviewDom = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 2%;
-  padding-left: 21%;
-  padding-right: 21%;
   width: 60%;
-  gap: 30px;
+  gap: 10px;
+  width: 100%;
+  padding-top: 4%;
+  padding-bottom: 4%;
 `
+
+const ReviewLabel = styled.div`
+  display: flex;
+  align-items: start;
+  width: 30%;
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(27, 52, 124, 1);
+`;
+
+const ReviewContent = styled.div`
+  
+`;
 
 const BigBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 75%;
+  margin: auto;
 `
 const Body = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 80%;
-  padding: 50px; // Adjusted from 50% to 50px
+  padding: 0 50px 50px 50px;
   margin-bottom: 10%;
 `
 const StyledTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 24px;
+  font-weight: 700;
   color: rgba(27, 52, 124, 1);
+  margin-bottom: 5%;
 `
 const Infobutton = styled.div`
   display: flex;
@@ -260,8 +274,6 @@ const InfoDom = styled.div`
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  border-top: 1px solid rgba(142, 156, 196, 1);
-  border-bottom: 1px solid rgba(142, 156, 196, 1);
   padding-top: 4%;
   padding-bottom: 4%;
 `
@@ -269,21 +281,20 @@ const InfoDom = styled.div`
 const Category = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 50%;
-  font-size: 24px;
+  width: 30%;
+  font-size: 20px;
+  font-weight: 700;
   color: rgba(27, 52, 124, 1);
 `
-const Category2 = styled.div`
-  font-size: 24px;
-  color: rgba(27, 52, 124, 1);
-`
-const PhotoDom = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  gap: 5%;
-  margin-top: 5%;
-`
+
+const InputBox = styled.div`
+  color: rgba(142, 156, 196, 1);
+  border: 0.4px solid rgba(142, 156, 196, 1);
+  border-radius: 10px;
+  padding: 0px 10px 0px 10px;
+  height: 160px;
+  width: 460px;
+  &::placeholder{
+    color: rgba(142, 156, 196, 1);
+  }
+`;

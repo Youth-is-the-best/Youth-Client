@@ -170,11 +170,11 @@ const Introduce = () => {
         <MainWrapper>
           <FooterNav>
             <Pages>
-              <FooterHeader to="/">메인 홈</FooterHeader>
-              <FooterHeader to="/test/0">휴학 유형 테스트</FooterHeader>
-              <FooterHeader to="/view">투두리스트 빙고</FooterHeader>
-              <FooterHeader to="/notification">공고/후기</FooterHeader>
-              <FooterHeader to="/readportfolio">휴학 포트폴리오</FooterHeader>
+              <FooterHeader>메인 홈</FooterHeader>
+              <FooterHeader>휴학 유형 테스트</FooterHeader>
+              <FooterHeader>투두리스트 빙고</FooterHeader>
+              <FooterHeader>공고/후기</FooterHeader>
+              <FooterHeader>휴학 포트폴리오</FooterHeader>
             </Pages>
             <Term>
               <StyledBtn onClick={handleBtn}>이용약관</StyledBtn>
@@ -404,7 +404,7 @@ const Pages = styled.div`
   margin-right: 100px;
 `;
 
-const FooterHeader = styled(Link)`
+const FooterHeader = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
