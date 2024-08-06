@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import HeaderHook from '../../hook/HeaderHook'
-import FooterHook from '../../hook/FooterHook';
-import { useNavigate } from 'react-router-dom';
-import { myInfo } from '../../apis/mypageapis';
-import { getTypeTestResult } from '../../apis/viewResultapis';
+import FooterHook from '../../hook/FooterHook'
+import { useNavigate } from 'react-router-dom'
+import { myInfo } from '../../apis/mypageapis'
+import { getTypeTestResult } from '../../apis/viewResultapis'
 
 
 

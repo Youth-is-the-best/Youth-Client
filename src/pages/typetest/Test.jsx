@@ -5,6 +5,7 @@ import YearSemesterSelector from '../../hook/YearSemesterSelector';
 import ProgressBar from '../../hook/ProgressBar';
 import { useRecoilState } from 'recoil';
 import { semesterState, yearState } from '../../recoil/testatoms';
+import textLogo from '../../images/Frame 8.png';
 
 const Test = () => {
     const navigate = useNavigate();
@@ -19,8 +20,16 @@ const Test = () => {
         navigate("/test/1");
     };
 
+    const toHome = () => {
+        navigate('/');
+    };
+    
+
     return (
         <>
+            <Header>
+                <img src={textLogo} style={{ width: '200px', height: '40px', cursor: 'pointer' }} onClick={toHome}></img>
+            </Header>
             <QuizDom>
                 <ProgressBar currentStep={1} totalSteps={4} />
                 <QuestionContainer>
@@ -40,13 +49,27 @@ const Test = () => {
 
 export default Test;
 
+const Header = styled.div`
+  width: 100%;
+  height: 11vh;
+  border-bottom: 1.5px solid #d9d9d9;
+  background-color: #1E3A8A;
+  text-align: center;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
+
 export const QuizDom = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
-    
     width: 100%;
     border-radius: 20px;
 `;
@@ -57,29 +80,32 @@ export const QuestionContainer = styled.div`
     align-items: start;
     justify-content: center;
     color: #1E3A8A;
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: 700;
     width: 600px;
     border-radius: 10px;
 `;
 
 export const Detail = styled.div`
     font-size: 16px;
+    font-weight: 500;
     color: rgba(30, 58, 138, 0.5);
+    padding-top: 15px;
 `;
 
 export const ButtonLink = styled(Link)`
     display: flex;
     text-decoration: none;
     width: 280px;
-    height: 44px;
+    height: 40px;
     padding: 5px 15px;
     gap: 10px;
     border-radius: 10px;
-    color: rgba(30, 58, 138, 1);
+    color: rgba(30, 58, 138, 0.5);
     background-color: #ffffff;
     border: 1px solid rgba(30, 58, 138, 0.2);
-    border-radius: 25px;
-    font-size: 1.5rem;
+    font-size: 20px;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -98,16 +124,16 @@ export const ButtonLink = styled(Link)`
 export const Button = styled.div`
     display: flex;
     text-decoration: none;
-    width: 280px;
-    height: 44px;
+    width: 600px;
+    height: 24px;
     padding: 5px 15px;
     gap: 10px;
     border-radius: 10px;
     background-color: #ffffff;
     border: 1px solid rgba(30, 58, 138, 0.2);
-    border-radius: 25px;
     color: rgba(30, 58, 138, 0.5);
-    font-size: 1.5rem;
+    font-size: 20px;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;

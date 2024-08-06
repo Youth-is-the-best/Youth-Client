@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { ResultDom, ResultInfo, Title, Image } from './Result'
 import { Line } from '../bingo/MadeBingo'
 import { ButtonDom, ButtonLink } from './Test'
 import { FiArrowRightCircle } from 'react-icons/fi'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from "axios";
-import { FiShare2 } from 'react-icons/fi'
 import { useLocation } from "react-router-dom";
+import textLogo from '../../images/Frame 8.png';
 
 const ViewResult = () => {
     const {type} = useParams();
@@ -14,6 +15,7 @@ const ViewResult = () => {
     const [content, setContent] = useState([]);
     const [image, setImage] = useState("");
     const location = useLocation();
+    const navigate = useNavigate();
 
     const getTypeTestResult = async(type) => {
         try {
@@ -35,8 +37,15 @@ const ViewResult = () => {
         }
     }, [type]);
 
+    const toHome = () => {
+      navigate('/');
+    };
+
   return (
     <>
+    <Header>
+          <img src={textLogo} style={{ width: '200px', height: '40px', cursor: 'pointer' }} onClick={toHome}></img>
+    </Header>
     <ResultDom>
       <Image>
         <img src={image} style={{width:'100%'}} alt="result"></img>
@@ -60,3 +69,18 @@ const ViewResult = () => {
 }
 
 export default ViewResult
+
+const Header = styled.div`
+  width: 100%;
+  height: 11vh;
+  border-bottom: 1.5px solid #d9d9d9;
+  background-color: #1E3A8A;
+  text-align: center;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;

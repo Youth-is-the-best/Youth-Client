@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { usernameState } from '../../recoil/atoms';
 import { useRecoilState } from 'recoil';
 import { answer2State, answer3State, answer4State, semesterState, yearState } from '../../recoil/testatoms';
+import textLogo from '../../images/Frame 8.png';
 
 const Result = () => {
   const navigate = useNavigate();
@@ -51,20 +52,29 @@ const Result = () => {
     showResult();
   }, []);
 
+  const toHome = () => {
+    navigate('/');
+  };
+
   return (
     <>
+      <Header>
+        <img src={textLogo} style={{ width: '200px', height: '40px', cursor: 'pointer' }} onClick={toHome}></img>
+      </Header>
       <ResultDom>
-        <div> {username} 님의 유형은</div>
+        <span> {username} 님의 휴학 유형</span>
         <Image>
           <img src={image} style={{width:'100%'}} alt="result"></img>
         </Image>
         <Title>"{usertypedisplay}"</Title>
         <ResultInfo>
-          {content.map((line, index) => (
-            <Line key={index}>
-              <p>{line}</p>
-            </Line>
-          ))}
+          <ul>
+            {content.map((line, index) => (
+              <li key={index}>
+                {line}
+              </li>
+            ))}
+          </ul>
         </ResultInfo>
         <ButtonDom>
           <ButtonLink as="button" onClick={goShare}> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
@@ -79,27 +89,48 @@ const Result = () => {
 
 export default Result;
 
+const Header = styled.div`
+  width: 100%;
+  height: 11vh;
+  border-bottom: 1.5px solid #d9d9d9;
+  background-color: #1E3A8A;
+  text-align: center;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
+
 export const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
-  padding: 10px;
+  padding: 15px;
   font-family: 'SBAggroB';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
   font-weight: 400;
   font-style: normal;
-  color : rgba(30, 58, 138, 1);
+  color: rgba(30, 58, 138, 1);
 `;
 
 export const ResultInfo = styled.div`
   height: auto;
-  color : rgba(30, 58, 138);
-  padding : 10px;
+  color: rgba(81, 81, 81, 1);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px;
+  padding-top: 3%;
+  padding-bottom: 5%;
+  li {
+    margin-bottom: 3%; 
+  }
 `;
 
 export const Image = styled.div`
   width: 200px;
   height: 200px;
-  margin-top : 10px;
 `;
 
 export const ResultDom = styled.div`
@@ -107,6 +138,13 @@ export const ResultDom = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding : 100px;
+  padding : 60px 100px 100px 100px;
   color: rgba(81, 81, 81, 1);
+  span {
+    border: 1px solid rgba(81, 81, 81, 1);
+    border-radius: 20px;
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    font-weight: 700;
+  }
 `;

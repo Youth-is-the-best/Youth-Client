@@ -6,6 +6,7 @@ import { FiArrowRightCircle } from 'react-icons/fi';
 import { useNavigate} from 'react-router-dom';
 import { answer4State } from '../../recoil/testatoms.jsx';
 import { useRecoilState } from 'recoil';
+import textLogo from '../../images/Frame 8.png';
 
 const Test3 = ({inputValue, setInputValue}) => {
   const navigate = useNavigate();
@@ -17,14 +18,22 @@ const Test3 = ({inputValue, setInputValue}) => {
     // console.log(inputValue);
   }
 
+  const toHome = () => {
+    navigate('/');
+  };
+
   return (
+    <>
+    <Header>
+          <img src={textLogo} style={{ width: '200px', height: '40px', cursor: 'pointer' }} onClick={toHome}></img>
+    </Header>
     <QuizDom>
       <ProgressBar currentStep={4} totalSteps={4} />
       <QuestionContainer>이 기간이 나에게 어떤 기억으로 남길 바라나요?</QuestionContainer>
       <Input 
         value={inputValue} 
         onChange={(e) => setInputValue(e.target.value)} 
-        placeholder=" | 목표를 입력해주세요 " 
+        placeholder="내용을 적어주세요." 
       />
       <ButtonDom>
         <ButtonLink style={{width:'160px'}}to="/test/2">이전</ButtonLink>
@@ -33,13 +42,29 @@ const Test3 = ({inputValue, setInputValue}) => {
         </ButtonLink>
       </ButtonDom>
     </QuizDom>
+    </>
   );
 };
 
 export default Test3;
 
+const Header = styled.div`
+  width: 100%;
+  height: 11vh;
+  border-bottom: 1.5px solid #d9d9d9;
+  background-color: #1E3A8A;
+  text-align: center;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
+
 const Input = styled.input`
-  width: 590px;
+  width: 570px;
   height: 80px;
   padding: 10px;
   gap: 10px;
