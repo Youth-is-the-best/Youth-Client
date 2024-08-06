@@ -10,7 +10,6 @@ import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
-import { getHueInfo } from '../../apis/testapis';
 import heartimg from '../../images/AiOutlineHeart.png';
 import msgimg from '../../images/AiOutlineMessage.png';
 
@@ -25,9 +24,8 @@ const Noti = () => {
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState("인턴");
-  const [recommend, setRecommend] = useState([]);
   
-  const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식", "휴알유"];
+  const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
   const categoryMap = {
     "채용(인턴)": "CAREER",
     "자격증": "CERTIFICATE",
@@ -37,7 +35,6 @@ const Noti = () => {
     "여행": "TRAVEL",
     "자기계발": "SELFIMPROVEMENT",
     "휴식": "REST",
-    "휴알유": "information",
   };
   
   useEffect(() => {
@@ -104,9 +101,6 @@ const Noti = () => {
     "휴식": [
       { placeholder: "키워드 검색", type: "input" },
     ],
-    "휴알유": [
-      { placeholder: "키워드 검색", type: "input" },
-    ]
   };
 
   const handleCategoryClick = (category) => {
@@ -127,17 +121,6 @@ const Noti = () => {
     } catch (error) {
       console.error('Error in getReview:', error.response ? error.response.data : error.message);
     }
-  };
-
-  const viewRecommend = async () => {
-    const response = await getHueInfo();
-    const recommendations = response.map((item) => ({
-      title: item.title,
-      image: item.images[0]?.image || '',
-      id: item.id,
-      username: item.username,
-    }));
-    setRecommend(recommendations);
   };
 
   const getReviewsByCategory = async (category) => {

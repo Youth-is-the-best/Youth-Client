@@ -21,7 +21,8 @@ const ViewResult = () => {
             setUserType(response.data.user_type);
             setContent(response.data.content.split('\n'));
             setImage(response.data.image);
-            console.log(location);
+            // console.log(location);
+            console.log(userType);
             return response.data;
         } catch (error) {
             console.error('Error in getInfo:', error.response ? error.response.data : error.message);
@@ -49,9 +50,8 @@ const ViewResult = () => {
         ))}
       </ResultInfo>
       <ButtonDom>
-        <ButtonLink> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
-        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/view">
-          <FiArrowRightCircle/> 빙고판 채우러가기
+        <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/test/0">
+          <FiArrowRightCircle/> 테스트 하러가기 
         </ButtonLink>
       </ButtonDom>
     </ResultDom>

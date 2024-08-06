@@ -6,7 +6,7 @@ import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
-import FooterHook from '../hook/FooterHook'
+import FooterHook from '../hook/FooterHook';
 import { RightDom } from './bingo/BingoInfo';
 import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState, Day1State, Day2State } from '../recoil/atoms';
 import CustomCalendar from './bingo/CustomCalendar';
@@ -203,8 +203,8 @@ const Home = () => {
     navigate('/hueInfo2');
   };
 
-  const clickBingo = (index) => {
-    alert('이미 만들어진 빙고입니다. 드래그하여 수정하세요');
+  const clickBingo = (location) => {
+    navigate(`/madedinclient/${location}`);
   };
 
   const clickemptyBingo = (location) => {
@@ -260,7 +260,7 @@ const Home = () => {
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
-    if(bingos.length===0){
+    if (bingos.length === 0) {
       fetchBingoData();
     }
   }, [bingoObject]);
@@ -272,34 +272,34 @@ const Home = () => {
         <LeftDom>
           <LineDom>
             <Line>
-                <StyledDday1>{Dday1}</StyledDday1> 
-                <StyledDday2>{Dday2}</StyledDday2>
+              <StyledDday1>{Dday1}</StyledDday1>
+              <StyledDday2>{Dday2}</StyledDday2>
             </Line>
-            <Line style={{ color: 'grey'}}>
+            <Line style={{ color: 'grey' }}>
               {startDate && endDate
                 ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}` : '날짜를 입력하세요.'}
               <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
             </Line>
-            <Line style={{fontSize : '24px'}}>{username}의 빙고판</Line>
+            <Line style={{ fontSize: '24px' }}>{username}의 빙고판</Line>
           </LineDom>
           <BingoDom>
-          {bingos.map((bingo, index) => {
-            const inBingo = bingo.title !== '';
-            return (
-              <Bingo
-                key={index}
-                draggable
-                onDragStart={() => handleDragStart(index, 'bingo')}
-                onDrop={() => handleDrop(index)}
-                onDragOver={handleDragOver}
-                inBingo={inBingo}
-                style={{ background: getBackgroundColor(inBingo, index) }}
-                onClick={() => inBingo ? clickBingo(index) : clickemptyBingo(index)}
-              >
-                {bingo.title || ''}
-              </Bingo>
-            );
-          })}
+            {bingos.map((bingo, index) => {
+              const inBingo = bingo.title !== '';
+              return (
+                <Bingo
+                  key={index}
+                  draggable
+                  onDragStart={() => handleDragStart(index, 'bingo')}
+                  onDrop={() => handleDrop(index)}
+                  onDragOver={handleDragOver}
+                  inBingo={inBingo}
+                  style={{ background: getBackgroundColor(inBingo, index) }}
+                  onClick={() => inBingo ? clickBingo(bingo.location) : clickemptyBingo(bingo.location)}
+                >
+                  {bingo.title || ''}
+                </Bingo>
+              );
+            })}
           </BingoDom>
           <Button style={{ marginLeft: '473px', marginTop: '4px' }} onClick={postBingos}>완료</Button>
         </LeftDom>
@@ -308,18 +308,18 @@ const Home = () => {
             <FiThumbsUp /> 휴알유 추천
           </div>
           {recommend && recommend.length > 1 && (
-          <RecommendDom>
-          <RecommendCom draggable={false}
-          onClick={goHueInfo}>
-            <img src={recommend[0].image} alt={recommend[0].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
-            <div>{recommend[0].title}</div>
-          </RecommendCom>
-          <RecommendCom draggable={false}
-          onClick={goHueInfo2}>
-            <img src={recommend[1].image} alt={recommend[1].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
-            <div>{recommend[1].title}</div>
-          </RecommendCom>
-          </RecommendDom>
+            <RecommendDom>
+              <RecommendCom draggable={false}
+                onClick={goHueInfo}>
+                <img src={recommend[0].image} alt={recommend[0].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
+                <div>{recommend[0].title}</div>
+              </RecommendCom>
+              <RecommendCom draggable={false}
+                onClick={goHueInfo2}>
+                <img src={recommend[1].image} alt={recommend[1].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
+                <div>{recommend[1].title}</div>
+              </RecommendCom>
+            </RecommendDom>
           )}
           <Line>
             <Selector
@@ -379,7 +379,7 @@ const LineDom = styled.div`
   align-items: center;
   gap: 10px;
   padding : 10px;
-`
+`;
 
 export const StyledDday1 = styled.div`
   display: flex;

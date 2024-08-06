@@ -6,27 +6,21 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { answer2State } from '../../recoil/testatoms.jsx';
 
-const Test1 = ({selectedReason, setSelectedReason}) => {
+const Test1 = () => {
   const navigate = useNavigate();
   const [answer2, setAnswer2] = useRecoilState(answer2State);
 
-  useEffect(() => {
-    if (answer2) {
-      setSelectedReason(answer2);
-    }
-  }, [answer2, setSelectedReason]);
-
   const handleNextClick = () => {
-    if (!selectedReason) {
+    if (!answer2) {
       alert("답변을 선택해주세요.");
     } else {
-      setAnswer2(selectedReason);
+      setAnswer2(answer2);
       navigate("/test/2");
     }
   };
 
   const handleBeforeClick = () => {
-    setAnswer2(selectedReason);
+    setAnswer2(answer2);
     navigate("/test/0");
   };
 
@@ -47,14 +41,14 @@ const Test1 = ({selectedReason, setSelectedReason}) => {
       <QuestionContainer>휴학을 결정한 계기는 무엇인가요?</QuestionContainer>
       <Answers>
         {reasons.map((reason, index) => (
-          <Answer key={index} checked={selectedReason === reason}>
+          <Answer key={index} checked={answer2 === reason}>
             <label>
               <input
                 type="radio" 
                 name="reason" 
                 value={reason} 
-                checked={selectedReason === reason}
-                onChange={(e) => setSelectedReason(e.target.value)}
+                checked={answer2 === reason}
+                onChange={(e) => setAnswer2(e.target.value)}
               />
               {getReasonLabel(reason)}
             </label>

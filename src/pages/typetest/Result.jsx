@@ -10,6 +10,7 @@ import { useRecoilState } from 'recoil';
 import { answer2State, answer3State, answer4State, semesterState, yearState } from '../../recoil/testatoms';
 
 const Result = () => {
+  const navigate = useNavigate();
   const [userType, setUserType] = useState("");
   const [content, setContent] = useState([]);
   const [image, setImage] = useState("");
@@ -20,6 +21,7 @@ const Result = () => {
   const [answer3, setAnswer3] = useRecoilState(answer3State);
   const [answer4, setAnswer4] = useRecoilState(answer4State);
   const [username, setUsername] = useRecoilState(usernameState);
+  const [usertypedisplay, setUserTypeDisplay] = useState('');
   
   const showResult = async () => {
     const answer = {
@@ -35,11 +37,17 @@ const Result = () => {
       setContent(response.content.split('\n'));
       setImage(response.image);
       setUsername(response.username);
-      console.log(response);
-      // console.log(answer);
+      setUserTypeDisplay(response.user_type_display);
+    
+      // console.log(response);
+      console.log(answer);
     } catch (error) {
       setContent(["모든 문항을 답해주세요."]);
     }
+  };
+
+  const goShare =()  => {
+    navigate(`/hueRU/${userType}`);
   };
 
   useEffect(() => {
@@ -53,7 +61,7 @@ const Result = () => {
         <Image>
           <img src={image} style={{width:'100%'}} alt="result"></img>
         </Image>
-        <Title>"{userType}"</Title>
+        <Title>"{usertypedisplay}"</Title>
         <ResultInfo>
           {content.map((line, index) => (
             <Line>
@@ -62,8 +70,8 @@ const Result = () => {
           ))}
         </ResultInfo>
         <ButtonDom>
-          <ButtonLink to="/hueRU/PANDA"> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
-          <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/view">
+          <ButtonLink onClick={goShare()}> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
+          <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/bingo">
             <FiArrowRightCircle/> 빙고판 채우러가기
           </ButtonLink>
         </ButtonDom>
