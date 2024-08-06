@@ -24,6 +24,7 @@ const MadeDragBingo = () => {
   const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const goHome = () => {
+    updateBingo();
     navigate(`/bingo`);
   };
 
@@ -102,14 +103,13 @@ const MadeDragBingo = () => {
   return (
     <>
       <HeaderHook />
-      <Body>
-        <Bingomain />
-        <RightDom>
+      <Body style={{color : 'rgba(30, 58, 138, 1)'}}>
+        <Bingomain style={{color : 'rgba(30, 58, 138, 1)'}}/>
+        <RightDom style={{paddingTop : '20px'}}>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20} /></DateInfo>
           </TitleLine>
-          <TitleLine>
+          <TitleLine style={{color : 'rgba(30, 58, 138, 1)'}}>
             <h1>{info ? info.title : 'Loading...'}</h1>
           </TitleLine>
           <Line>
@@ -186,7 +186,12 @@ const MadeDragBingo = () => {
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
           )) : null}
-          <TitleLine>
+          <TitleLine style={{borderRadius:'4px',
+          opacity: 'var(--sds-size-stroke-border',
+          background: 'var(--gray-50, #C4C4C4',
+          color : 'white',
+          height: '30px',
+          padding : '10px'}}>
             <div> | 세부계획 </div>
           </TitleLine>
           <CheckLists>
@@ -206,7 +211,7 @@ const MadeDragBingo = () => {
               <CiSquarePlus size={30} onClick={addChecklist} />
             </Line>
           </CheckLists>
-          <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</DateInfo>
+          <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>저장하기</DateInfo>
         </RightDom>
       </Body>
       <FooterHook />
@@ -230,12 +235,15 @@ const Button = styled.div`
 `;
 
 const DateInfo = styled.div`
+
+opacity: var(--sds-size-stroke-border);
+background: var(--gray-pri, #515151);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 20px;
   color: rgba(30, 58, 138, 0.6);
-  background: rgba(142, 156, 196, 1);
+  
   color: white;
   border-radius: 10px;
   padding: 8px;
@@ -264,6 +272,7 @@ const TitleLine = styled.div`
   top: 0;
   background: white;
   z-index: 1;
+  color: rgba(30, 58, 138, 1);
 `;
 
 export const ReviewDom = styled.div`

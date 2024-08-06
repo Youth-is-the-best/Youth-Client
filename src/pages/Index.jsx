@@ -8,7 +8,7 @@ import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming} from '.
 import HeaderHook from '../hook/HeaderHook';
 import FooterHook from '../hook/FooterHook'
 import { RightDom } from './bingo/BingoInfo';
-import { RecommendDom, RecommendCom, StyledDday1, StyledDday2,Body,InfoDom,Info,Selector  } from './Home';
+import { RecommendDom, RecommendCom, StyledDday1, StyledDday2,Body,InfoDom,Info,Selector,Bingo  } from './Home';
 import { bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State } from '../recoil/atoms';
 
 const Index = () => {
@@ -81,9 +81,9 @@ const Index = () => {
     }
   };
 
-  const viewTypeRecommend = async (type) => {
+  const viewTypeRecommend = async () => {
     try {
-      const response = await getTypeRecommend(type);
+      const response = await getTypeRecommend();
       const typeData = response.data.map((item) => ({
         title: item.title,
         id: item.id,
@@ -116,35 +116,6 @@ const Index = () => {
     }
   };
 
-  const getBackgroundColor = (inBingo, index) => {
-    if (inBingo) {
-      return 'white';
-    } else {
-      switch (index) {
-        case 0:
-          return 'rgba(30, 58, 138, 0.10)';
-        case 1:
-          return 'rgba(30, 58, 138, 0.15)';
-        case 2:
-          return 'rgba(30, 58, 138, 0.2)';
-        case 3:
-          return 'rgba(30, 58, 138, 0.25)';
-        case 4:
-          return 'rgba(30, 58, 138, 0.3)';
-        case 5:
-          return 'rgba(30, 58, 138, 0.35)';
-        case 6:
-          return 'rgba(30, 58, 138, 0.4)';
-        case 7:
-          return 'rgba(30, 58, 138, 0.45)';
-        case 8:
-          return 'rgba(30, 58, 138, 0.5)';
-        default:
-          return 'rgba(30, 58, 138, 0.1)';
-      }
-    }
-  };
-
   const handleInfoClick = (id) => {
     navigate(`/info/${id}`);
   };
@@ -164,7 +135,7 @@ const Index = () => {
   useEffect(() => {
     viewRecommend();
     viewSaved();
-    viewTypeRecommend('panda');
+    viewTypeRecommend();
     getBingos();
   }, []);
 
@@ -186,7 +157,7 @@ const Index = () => {
               <Bingo
                 key={index}
                 inBingo={bingo.title !== ''}
-                style={{ background: getBackgroundColor(bingo.title !== '', index) }}
+                
                 onClick={() => clickBingo(index)}
               >
                 {bingo.title || ''}
@@ -194,7 +165,7 @@ const Index = () => {
             ))}
           </BingoDom>
         </LeftDom>
-        <RightDom>
+        <RightDom style={{paddingTop : '20px'}}>
           <div>
             <FiThumbsUp /> 휴알유 추천
           </div>
@@ -279,23 +250,6 @@ const BingoDom = styled.div`
   align-items: center;
   width: 550px;
   height: 550px;
-`;
-
-export const Bingo = styled.div.attrs((props) => ({
-  'data-inbingo': props.inBingo,
-}))`
-  width: 150px;
-  height: 150px;
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  padding: 10px;
-  margin: auto;
-  color: ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
-  border: ${({ inBingo }) => (inBingo ? '3px solid rgba(30, 58, 138, 0.9)' : '')};
-  box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px rgba(30, 58, 138, 0.4)' : 'none')};
 `;
 
 const Line = styled.div`

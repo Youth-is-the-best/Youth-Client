@@ -22,7 +22,6 @@ const Noti = () => {
   const [review, setReview] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -364,18 +363,6 @@ const Noti = () => {
                     ))}
                   </select>
                 ) : config.type === "input" ? (
-                  // <Line style={{ fontSize: '12px' }}>
-                  //   <input
-                  //     type="text"
-                  //     placeholder={config.placeholder}
-                  //     onChange={(e) =>
-                  //       setSelectedOptions({
-                  //         ...selectedOptions,
-                  //         [`option${index + 1}`]: e.target.value,
-                  //       })
-                  //     }
-                  //   />
-                  // </Line>
                   <SearchDom>
                    <SearchBox
                     placeholder="키워드 검색"
@@ -401,14 +388,6 @@ const Noti = () => {
                 )}
               </Dropdown>
             ))}
-            {/* <SearchDom>
-              <SearchBox
-                placeholder="키워드 검색"
-                value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
-              />
-              <AiOutlineSearch size={40} onClick={doSearch} />
-            </SearchDom> */}
           </DropdownDom>
         </Bar>
         <ContentDom>
@@ -649,7 +628,7 @@ const ContentDom = styled.div`
   padding-top: 5%;
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -666,7 +645,7 @@ const Content = styled.div`
   }
 `;
 
-const WriterDom = styled.div`
+export const WriterDom = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -675,14 +654,14 @@ const WriterDom = styled.div`
   }
 `;
 
-const UserDom = styled.div`
+export const UserDom = styled.div`
   display: flex;
   flex-direction: column;
   color: rgba(27, 52, 124, 1);
   gap: 5px;
 `;
 
-const PhotoBox = styled.div`
+export const PhotoBox = styled.div`
   img {
     width: 350px;
     height: 215px; 

@@ -106,7 +106,6 @@ const MadedInClient = () => {
       const id = bingoObject.bingo_obj[locationIndex].id;
       getInfos(id);
 
-      // Add todo from bingo_obj to checklists
       const todos = bingoObject.bingo_obj[locationIndex].todo || [];
       const initialChecklists = todos.map((item, index) => ({ id: index, title: item.title, is_completed: false }));
       setChecklists(initialChecklists);
@@ -129,7 +128,6 @@ const MadedInClient = () => {
         <RightDom>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
-            <DateInfo>더 많은 정보 보러가기<MdOutlineNearMe size={20} /></DateInfo>
           </TitleLine>
           <TitleLine>
             <h1>{info ? info.title : title}</h1>

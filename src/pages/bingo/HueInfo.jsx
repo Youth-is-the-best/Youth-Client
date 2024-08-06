@@ -5,8 +5,8 @@ import FooterHook from '../../hook/FooterHook';
 import { Body } from '../Home';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
-import { Category, Line, TitleLine } from './MadeBingo';
-import { ReviewDom, Review, RightDom } from './BingoInfo';
+import { Category, Line } from './MadeBingo';
+import { ReviewDom, Review, RightDom, TitleLine } from './BingoInfo';
 import { getHueInfo } from '../../apis/testapis';
 import Bingomain from './Bingomain';
 
@@ -31,7 +31,6 @@ const HueInfo = () => {
       content: item.content,
       images: item.images.map(image => image.image) || [],
     }));
-    console.log(recommendations);
     setRecommend(recommendations);
 
     if (recommendations.length > 0) {

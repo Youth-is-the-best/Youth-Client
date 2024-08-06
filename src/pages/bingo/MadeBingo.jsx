@@ -26,6 +26,7 @@ const MadeBingo = () => {
   const [bingoObject, setBingoObject] = useRecoilState(bingoObjectState);
 
   const goHome = () => {
+    updateBingo();
     navigate(`/bingo`);
   };
 
@@ -158,7 +159,7 @@ const MadeBingo = () => {
       <HeaderHook />
       <Body>
         <Bingomain />
-        <RightDom>
+        <RightDom style={{paddingTop : '20px'}}>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />
             <BsThreeDots size={30} />
@@ -179,13 +180,13 @@ const MadeBingo = () => {
               ))}
             </Row>
             <Row>
-              <Selector value={selectedCategory} onChange={handleCategoryChange}>
+              <SelectorCategory value={selectedCategory} onChange={handleCategoryChange}>
                 {categories.map((option, index) => (
                   <option key={index} value={option}>
                     {option}
                   </option>
                 ))}
-              </Selector>
+              </SelectorCategory>
               {inputConfigs[selectedCategory].map((config, index) => {
                 if (config.type === 'date') {
                   return (
@@ -227,7 +228,12 @@ const MadeBingo = () => {
               })}
             </Row>
           </Line>
-          <TitleLine>
+          <TitleLine style={{borderRadius:'4px',
+          opacity: 'var(--sds-size-stroke-border',
+          background: 'var(--gray-50, #C4C4C4',
+          color : 'white',
+          height: '30px',
+          padding : '10px'}}>
             <div> | 세부계획 </div>
           </TitleLine>
           <CheckLists>
@@ -247,7 +253,7 @@ const MadeBingo = () => {
               <CiSquarePlus size={30} onClick={addChecklist} />
             </Line>
           </CheckLists>
-          <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>
+          <DateInfo style={{ width: '30px', marginLeft: '90%' }} onClick={updateBingo}>
             저장
           </DateInfo>
         </RightDom>
@@ -260,12 +266,14 @@ const MadeBingo = () => {
 export default MadeBingo;
 
 export const Category = styled.div`
+  border-radius: 8px;
+  border: 0.4px solid var(--main-30, #BCC4DC);
+  opacity: var(--sds-size-stroke-border);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 20px;
-  border: 1px solid rgba(30, 58, 138, 0.5);
-  color: rgba(30, 58, 138, 1);
+  color: rgba(81, 81, 81, 1);
   background: white;
   border-radius: 10px;
   padding: 7px;
@@ -277,8 +285,8 @@ export const DateInfo = styled.div`
   align-items: center;
   height: 20px;
   width: 210px;
-  color: rgba(30, 58, 138, 0.6);
-  background: rgba(30, 58, 138, 0.1);
+  border: 0.2px solid rgba(30, 58, 138, 1);
+  color: rgba(81, 81, 81, 1);
   border-radius: 10px;
   padding: 8px;
   gap: 5px;
@@ -291,6 +299,7 @@ export const Line = styled.div`
   gap: 20px;
   margin-bottom: 15px;
   margin-left: 10px;
+  color: rgba(81, 81, 81, 1);
 `;
 export const Row = styled.div`
   display: flex;
@@ -298,6 +307,7 @@ export const Row = styled.div`
   flex-wrap: wrap;
   align-items: start;
   gap: 20px;
+  color: rgba(81, 81, 81, 1);
 `
 export const TitleLine = styled.div`
   display: flex;
@@ -313,6 +323,7 @@ export const TitleLine = styled.div`
   top: 0;
   z-index: 1;
   top: 0; /* Add this line */
+  color: rgba(81, 81, 81, 1);
 `;
 
 export const CheckLists = styled.div`
@@ -323,11 +334,13 @@ export const CheckLists = styled.div`
   background: white;
   border-radius: 10px;
   padding: 10px;
+  color: rgba(81, 81, 81, 1);
 `;
 
 export const CheckList = styled.div`
   display: flex;
   align-items: center;
+  color: rgba(81, 81, 81, 1);
   gap: 10px;
   color: ${(props) => (props.checked ? 'rgba(30, 58, 138, 0.5)' : 'rgba(30, 58, 138, 1)')};
   text-decoration: ${(props) => (props.checked ? 'line-through' : 'none')};
@@ -338,22 +351,24 @@ export const CheckBox = styled.div`
   height: 14px;
   border: 1.2px solid rgba(30, 58, 138, 1);
   margin: 2px;
+  color: rgba(81, 81, 81, 1);
 `;
 
 export const InputBox = styled.input`
   padding: 0 12px;
-  border-radius: 10px;
+  border-radius: 8px;
+  color: rgba(81, 81, 81, 1);
   border: 0.2px solid rgba(30, 58, 138, 1);
-  height: 24px;
+  height: 30px;
   width: 80%;
-  margin-top: 3px;
+  margin-top: 10px;
 `;
 
 const InputTitleBox = styled.input`
   border: none;
-  background: rgba(246, 247, 251, 1);
+  
   font-size: 24px;
-  color: rgba(30, 58, 138, 1);
+  color: rgba(81, 81, 81, 1);
   width: 100%;
 `
 const Selector = styled.select`
@@ -371,7 +386,7 @@ const InputInfoBox = styled.input`
   font-size: 20px;
   height: 20px;
   color: rgba(30, 58, 138, 1);
-  background: rgba(246, 247, 251, 1);
+  // background: rgba(246, 247, 251, 1);
   ::placeholder {
     color: rgba(30, 58, 138, 0.5);
     font-size: 20px;
@@ -380,10 +395,11 @@ const InputInfoBox = styled.input`
 `
 const SelectorCategory = styled.select`
   font-size: 15px;
-  padding: 8px;
-  border-radius: 10px;
+  padding: 6px;
   width: 225px;
-  border: none;
-  background: rgba(30, 58, 138, 0.1);
+  border-radius: 8px;
+  color : rgba(246, 247, 251, 1);
+  // border: 0.4px solid var(--main-40, #A5B0D0);
+  opacity: var(--sds-size-stroke-border);
   color: rgba(30, 58, 138, 1);
 `
