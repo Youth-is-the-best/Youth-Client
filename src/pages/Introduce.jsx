@@ -7,25 +7,19 @@ import modalcloseimg from '../images/modalclose.png'
 import { Link, useNavigate } from 'react-router-dom'
 import TermsModal from './TermsModal'
 import hueimg from '../images/HueRU.png'
-import bear from '../images/Bear.png'
+import bear from '../images/bear.png'
 import test from '../images/test.png'
-// import recoimg from '../images/recoImg.png'
-// import recoimg2 from '../images/recoimg2.png'
-// import bingo1 from '../images/bingo1.png'
-// import bingo2 from '../images/bingo2.png'
-// import noti1 from '../images/noti1.png'
-// import noti2 from '../images/noti2.png'
-// import noti3 from '../images/noti3.png'
-// import noti4 from '../images/noti4.png'
-// import noti5 from '../images/noti5.png'
-// import pf1 from '../images/pf 1.png'
-// import pf2 from '../images/pf2.png'
-// import pf3 from '../images/pf3.png'
-// import pf4 from '../images/pf4.png'
+import reco from '../images/reco.png'
+import bingo from '../images/bingo.png'
+import noti from '../images/noti.png'
+import pofol from '../images/pofol.png'
+import logo from '../images/Logoimg.png'
+
 
 const Introduce = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMyModalOpen, setIsMyModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +36,11 @@ const Introduce = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const handleMyBtn = () => {
+    setIsMyModalOpen(!isMyModalOpen);
+  };
+  
   
   const handleLogout = () => {
     if (localStorage.getItem("access_token") && localStorage.getItem("refresh_token")) {
@@ -67,7 +66,9 @@ const Introduce = () => {
         }
       </LogoutBtn>
       <Headers>
-        <Logo to ="/">Logo</Logo>
+        <Logo to ="/">
+          <img src={logo}></img>
+        </Logo>
         <Nav>
           { isLoggedIn ?
           <>
@@ -77,8 +78,8 @@ const Introduce = () => {
             <Header to="/readportfolio">나의 포트폴리오</Header>
             <Mypage>
               <Header to="/mypage">마이페이지</Header>
-              <Modal onClick={handleBtn}>
-                { isModalOpen ?
+              <Modal onClick={handleMyBtn}>
+                { isMyModalOpen ?
                   <img src={modalopenimg}></img> :
                   <img src={modalcloseimg}></img> }
               </Modal>
@@ -90,7 +91,7 @@ const Introduce = () => {
           </> }
         </Nav>
       </Headers>
-      <MyPageModal isOpen={isModalOpen}></MyPageModal>
+      <MyPageModal isOpen={isMyModalOpen}></MyPageModal>
     </HeaderofHome>
     <Body>
       <HueRuWrapper>
@@ -111,9 +112,7 @@ const Introduce = () => {
           간단한 질문과 캐릭터를 통한 해석을 통해 목표를 정확하게 정의하고 여정을 준비할 수 있습니다.</div>
         </TestText>
         <TestImg>
-          <div className="top-text" style={{color: 'rgba(30, 58, 138, 1)'}}>안정을 추구하는 곰</div>
-          <img src={bear} alt="bear" />
-          <div className="bottom-text" style={{color: 'rgba(81, 81, 81, 1)'}}>00님의 휴학 유형</div>
+          <img src={bear}></img>
         </TestImg>
         <TestBox>
           <img src={test}></img>
@@ -121,7 +120,7 @@ const Introduce = () => {
       </TestWrapper>
       <RecoWrapper>
         <RecoImg>
-          <img></img>
+          <img src={reco}></img>
         </RecoImg>
         <RecoText>
           <div style={{fontSize: '16px'}}>휴학 중, 무엇을 해야할지 모르겠다면?</div>
@@ -139,12 +138,12 @@ const Introduce = () => {
           목표를 달성하는 재미와 함께, 의미 있는 휴학 기간을 만들어갈 수 있습니다.</div>
         </BingoText>
         <BingoImg>
-          <img></img>
+          <img src={bingo}></img>
         </BingoImg>
       </BingoWrapper> 
       <NotiWrapper>
         <NotiImg>
-          <img></img>
+          <img src={noti}></img>
         </NotiImg>
         <NotiText>
           <div style={{fontSize: '16px'}}>더 많은 정보와 경험자들의 팁이 필요하다면?</div>
@@ -163,7 +162,7 @@ const Introduce = () => {
           나만의 경험과 성장의 모습을 담은 포트폴리오를 채우며 지난 시간을 돌아보고 앞으로를 계획해보세요.</div>
         </PofolText>
         <PofolImg>
-          <img></img>
+          <img src={pofol}></img>
         </PofolImg>
       </PofolWrapper>
     </Body>
@@ -249,7 +248,7 @@ const TestWrapper  = styled.div`
 
 const TestText = styled.div`
   padding-right: 30%;
-  padding-top: 3%;
+  padding-top: 10%;
   color: rgba(27, 52, 124, 1);
   font-weight: 800;
   div {
@@ -261,46 +260,19 @@ const TestImg = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-left: 42%;
+  padding-left: 40%;
+  bottom: 10%;
   img {
-    width: 200px;
-    height: 200px;
-  }
-  .top-text {
-    position: absolute;
-    top: -30px;
-    right: -25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 155px;
-    height: 44px;
-    border-radius: 20px;
-    background-color: white;
-    box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
-    font-size: 16px;
-    font-weight: 700;
-    z-index: 2;
-  }
-  .bottom-text {
-    position: absolute;
-    bottom: -10px;
-    left: 540px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 155px;
-    height: 44px;
-    border-radius: 20px;
-    background-color: white;
-    box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
-    font-size: 16px;
-    font-weight: 700;
-    z-index: 2;
+    width: 340px;
+    height: 260px;
   }
 `;
 
 const TestBox = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  bottom: 8%;  
   padding-left: 10%;
   img {
     width: 800px;
@@ -344,30 +316,17 @@ const BingoWrapper  = styled.div`
 const BingoText = styled.div`
   color: rgba(27, 52, 124, 1);
   font-weight: 800;
-  padding-bottom: 18%;
-  padding-right: 5%;
+  padding-bottom: 20%;
   div {
     margin-top: 10px;
   }
 `;
 
 const BingoImg = styled.div`
-  position: relative;
-  width: 380px;
-  height: 440px;
+  padding-left: 5%;
   img {
-    position: absolute;
-    top: 0;
-    left: 5%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .bingo2 {
-    width: 420px;
-    height: 420px;
-    top: 11%;
-    left: 2%;
+    width: 440px;
+    height: 480px;
   }
 `;
 
@@ -381,13 +340,19 @@ const NotiWrapper  = styled.div`
 const NotiText = styled.div`
   color: rgba(27, 52, 124, 1);
   font-weight: 800;
+  padding-left: 5%;
+  padding-bottom: 12%;
   div {
     margin-top: 10px;
   }
 `;
 
 const NotiImg = styled.div`
-
+  padding-top: 5%;
+  img {
+    width: 575px;
+    height: 370px;
+  }
 `;
 
 const PofolWrapper = styled.div`
@@ -407,6 +372,11 @@ const PofolText = styled.div`
 `;
 
 const PofolImg = styled.div`
+  padding-left: 5%;
+  img {
+    width: 480px;
+    height: 560px;
+  }
 `;
 
 const Fotter = styled.div`
