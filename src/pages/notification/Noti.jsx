@@ -24,7 +24,7 @@ const Noti = () => {
   
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
-  const [searchKeyword, setSearchKeyword] = useState("인턴");
+  const [searchKeyword, setSearchKeyword] = useState("");
   
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
   const categoryMap = {
@@ -428,31 +428,9 @@ const Noti = () => {
                   onClick={() => goNotice(item.id)}
                 />
                 <div>{item.title}</div>
-                <div>
-                  <img src={msgimg} />
-                  {item.comments_count}
-                </div>
               </Content>
             ))}
           {showReview &&
-            // recommend.map((item) => (
-            //   <Content key={item.id}>
-            //     <WriterDom>
-            //       <div>{item.username}</div>
-            //       <AiOutlineStar
-            //         size={20}
-            //         onClick={() => handleStorage(item.id, 'review')}
-            //         style={{ color: item.saved ? 'yellow' : 'black' }}
-            //       />
-            //     </WriterDom>
-            //     <PhotoBox
-            //       src={item.image}
-            //       alt={item.title}
-            //       onClick={() => goHue(item.id)}
-            //     />
-            //     <div>{item.title}</div>
-            //   </Content>
-            // ))
             review.map((item) => (
               <Content key={item.id}>
                 <WriterDom>
