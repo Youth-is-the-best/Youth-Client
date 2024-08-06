@@ -6,6 +6,7 @@ import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
+import FooterHook from '../hook/FooterHook'
 import { RightDom } from './bingo/BingoInfo';
 import { RecommendDom, RecommendCom, StyledDday1, StyledDday2 } from './Home';
 import { bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State } from '../recoil/atoms';
@@ -255,6 +256,7 @@ const Index = () => {
           </InfoDom>
         </RightDom>
       </Body>
+      <FooterHook />
     </>
   );
 };
@@ -289,6 +291,7 @@ export const Body = styled.div`
   color: #1e3a8a;
   height: 660px;
   gap: 10px;
+  margin-bottom: 10%;
 `;
 
 const LeftDom = styled.div`

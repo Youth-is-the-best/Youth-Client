@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import HeaderHook from '../../hook/HeaderHook'
+import FooterHook from '../../hook/FooterHook';
 import transimg from '../../images/transparent.png'
 import backimg from '../../images/MdOutlineKeyboardBackspace.png'
 import heartimg from '../../images/AiOutlineHeart.png'
@@ -67,6 +68,7 @@ const AlarmManage = () => {
           </ControlItem>
         </ControlWrapper>
       </Body>
+      <FooterHook />
     </>
   )
 }
@@ -75,6 +77,7 @@ export default AlarmManage
 
 const Body = styled.div`
   padding: 3% 25%;
+  margin-bottom: 30%;
 `;
 
 const TitleWrapper = styled.div`

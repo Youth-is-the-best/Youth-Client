@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import HeaderHook from '../../hook/HeaderHook'
+import FooterHook from '../../hook/FooterHook';
 import AiOutlineSetting from '../../images/AiOutlineSetting.png'
 import transimg from '../../images/transparent.png'
 import { useNavigate } from 'react-router-dom'
@@ -29,6 +30,7 @@ const Alarm = () => {
           </div>
         </AlarmWrapper>
       </Body>
+      <FooterHook />
     </>
   )
 }
@@ -37,6 +39,7 @@ export default Alarm
 
 const Body = styled.div`
   padding: 3% 25%;
+  margin-bottom: 30%;
 `;
 
 const TitleWrapper = styled.div`

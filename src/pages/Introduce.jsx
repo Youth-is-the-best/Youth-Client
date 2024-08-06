@@ -5,6 +5,23 @@ import MyPageModal from '../hook/MyPageModal'
 import modalopenimg from '../images/modalopen.png'
 import modalcloseimg from '../images/modalclose.png'
 import { Link, useNavigate } from 'react-router-dom'
+import TermsModal from './TermsModal'
+import hueimg from '../images/HueRU.png'
+import bear from '../images/Bear.png'
+import test from '../images/test.png'
+// import recoimg from '../images/recoImg.png'
+// import recoimg2 from '../images/recoimg2.png'
+// import bingo1 from '../images/bingo1.png'
+// import bingo2 from '../images/bingo2.png'
+// import noti1 from '../images/noti1.png'
+// import noti2 from '../images/noti2.png'
+// import noti3 from '../images/noti3.png'
+// import noti4 from '../images/noti4.png'
+// import noti5 from '../images/noti5.png'
+// import pf1 from '../images/pf 1.png'
+// import pf2 from '../images/pf2.png'
+// import pf3 from '../images/pf3.png'
+// import pf4 from '../images/pf4.png'
 
 const Introduce = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +37,10 @@ const Introduce = () => {
 
   const handleBtn = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
   
   const handleLogout = () => {
@@ -71,6 +92,104 @@ const Introduce = () => {
       </Headers>
       <MyPageModal isOpen={isModalOpen}></MyPageModal>
     </HeaderofHome>
+    <Body>
+      <HueRuWrapper>
+        <HueText>
+          <div style={{fontSize: '32px'}}>휴학을 알차고 유익하게</div>
+          <div style={{fontSize: '50px', fontWeight: '800'}}>휴알유</div>
+          <div style={{fontSize: '20px', color: 'rgba(116, 116, 116, 1)'}}>휴학, 나의 시간을 가치있는 성과로 만들어보세요!</div>
+        </HueText>
+        <HueImg>
+          <img src={hueimg}></img>
+        </HueImg>
+      </HueRuWrapper>
+      <TestWrapper>
+        <TestText>
+          <div style={{fontSize: '16px'}}>휴학을 결심한 이유와 목표가 불확실하다면?</div>
+          <div style={{fontSize: '32px'}}>휴학 유형 테스트</div>
+          <div style={{fontSize: '14px', color: 'rgba(116, 116, 116, 1)', paddingTop: '10px'}}>휴학 유형 테스트를 통해 나의 방향을 찾으세요!<br />
+          간단한 질문과 캐릭터를 통한 해석을 통해 목표를 정확하게 정의하고 여정을 준비할 수 있습니다.</div>
+        </TestText>
+        <TestImg>
+          <div className="top-text" style={{color: 'rgba(30, 58, 138, 1)'}}>안정을 추구하는 곰</div>
+          <img src={bear} alt="bear" />
+          <div className="bottom-text" style={{color: 'rgba(81, 81, 81, 1)'}}>00님의 휴학 유형</div>
+        </TestImg>
+        <TestBox>
+          <img src={test}></img>
+        </TestBox>
+      </TestWrapper>
+      <RecoWrapper>
+        <RecoImg>
+          <img></img>
+        </RecoImg>
+        <RecoText>
+          <div style={{fontSize: '16px'}}>휴학 중, 무엇을 해야할지 모르겠다면?</div>
+          <div style={{fontSize: '32px'}}>유형별 투두리스트 추천</div>
+          <div style={{fontSize: '14px', color: 'rgba(116, 116, 116, 1)', paddingTop: '10px'}}>
+            유형별로 추천되는 활동 리스트를 통해 성향에 맞는 휴학 계획을 손쉽게 세워보세요.</div>
+        </RecoText>
+      </RecoWrapper>
+      <BingoWrapper>
+        <BingoText>
+          <div style={{fontSize: '16px'}}>간편하고 확실한 우선순위 확립을 원한다면?</div>
+          <div style={{fontSize: '32px'}}>투두리스트 빙고</div>
+          <div style={{fontSize: '14px', color: 'rgba(116, 116, 116, 1)', paddingTop: '10px'}}>
+          빙고 칸을 자유롭게 배열하며 다양한 활동 간의 우선순위를 고민해보세요.<br />
+          목표를 달성하는 재미와 함께, 의미 있는 휴학 기간을 만들어갈 수 있습니다.</div>
+        </BingoText>
+        <BingoImg>
+          <img></img>
+        </BingoImg>
+      </BingoWrapper> 
+      <NotiWrapper>
+        <NotiImg>
+          <img></img>
+        </NotiImg>
+        <NotiText>
+          <div style={{fontSize: '16px'}}>더 많은 정보와 경험자들의 팁이 필요하다면?</div>
+          <div style={{fontSize: '32px'}}>공고/후기</div>
+          <div style={{fontSize: '14px', color: 'rgba(116, 116, 116, 1)', paddingTop: '10px'}}>
+          구체적인 공고를 확인하고 다른 휴학생들과 경험을 나눠보세요.<br />
+          실천 가능한 계획 수립에 도움을 받고 소중한 인사이트를 얻을 수 있습니다.</div>
+        </NotiText>
+      </NotiWrapper>
+      <PofolWrapper>
+        <PofolText>
+          <div style={{fontSize: '16px'}}>과정부터 마무리까지 확실히 하고 싶다면?</div>
+          <div style={{fontSize: '32px'}}>휴학 포트폴리오</div>
+          <div style={{fontSize: '14px', color: 'rgba(116, 116, 116, 1)', paddingTop: '10px'}}>
+          휴학 기간 이룬 성과를 기록하며 나의 시간을 정리해보세요.<br />
+          나만의 경험과 성장의 모습을 담은 포트폴리오를 채우며 지난 시간을 돌아보고 앞으로를 계획해보세요.</div>
+        </PofolText>
+        <PofolImg>
+          <img></img>
+        </PofolImg>
+      </PofolWrapper>
+    </Body>
+    <Fotter>
+        <MainWrapper>
+          <FooterNav>
+            <Pages>
+              <FooterHeader to="/">메인 홈</FooterHeader>
+              <FooterHeader to="/test/0">휴학 유형 테스트</FooterHeader>
+              <FooterHeader to="/view">투두리스트 빙고</FooterHeader>
+              <FooterHeader to="/notification">공고/후기</FooterHeader>
+              <FooterHeader to="/readportfolio">휴학 포트폴리오</FooterHeader>
+            </Pages>
+            <Term>
+              <StyledBtn onClick={handleBtn}>이용약관</StyledBtn>
+              <TermsModal isOpen={isModalOpen} onCancel={handleCancel}></TermsModal>
+            </Term>
+          </FooterNav>
+          <Email>
+            contact us | hueareyou@gmail.com
+          </Email>
+        </MainWrapper>
+        <UsWrapper>
+          (C) 2024 Project 막내가좋아 Corp.
+        </UsWrapper>
+      </Fotter>
   </>
   )
 }
@@ -89,4 +208,253 @@ const SignupLink = styled(Link)`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+`;
+
+const Body = styled.div`
+  margin-bottom: 10%; 
+`;
+
+const HueRuWrapper = styled.div`
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+`;
+
+const HueText = styled.div`
+  color: rgba(27, 52, 124, 1);
+  font-weight: 700;
+  padding-right: 5%;
+  div {
+    margin-top: 20px;
+  }
+`;
+
+const HueImg = styled.div`
+  padding-bottom: 10%;
+  img{
+    width: 320px;
+    height: 320px;
+  }
+`;
+
+const TestWrapper  = styled.div`
+  background-color: rgba(233, 236, 244, 1);
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const TestText = styled.div`
+  padding-right: 30%;
+  padding-top: 3%;
+  color: rgba(27, 52, 124, 1);
+  font-weight: 800;
+  div {
+    margin-top: 10px;
+  }
+`;
+
+const TestImg = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: 42%;
+  img {
+    width: 200px;
+    height: 200px;
+  }
+  .top-text {
+    position: absolute;
+    top: -30px;
+    right: -25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 155px;
+    height: 44px;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    font-size: 16px;
+    font-weight: 700;
+    z-index: 2;
+  }
+  .bottom-text {
+    position: absolute;
+    bottom: -10px;
+    left: 540px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 155px;
+    height: 44px;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    font-size: 16px;
+    font-weight: 700;
+    z-index: 2;
+  }
+`;
+
+const TestBox = styled.div`
+  padding-left: 10%;
+  img {
+    width: 800px;
+    height: 200px;
+  }
+`;
+
+const RecoWrapper = styled.div`
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const RecoImg = styled.div`
+  padding-right: 5%;
+  img {
+    width: 440px;
+    height: 480px;
+  }
+`;
+
+const RecoText = styled.div`
+  color: rgba(27, 52, 124, 1);
+  font-weight: 800;
+  padding-bottom: 15%;
+  padding-left: 2%;
+  div {
+    margin-top: 10px;
+  }
+`;
+
+const BingoWrapper  = styled.div`
+  background-color: rgba(233, 236, 244, 1);
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BingoText = styled.div`
+  color: rgba(27, 52, 124, 1);
+  font-weight: 800;
+  padding-bottom: 18%;
+  padding-right: 5%;
+  div {
+    margin-top: 10px;
+  }
+`;
+
+const BingoImg = styled.div`
+  position: relative;
+  width: 380px;
+  height: 440px;
+  img {
+    position: absolute;
+    top: 0;
+    left: 5%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .bingo2 {
+    width: 420px;
+    height: 420px;
+    top: 11%;
+    left: 2%;
+  }
+`;
+
+const NotiWrapper  = styled.div`
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const NotiText = styled.div`
+  color: rgba(27, 52, 124, 1);
+  font-weight: 800;
+  div {
+    margin-top: 10px;
+  }
+`;
+
+const NotiImg = styled.div`
+
+`;
+
+const PofolWrapper = styled.div`
+  background-color: rgba(233, 236, 244, 1);
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PofolText = styled.div`
+  color: rgba(27, 52, 124, 1);
+  font-weight: 800;
+  div {
+    margin-top: 10px;
+  }
+`;
+
+const PofolImg = styled.div`
+`;
+
+const Fotter = styled.div`
+  background-color: rgba(27, 52, 124, 1);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Pretendard-Regular';
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  padding: 3% 5%;
+  
+`;
+
+const MainWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const FooterNav = styled.div`
+  display: flex;
+`;
+
+const Pages = styled.div`
+  margin-right: 100px;
+`;
+
+const FooterHeader = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  text-decoration: none;
+  color: white;
+`;
+
+const Term = styled.div`
+`;
+
+const StyledBtn = styled.div`
+  cursor: pointer;
+`;
+
+const Email = styled.div`
+
+`;
+
+const UsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

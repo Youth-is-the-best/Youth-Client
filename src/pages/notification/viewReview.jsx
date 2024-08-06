@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeaderHook from '../../hook/HeaderHook';
+import FooterHook from '../../hook/FooterHook';
 import { getHandleReviewLike, getHandleReviewSaved, getReviewById } from '../../apis/reviewapis';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
@@ -228,6 +229,7 @@ const ViewReview = () => {
           <CommentSection reviewId={id} />
         </Body>
       </BigBody>
+      <FooterHook />
     </>
   )
 };
@@ -270,6 +272,7 @@ const Body = styled.div`
   justify-content: center;
   width: 80%;
   padding: 50%;
+  margin-bottom: 10%;
 `
 const StyledTitle = styled.div`
   display: flex;

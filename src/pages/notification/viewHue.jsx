@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeaderHook from '../../hook/HeaderHook';
+import FooterHook from '../../hook/FooterHook';
 import { getHandleNoticeSaved, getNoticeById } from '../../apis/reviewapis';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
@@ -194,6 +195,7 @@ const viewHue = () => {
           </PhotoDom>
         </Body>
       </BigBody>
+      <FooterHook />
     </>
   )
 };
@@ -233,6 +235,7 @@ const Body = styled.div`
   justify-content: center;
   width: 80%;
   padding: 50px; // Adjusted from 50% to 50px
+  margin-bottom: 10%;
 `
 const StyledTitle = styled.div`
   display: flex;

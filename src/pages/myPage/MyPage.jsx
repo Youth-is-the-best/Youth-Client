@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import HeaderHook from '../../hook/HeaderHook'
+import FooterHook from '../../hook/FooterHook';
 import { useNavigate } from 'react-router-dom';
 import { myInfo } from '../../apis/mypageapis';
 
@@ -24,8 +25,8 @@ const MyPage = () => {
     }
   };
 
-  const toResult = () => {
-    router('/result');
+  const toResult = (type) => {
+    router(`/hueRU/${type}`);
   };
 
   const handleSub = () => {
@@ -42,7 +43,7 @@ const MyPage = () => {
             <Info>
               <InfoItem><InfoLabel>이름</InfoLabel><p>{userInfo.name}</p></InfoItem>
               <InfoItem><InfoLabel>닉네임</InfoLabel><p>{userInfo.username}</p></InfoItem>
-              <InfoItem><InfoLabel>휴학 유형</InfoLabel><p>{userInfo.type_result}</p><button onClick={toResult}>유형 테스트 결과 보기</button></InfoItem>
+              <InfoItem><InfoLabel>휴학 유형</InfoLabel><p>{userInfo.type_result}</p><button onClick={() => toResult()}>유형 테스트 결과 보기</button></InfoItem>
               <InfoItem><InfoLabel>가입 이메일</InfoLabel><p>{userInfo.email}</p></InfoItem>
               <InfoItem><InfoLabel>요금제</InfoLabel><p>휴알유 basic</p><button style={{ width: '110px' }} onClick={scrollToPremium}>요금제 살펴보기</button></InfoItem>
               <InfoItem><InfoLabel>포인트</InfoLabel><p>1,050p</p></InfoItem>
@@ -101,6 +102,7 @@ const MyPage = () => {
             </PremContainer>
           </PremiumWrapper>
         </Body>
+        <FooterHook />
     </>
   )
 };
@@ -111,6 +113,7 @@ const Body = styled.div`
   padding-top: 100px;
   padding-left: 400px;
   padding-right: 400px;
+  margin-bottom: 20%;
 `;
 
 const MyInfoWrapper = styled.div`
@@ -179,7 +182,6 @@ const InfoLabel = styled.div`
 
 const PremiumWrapper = styled.div`
   padding-bottom: 150px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 `;
 
 const PremTitle = styled.div`

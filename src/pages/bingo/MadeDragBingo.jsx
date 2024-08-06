@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace, MdOutlineNearMe } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Bingo, Body } from '../Home';
+import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
+import FooterHook from '../../hook/FooterHook';
 import { getInfo } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
 import { RightDom } from './BingoInfo';
@@ -194,6 +195,7 @@ const MadeDragBingo = () => {
           <DateInfo style={{ width: '15%', marginLeft: '82%' }} onClick={updateBingo}>저장</DateInfo>
         </RightDom>
       </Body>
+      <FooterHook />
     </>
   );
 };

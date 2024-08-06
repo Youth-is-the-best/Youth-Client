@@ -8,6 +8,7 @@ import { CiSquarePlus } from 'react-icons/ci';
 import { BsThreeDots } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import HeaderHook from '../../hook/HeaderHook';
+import FooterHook from '../../hook/FooterHook';
 import Bingomain from './Bingomain';
 import CustomCalendar from './CustomCalendar';
 import { useRecoilState } from 'recoil';
@@ -251,6 +252,7 @@ const MadeBingo = () => {
           </DateInfo>
         </RightDom>
       </Body>
+      <FooterHook />
     </>
   );
 };

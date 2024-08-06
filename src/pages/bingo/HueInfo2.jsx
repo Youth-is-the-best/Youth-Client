@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderHook from '../../hook/HeaderHook';
+import FooterHook from '../../hook/FooterHook';
 import { Body } from '../Home';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
@@ -77,6 +78,7 @@ const HueInfo = () => {
             ))}
         </RightDom>
       </Body>
+      <FooterHook />
     </>
   );
 }
