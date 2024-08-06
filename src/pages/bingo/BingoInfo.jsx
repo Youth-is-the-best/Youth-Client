@@ -99,7 +99,10 @@ const BingoInfo = () => {
             <h1>{info ? info.title : 'Loading...'}</h1>
           </TitleLine>
           <Line>
+            <Car>
             <Category>분류</Category>
+            </Car>
+            
             <Category style={{  color: 'white' ,
               border:'none',
               opacity: 'var(--sds-size-stroke-border)',
@@ -111,55 +114,64 @@ const BingoInfo = () => {
           </Line>
           {info && info.host ? (
             <Line>
-              <Category>주최사</Category>
+              <Car><Category>주최사</Category></Car>
+              
               <div>{info.host}</div>
             </Line>
           ) : null}
           {info && info.field ? (
             <Line>
-              <Category>활동 분야</Category>
+              <Car><Category>활동 분야</Category></Car>
+              
               <div>{info.field}</div>
             </Line>
           ) : null}
           {info && info.app_fee ? (
             <Line>
-              <Category>응시료</Category>
+              <Car><Category>응시료</Category></Car>
+              
               <div>{info.app_fee}원</div>
             </Line>
           ) : null}
           {info && info.duty ? (
             <Line>
-              <Category>직무</Category>
+              <Car><Category>직무</Category></Car>
+              
               <div>{info.duty}</div>
             </Line>
           ) : null}
           {info && info.employment_form ? (
             <Line>
-              <Category>채용 형태</Category>
+              <Car><Category>채용 형태</Category></Car>
+              
               <div>{info.employment_form}</div>
             </Line>
           ) : null}
           {info && info.area ? (
             <Line>
-              <Category>활동 지역</Category>
+              <Car><Category>활동 지역</Category></Car>
+              
               <div>{info.area}</div>
             </Line>
           ) : null}
           {info && info.app_due ? (
             <Line>
-              <Category>지원 마감</Category>
+              <Car><Category>지원 마감</Category></Car>
+              
               <div>{info.app_due}</div>
             </Line>
           ) : null}
           {info && info.prep_period ? (
             <Line>
-              <Category>준비 기간</Category>
+              <Car><Category>준비 기간</Category></Car>
+              
               <div>{info.prep_period}</div>
             </Line>
           ) : null}
           {info && info.start_date ? ((
             <Line>
-              <Category>활동 기간</Category>
+              <Car><Category>활동 기간</Category></Car>
+              
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
           )) : null}
@@ -183,6 +195,12 @@ const BingoInfo = () => {
 };
 
 export default BingoInfo;
+
+export const Car = styled.div`
+display: flex;
+width : 100px;
+// padding-left : 10px;
+`
 
 export const RightDom = styled.div`
   display: flex;
