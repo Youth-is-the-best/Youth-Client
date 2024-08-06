@@ -22,6 +22,7 @@ const Noti = () => {
   const [review, setReview] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -107,7 +108,9 @@ const Noti = () => {
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     setSelectedOptions({ option1: '', option2: '', option3: '', option4: '' }); 
+    console.log(category);
     getReviewsByCategory(categoryMap[category]);
+    console.log(categoryMap[category]);
   };
 
   const getAllReview = async () => {
@@ -127,6 +130,8 @@ const Noti = () => {
   const getReviewsByCategory = async (category) => {
     try {
       const response = await getSearchByCategory(category);
+      // console.log(category);
+      // console.log(response);
       const notice = response.notice.map((item) => ({
         id: item.id,
         large_category: item.large_category,
@@ -154,32 +159,25 @@ const Noti = () => {
   };
 
   const handleStorage = async (id, type) => {
-    const access_token = localStorage.getItem('access_token');
-    if (!access_token) {
-      alert("로그인이 필요한 기능입니다.");
-      navigate('/login');
-      return;
-    } else {
-      try {
-        if (type === 'notice') {
-          const response = await getHandleNoticeSaved(id);
-          setNotice((prevNotice) =>
-            prevNotice.map((item) =>
-              item.id === id ? { ...item, saved: !item.saved } : item
-            )
-          );
-        } else {
-          const response = await getHandleReviewSaved(id);
-          setReview((prevReview) =>
-            prevReview.map((item) =>
-              item.id === id ? { ...item, saved: !item.saved } : item
-            )
-          );
-        }
-      } catch (error) {
-        console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
-        throw error;
+    try {
+      if (type === 'notice') {
+        const response = await getHandleNoticeSaved(id);
+        setNotice((prevNotice) =>
+          prevNotice.map((item) =>
+            item.id === id ? { ...item, saved: !item.saved } : item
+          )
+        );
+      } else {
+        const response = await getHandleReviewSaved(id);
+        setReview((prevReview) =>
+          prevReview.map((item) =>
+            item.id === id ? { ...item, saved: !item.saved } : item
+          )
+        );
       }
+    } catch (error) {
+      console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
+      throw error;
     }
   };
 
@@ -269,9 +267,9 @@ const Noti = () => {
       }));
       setNotice(notice);
       setReview(review);
-      console.log(selectedOptions);
-      console.log(searchParams);
-      console.log(notice, review);
+      // console.log(selectedOptions);
+      // console.log(searchParams);
+      // console.log(notice, review);
       
       if (notice.length === 0 && review.length === 0) {
         alert('검색 결과가 없습니다.');
@@ -334,9 +332,7 @@ const Noti = () => {
             </Navigation>
           ))}
         </NavigationBar>
-        <Line style={{fontWeight:'900'}}>
-          {selectedCategory ? selectedCategory : "카테고리를 선택해주세요"}
-        </Line>
+        <Line style={{fontWeight:'900'}}>{selectedCategory}</Line>
         <Bar>
           <CheckDom>
             <Check onClick={() => setShowNotice(!showNotice)}>
@@ -372,6 +368,18 @@ const Noti = () => {
                     ))}
                   </select>
                 ) : config.type === "input" ? (
+                  // <Line style={{ fontSize: '12px' }}>
+                  //   <input
+                  //     type="text"
+                  //     placeholder={config.placeholder}
+                  //     onChange={(e) =>
+                  //       setSelectedOptions({
+                  //         ...selectedOptions,
+                  //         [`option${index + 1}`]: e.target.value,
+                  //       })
+                  //     }
+                  //   />
+                  // </Line>
                   <SearchDom>
                    <SearchBox
                     placeholder="키워드 검색"
@@ -397,6 +405,14 @@ const Noti = () => {
                 )}
               </Dropdown>
             ))}
+            {/* <SearchDom>
+              <SearchBox
+                placeholder="키워드 검색"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+              <AiOutlineSearch size={40} onClick={doSearch} />
+            </SearchDom> */}
           </DropdownDom>
         </Bar>
         <ContentDom>

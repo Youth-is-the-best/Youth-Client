@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
+import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import FooterHook from '../hook/FooterHook';
 import { RightDom } from './bingo/BingoInfo';
@@ -99,9 +99,17 @@ const Home = () => {
         end_date: endDate,
         bingo_obj: bingoObject.bingo_obj,
       };
+      const hasEmptyTitle = bingoBody.bingo_obj.some(item => item.title === '');
+    if (hasEmptyTitle) {
+      alert("9개의 칸을 채워야 빙고를 만드실 수 있습니다")
+      return;
+    }
       const response = await postBingo(bingoBody);
-      console.log(bingoBody);
-      console.log(response);
+      bingoBody.bingo_obj.map()
+      // console.log(bingoBody);
+      // console.log(response);
+      alert(response);
+      navigate("/veiw");
     } catch (error) {
       setError('Error posting bingo data');
       console.error('Error in postBingo:', error.response ? error.response.data : error.message);
@@ -193,7 +201,6 @@ const Home = () => {
     setEndDate(formattedEndDate);
 
     try {
-      getDday();
       const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
       setDday1(response.display.rest_dday_display);
       setDday2(response.display.return_dday_display);
@@ -204,7 +211,7 @@ const Home = () => {
     }
   };
 
-  const getDday = async () => {
+  const getDdays = async () => {
     try {
       const get_response = await getDday();
       if (get_response && get_response.display) {
@@ -230,9 +237,15 @@ const Home = () => {
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
     if (!access_token) {
-      navigate('/test/0');
+      navigate('login');
       return;
     }
+    // if(!username) {
+    //   alert("유형화 테스트가 필요한 기능입니다");
+    //   navigate('/test/0');
+    //   return;
+    // }
+    getDdays();
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
@@ -530,3 +543,4 @@ const Line = styled.div`
   width: 100%;
   gap: 3%;
 `;
+

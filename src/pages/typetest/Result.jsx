@@ -30,7 +30,7 @@ const Result = () => {
       "return_semester": semester,
       "answer2": answer2,
       "answer3": answer3,
-      "answer4": answer4
+      "answer4": answer4,
     };
     try {
       const response = await postTest(answer);
@@ -39,7 +39,8 @@ const Result = () => {
       setImage(response.image);
       setUsername(response.username);
       setUserTypeDisplay(response.user_type_display);
-    } catch (error) {
+      console.log(response);
+      } catch (error) {
       setContent(["모든 문항을 답해주세요."]);
     }
   };

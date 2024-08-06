@@ -26,7 +26,7 @@ const Login = () => {
   const onClick = async () => {
     try{
       const result = await login(username, password);
-      navigate("/");
+      navigate("/view");
       localStorage.setItem("access_token", result.token.access_token);
       localStorage.setItem("refresh_token", result.token.refresh_oken);
     } catch(error) {
