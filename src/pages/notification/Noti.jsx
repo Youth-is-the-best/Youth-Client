@@ -24,7 +24,7 @@ const Noti = () => {
   
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
-  const [searchKeyword, setSearchKeyword] = useState("인턴");
+  const [searchKeyword, setSearchKeyword] = useState("");
   
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
   const categoryMap = {
@@ -262,9 +262,9 @@ const Noti = () => {
       }));
       setNotice(notice);
       setReview(review);
-      // console.log(selectedOptions);
-      // console.log(searchParams);
-      // console.log(notice, review);
+      console.log(selectedOptions);
+      console.log(searchParams);
+      console.log(notice, review);
       
       if (notice.length === 0 && review.length === 0) {
         alert('검색 결과가 없습니다.');
@@ -324,14 +324,6 @@ const Noti = () => {
         <MyPageModal isOpen={isModalOpen}></MyPageModal>
       </HeaderofHome>
       <Body>
-        <SearchDom>
-          <SearchBox
-            placeholder="키워드 검색"
-            value={searchKeyword}
-            onChange={(e) => doKeywordSearch(e.target.value)}
-          />
-          <AiOutlineSearch size={40} onClick={doSearch} />
-        </SearchDom>
         <NavigationBar>
           {categorys.map((category) => (
             <Navigation key={category} onClick={() => handleCategoryClick(category)}>
@@ -375,18 +367,26 @@ const Noti = () => {
                     ))}
                   </select>
                 ) : config.type === "input" ? (
-                  <Line style={{ fontSize: '12px' }}>
-                    <input
-                      type="text"
-                      placeholder={config.placeholder}
-                      onChange={(e) =>
-                        setSelectedOptions({
-                          ...selectedOptions,
-                          [`option${index + 1}`]: e.target.value,
-                        })
-                      }
-                    />
-                  </Line>
+                  // <Line style={{ fontSize: '12px' }}>
+                  //   <input
+                  //     type="text"
+                  //     placeholder={config.placeholder}
+                  //     onChange={(e) =>
+                  //       setSelectedOptions({
+                  //         ...selectedOptions,
+                  //         [`option${index + 1}`]: e.target.value,
+                  //       })
+                  //     }
+                  //   />
+                  // </Line>
+                  <SearchDom>
+                   <SearchBox
+                   placeholder="키워드 검색"
+                   value={searchKeyword}
+                   onChange={(e) => setSearchKeyword(e.target.value)}
+                 />
+                 <AiOutlineSearch size={40} onClick={doSearch} />
+                 </SearchDom>
                 ) : (
                   <Line style={{ fontSize: '12px' }}>
                     <div>{config.placeholder}</div>
@@ -404,7 +404,14 @@ const Noti = () => {
                 )}
               </Dropdown>
             ))}
-            <AiOutlineSearch size={30} onClick={doSearch} />
+            {/* <SearchDom>
+              <SearchBox
+                placeholder="키워드 검색"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+              <AiOutlineSearch size={40} onClick={doSearch} />
+            </SearchDom> */}
           </DropdownDom>
         </Bar>
         <ContentDom>
@@ -428,31 +435,9 @@ const Noti = () => {
                   onClick={() => goNotice(item.id)}
                 />
                 <div>{item.title}</div>
-                <div>
-                  <img src={msgimg} />
-                  {item.comments_count}
-                </div>
               </Content>
             ))}
           {showReview &&
-            // recommend.map((item) => (
-            //   <Content key={item.id}>
-            //     <WriterDom>
-            //       <div>{item.username}</div>
-            //       <AiOutlineStar
-            //         size={20}
-            //         onClick={() => handleStorage(item.id, 'review')}
-            //         style={{ color: item.saved ? 'yellow' : 'black' }}
-            //       />
-            //     </WriterDom>
-            //     <PhotoBox
-            //       src={item.image}
-            //       alt={item.title}
-            //       onClick={() => goHue(item.id)}
-            //     />
-            //     <div>{item.title}</div>
-            //   </Content>
-            // ))
             review.map((item) => (
               <Content key={item.id}>
                 <WriterDom>
