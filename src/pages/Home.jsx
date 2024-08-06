@@ -233,7 +233,6 @@ const Home = () => {
       navigate('/test/0');
       return;
     }
-
     viewRecommend();
     viewSaved();
     viewTypeRecommend();

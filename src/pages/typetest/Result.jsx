@@ -55,6 +55,14 @@ const Result = () => {
   const toHome = () => {
     navigate('/');
   };
+  const goBingo = () => { 
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token) {
+      navigate('/login');
+      return;
+    }
+    navigate("/view");
+  };
 
   return (
     <>
@@ -78,7 +86,7 @@ const Result = () => {
         </ResultInfo>
         <ButtonDom>
           <ButtonLink as="button" onClick={goShare}> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
-          <ButtonLink as="button" style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/bingo">
+          <ButtonLink as="button" onClick={goBingo} style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }}>
             <FiArrowRightCircle/> 빙고판 채우러가기
           </ButtonLink>
         </ButtonDom>

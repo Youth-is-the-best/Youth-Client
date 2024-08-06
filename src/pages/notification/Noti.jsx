@@ -327,7 +327,9 @@ const Noti = () => {
             </Navigation>
           ))}
         </NavigationBar>
-        <Line style={{fontWeight:'900'}}>{selectedCategory}</Line>
+        <Line style={{fontWeight:'900'}}>
+          {selectedCategory ? selectedCategory : "카테고리를 선택해주세요"}
+        </Line>
         <Bar>
           <CheckDom>
             <Check onClick={() => setShowNotice(!showNotice)}>
