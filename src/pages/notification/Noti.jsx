@@ -13,6 +13,7 @@ import { GoCheck } from 'react-icons/go';
 import { getHueInfo } from '../../apis/testapis';
 import heartimg from '../../images/AiOutlineHeart.png';
 import msgimg from '../../images/AiOutlineMessage.png';
+import logo from '../../images/Logoimg.png';
 
 
 const Noti = () => {
@@ -312,7 +313,9 @@ const Noti = () => {
           }
         </LogoutBtn>
         <Headers>
-          <Logo to ="/">Logo</Logo>
+          <Logo to ="/">
+            <img src={logo}></img>
+          </Logo>
           <Nav>
             { isLoggedIn ?
             <>

@@ -103,5 +103,5 @@ export const ResultDom = styled.div`
   justify-content: center;
   align-items: center;
   padding : 100px;
-  color rgba(81, 81, 81, 1);
+  color: rgba(81, 81, 81, 1);
 `;

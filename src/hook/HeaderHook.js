@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import MyPageModal from "./MyPageModal";
 import modalopenimg from "../images/modalopen.png";
 import modalcloseimg from "../images/modalclose.png";
+import logoimg from "../images/Logoimg.png";
 
 const HeaderHook = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +27,9 @@ const HeaderHook = () => {
       <button onClick={handleLogout}>로그아웃</button>
     </LogoutBtn>
     <Headers>
-      <Logo to ="/">Logo</Logo>
+      <Logo to ="/">
+        <img src={logoimg}></img>
+      </Logo>
       <Nav>
         <Header to="/test/0">휴학 유형 테스트</Header>
         <Header to="/view">투두리스트 빙고</Header>
@@ -88,7 +91,11 @@ export const Header = styled(Link)`
 `;
 
 export const Logo = styled(Link)`
-  margin-left: 20px;
+  img {
+    width: 40px;
+    height: 40px;
+    margin-left: 100%;
+  }
 `;
 
 export const Nav = styled.div`
