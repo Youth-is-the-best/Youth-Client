@@ -43,6 +43,7 @@ function App() {
     <RecoilRoot>
     <BrowserRouter>
     <Routes>
+      <Route path="/madedinclient/:location" element={<ViewResult/>}></Route>
       <Route path="/hueRU/:type" element={<ViewResult/>}></Route>
       <Route path="/" element={<Introduce/>}></Route>
       <Route path="/bingo" element={<Home/>}></Route>

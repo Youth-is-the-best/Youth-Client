@@ -6,13 +6,17 @@ export const baseURL = "https://maknaengee.p-e.kr";
 export const postTest = async (reason) => {
     try {
         const access = localStorage.getItem("access_token");
-        if (!access) throw new Error("No access token found in localStorage");
-        const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason, {
-            headers: {
-                Authorization: `Bearer ${access}`
-            },
-        });
-        return response.data;
+        if (access) {
+            const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason, {
+                headers: {
+                    Authorization: `Bearer ${access}`
+                },
+            });
+            return response.data;
+        } else {
+            const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason);
+            return response.data;
+        }
     } catch (error) {
         if (error.response && error.response.status === 401) {
             alert("로그인 후 사용하실 수 있는 기능입니다");
@@ -24,14 +28,6 @@ export const postTest = async (reason) => {
             throw error;
         }
     }
-    //로그인 없는 버전
-    // try {
-    //     const response = await axios.post(`${baseURL}/typetest/submit-answer/`, reason);
-    //     return response.data;
-    // } catch (error) {
-    //     console.error('Error in postTest:', error.response ? error.response.data : error.message);
-    //     throw error;
-    // }
 }
 
 // 휴아유 추천 게시물 가져오기
