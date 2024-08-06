@@ -499,14 +499,16 @@ const Line = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 80px;
-  border-bottom: 0.2px solid rgba(30, 58, 138, 0.5);
+  height: 100px;
+  border-bottom: 0.2px solid rgba(30, 58, 138, 0.2);
   padding: 1%;
   padding-left: 4.8%;
-  font-size: 24px;
+  font-size: 20px;
+  font-weight: 700;
   color: rgba(30, 58, 138, 1);
-  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.2);
 `;
+
 const Bar = styled.div`
   display: flex;
   flex-direction: row;
@@ -559,11 +561,11 @@ const NavigationBar = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 20px;
   height: 50px;
   padding: 1%;
   margin-top: 2%;
-  border: 0.2px solid rgba(30, 58, 138, 1);
+  border-top: 0.2px solid rgba(30, 58, 138, 0.2);
+  border-bottom: 0.2px solid rgba(30, 58, 138, 1);
 `;
 const Navigation = styled(Link)`
   font-size: 20px;
@@ -588,10 +590,10 @@ const CheckDom = styled.div`
   gap: 10px;
 `;
 const Check = styled.div`
-color : rgba(142, 156, 196, 1);
- display: flex;
- align-items: center;
- cursor: pointer;
+  color : rgba(142, 156, 196, 1);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
 const CheckBox = styled.div`
   width: 16px;

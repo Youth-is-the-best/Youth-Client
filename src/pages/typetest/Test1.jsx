@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, Button } from './Test.jsx';
 import ProgressBar from '../../hook/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { answer2State } from '../../recoil/testatoms.jsx';
+import textLogo from '../../images/Frame 8.png';
 
 const Test1 = () => {
   const navigate = useNavigate();
@@ -35,10 +36,18 @@ const Test1 = () => {
     "newCareerExploration"
   ];
 
+  const toHome = () => {
+    navigate('/');
+  };
+
   return (
+    <>
+    <Header>
+      <img src={textLogo} style={{ width: '200px', height: '40px', cursor: 'pointer' }} onClick={toHome}></img>
+    </Header>
     <QuizDom>
       <ProgressBar currentStep={2} totalSteps={4} />
-      <QuestionContainer>휴학을 결정한 계기는 무엇인가요?</QuestionContainer>
+      <QuestionContainer>휴학을 선택한 계기는 무엇인가요?</QuestionContainer>
       <Answers>
         {reasons.map((reason, index) => (
           <Answer key={index} checked={answer2 === reason}>
@@ -65,6 +74,7 @@ const Test1 = () => {
         </Button>
       </ButtonDom>
     </QuizDom>
+    </>
   );
 
   function getReasonLabel(reason) {
@@ -92,6 +102,21 @@ const Test1 = () => {
 };
 
 export default Test1;
+
+const Header = styled.div`
+  width: 100%;
+  height: 11vh;
+  border-bottom: 1.5px solid #d9d9d9;
+  background-color: #1E3A8A;
+  text-align: center;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
 
 const Answers = styled.ul`
   display: flex;

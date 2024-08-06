@@ -16,6 +16,7 @@ const Signup = () => {
   const [username, setUsername] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [usernameAvailable, setUsernameAvailable] = useState(null);
+  const [referrerAvailable, setReferrerAvailable] = useState(null);
 
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -33,8 +34,6 @@ const Signup = () => {
   const toHome = () => {
     navigate('/');
   };
-
-  // const [referrerAvailable, setReferrerAvailable] = useState(null);
 
   //1.1.3 단과대 계열 선택 드롭다운
   const selectList = ["계열 선택", "인문계열", "사회계열", "교육계열", "공학계열", "자연계열", "의약계열", "예체능계열"];
@@ -94,14 +93,18 @@ const Signup = () => {
   };
 
   //1.1.4 추천인 아이디 확인
-  // const checkReferrer = async () => {
-  //   try {
-  //     const available = await isReferrerExist(referrer);
-  //     setReferrerAvailable(available);
-  //   } catch(error) {
-  //     setReferrerAvailable(null);
-  //   }
-  // };
+  const checkReferrer = async () => {
+    try {
+      const available = await isUsernameDuplicate(referrer);
+      setReferrerAvailable(available);
+    } catch(error) {
+      if (error.response && error.response.data) {
+        console.log('Error response data:', error.response.data);
+      } else {
+        console.log('Error:', error.message);
+      }
+    }
+  };
 
 
   //1.1.2 학교 이메일 인증
@@ -212,15 +215,20 @@ const Signup = () => {
             id="authCode" 
             type="text" 
             placeholder="인증번호 6자리" 
-            style={{ borderColor: authcodeError ? '#FF0000' : hash ? '#1E3A8A' : 'initial' }}/>
+            style={{ borderColor: hash ? '#1E3A8A' : authcodeError ? '#FF0000' : 'initial' }}/>
           <button onClick={checkAuthcode}>인증번호 확인</button>
         </FormGroup >
         }
         <MessageGroup>
-          { hash && <SuccessMessage>인증이 완료되었습니다.</SuccessMessage> }
-          { authcodeError && <ErrorMessage>{authcodeError}</ErrorMessage> }
-          {/* 삼항연산자로 인증완료 되면 errorMessage는 없어지게! */}
-          { remainingTime < 0 && <ErrorMessage>인증번호 입력 시간이 지났습니다. <br>인증번호 재발송을 요청해주세요.</br></ErrorMessage>}
+          {hash ? (
+            <SuccessMessage>인증이 완료되었습니다.</SuccessMessage>
+          ) : authcodeError ? (
+            <ErrorMessage>{authcodeError}</ErrorMessage>
+          ) : remainingTime < 0 ? (
+            <ErrorMessage>
+              인증번호 입력 시간이 지났습니다. <br />인증번호 재발송을 요청해주세요.
+            </ErrorMessage>
+          ) : null}
         </MessageGroup>
         <FormGroup>
           <Label htmlFor="school">학교 정보*</Label>
@@ -243,7 +251,7 @@ const Signup = () => {
             id="username" 
             type="text"
             placeholder="영문 대소문자, 숫자, 특수문자 _ 가능"
-            style={{ borderColor: usernameError && username.length ? '#FF0000' : usernameAvailable ? '#1E3A8A' : 'initial'}} />
+            style={{ borderColor: usernameError && username.length ? '#FF0000' : usernameAvailable ? '`#1E3A8A' : 'initial'}} />
           <button onClick={checkUsername}>중복 확인</button>
         </FormGroup>
         <MessageGroup>
@@ -291,17 +299,18 @@ const Signup = () => {
             onChange={onChangeReferrer} 
             id="referrer" 
             type="text"
-            // style={{ borderColor: referrerAvailable && referrer.length > 0 ? '#1E3A8A' : '#FF0000' }} 
+            style={{ borderColor: referrerAvailable === false && referrer.length > 0 ? '#1E3A8A' :
+              referrerAvailable === true && referrer.length > 0 ? '#FF0000' : 'initial'}} 
             />
-          <button onClick={checkUsername}>아이디 확인</button>
+          <button onClick={checkReferrer}>아이디 확인</button>
         </FormGroup>
-        {/* <MessageGroup>
+        <MessageGroup>
           {
-            referrerAvailable === true && <SuccessMessage>추천인 아이디 확인이 완료되었습니다.</SuccessMessage>
+            referrerAvailable === false && referrer.length > 0 && <SuccessMessage>추천인 아이디 확인이 완료되었습니다.</SuccessMessage>
           } {
-            referrerAvailable === false && <ErrorMessage>입력하신 아이디를 찾을 수 없습니다. 다시 입력해주세요.</ErrorMessage>
+            referrerAvailable === true && referrer.length > 0 && <ErrorMessage>입력하신 아이디를 찾을 수 없습니다. 다시 입력해주세요.</ErrorMessage>
           }
-        </MessageGroup> */}
+        </MessageGroup>
         <FormGroup style={{ paddingTop : 30 }}>
           <Label htmlFor="agreement">이용약관 동의*</Label>
           <AgreeForm>

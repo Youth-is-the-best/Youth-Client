@@ -10,6 +10,7 @@ import { FaDribbble } from 'react-icons/fa';
 import { FiHeadphones } from 'react-icons/fi';
 import { useRecoilState } from 'recoil';
 import { answer3State } from '../../recoil/testatoms.jsx';
+import textLogo from '../../images/Frame 8.png';
 
 const Test2 = ({ selectedAnswers, setSelectedAnswers }) => {
     const [answer3, setAnswer3] = useRecoilState(answer3State);
@@ -55,12 +56,20 @@ const Test2 = ({ selectedAnswers, setSelectedAnswers }) => {
         { text: "가족과의 시간", icon: <AiOutlineHome /> }, 
         { text: "진로 탐색", icon: <AiOutlineSearch /> }
     ];
+    
+    const toHome = () => {
+        navigate('/');
+    };
 
     return (
+        <>
+        <Header>
+          <img src={textLogo} style={{ width: '200px', height: '40px', cursor: 'pointer' }} onClick={toHome}></img>
+        </Header>
         <QuizDom>
             <ProgressBar currentStep={3} totalSteps={4} />
             <QuestionContainer>
-                휴학 기간 중 하고 싶은 활동을 선택하여 주세요
+                휴학 기간 중 하고 싶은 활동이 무엇인가요?
                 <Detail>*최대 5순위까지 선택해주세요</Detail>
             </QuestionContainer>
             <AnswerDom>
@@ -81,10 +90,26 @@ const Test2 = ({ selectedAnswers, setSelectedAnswers }) => {
                 <Button style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color:'white' }} onClick={handleNextClick}>다음</Button>
             </ButtonDom>
         </QuizDom>
+        </>
     );
 };
 
 export default Test2;
+
+const Header = styled.div`
+  width: 100%;
+  height: 11vh;
+  border-bottom: 1.5px solid #d9d9d9;
+  background-color: #1E3A8A;
+  text-align: center;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
 
 const Indexcircle = styled.div`
     border-radius: 50%;
