@@ -108,34 +108,34 @@ const Home = () => {
     }
   };
 
-  const getBackgroundColor = (inBingo, index) => {
-    if (inBingo) {
-      return 'white';
-    } else {
-      switch (index) {
-        case 0:
-          return 'rgba(30, 58, 138, 0.10)';
-        case 1:
-          return 'rgba(30, 58, 138, 0.15)';
-        case 2:
-          return 'rgba(30, 58, 138, 0.2)';
-        case 3:
-          return 'rgba(30, 58, 138, 0.25)';
-        case 4:
-          return 'rgba(30, 58, 138, 0.3)';
-        case 5:
-          return 'rgba(30, 58, 138, 0.35)';
-        case 6:
-          return 'rgba(30, 58, 138, 0.4)';
-        case 7:
-          return 'rgba(30, 58, 138, 0.45)';
-        case 8:
-          return 'rgba(30, 58, 138, 0.5)';
-        default:
-          return 'rgba(30, 58, 138, 0.1)';
-      }
-    }
-  };
+  // const getBackgroundColor = (inBingo, index) => {
+  //   if (inBingo) {
+  //     return 'white';
+  //   } else {
+  //     switch (index) {
+  //       case 0:
+  //         return 'rgba(30, 58, 138, 0.10)';
+  //       case 1:
+  //         return 'rgba(30, 58, 138, 0.15)';
+  //       case 2:
+  //         return 'rgba(30, 58, 138, 0.2)';
+  //       case 3:
+  //         return 'rgba(30, 58, 138, 0.25)';
+  //       case 4:
+  //         return 'rgba(30, 58, 138, 0.3)';
+  //       case 5:
+  //         return 'rgba(30, 58, 138, 0.35)';
+  //       case 6:
+  //         return 'rgba(30, 58, 138, 0.4)';
+  //       case 7:
+  //         return 'rgba(30, 58, 138, 0.45)';
+  //       case 8:
+  //         return 'rgba(30, 58, 138, 0.5)';
+  //       default:
+  //         return 'rgba(30, 58, 138, 0.1)';
+  //     }
+  //   }
+  // };
 
   const [draggingInfo, setDraggingInfo] = useState(null);
   const [draggingIndex, setDraggingIndex] = useState(null);
@@ -293,7 +293,7 @@ const Home = () => {
                   onDrop={() => handleDrop(index)}
                   onDragOver={handleDragOver}
                   inBingo={inBingo}
-                  style={{ background: getBackgroundColor(inBingo, index) }}
+                  // style={{ background: getBackgroundColor(inBingo, index) }}
                   onClick={() => inBingo ? clickBingo(bingo.location) : clickemptyBingo(bingo.location)}
                 >
                   {bingo.title || ''}
@@ -453,9 +453,15 @@ export const Bingo = styled.div.attrs((props) => ({
   border-radius: 10px;
   padding: 10px;
   margin: auto;
-  color: ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
-  border: ${({ inBingo }) => (inBingo ? '3px solid rgba(30, 58, 138, 0.9)' : '')};
-  box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px rgba(30, 58, 138, 0.4)' : 'none')};
+  border-radius: 10px;
+  opacity: var(--sds-size-stroke-border);
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.3s ease-in-out;
+  background :${({ inBingo }) => (inBingo ? 'linear-gradient(178.58deg, #FFFFFF -94.22%, #A3A3A3 151.7%)' : 'var(--gray-10, #F5F5F5)')};
+  box-shadow: ${({ inBingo }) => (inBingo ? '1px 1px 4px 0px #8E9CC4, -4px -4px 12px 0px #747474, 4px 4px 12px 0px #FFF' : '0px -2px 6px 0px rgba(0, 0, 0, 0.25) inset, 4px 4px 10px 0px rgba(0, 0, 0, 0.25) inset')};
 `;
 
 const Button = styled.div`

@@ -17,7 +17,7 @@ const BingoInfo = () => {
   const [isNotice, setIsNotice] = useState(false);
 
   const goHome = () => {
-    navigate("/bingo");
+    navigate("/view");
   };
 
   const getInfos = async (id) => {
