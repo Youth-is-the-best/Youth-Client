@@ -262,9 +262,9 @@ const Noti = () => {
       }));
       setNotice(notice);
       setReview(review);
-      // console.log(selectedOptions);
-      // console.log(searchParams);
-      // console.log(notice, review);
+      console.log(selectedOptions);
+      console.log(searchParams);
+      console.log(notice, review);
       
       if (notice.length === 0 && review.length === 0) {
         alert('검색 결과가 없습니다.');
@@ -324,14 +324,6 @@ const Noti = () => {
         <MyPageModal isOpen={isModalOpen}></MyPageModal>
       </HeaderofHome>
       <Body>
-        <SearchDom>
-          <SearchBox
-            placeholder="키워드 검색"
-            value={searchKeyword}
-            onChange={(e) => doKeywordSearch(e.target.value)}
-          />
-          <AiOutlineSearch size={40} onClick={doSearch} />
-        </SearchDom>
         <NavigationBar>
           {categorys.map((category) => (
             <Navigation key={category} onClick={() => handleCategoryClick(category)}>
@@ -375,18 +367,26 @@ const Noti = () => {
                     ))}
                   </select>
                 ) : config.type === "input" ? (
-                  <Line style={{ fontSize: '12px' }}>
-                    <input
-                      type="text"
-                      placeholder={config.placeholder}
-                      onChange={(e) =>
-                        setSelectedOptions({
-                          ...selectedOptions,
-                          [`option${index + 1}`]: e.target.value,
-                        })
-                      }
-                    />
-                  </Line>
+                  // <Line style={{ fontSize: '12px' }}>
+                  //   <input
+                  //     type="text"
+                  //     placeholder={config.placeholder}
+                  //     onChange={(e) =>
+                  //       setSelectedOptions({
+                  //         ...selectedOptions,
+                  //         [`option${index + 1}`]: e.target.value,
+                  //       })
+                  //     }
+                  //   />
+                  // </Line>
+                  <SearchDom>
+                   <SearchBox
+                   placeholder="키워드 검색"
+                   value={searchKeyword}
+                   onChange={(e) => setSearchKeyword(e.target.value)}
+                 />
+                 <AiOutlineSearch size={40} onClick={doSearch} />
+                 </SearchDom>
                 ) : (
                   <Line style={{ fontSize: '12px' }}>
                     <div>{config.placeholder}</div>
@@ -404,7 +404,14 @@ const Noti = () => {
                 )}
               </Dropdown>
             ))}
-            <AiOutlineSearch size={30} onClick={doSearch} />
+            {/* <SearchDom>
+              <SearchBox
+                placeholder="키워드 검색"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+              <AiOutlineSearch size={40} onClick={doSearch} />
+            </SearchDom> */}
           </DropdownDom>
         </Bar>
         <ContentDom>
