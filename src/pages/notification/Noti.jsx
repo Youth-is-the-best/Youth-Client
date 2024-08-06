@@ -6,13 +6,14 @@ import MyPageModal from '../../hook/MyPageModal'
 import modalopenimg from '../../images/modalopen.png'
 import modalcloseimg from '../../images/modalclose.png'
 import { Link } from 'react-router-dom';
-import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { getHandleNoticeSaved, getHandleReviewSaved, getReview, getSearchByCategory, getSearchByKeyword } from '../../apis/reviewapis';
 import { GoCheck } from 'react-icons/go';
-import heartimg from '../../images/AiOutlineHeart.png';
+import heartimg from '../../images/AiFillHeart.png';
 import msgimg from '../../images/AiOutlineMessage.png';
 import logo from '../../images/Logoimg.png';
+import search from '../../images/search.png';
 
 
 const Noti = () => {
@@ -71,7 +72,7 @@ const Noti = () => {
       { placeholder: "직무", type: "select", options: ["영업/고객상담", "경영/사무/회계", "마케팅/광고/홍보", "생산/제조", "연구개발/설계", "IT", "서비스", "무역/유통", "의료", "건설", "교육", "디자인", "전문/특수", "미디어", "기타"] },
       { placeholder: "채용형태", type: "select", options: ["신입", "경력", "계약직", "인턴", "아르바이트"] },
       { placeholder: "근무 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
-      { placeholder: "지원 마감", type: "date" },
+      { placeholder: "지원 마감", type: "date"},
       { placeholder: "키워드 검색", type: "input" },
     ],
     "자격증": [
@@ -377,14 +378,14 @@ const Noti = () => {
                   // </Line>
                   <SearchDom>
                    <SearchBox
-                   placeholder="키워드 검색"
-                   value={searchKeyword}
-                   onChange={(e) => setSearchKeyword(e.target.value)}
-                 />
-                 <AiOutlineSearch size={40} onClick={doSearch} />
-                 </SearchDom>
+                    placeholder="키워드 검색"
+                    value={searchKeyword}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                    />
+                    <img src={search} onClick={doSearch} />
+                  </SearchDom>
                 ) : (
-                  <Line style={{ fontSize: '12px' }}>
+                  <NewLine>
                     <div>{config.placeholder}</div>
                     <input
                       type={config.type}
@@ -396,7 +397,7 @@ const Noti = () => {
                         })
                       }
                     />
-                  </Line>
+                  </NewLine>
                 )}
               </Dropdown>
             ))}
@@ -415,8 +416,10 @@ const Noti = () => {
             notice.map((item) => (
               <Content key={item.id}>
                 <WriterDom>
-                  <div>{item.author}</div>
-                  <div>{item.created_at}</div>                  
+                  <UserDom>
+                    <div style={{fontSize: '16px', fontWeight:'700', marginLeft: '10px'}}>{item.author}</div>
+                    <div style={{fontSize: '13px', fontWeight:'500', color: 'rgba(116, 116, 116, 1)'}}>{item.created_at}</div>
+                  </UserDom>                
                   {item.saved ? (
                     <AiFillStar size={20} style={{ color: 'rgba(252, 211, 77, 1)' }} 
                     onClick={()=> handleStorage(item.id, 'notice')}/>
@@ -425,38 +428,38 @@ const Noti = () => {
                     onClick={()=> handleStorage(item.id, 'notice')}/>
                   )}
                 </WriterDom>
-                <PhotoBox
-                  src={item.image}
-                  alt={item.title}
-                  onClick={() => goNotice(item.id)}
-                />
-                <div>{item.title}</div>
+                <PhotoBox>
+                  <img src={item.image} alt={item.title} onClick={() => goNotice(item.id)} />
+                </PhotoBox>
+                <div style={{fontSize: '16px', fontWeight: '700', marginLeft: '3%', marginTop: '5%'}}>{item.title}</div>
               </Content>
             ))}
           {showReview &&
             review.map((item) => (
               <Content key={item.id}>
                 <WriterDom>
-                  <div>{item.author}</div>
-                  <div>{item.created_at}</div>
-                  <AiOutlineStar
-                    size={20}
-                    onClick={() => handleStorage(item.id, 'review')}
-                    style={{ color: item.saved ? 'yellow' : 'black' }}
-                  />
+                  <UserDom>
+                    <div style={{fontSize: '16px', fontWeight:'700', marginLeft: '5px'}}>{item.author}</div>
+                    <div style={{fontSize: '13px', fontWeight:'500', color: 'rgba(116, 116, 116, 1)'}}>{item.created_at}</div>
+                  </UserDom>
+                  {item.saved ? (
+                    <AiFillStar size={20} style={{ color: 'rgba(252, 211, 77, 1)' }} 
+                    onClick={()=> handleStorage(item.id, 'review')}/>
+                  ) : (
+                    <AiOutlineStar size={20} style={{ color: 'black' }} 
+                    onClick={()=> handleStorage(item.id, 'review')}/>
+                  )}
                 </WriterDom>
-                <PhotoBox
-                  src={item.image}
-                  alt={item.title}
-                  onClick={() => goReview(item.id)}
-                />
-                <div>{item.title}</div>
-                <div>
-                  <img src={heartimg} style={{ color: 'rgba(255, 0, 0, 1)', width: '20px', height:'20px' }} />
-                  {item.likes_count}{' '}
-                  <img src={msgimg} style={{ color: 'rgba(27, 52, 124, 1)', width: '20px', height:'20px' }} />
-                  {item.comments_count}
-                </div>
+                <PhotoBox>
+                  <img src={item.image} alt={item.title} onClick={() => goReview(item.id)} />
+                </PhotoBox>
+                <div style={{fontSize: '16px', fontWeight: '700', marginLeft: '3%', marginTop: '3%'}}>{item.title}</div>
+                <Comment>
+                  <img src={heartimg} style={{ width: '28px', height:'28px' }} />
+                  <span>{item.likes_count}</span>
+                  <img src={msgimg} style={{ color: 'rgba(27, 52, 124, 1)', width: '28px', height:'28px' }} />
+                  <span>{item.comments_count}</span>
+                </Comment>
               </Content>
             ))}
         </ContentDom>
@@ -505,6 +508,19 @@ const Line = styled.div`
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.2);
 `;
 
+const NewLine = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  padding: 1%;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(142, 156, 196, 1);
+  word-break: keep-all;
+
+`;
 const Bar = styled.div`
   display: flex;
   flex-direction: row;
@@ -516,25 +532,36 @@ const Bar = styled.div`
   font-size: 24px;
   color: rgba(142, 156, 196, 1);
 `;
+
 const DropdownDom = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 20px;
-  color: rgba(116, 116, 116, 1);
+  font-size: 14px;
+  color: rgba(142, 156, 196, 1);
   text-decoration: none;
   cursor: pointer;
   border: 0.4px solid rgba(27, 52, 124, 1);
   border-radius: 10px;
   height: 40px;
+  margin-right: 5%;
+  padding-left: 1%;
+  input {
+    border: none;
+  }
 `;
+
 const Dropdown = styled.div`
+  color: rgba(142, 156, 196, 1);
   select, input {
     font-size: 18px;
     padding: 5px;
-    border: 1px solid white;
+    border: none;
+    color: rgba(142, 156, 196, 1);
+    width: 140px;
   }
 `;
+
 const SearchDom = styled.div`
   display: flex;
   flex-direction: row;
@@ -542,16 +569,24 @@ const SearchDom = styled.div`
   width: 30%;
   height: 40%;
   border-radius: 40px;
-  border: 1px solid rgba(153, 166, 202, 1);
   padding: 15px 20px;
-  margin-left: auto;
+  img {
+    width: 24px;
+    height: 24px;
+  }
 `;
+
 const SearchBox = styled.input`
-  width: 100%;
+  width: 140px;
   height: 100%;
   border: none;
   font-size: 20px;
+  &::placeholder{
+    color: rgba(142, 156, 196, 1);
+    border: white;
+  }
 `;
+
 const NavigationBar = styled.div`
   display: flex;
   flex-direction: row;
@@ -563,6 +598,7 @@ const NavigationBar = styled.div`
   border-top: 0.2px solid rgba(30, 58, 138, 0.2);
   border-bottom: 0.2px solid rgba(30, 58, 138, 1);
 `;
+
 const Navigation = styled(Link)`
   font-size: 20px;
   font-weight: 600;
@@ -570,26 +606,26 @@ const Navigation = styled(Link)`
   text-decoration: none;
   cursor: pointer;
 `;
+
 const CheckDom = styled.div`
   width: 25%;
   color : rgba(142, 156, 196, 1);
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 10px;
-  margin-right: 10px;
   font-size: 20px;
   font-weight: 600;
+  gap: 10px;
   color: rgba(116, 116, 116, 1);
   text-decoration: none;
   cursor: pointer;
-  gap: 10px;
 `;
 const Check = styled.div`
   color : rgba(142, 156, 196, 1);
   display: flex;
   align-items: center;
   cursor: pointer;
+  padding-right: 20px;
 `;
 const CheckBox = styled.div`
   width: 16px;
@@ -607,16 +643,20 @@ const ContentDom = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  padding: 1%;
+  width: 88%;
+  margin: auto;
+  padding-left: 4%;
+  padding-top: 5%;
 `;
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 80%;
   height: 70%;
   color: rgba(27, 52, 124, 1);
-  padding: 3%;
+  padding-bottom: 10%;
   div {
     display: flex;
     align-items: center;
@@ -625,15 +665,35 @@ const Content = styled.div`
     }
   }
 `;
+
 const WriterDom = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+  svg {
+    margin-right: 2%;
+  }
 `;
-const PhotoBox = styled.img`
-  width: 350px;
-  height: 213px;
-  object-fit: cover;
-  border-radius: 10px;
+
+const UserDom = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: rgba(27, 52, 124, 1);
+  gap: 5px;
+`;
+
+const PhotoBox = styled.div`
+  img {
+    width: 350px;
+    height: 215px; 
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 2%;
+  }
+`;
+
+const Comment = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 1%;
 `;
