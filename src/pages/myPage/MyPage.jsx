@@ -73,7 +73,7 @@ const MyPage = () => {
               <InfoItem><InfoLabel>휴학 유형</InfoLabel><p>{userInfo.type_result}</p><button onClick={toResult}>유형 테스트 결과 보기</button></InfoItem>
               <InfoItem><InfoLabel>가입 이메일</InfoLabel><p>{userInfo.email}</p></InfoItem>
               <InfoItem><InfoLabel>요금제</InfoLabel><p>휴알유 basic</p><button style={{ width: '110px' }} onClick={scrollToPremium}>요금제 살펴보기</button></InfoItem>
-              <InfoItem><InfoLabel>포인트</InfoLabel><p>1,050p</p></InfoItem>
+              <InfoItem><InfoLabel>포인트</InfoLabel><p>1,000p</p></InfoItem>
             </Info>
           </MyInfoWrapper>
           <PremiumWrapper ref={premiumRef}>

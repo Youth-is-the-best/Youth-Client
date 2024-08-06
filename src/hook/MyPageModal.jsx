@@ -20,7 +20,7 @@ const MyPageModal = ({ isOpen }) => {
     <ModalWrapper>
       <ModalBtn>
         <img src={moneyimg} style={{width: '20px', height: '20px', marginRight: '5px'}}></img>
-        <span>1,050P</span>
+        <span>1,000P</span>
       </ModalBtn>
       <ModalBtn>
         <StyledButton onClick={toMyPage}>내 정보</StyledButton>
