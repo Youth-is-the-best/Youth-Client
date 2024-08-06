@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming} from '../apis/testapis';
+import { getBingo, getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming} from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import FooterHook from '../hook/FooterHook'
 import { RightDom } from './bingo/BingoInfo';
@@ -132,11 +132,29 @@ const Index = () => {
     navigate(`/madedbingo/${location}`);
   };
 
+  const getDdays = async () => {
+    try {
+      const get_response = await getDday();
+      if (get_response && get_response.display) {
+        setDday1(get_response.display.rest_dday_display);
+        setDday2(get_response.display.return_dday_display);
+        console.log(get_response);
+      } else {
+        setError('Invalid response structure');
+        console.error('Invalid response structure:', get_response);
+      }
+    } catch (error) {
+      setError('Error getting dates');
+      console.error('Error in getDday:', error.response ? error.response.data : error.message);
+    }
+  };
+
   useEffect(() => {
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
     getBingos();
+    getDdays();
   }, []);
 
   return (

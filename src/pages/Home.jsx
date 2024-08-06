@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
+import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import FooterHook from '../hook/FooterHook';
 import { RightDom } from './bingo/BingoInfo';
@@ -211,7 +211,7 @@ const Home = () => {
     }
   };
 
-  const getDday = async () => {
+  const getDdays = async () => {
     try {
       const get_response = await getDday();
       if (get_response && get_response.display) {
@@ -245,6 +245,7 @@ const Home = () => {
     //   navigate('/test/0');
     //   return;
     // }
+    getDdays();
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
