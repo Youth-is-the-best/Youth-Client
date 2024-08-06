@@ -6,11 +6,11 @@ import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import FooterHook from '../../hook/FooterHook';
 import { getBingoloc, postTodolist } from '../../apis/testapis';
-import { Category, CheckLists, CheckList, CheckBox, InputBox } from './MadeBingo';
+import { Category, CheckLists, CheckList, CheckBox} from './MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import Bingomain from './Bingomain';
 import { FiEdit3 } from 'react-icons/fi';
-
+import { RightDom,DateInfo ,TitleLine,Car} from './BingoInfo';
 const MadedBingo = () => {
   const navigate = useNavigate();
   const { location } = useParams();
@@ -103,66 +103,80 @@ const MadedBingo = () => {
           </TitleLine>
           <Line>
             <Category>분류</Category>
-            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>
+            <Category style={{  color: 'white' ,
+              border:'none',
+              opacity: 'var(--sds-size-stroke-border)',
+              background: 'linear-gradient(142deg, #FFF -204.94%, #1E3A8A 93.49%)',
+              boxShadow: '-4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset'
+            }}>
               {info ? info.large_category_display : 'Loading...'}
             </Category>
           </Line>
-          {info && info.host && (
+          {info && info.host ? (
             <Line>
-              <Category>주최사</Category>
+              <Car><Category>주최사</Category></Car>
+              
               <div>{info.host}</div>
             </Line>
-          )}
-          {info && info.field && (
+          ) : null}
+          {info && info.field ? (
             <Line>
-              <Category>활동 분야</Category>
+              <Car><Category>활동 분야</Category></Car>
+              
               <div>{info.field}</div>
             </Line>
-          )}
-          {info && info.app_fee && (
+          ) : null}
+          {info && info.app_fee ? (
             <Line>
-              <Category>응시료</Category>
+              <Car><Category>응시료</Category></Car>
+              
               <div>{info.app_fee}원</div>
             </Line>
-          )}
-          {info && info.duty && (
+          ) : null}
+          {info && info.duty ? (
             <Line>
-              <Category>직무</Category>
+              <Car><Category>직무</Category></Car>
+              
               <div>{info.duty}</div>
             </Line>
-          )}
-          {info && info.employment_form && (
+          ) : null}
+          {info && info.employment_form ? (
             <Line>
-              <Category>채용 형태</Category>
+              <Car><Category>채용 형태</Category></Car>
+              
               <div>{info.employment_form}</div>
             </Line>
-          )}
-          {info && info.area && (
+          ) : null}
+          {info && info.area ? (
             <Line>
-              <Category>활동 지역</Category>
+              <Car><Category>활동 지역</Category></Car>
+              
               <div>{info.area}</div>
             </Line>
-          )}
-          {info && info.app_due && (
+          ) : null}
+          {info && info.app_due ? (
             <Line>
-              <Category>지원 마감</Category>
+              <Car><Category>지원 마감</Category></Car>
+              
               <div>{info.app_due}</div>
             </Line>
-          )}
-          {info && info.prep_period && (
+          ) : null}
+          {info && info.prep_period ? (
             <Line>
-              <Category>준비 기간</Category>
+              <Car><Category>준비 기간</Category></Car>
+              
               <div>{info.prep_period}</div>
             </Line>
-          )}
-          {info && info.start_date && (
+          ) : null}
+          {info && info.start_date ? ((
             <Line>
-              <Category>활동 기간</Category>
+              <Car><Category>활동 기간</Category></Car>
+              
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
-          )}
-          <TitleLine>
-            <div> | 세부계획 <FiEdit3 onClick={doEdit}/> </div>
+          )) : null}
+          <TitleLine style={{fontSize : '20px'}}>
+            <div>| 세부계획 <FiEdit3 onClick={doEdit}/> </div>
           </TitleLine>
           <CheckLists>
             {checklists.map((item, index) => (
@@ -187,45 +201,6 @@ const MadedBingo = () => {
 
 export default MadedBingo;
 
-export const RightDom = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 550px;
-  height: 630px;
-  background: rgba(246, 247, 251, 1);
-  border-radius: 20px;
-  border: 0.4px solid rgba(30, 58, 138, 1);
-  box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
-  gap: 15px;
-  padding: 20px;
-  overflow-y: auto;
-`;
-
-const Button = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 20px;
-  padding: 10px;
-  gap: 10px;
-  border-radius: 10px;
-  background: rgba(30, 58, 138, 1);
-  color: white;
-`;
-
-const DateInfo = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 20px;
-  color: rgba(30, 58, 138, 0.6);
-  background: rgba(30, 58, 138, 0.1);
-  border-radius: 10px;
-  padding: 8px;
-  gap: 5px;
-`;
-
 const Line = styled.div`
   display: flex;
   flex-direction: row;
@@ -233,18 +208,4 @@ const Line = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
-`;
-
-const TitleLine = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 20px;
-  margin-left: 10px;
-  position: sticky;
-  top: 0;
-  background: rgba(246, 247, 251, 1);
-  z-index: 1;
 `;

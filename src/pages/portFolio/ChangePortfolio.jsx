@@ -13,6 +13,7 @@ import checkimg from '../../images/AiOutlineCheckSquare.png';
 import heartimg from '../../images/AiOutlineHeartRed.png';
 import { useForm } from '../../hook/useForm';
 import { getData, putFormData, postThisIsMe, postOthers, postBingo, delThisIsMe, delBingo, delOthers, getReview, getCertifiedReview } from '../../apis/portFolioapis';
+import { myInfo } from '../../apis/mypageapis';
 
 
 const ChangePortfolio = () => {
@@ -37,13 +38,12 @@ const ChangePortfolio = () => {
   const [everyReview, setEveryReview] = useState([]);
   const [certifiedReview, setCertifiedReview] = useState([]);
 
-  const {type} = useParams();
   const [typeImage, setTypeImage] = useState("");
+  const [userType,setUserType] = useState("");
 
   const [isChecked, setIsChecked] = useState(false);
 
   const router = useNavigate();
-
 
   //전체 데이터 get 해오기
   useEffect(() => {
@@ -92,24 +92,6 @@ const ChangePortfolio = () => {
     };
     fetchCertifiedReviews();
   }, [isChecked]);
-
-  
-  //유형화테스트 이미지 get
-  const getTypeTestResultImg = async(type) => {
-      try {
-          const response = await axios.get(`https://maknaengee.p-e.kr/typetest/result/${type}`);
-          setTypeImage(response.data.image);
-          return response.data;
-      } catch (error) {
-          console.error('Error in getInfo:', error.response ? error.response.data : error.message);
-          throw error;
-      }
-  }
-  useEffect(() => {
-      if(type) {
-      getTypeTestResultImg(type);
-      }
-  }, [type]);
 
   //textarea 크기 조정
   const handleResizeHeight = (e) => {
@@ -223,11 +205,12 @@ const ChangePortfolio = () => {
       <HeaderHook></HeaderHook>
       <BackgroundWrapper />
       <ProfileImage>
-        <input
+        <Image></Image>
+        {/* <input
           style={{ height: '128px', width: '128px', borderRadius: '50%' }}
           type='file'
           value={image} 
-          onChange={onChangeImage}></input>
+          onChange={onChangeImage}></input> */}
       </ProfileImage>
       <SaveBtn>
         <button onClick={handleSubmit} style={{ cursor: 'pointer' }}><img src={saveimg}></img></button>
@@ -417,6 +400,12 @@ const ChangePortfolio = () => {
 };
 
 export default ChangePortfolio;
+
+const Image = styled.div`
+height: 128px;
+ width: 128px;
+  borderRadius: 50px;
+`
 
 const BackgroundWrapper = styled.div`
  background-image: linear-gradient(to bottom, rgba(30, 58, 138, 0.8), #FFFFFF);

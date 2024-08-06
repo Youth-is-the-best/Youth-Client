@@ -306,7 +306,7 @@ export const TitleLine = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap: 20px;
-  background: rgba(246, 247, 251, 1);
+  background: white;
   margin-bottom: 15px;
   margin-left: 10px;
   position: sticky;

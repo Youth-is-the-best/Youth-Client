@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { FiThumbsUp } from 'react-icons/fi';
+import logoimg from "../images/Logoimg.png";
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
@@ -10,6 +10,7 @@ import FooterHook from '../hook/FooterHook';
 import { RightDom } from './bingo/BingoInfo';
 import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState, Day1State, Day2State } from '../recoil/atoms';
 import CustomCalendar from './bingo/CustomCalendar';
+import { FiThumbsUp } from 'react-icons/fi';
 
 const Home = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -105,35 +106,6 @@ const Home = () => {
     } catch (error) {
       setError('Error posting bingo data');
       console.error('Error in postBingo:', error.response ? error.response.data : error.message);
-    }
-  };
-
-  const getBackgroundColor = (inBingo, index) => {
-    if (inBingo) {
-      return 'white';
-    } else {
-      switch (index) {
-        case 0:
-          return 'rgba(30, 58, 138, 0.10)';
-        case 1:
-          return 'rgba(30, 58, 138, 0.15)';
-        case 2:
-          return 'rgba(30, 58, 138, 0.2)';
-        case 3:
-          return 'rgba(30, 58, 138, 0.25)';
-        case 4:
-          return 'rgba(30, 58, 138, 0.3)';
-        case 5:
-          return 'rgba(30, 58, 138, 0.35)';
-        case 6:
-          return 'rgba(30, 58, 138, 0.4)';
-        case 7:
-          return 'rgba(30, 58, 138, 0.45)';
-        case 8:
-          return 'rgba(30, 58, 138, 0.5)';
-        default:
-          return 'rgba(30, 58, 138, 0.1)';
-      }
     }
   };
 
@@ -293,7 +265,6 @@ const Home = () => {
                   onDrop={() => handleDrop(index)}
                   onDragOver={handleDragOver}
                   inBingo={inBingo}
-                  style={{ background: getBackgroundColor(inBingo, index) }}
                   onClick={() => inBingo ? clickBingo(bingo.location) : clickemptyBingo(bingo.location)}
                 >
                   {bingo.title || ''}
@@ -305,7 +276,7 @@ const Home = () => {
         </LeftDom>
         <RightDom>
           <div>
-            <FiThumbsUp /> 휴알유 추천
+          <FiThumbsUp /> 휴알유 추천
           </div>
           {recommend && recommend.length > 1 && (
             <RecommendDom>
@@ -328,7 +299,7 @@ const Home = () => {
               style={{
                 background: 'white',
                 color: 'rgba(30, 58, 138, 1)',
-                border: '1px solid rgba(30, 58, 138, 1)',
+              
               }}
             >
               {options.map((option, index) => (
@@ -371,6 +342,11 @@ const Home = () => {
 };
 
 export default Home;
+
+export const Logo = styled.div`
+  width : 10px;
+  height : 10px;
+`
 
 const LineDom = styled.div`
   display: flex;
@@ -453,9 +429,15 @@ export const Bingo = styled.div.attrs((props) => ({
   border-radius: 10px;
   padding: 10px;
   margin: auto;
-  color: ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
-  border: ${({ inBingo }) => (inBingo ? '3px solid rgba(30, 58, 138, 0.9)' : '')};
-  box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px rgba(30, 58, 138, 0.4)' : 'none')};
+  border-radius: 10px;
+  opacity: var(--sds-size-stroke-border);
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.3s ease-in-out;
+  background :${({ inBingo }) => (inBingo ? 'linear-gradient(178.58deg, #FFFFFF -94.22%, #A3A3A3 151.7%)' : 'var(--gray-10, #F5F5F5)')};
+  box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px #D9D9D9 inset, -4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset' : '0px -2px 6px 0px rgba(0, 0, 0, 0.25) inset, 4px 4px 10px 0px rgba(0, 0, 0, 0.25) inset')};
 `;
 
 const Button = styled.div`
@@ -493,7 +475,7 @@ export const RecommendCom = styled.div`
   padding: 10px;
 `;
 
-const InfoDom = styled.div`
+export const InfoDom = styled.div`
   height: 310px;
   display: flex;
   flex-wrap: wrap;
@@ -501,7 +483,7 @@ const InfoDom = styled.div`
   overflow-y: auto;
 `;
 
-const Info = styled.div`
+export const Info = styled.div`
   height: 40px;
   border-radius: 20px;
   background-color: white;
@@ -522,9 +504,13 @@ const Info = styled.div`
   span {
     margin-left: 5px;
   }
+  
+  // border: 2px solid var(--main-10, #E9ECF4);
+  opacity: var(--sds-size-stroke-border);
+
 `;
 
-const Selector = styled.select`
+export const Selector = styled.select`
   font-size: 15px;
   padding: 10px;
   border-radius: 10px;
