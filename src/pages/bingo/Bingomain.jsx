@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { MdOutlineEditCalendar } from 'react-icons/md';
-import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State } from '../../recoil/atoms';
+import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState } from '../../recoil/atoms';
 import { getBingo, getDday } from '../../apis/testapis';
 import { StyledDday1, StyledDday2 } from '../Home';
 import { Line } from './MadeBingo';
@@ -15,6 +15,7 @@ const Bingomain = () => {
   const [title, setTitle] = useRecoilState(titleState);
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
+  const [error, setError] = useEffect('');
 
   const getBingos = async () => {
     const response = await getBingo();
@@ -32,6 +33,24 @@ const Bingomain = () => {
     setBingos(bingos);
     setTitle(bingos.map((item) => item.title));
   };
+
+  const getDday = async () => {
+    try {
+      const get_response = await getDday();
+      if (get_response && get_response.display) {
+        setDday1(get_response.display.rest_dday_display);
+        setDday2(get_response.display.return_dday_display);
+        console.log(get_response);
+      } else {
+        setError('Invalid response structure');
+        console.error('Invalid response structure:', get_response);
+      }
+    } catch (error) {
+      setError('Error getting dates');
+      console.error('Error in getDday:', error.response ? error.response.data : error.message);
+    }
+  };
+
 
   const getBackgroundColor = (inBingo, index) => {
     if (inBingo) {
@@ -66,6 +85,9 @@ const Bingomain = () => {
     getBingos();
     }
   }, [bingos]);
+  useEffect(()=> {
+      getDday();
+  },[Dday1])
 
   return (
     <LeftDom>
@@ -73,6 +95,7 @@ const Bingomain = () => {
         <StyledDday1>{Dday1}</StyledDday1> 
         <StyledDday2>{Dday2}</StyledDday2>
       </Line>
+      <>{startDate}~{endDate}</>
       <h2>{username}의 빙고판</h2>
       <div style={{ color: 'grey' }}>
         투두리스트를 수정하세요.
