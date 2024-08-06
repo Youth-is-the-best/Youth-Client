@@ -193,7 +193,6 @@ const Home = () => {
     setEndDate(formattedEndDate);
 
     try {
-      getDday();
       const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
       setDday1(response.display.rest_dday_display);
       setDday2(response.display.return_dday_display);
@@ -530,3 +529,4 @@ const Line = styled.div`
   width: 100%;
   gap: 3%;
 `;
+
