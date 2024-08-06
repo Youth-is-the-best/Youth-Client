@@ -15,7 +15,7 @@ const Bingomain = () => {
   const [title, setTitle] = useRecoilState(titleState);
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
-  const [error, setError] = useEffect('');
+  
 
   const getBingos = async () => {
     const response = await getBingo();
@@ -42,11 +42,9 @@ const Bingomain = () => {
         setDday2(get_response.display.return_dday_display);
         console.log(get_response);
       } else {
-        setError('Invalid response structure');
         console.error('Invalid response structure:', get_response);
       }
     } catch (error) {
-      setError('Error getting dates');
       console.error('Error in getDday:', error.response ? error.response.data : error.message);
     }
   };
@@ -86,7 +84,8 @@ const Bingomain = () => {
     }
   }, [bingos]);
   useEffect(()=> {
-      getDday();
+    // i
+    //   getDday();
   },[Dday1])
 
   return (
