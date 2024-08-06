@@ -38,15 +38,12 @@ const Result = () => {
       setImage(response.image);
       setUsername(response.username);
       setUserTypeDisplay(response.user_type_display);
-    
-      // console.log(response);
-      console.log(answer);
     } catch (error) {
       setContent(["모든 문항을 답해주세요."]);
     }
   };
 
-  const goShare =()  => {
+  const goShare = () => {
     navigate(`/hueRU/${userType}`);
   };
 
@@ -64,14 +61,14 @@ const Result = () => {
         <Title>"{usertypedisplay}"</Title>
         <ResultInfo>
           {content.map((line, index) => (
-            <Line>
-              <p key={index}>{line}</p>
+            <Line key={index}>
+              <p>{line}</p>
             </Line>
           ))}
         </ResultInfo>
         <ButtonDom>
-          <ButtonLink onClick={goShare()}> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
-          <ButtonLink style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/bingo">
+          <ButtonLink as="button" onClick={goShare}> <FiShare2 /> 테스트 결과 공유하기 </ButtonLink>
+          <ButtonLink as="button" style={{ backgroundColor: 'rgba(30, 58, 138, 1)', color: 'white' }} to="/bingo">
             <FiArrowRightCircle/> 빙고판 채우러가기
           </ButtonLink>
         </ButtonDom>
@@ -111,5 +108,5 @@ export const ResultDom = styled.div`
   justify-content: center;
   align-items: center;
   padding : 100px;
-  color rgba(81, 81, 81, 1);
+  color: rgba(81, 81, 81, 1);
 `;
