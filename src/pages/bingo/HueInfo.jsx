@@ -61,12 +61,13 @@ const HueInfo = () => {
           </TitleLine>
           <Line>
             <Category>분류</Category>
-            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>자격증</Category>
-          </Line>
-          <Line>
-            <Category>작성자</Category>
-            <Line style={{ fontSize: '20px' }}>휴알유</Line>
-          </Line>
+            <Category style={{  color: 'white' ,
+              border:'none',
+              opacity: 'var(--sds-size-stroke-border)',
+              background: 'linear-gradient(142deg, #FFF -204.94%, #1E3A8A 93.49%)',
+              boxShadow: '-4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset'
+            }}>휴알유</Category>
+            </Line>
           <Line>
             {Array.isArray(content) && content.map((line, index) => (
               <div key={index}>{line}</div>
