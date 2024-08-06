@@ -117,7 +117,7 @@ const Index = () => {
       // console.log(isExecuted);
     } catch (error) {
       setError(error);
-      navigate("/bingo");s
+      navigate("/bingo");
     }
   };
 
