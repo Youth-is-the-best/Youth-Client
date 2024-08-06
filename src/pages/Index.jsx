@@ -28,6 +28,7 @@ const Index = () => {
   const [id, setId] = useState(bingoIdState);
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
+  const [isExecuted, setIsExecuted] = useState([]);
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -104,15 +105,19 @@ const Index = () => {
         id: response.bingo_obj.find((item) => item.location === index)?.id || '',
         location: index,
         title: response.bingo_obj.find((item) => item.location === index)?.title || '',
-      }));
+        }),
+      )
       setUsername(username);
       setStartDate(start_date);
       setEndDate(end_date);
       setBingos(bingoData);
       setTitle(bingoData.map((item) => item.title));
+      console.log(response);
+      const isExecuted = response.bingo_obj.map((item) => item.is_executed ? 1 : 0);
+      // console.log(isExecuted);
     } catch (error) {
       setError(error);
-      navigate("/bingo");
+      navigate("/bingo");s
     }
   };
 
@@ -138,7 +143,7 @@ const Index = () => {
       if (get_response && get_response.display) {
         setDday1(get_response.display.rest_dday_display);
         setDday2(get_response.display.return_dday_display);
-        console.log(get_response);
+        // console.log(get_response);
       } else {
         setError('Invalid response structure');
         console.error('Invalid response structure:', get_response);
@@ -175,7 +180,7 @@ const Index = () => {
               <Bingo
                 key={index}
                 inBingo={bingo.title !== ''}
-                
+                isExecuted={bingos.is_executed === 1}
                 onClick={() => clickBingo(index)}
               >
                 {bingo.title || ''}

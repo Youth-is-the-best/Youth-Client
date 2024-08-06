@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState } from '../../recoil/atoms';
 import { getBingo, getDday } from '../../apis/testapis';
-import { StyledDday1, StyledDday2,Bingo } from '../Home';
+import { StyledDday1, StyledDday2} from '../Home';
 import { Line } from './MadeBingo';
 
 const Bingomain = () => {
@@ -23,14 +23,14 @@ const Bingomain = () => {
     const bingos = Array.from({ length: 9 }, (_, index) => ({
       location: index,
       title: response.bingo_obj.find((item) => item.location === index)?.title || '',
-      is_executed: response.bingo_obj.find((item) => item.location === index)?.is_executed || false,
     }));
     setUsername(username);
     setStartDate(start_date);
     setEndDate(end_date);
     setBingos(bingos);
     setTitle(bingos.map((item) => item.title));
-    // console.log(response);
+    console.log(response);
+    console.log(bingos.is_executed);
   };
 
   const getDdays = async () => {
@@ -71,7 +71,7 @@ const Bingomain = () => {
           <Bingo
             key={index}
             inBingo={item.title !== ''}
-            isExecuted={item.is_executed == 1}
+            isExecuted={item.is_executed === 1}
           >
             {title[index]}
           </Bingo>
@@ -101,7 +101,26 @@ const BingoDom = styled.div`
   height: 550px;
 `;
 
-// const Bingo = styled.div.attrs((props) => ({
-//   'data-inbingo': props.inBingo,
-//   'data-isexecuted': props.isExecuted,
-// }))
+const Bingo = styled.div.attrs((props) => ({
+  'data-inbingo': props.inBingo,
+  'data-isexecuted': props.isExecuted,
+}))`
+width: 150px;
+height: 150px;
+font-size: 20px;
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 10px;
+padding: 10px;
+margin: auto;
+border-radius: 10px;
+opacity: var(--sds-size-stroke-border);
+color: white;
+text-align: center;
+cursor: pointer;
+outline: none;
+transition: box-shadow 0.3s ease-in-out;
+background :${({ isExecuted }) => (isExecuted ? 'blue' : 'linear-gradient(178.58deg, #FFFFFF -94.22%, #A3A3A3 151.7%)')};
+box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px #D9D9D9 inset, -4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset' : '0px -2px 6px 0px rgba(0, 0, 0, 0.25) inset, 4px 4px 10px 0px rgba(0, 0, 0, 0.25) inset')};
+`;

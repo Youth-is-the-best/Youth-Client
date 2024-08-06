@@ -217,7 +217,7 @@ const Home = () => {
       if (get_response && get_response.display) {
         setDday1(get_response.display.rest_dday_display);
         setDday2(get_response.display.return_dday_display);
-        console.log(get_response);
+        // console.log(get_response);
       } else {
         setError('Invalid response structure');
         console.error('Invalid response structure:', get_response);
