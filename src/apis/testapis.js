@@ -296,3 +296,14 @@ export const getDday = async () => {
         }
     }
 }
+
+//유형화테스트 결과만 보이는 화면
+export const getViewtype = async(type) => {
+    try{
+        const response = await axios.get(`${baseURL}typetest/result/${type}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error in getViewtype:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}

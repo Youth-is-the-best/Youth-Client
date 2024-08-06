@@ -280,7 +280,7 @@ const Noti = () => {
 
   useEffect(() => {
     getReviewsByCategory("CAREER");
-  }, []);
+  }, [review]);
 
   return (
     <>
