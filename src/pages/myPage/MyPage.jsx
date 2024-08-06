@@ -4,21 +4,23 @@ import HeaderHook from '../../hook/HeaderHook'
 import FooterHook from '../../hook/FooterHook';
 import { useNavigate } from 'react-router-dom';
 import { myInfo } from '../../apis/mypageapis';
-import { getTypeTestResult } from '../../apis/viewResultapis';
-
-
+import { getViewtype } from '../../apis/testapis';
 
 const MyPage = () => {
   const [userInfo, setUserInfo] = useState({ name: '', username: '', type_result: '', email: ''});
   const [userType, setUserType] = useState('');
+  const [userTypeDisplay, setUserTypeDisplay] = useState('');
   const premiumRef = useRef(null);
   const router = useNavigate();
-
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       const data = await myInfo();
+      // console.log(data);
       setUserInfo(data);
+      setUserType(data.type_result);
+      setUserTypeDisplay(data.type_result_display);
+      // console.log(userType);
     };
     fetchUserInfo();
   }, [])
@@ -33,33 +35,9 @@ const MyPage = () => {
     alert('준비중입니다... 🐇🐇')
   };
 
-  const toResult = (userType) => {
-    const fetchTypeTest = async () => {
-      try {
-        const response = await getTypeTestResult();
-        setUserType(response.user_type);
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    };
-    fetchTypeTest();
+  const toResult =() => {
     router(`/hueRU/${userType}`);
-  };
-
-  /* useEffect(() => {
-    const fetchTypeTest = async () => {
-      try {
-        const response = await getTypeTestResult();
-        setUserType(response.user_type);
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    };
-    fetchTypeTest();
-  }, [toResult()]); */
-
+  }
 
   return (
     <>
@@ -70,7 +48,7 @@ const MyPage = () => {
             <Info>
               <InfoItem><InfoLabel>이름</InfoLabel><p>{userInfo.name}</p></InfoItem>
               <InfoItem><InfoLabel>닉네임</InfoLabel><p>{userInfo.username}</p></InfoItem>
-              <InfoItem><InfoLabel>휴학 유형</InfoLabel><p>{userInfo.type_result}</p><button onClick={toResult}>유형 테스트 결과 보기</button></InfoItem>
+              <InfoItem><InfoLabel>휴학 유형</InfoLabel><p>{userTypeDisplay}</p><button onClick={toResult}>유형 테스트 결과 보기</button></InfoItem>
               <InfoItem><InfoLabel>가입 이메일</InfoLabel><p>{userInfo.email}</p></InfoItem>
               <InfoItem><InfoLabel>요금제</InfoLabel><p>휴알유 basic</p><button style={{ width: '110px' }} onClick={scrollToPremium}>요금제 살펴보기</button></InfoItem>
               <InfoItem><InfoLabel>포인트</InfoLabel><p>1,050p</p></InfoItem>
