@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getBingoloc } from '../../apis/testapis';
 import { postReview } from '../../apis/reviewapis';
 import check from '../../images/FiCheck.png';
+import { CheckList } from '../bingo/MadeBingo';
 
 const MadeDragReview = () => {
   const { location } = useParams();
@@ -94,9 +95,9 @@ const MadeDragReview = () => {
       </Line>
       <BigBody>
         <Body>
-          <Line>
+          <TitleLine>
             <StyledTitle>{info ? `| ${info.title}` : 'Loading...'}</StyledTitle>
-          </Line>
+          </TitleLine>
           <InfoDom>
             {info && info.large_category_display ? (
               <Line>
@@ -107,55 +108,55 @@ const MadeDragReview = () => {
             {info && info.host && (
               <Line>
                 <Category>주최사</Category>
-                <div>{info.host}</div>
+                <span>{info.host}</span>
               </Line>
             )}
             {info && info.field && (
               <Line>
                 <Category>활동 분야</Category>
-                <div>{info.field}</div>
+                <span>{info.field}</span>
               </Line>
             )}
             {info && info.app_fee && (
               <Line>
                 <Category>응시료</Category>
-                <div>{info.app_fee}원</div>
+                <span>{info.app_fee}원</span>
               </Line>
             )}
             {info && info.duty && (
               <Line>
                 <Category>직무</Category>
-                <div>{info.duty}</div>
+                <span>{info.duty}</span>
               </Line>
             )}
             {info && info.employment_form && (
               <Line>
                 <Category>채용 형태</Category>
-                <div>{info.employment_form}</div>
+                <span>{info.employment_form}</span>
               </Line>
             )}
             {info && info.area && (
               <Line>
                 <Category>활동 지역</Category>
-                <div>{info.area}</div>
+                <span>{info.area}</span>
               </Line>
             )}
             {info && info.app_due && (
               <Line>
                 <Category>지원 마감</Category>
-                <div>{info.app_due}</div>
+                <span>{info.app_due}</span>
               </Line>
             )}
             {info && info.prep_period && (
               <Line>
                 <Category>준비 기간</Category>
-                <div>{info.prep_period}</div>
+                <span>{info.prep_period}</span>
               </Line>
             )}
             {info && info.start_date && (
               <Line>
                 <Category>활동 기간</Category>
-                <div>{info.start_date} ~ {info.end_date}</div>
+                <span>{info.start_date} ~ {info.end_date}</span>
               </Line>
             )}
           </InfoDom>
@@ -164,10 +165,10 @@ const MadeDragReview = () => {
               <ReviewLabel>세부 계획</ReviewLabel>
               <ReviewContent>
                 {todo.map((item) => (
-                    <Line>
+                    <CheckLists>
                       <img src={check} style={{width: '20px', height: '20px'}} />
                       <div>{item.title}</div>
-                    </Line>
+                    </CheckLists>
                 ))}
               </ReviewContent>
             </Line>
@@ -188,7 +189,9 @@ const MadeDragReview = () => {
                   placeholder="준비 과정 및 소감을 입력하세요" />
             </Line>
           </ReviewDom>
-          <Infobutton onClick={postReviews}>목표 달성 기록 남기기</Infobutton>
+          <Reviewbutton>
+            <button onClick={postReviews}>목표 달성 기록 남기기</button>
+          </Reviewbutton>
         </Body>
       </BigBody>
       <FooterHook />
@@ -201,10 +204,28 @@ export default MadeDragReview;
 const Line = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   padding: 10px;
-  div {
+  span {
+    font-size: 16px;
+    font-weight: 700;
+  }
+`;
 
+const TitleLine = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+`;
+
+const CheckLists = styled.div`
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  img {
+    margin-right: 10px;
+  }
+  div {
+    margin-bottom: 20px;
   }
 `;
 
@@ -212,9 +233,8 @@ const ReviewDom = styled.div`
   display: flex;
   flex-direction: column;
   width: 60%;
-  gap: 10px;
+  gap: 30px;
   width: 100%;
-  padding-top: 4%;
   padding-bottom: 4%;
 `
 
@@ -228,7 +248,8 @@ const ReviewLabel = styled.div`
 `;
 
 const ReviewContent = styled.div`
-  
+  display: flex;
+  flex-direction: column;
 `;
 
 const BigBody = styled.div`
@@ -260,19 +281,20 @@ const Infobutton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
-  color: rgba(81, 81, 81, 1);
-  min-width: 100px;
-  padding-left: 10px;
-  padding-right: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  border: none;
+  background-color: rgba(30, 58, 138, 1);
+  width: 60px;
   height: 30px;
-  border: 0.2px solid rgba(81, 81, 81, 1);
-  border-radius: 10px;
-`
+  border-radius: 8px;
+`;
+
 const InfoDom = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
   width: 100%;
   padding-top: 4%;
   padding-bottom: 4%;
@@ -287,7 +309,7 @@ const Category = styled.div`
   color: rgba(27, 52, 124, 1);
 `
 
-const InputBox = styled.div`
+const InputBox = styled.input`
   color: rgba(142, 156, 196, 1);
   border: 0.4px solid rgba(142, 156, 196, 1);
   border-radius: 10px;
@@ -296,5 +318,24 @@ const InputBox = styled.div`
   width: 460px;
   &::placeholder{
     color: rgba(142, 156, 196, 1);
+  }
+`;
+
+const Reviewbutton = styled.div`
+  display: flex;
+  justify-content: end;
+  margin-right: 10%;
+  margin-top: 10%;
+  button {
+    width: 250px;
+    height: 44px;
+    background-color: rgba(27, 52, 124, 1);
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 700;
   }
 `;
