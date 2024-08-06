@@ -186,10 +186,24 @@ const Noti = () => {
   const navigate = useNavigate();
 
   const goReview = (id) => {
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token) {
+      alert("로그인이 필요한 기능입니다.");
+      navigate('/login');
+      return;
+    } else {
     navigate(`/viewreview/${id}`);
+    }
   };
   const goNotice = (id) => {
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token) {
+      alert("로그인이 필요한 기능입니다.");
+      navigate('/login');
+      return;
+    } else {
     navigate(`/viewnotice/${id}`);
+    }
   };
   const doKeywordSearch = async () => {
     try {
