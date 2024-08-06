@@ -23,6 +23,7 @@ const ReadPortfolio = () => {
   const [username, setUsername] = useState('');
   const [everyReview, setEveryReview] = useState([]);
   const [certifiedReview, setCertifiedReview] = useState([]);
+  const [image, setImage] = useState('');
 
   const [isChecked, setIsChecked] = useState(false);
   const router = useNavigate();
@@ -37,6 +38,8 @@ const ReadPortfolio = () => {
         setNewAboutMeTexts(response.this_is_me);
         setNewBingoTexts(response.bingo_complete);
         setNewOthersTexts(response.other_complete);
+        setImage(response.basic_information.image);
+        // console.log(response);
       } catch (error) {
         console.error(error);
         throw error;
@@ -91,7 +94,7 @@ const ReadPortfolio = () => {
     <HeaderHook></HeaderHook>
     <BackgroundWrapper></BackgroundWrapper>
     <ProfileImage>
-        <img src={다람쥐} style={{ height: '128px', width: '128px', borderRadius: '50%'}}></img>
+      <img src={image} style={{ height: '128px', width: '128px', borderRadius: '50%'}}></img>
     </ProfileImage>
     <ChangeBtn>
       <button onClick={toChangeMode}><img src={editimg}></img></button>

@@ -24,7 +24,8 @@ const ChangePortfolio = () => {
   const [email, onChangeEmail] = useForm();
   const [modifier, setModifier] = useState('');
   const [schoolMajor, onChangeSchMajor] = useForm();
-  const [image, onChangeImage] = useForm();
+  // const [image, onChangeImage] = useForm();
+  const [image, setImage] = useState('');
 
   const [aboutMeTexts, onChangeAboutMeTexts] = useForm(); //post용
   const [bingoTexts, onChangeBingoTexts] = useForm();
@@ -55,6 +56,8 @@ const ChangePortfolio = () => {
         setNewAboutMeTexts(response.this_is_me);
         setNewBingoTexts(response.bingo_complete);
         setNewOthersTexts(response.other_complete);
+        setImage(response.basic_information.image);
+        
       } catch (error) {
         console.error(error);
         throw error;
@@ -205,12 +208,7 @@ const ChangePortfolio = () => {
       <HeaderHook></HeaderHook>
       <BackgroundWrapper />
       <ProfileImage>
-        <Image></Image>
-        {/* <input
-          style={{ height: '128px', width: '128px', borderRadius: '50%' }}
-          type='file'
-          value={image} 
-          onChange={onChangeImage}></input> */}
+        <img src={image} style={{ height: '128px', width: '128px', borderRadius: '50%'}}></img>
       </ProfileImage>
       <SaveBtn>
         <button onClick={handleSubmit} style={{ cursor: 'pointer' }}><img src={saveimg}></img></button>

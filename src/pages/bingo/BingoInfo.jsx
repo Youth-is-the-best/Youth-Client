@@ -8,6 +8,7 @@ import { getInfo, getReviewInInfo } from '../../apis/testapis';
 import { Category } from './MadeBingo';
 import Bingomain from './Bingomain';
 import FooterHook from '../../hook/FooterHook';
+import { Content, PhotoBox, UserDom, WriterDom } from '../notification/Noti';
 
 const BingoInfo = () => {
   const navigate = useNavigate();
@@ -39,6 +40,8 @@ const BingoInfo = () => {
         duty: response.duty,
         is_notice: response.is_notice,
         notice_id: response.notice_id,
+        author:response.author,
+        created_at:response.created_at,
       };
       setTitle(info.title);
       setInfo(info);
@@ -58,6 +61,8 @@ const BingoInfo = () => {
         id: item.id,
         title: item.title,
         image: item.images[0]?.image || '',
+        author:item.author,
+        created_at:item.created_at,
       }));
       setReview(review);
       // console.log(response);
@@ -95,7 +100,7 @@ const BingoInfo = () => {
               <DateInfo onClick={()=> goNotice(info.notice_id)}>더 많은 정보 보러가기<MdOutlineNearMe size={20}/> </DateInfo>
             )}
           </TitleLine>
-          <TitleLine>
+          <TitleLine style={{marginTop:'0'}}>
             <h1>{info ? info.title : 'Loading...'}</h1>
           </TitleLine>
           <Line>
@@ -179,13 +184,27 @@ const BingoInfo = () => {
             <h3>[{title}] 빙고 미션 완료 후기</h3>
           </TitleLine>
           <ReviewDom>
-            {review.map((item) => (
+              {review.map((item) => (
+                <Content key={item.id}>
+                  <WriterDom>
+                    <UserDom>
+                      <div style={{fontSize: '16px', fontWeight:'700', marginLeft: '10px'}}>{item.author}</div>
+                      <div style={{fontSize: '13px', fontWeight:'500', color: 'rgba(116, 116, 116, 1)'}}>{item.created_at}</div>
+                    </UserDom>
+                  </WriterDom>
+                  <PhotoBox>
+                    <img src={item.image} alt={item.title} onClick={() => goReview(item.id)} />
+                  </PhotoBox>
+                  <div style={{fontSize: '16px', fontWeight: '700', marginLeft: '3%', marginTop: '5%'}}>{item.title}</div>
+                </Content>
+              ))}
+            {/* {review.map((item) => (
               <Review key={item.id}
                onClick={()=>goReview(item.id)}>
                 <img src={item.image} alt={item.title} style={{ width: '90%', height: '80%', borderRadius: '10px' }} />
                 <div>{item.title}</div>
-              </Review>
-            ))}
+              </Review> */}
+            {/* ))} */}
           </ReviewDom>
         </RightDom>
       </Body>
@@ -208,7 +227,9 @@ export const RightDom = styled.div`
   width: 550px;
   height: 630px;
   gap: 15px;
-  padding: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   overflow-x: auto;
 
   border-radius: 10px;
@@ -248,6 +269,7 @@ export const TitleLine = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap: 20px;
+  margin-top : 20px;
   margin-left: 10px;
   background: white;
   position: sticky;
@@ -260,7 +282,7 @@ export const ReviewDom = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 50%;
+  height: 70%;
   flex-shrink: 0;
   border-radius: 10px;
   gap: 10px;

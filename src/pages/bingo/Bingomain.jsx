@@ -30,7 +30,7 @@ const Bingomain = () => {
     setEndDate(end_date);
     setBingos(bingos);
     setTitle(bingos.map((item) => item.title));
-    console.log(response);
+    // console.log(response);
   };
 
   const getDdays = async () => {

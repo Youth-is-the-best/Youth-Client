@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import logoimg from "../images/Logoimg.png";
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
+import { getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import FooterHook from '../hook/FooterHook';
 import { RightDom } from './bingo/BingoInfo';
@@ -229,13 +228,18 @@ const Home = () => {
   };
 
   useEffect(() => {
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token) {
+      navigate('/test/0');
+      return;
+    }
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
     if (bingos.length === 0) {
       fetchBingoData();
     }
-  }, [bingoObject]);
+  }, [bingoObject, navigate]);
 
   return (
     <>
@@ -274,7 +278,7 @@ const Home = () => {
           </BingoDom>
           <Button style={{ marginLeft: '473px', marginTop: '4px' }} onClick={postBingos}>완료</Button>
         </LeftDom>
-        <RightDom>
+        <RightDom style={{paddingTop : '20px'}}>
           <div>
           <FiThumbsUp /> 휴알유 추천
           </div>
