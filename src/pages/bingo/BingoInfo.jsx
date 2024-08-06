@@ -15,9 +15,10 @@ const BingoInfo = () => {
   const [info, setInfo] = useState(null);
   const [review, setReview] = useState([]);
   const [isNotice, setIsNotice] = useState(false);
+  const [title, setTitle]= useState('');
 
   const goHome = () => {
-    navigate("/bingo");
+    navigate("/view");
   };
 
   const getInfos = async (id) => {
@@ -39,6 +40,7 @@ const BingoInfo = () => {
         is_notice: response.is_notice,
         notice_id: response.notice_id,
       };
+      setTitle(info.title);
       setInfo(info);
       setIsNotice(info.is_notice);
       // console.log(info);
@@ -97,67 +99,84 @@ const BingoInfo = () => {
             <h1>{info ? info.title : 'Loading...'}</h1>
           </TitleLine>
           <Line>
+            <Car>
             <Category>분류</Category>
-            <Category style={{ background: 'rgba(30, 58, 138, 1)', color: 'white' }}>
+            </Car>
+            
+            <Category style={{  color: 'white' ,
+              border:'none',
+              opacity: 'var(--sds-size-stroke-border)',
+              background: 'linear-gradient(142deg, #FFF -204.94%, #1E3A8A 93.49%)',
+              boxShadow: '-4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset'
+            }}>
               {info ? info.large_category_display : 'Loading...'}
             </Category>
           </Line>
           {info && info.host ? (
             <Line>
-              <Category>주최사</Category>
+              <Car><Category>주최사</Category></Car>
+              
               <div>{info.host}</div>
             </Line>
           ) : null}
           {info && info.field ? (
             <Line>
-              <Category>활동 분야</Category>
+              <Car><Category>활동 분야</Category></Car>
+              
               <div>{info.field}</div>
             </Line>
           ) : null}
           {info && info.app_fee ? (
             <Line>
-              <Category>응시료</Category>
+              <Car><Category>응시료</Category></Car>
+              
               <div>{info.app_fee}원</div>
             </Line>
           ) : null}
           {info && info.duty ? (
             <Line>
-              <Category>직무</Category>
+              <Car><Category>직무</Category></Car>
+              
               <div>{info.duty}</div>
             </Line>
           ) : null}
           {info && info.employment_form ? (
             <Line>
-              <Category>채용 형태</Category>
+              <Car><Category>채용 형태</Category></Car>
+              
               <div>{info.employment_form}</div>
             </Line>
           ) : null}
           {info && info.area ? (
             <Line>
-              <Category>활동 지역</Category>
+              <Car><Category>활동 지역</Category></Car>
+              
               <div>{info.area}</div>
             </Line>
           ) : null}
           {info && info.app_due ? (
             <Line>
-              <Category>지원 마감</Category>
+              <Car><Category>지원 마감</Category></Car>
+              
               <div>{info.app_due}</div>
             </Line>
           ) : null}
           {info && info.prep_period ? (
             <Line>
-              <Category>준비 기간</Category>
+              <Car><Category>준비 기간</Category></Car>
+              
               <div>{info.prep_period}</div>
             </Line>
           ) : null}
           {info && info.start_date ? ((
             <Line>
-              <Category>활동 기간</Category>
+              <Car><Category>활동 기간</Category></Car>
+              
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
           )) : null}
           <TitleLine>
-            <h2>빙고 미션 완료 후기</h2>
+            <h3>[{title}] 빙고 미션 완료 후기</h3>
           </TitleLine>
           <ReviewDom>
             {review.map((item) => (
@@ -177,41 +196,38 @@ const BingoInfo = () => {
 
 export default BingoInfo;
 
+export const Car = styled.div`
+display: flex;
+width : 100px;
+// padding-left : 10px;
+`
+
 export const RightDom = styled.div`
   display: flex;
   flex-direction: column;
   width: 550px;
   height: 630px;
-  background: rgba(246, 247, 251, 1);
-  border-radius: 20px;
-  border: 0.4px solid rgba(30, 58, 138, 1);
-  box-shadow: 0px 4px 4px 0px rgba(30, 58, 138, 0.25);
   gap: 15px;
   padding: 20px;
   overflow-x: auto;
-`;
 
-const Button = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 20px;
-  padding: 10px;
-  gap: 10px;
   border-radius: 10px;
-  background: rgba(30, 58, 138, 1);
-  color: white;
+border: 0.4px solid var(--gray-40, #C4C4C4);
+opacity: var(--sds-size-stroke-border);
+// background: #FFF;
+box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
 `;
 
-const DateInfo = styled.div`
+export const DateInfo = styled.div`
+color : white;
+border-radius: 8px;
+opacity: var(--sds-size-stroke-border);
+background: #A5B0D0;
+box-shadow: 2px 2px 4px 0px #D9D9D9 inset, -4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 20px;
-  color: rgba(30, 58, 138, 0.6);
-  background: rgba(30, 58, 138, 0.1);
-  border-radius: 10px;
   padding: 8px;
   gap: 5px;
 `;
@@ -225,7 +241,7 @@ const Line = styled.div`
   margin-left: 10px;
 `;
 
-const TitleLine = styled.div`
+export const TitleLine = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -233,7 +249,7 @@ const TitleLine = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
-  background: rgba(246, 247, 251, 1);
+  background: white;
   position: sticky;
   top: 0;
   z-index: 1;

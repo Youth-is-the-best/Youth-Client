@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming } from '../apis/testapis';
+import { getBingo, getHueInfo, getSaved, getTypeRecommend, getUpcomming} from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import FooterHook from '../hook/FooterHook'
 import { RightDom } from './bingo/BingoInfo';
-import { RecommendDom, RecommendCom, StyledDday1, StyledDday2 } from './Home';
+import { RecommendDom, RecommendCom, StyledDday1, StyledDday2,Body,InfoDom,Info,Selector  } from './Home';
 import { bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State } from '../recoil/atoms';
 
 const Index = () => {
@@ -263,37 +263,6 @@ const Index = () => {
 
 export default Index;
 
-export const Headers = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
-  align-items: center;
-  padding-right: 3rem;
-  gap: 20px;
-  height: 64px;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.08);
-  font-size: 20px;
-  color: rgba(30, 58, 138, 1);
-`;
-
-export const Header = styled(Link)`
-  color: rgba(30, 58, 138, 1);
-  text-decoration: none;
-`;
-
-export const Body = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2%;
-  width: 100%;
-  color: #1e3a8a;
-  height: 660px;
-  gap: 10px;
-  margin-bottom: 10%;
-`;
-
 const LeftDom = styled.div`
   display: flex;
   flex-direction: column;
@@ -327,59 +296,6 @@ export const Bingo = styled.div.attrs((props) => ({
   color: ${({ inBingo }) => (inBingo ? 'rgba(30, 58, 138, 1)' : 'rgba(30, 58, 138, 0.01)')};
   border: ${({ inBingo }) => (inBingo ? '3px solid rgba(30, 58, 138, 0.9)' : '')};
   box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px rgba(30, 58, 138, 0.4)' : 'none')};
-`;
-
-const Button = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 16px;
-  padding: 10px;
-  border-radius: 10px;
-  background: rgba(30, 58, 138, 1);
-  color: white;
-`;
-
-const InfoDom = styled.div`
-  height: 310px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  overflow-y: auto;
-`;
-
-const Info = styled.div`
-  height: 40px;
-  border-radius: 20px;
-  background-color: white;
-  border: 1px solid rgb(207, 209, 218);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 60px;
-  padding: 0 10px;
-  gap: 5px;
-  scroll-snap-align: start;
-  position: relative;
-  &:hover {
-    background-color: rgba(30, 58, 138, 0.2);
-    color: #1e3a8a;
-  }
-  span {
-    margin-left: 5px;
-  }
-`;
-
-const Selector = styled.select`
-  font-size: 15px;
-  padding: 10px;
-  border-radius: 10px;
-  width: 110px;
-  border: none;
-  background: rgba(30, 58, 138, 1);
-  color: white;
 `;
 
 const Line = styled.div`

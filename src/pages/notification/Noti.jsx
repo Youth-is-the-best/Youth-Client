@@ -17,7 +17,7 @@ import search from '../../images/search.png';
 
 
 const Noti = () => {
-  const [selectedCategory, setSelectedCategory] = useState("채용(인턴)");
+  const [selectedCategory, setSelectedCategory] = useState();
   const [notice, setNotice] = useState([]);
   const [review, setReview] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -278,7 +278,7 @@ const Noti = () => {
   const goHue = (id) => {
     navigate(`/viewhue/${id}`);
   };
-  
+
   return (
     <>
       <HeaderofHome>
