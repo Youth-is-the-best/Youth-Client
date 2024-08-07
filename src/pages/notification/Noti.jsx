@@ -159,27 +159,33 @@ const Noti = () => {
   };
 
   const handleStorage = async (id, type) => {
-    try {
-      if (type === 'notice') {
-        const response = await getHandleNoticeSaved(id);
-        setNotice((prevNotice) =>
-          prevNotice.map((item) =>
-            item.id === id ? { ...item, saved: !item.saved } : item
-          )
-        );
-      } else {
-        const response = await getHandleReviewSaved(id);
-        setReview((prevReview) =>
-          prevReview.map((item) =>
-            item.id === id ? { ...item, saved: !item.saved } : item
-          )
-        );
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token) {
+      alert("로그인이 필요한 기능입니다.");
+      navigate('/login');
+      return;
+    } else {
+      try {
+        if (type === 'notice') {
+          const response = await getHandleNoticeSaved(id);
+          setNotice((prevNotice) =>
+            prevNotice.map((item) =>
+              item.id === id ? { ...item, saved: !item.saved } : item
+            )
+          );
+        } else {
+          const response = await getHandleReviewSaved(id);
+          setReview((prevReview) =>
+            prevReview.map((item) =>
+              item.id === id ? { ...item, saved: !item.saved } : item
+            )
+          );
+        }
+      } catch (error) {
+        console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
+        throw error;
       }
-    } catch (error) {
-      console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
-      throw error;
-    }
-  };
+  }};
 
   const navigate = useNavigate();
 
