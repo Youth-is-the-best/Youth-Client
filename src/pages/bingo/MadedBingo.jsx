@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace, MdOutlineNearMe } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Body } from '../Home';
 import HeaderHook from '../../hook/HeaderHook';
 import FooterHook from '../../hook/FooterHook';
 import { getBingoloc, postTodolist } from '../../apis/testapis';
@@ -102,8 +101,9 @@ const MadedBingo = () => {
             <h1>{info ? info.title : 'Loading...'}</h1>
           </TitleLine>
           <Line>
-            <Car><Category>분류</Category></Car>
-            
+            <Car>
+              <Category>분류</Category>
+            </Car>
             <Category style={{  color: 'white' ,
               border:'none',
               opacity: 'var(--sds-size-stroke-border)',
@@ -209,4 +209,17 @@ const Line = styled.div`
   align-items: center;
   gap: 20px;
   margin-left: 10px;
+`;
+
+const Body = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+  margin-bottom: 10%;
+  width: 100%;
+  color: #1e3a8a;
+  height: 660px;
+  gap: 10px;
 `;

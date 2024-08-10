@@ -117,10 +117,6 @@ export const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
   padding: 15px;
-  font-family: 'SBAggroB';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
   color: rgba(30, 58, 138, 1);
 `;
 

@@ -6,8 +6,9 @@ import FooterHook from '../../hook/FooterHook';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getBingoloc } from '../../apis/testapis';
-import { InputBox } from '../bingo/MadeBingo';
 import { postReview } from '../../apis/reviewapis';
+import check from '../../images/FiCheck.png';
+import { CheckList } from '../bingo/MadeBingo';
 
 const MadeDragReview = () => {
   const { location } = useParams();
@@ -17,6 +18,8 @@ const MadeDragReview = () => {
   const [images, setImages] = useState([]);
   const [content, setContent] = useState('');
   const [procedure, setProcedure] = useState('');
+
+  const navigate = useNavigate();
 
     const getReview = async(location) => {
       try {
@@ -68,6 +71,7 @@ const MadeDragReview = () => {
         };
         const response = await postReview(data);
         console.log(response);
+        navigate('/view');
       } catch (error) {
         console.error('Error in postReview:', error.response ? error.response.data : error.message);
         throw error;
@@ -78,7 +82,7 @@ const MadeDragReview = () => {
       getReview(location);
   }, [location]);
 
-  const navigate = useNavigate();
+
   const goBingo = () => {
     navigate('/view');
   };
@@ -87,17 +91,13 @@ const MadeDragReview = () => {
     <>
       <HeaderHook />
       <Line style={{ color: 'rgba(27, 52, 124, 1)', justifyContent: 'space-between', padding: '2%' }}>
-        <MdOutlineKeyboardBackspace onClick={goBingo} size={40} />
+        <MdOutlineKeyboardBackspace onClick={goBingo} size={40} style={{marginLeft: '5%', padidngTop: '5%'}}/>
       </Line>
       <BigBody>
         <Body>
-          <Line style={{ justifyContent: 'space-between' }}>
-            <StyledTitle>{info ? info.title : 'Loading...'}</StyledTitle>
-            <Line style={{ gap: '3%' }}>
-              <Infobutton>{info ? info.author : ''}</Infobutton>
-              <Infobutton>{info ? info.large_category_display : ''}</Infobutton>
-            </Line>
-          </Line>
+          <TitleLine>
+            <StyledTitle>{info ? `| ${info.title}` : 'Loading...'}</StyledTitle>
+          </TitleLine>
           <InfoDom>
             {info && info.large_category_display ? (
               <Line>
@@ -108,89 +108,90 @@ const MadeDragReview = () => {
             {info && info.host && (
               <Line>
                 <Category>주최사</Category>
-                <div>{info.host}</div>
+                <span>{info.host}</span>
               </Line>
             )}
             {info && info.field && (
               <Line>
                 <Category>활동 분야</Category>
-                <div>{info.field}</div>
+                <span>{info.field}</span>
               </Line>
             )}
             {info && info.app_fee && (
               <Line>
                 <Category>응시료</Category>
-                <div>{info.app_fee}원</div>
+                <span>{info.app_fee}원</span>
               </Line>
             )}
             {info && info.duty && (
               <Line>
                 <Category>직무</Category>
-                <div>{info.duty}</div>
+                <span>{info.duty}</span>
               </Line>
             )}
             {info && info.employment_form && (
               <Line>
                 <Category>채용 형태</Category>
-                <div>{info.employment_form}</div>
+                <span>{info.employment_form}</span>
               </Line>
             )}
             {info && info.area && (
               <Line>
                 <Category>활동 지역</Category>
-                <div>{info.area}</div>
+                <span>{info.area}</span>
               </Line>
             )}
             {info && info.app_due && (
               <Line>
                 <Category>지원 마감</Category>
-                <div>{info.app_due}</div>
+                <span>{info.app_due}</span>
               </Line>
             )}
             {info && info.prep_period && (
               <Line>
                 <Category>준비 기간</Category>
-                <div>{info.prep_period}</div>
+                <span>{info.prep_period}</span>
               </Line>
             )}
             {info && info.start_date && (
               <Line>
                 <Category>활동 기간</Category>
-                <div>{info.start_date} ~ {info.end_date}</div>
+                <span>{info.start_date} ~ {info.end_date}</span>
               </Line>
             )}
           </InfoDom>
           <ReviewDom>
-            {todo.map((item) => (
-              <Row>
-                <Line>
-                  <AiOutlineCheckSquare size={20} />
-                  <div>{item.title}</div>
-                </Line>
-              </Row>
-            ))}
+            <Line>
+              <ReviewLabel>세부 계획</ReviewLabel>
+              <ReviewContent>
+                {todo.map((item) => (
+                    <CheckLists>
+                      <img src={check} style={{width: '20px', height: '20px'}} />
+                      <div>{item.title}</div>
+                    </CheckLists>
+                ))}
+              </ReviewContent>
+            </Line>
+            <Line>
+              <ReviewLabel>시험 절차</ReviewLabel>
+              <InputBox
+                  type="text"
+                  value={procedure}
+                  onChange={(e) => setProcedure(e.target.value)}
+                  placeholder="시험 절차를 입력하세요"/>
+            </Line>
+            <Line>
+              <ReviewLabel>활동 내용/합격 팁/소감</ReviewLabel>
+              <InputBox
+                  type="text"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="준비 과정 및 소감을 입력하세요" />
+            </Line>
           </ReviewDom>
-          <InfoDom>
-          <div>모집 절차</div>
-          <InputBox
-              type="text"
-              value={procedure}
-              onChange={(e) => setProcedure(e.target.value)}
-              placeholder="내용을 입력해주세요"/>
-          <div>활동 내용/합격 팁/소감</div>
-          <InputBox
-              type="text"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="내용을 입력해주세요"
-            />
-          </InfoDom>
-          <PhotoDom>
-            {images && images.map((item) => (
-              <img key={item.image_id} src={item.image} alt="사진" style={{ width: '200px', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
-            ))}
-          </PhotoDom>
-          <Infobutton onClick={postReviews}>업로드</Infobutton>
+          <Reviewbutton>
+            <button onClick={postReviews}>목표 달성 기록 남기기</button>
+          </Reviewbutton>
         </Body>
       </BigBody>
       <FooterHook />
@@ -204,64 +205,97 @@ const Line = styled.div`
   display: flex;
   flex-direction: row;
   padding: 10px;
-`
-const Row = styled.div`
+  span {
+    font-size: 16px;
+    font-weight: 700;
+  }
+`;
+
+const TitleLine = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 10px;
-`
+`;
+
+const CheckLists = styled.div`
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  img {
+    margin-right: 10px;
+  }
+  div {
+    margin-bottom: 20px;
+  }
+`;
 
 const ReviewDom = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 2%;
-  padding-left: 21%;
-  padding-right: 21%;
   width: 60%;
   gap: 30px;
+  width: 100%;
+  padding-bottom: 4%;
 `
+
+const ReviewLabel = styled.div`
+  display: flex;
+  align-items: start;
+  width: 30%;
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(27, 52, 124, 1);
+`;
+
+const ReviewContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const BigBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 75%;
+  margin: auto;
 `
 const Body = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 80%;
-  padding: 50px; // Adjusted from 50% to 50px
+  padding: 0 50px 50px 50px;
   margin-bottom: 10%;
 `
 const StyledTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 24px;
+  font-weight: 700;
   color: rgba(27, 52, 124, 1);
+  margin-bottom: 5%;
 `
 const Infobutton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
-  color: rgba(81, 81, 81, 1);
-  min-width: 100px;
-  padding-left: 10px;
-  padding-right: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  border: none;
+  background-color: rgba(30, 58, 138, 1);
+  width: 60px;
   height: 30px;
-  border: 0.2px solid rgba(81, 81, 81, 1);
-  border-radius: 10px;
-`
+  border-radius: 8px;
+`;
+
 const InfoDom = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
   width: 100%;
-  border-top: 1px solid rgba(142, 156, 196, 1);
-  border-bottom: 1px solid rgba(142, 156, 196, 1);
   padding-top: 4%;
   padding-bottom: 4%;
 `
@@ -269,21 +303,39 @@ const InfoDom = styled.div`
 const Category = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 50%;
-  font-size: 24px;
+  width: 30%;
+  font-size: 20px;
+  font-weight: 700;
   color: rgba(27, 52, 124, 1);
 `
-const Category2 = styled.div`
-  font-size: 24px;
-  color: rgba(27, 52, 124, 1);
-`
-const PhotoDom = styled.div`
+
+const InputBox = styled.input`
+  color: rgba(142, 156, 196, 1);
+  border: 0.4px solid rgba(142, 156, 196, 1);
+  border-radius: 10px;
+  padding: 0px 10px 0px 10px;
+  height: 160px;
+  width: 460px;
+  &::placeholder{
+    color: rgba(142, 156, 196, 1);
+  }
+`;
+
+const Reviewbutton = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  gap: 5%;
-  margin-top: 5%;
-`
+  justify-content: end;
+  margin-right: 10%;
+  margin-top: 10%;
+  button {
+    width: 250px;
+    height: 44px;
+    background-color: rgba(27, 52, 124, 1);
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 700;
+  }
+`;

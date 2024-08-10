@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import TermsModal from '../pages/TermsModal'
-import { Link } from 'react-router-dom';
 
 const FooterHook = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,11 +19,11 @@ const FooterHook = () => {
         <MainWrapper>
           <Nav>
             <Pages>
-              <Header to="/">메인 홈</Header>
-              <Header to="/test/0">휴학 유형 테스트</Header>
-              <Header to="/view">투두리스트 빙고</Header>
-              <Header to="/notification">공고/후기</Header>
-              <Header to="/readportfolio">휴학 포트폴리오</Header>
+              <Header>메인 홈</Header>
+              <Header>휴학 유형 테스트</Header>
+              <Header>투두리스트 빙고</Header>
+              <Header>공고/후기</Header>
+              <Header>휴학 포트폴리오</Header>
             </Pages>
             <Term>
               <StyledBtn onClick={handleBtn}>이용약관</StyledBtn>
@@ -70,7 +69,7 @@ const Pages = styled.div`
   margin-right: 100px;
 `;
 
-const Header = styled(Link)`
+const Header = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
