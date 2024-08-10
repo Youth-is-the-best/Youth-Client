@@ -102,7 +102,8 @@ const MadedBingo = () => {
             <h1>{info ? info.title : 'Loading...'}</h1>
           </TitleLine>
           <Line>
-            <Category>분류</Category>
+            <Car><Category>분류</Category></Car>
+            
             <Category style={{  color: 'white' ,
               border:'none',
               opacity: 'var(--sds-size-stroke-border)',
