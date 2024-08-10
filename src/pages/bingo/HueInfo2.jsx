@@ -5,8 +5,8 @@ import FooterHook from '../../hook/FooterHook';
 import { Body } from '../Home';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
-import { Category, Line, TitleLine } from './MadeBingo';
-import { ReviewDom, Review, RightDom } from './BingoInfo';
+import { Category, Line} from './MadeBingo';
+import { ReviewDom, Review, RightDom, TitleLine } from './BingoInfo';
 import { getHueInfo } from '../../apis/testapis';
 import Bingomain from './Bingomain';
 
@@ -72,11 +72,13 @@ const HueInfo = () => {
               <div key={index}>{line}</div>
             ))}
           </Line>
+          <ReviewDom>
             {images.length > 0 && images.map((image, index) => (
               <Review key={index} style={{border:'none'}}>
                 <img src={image} alt={`Recommendation ${index + 1}`} style={{ maxWidth: '100%', height: 'auto' }} />
               </Review>
             ))}
+          </ReviewDom>
         </RightDom>
       </Body>
       <FooterHook />
