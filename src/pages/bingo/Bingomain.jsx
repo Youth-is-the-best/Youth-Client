@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState, isExecutedState } from '../../recoil/atoms';
-import { getBingo, getDday } from '../../apis/testapis';
-import { StyledDday1, StyledDday2} from '../Home';
-import {Bingo} from '../Index';
-import { Line } from './MadeBingo';
+import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState, isExecutedState, prepDateState } from '../../recoil/atoms';
+import { getBingo, getDday, putDday } from '../../apis/testapis';
+import {StyledDday1, StyledDday2} from '../Home';
+import { Bingo } from '../Index';
 import { useNavigate } from 'react-router-dom';
+import CustomCalendar from './CustomCalendar';
 
 const Bingomain = () => {
   const [bingos, setBingos] = useRecoilState(bingoState);
@@ -17,6 +17,7 @@ const Bingomain = () => {
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
   const [isExecuted, setIsExecuted] = useRecoilState(isExecutedState);
+  const [prepDates, setPrepDates] = useRecoilState(prepDateState);
 
   const getBingos = async () => {
     const response = await getBingo();
@@ -48,6 +49,33 @@ const Bingomain = () => {
     }
   };
   
+  const formatDateString = (date) => {
+    const formattedDate = date.toLocaleDateString();
+    const [year, month, day] = formattedDate.split('.').map(element => element.trim());
+    return `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
+  };
+
+  const handlePrepDateChange = async (prepDates) => {
+    setPrepDates(prepDates); 
+    const [startDate, endDate] = prepDates;
+    
+    const formattedStartDate = formatDateString(startDate);
+    const formattedEndDate = formatDateString(endDate);
+
+    setStartDate(formattedStartDate);
+    setEndDate(formattedEndDate);
+
+    try {
+      const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
+      setDday1(response.display.rest_dday_display);
+      setDday2(response.display.return_dday_display);
+      console.log(response);
+    } catch (error) {
+      // setError('Error posting dates');
+      console.error('Error in putDday:', error.response ? error.response.data : error.message);
+    }
+  };
+
   const navigate = useNavigate();
   const clickBingo = (location) => {
     navigate(`/madedbingo/${location}`);
@@ -64,14 +92,19 @@ const Bingomain = () => {
 
   return (
     <LeftDom>
-      <Line>
-        <StyledDday1>{Dday1}</StyledDday1>
-        <StyledDday2>{Dday2}</StyledDday2>
-      </Line>
-      <>{startDate}~{endDate}</>
-      <h2>{username}의 빙고판</h2>
-      <div style={{ color: 'grey' }}>
-      </div>
+      <LineDom>
+        <Line>
+          <StyledDday1>{Dday1}</StyledDday1>
+          <StyledDday2>{Dday2}</StyledDday2>
+        </Line>
+        <Line style={{ color: 'grey' }}>
+          {startDate && endDate
+            ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}`
+            : '날짜를 입력하세요.'}
+          <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
+        </Line>
+        <Line style={{ fontSize: '24px' }}>{username}의 빙고판</Line>
+      </LineDom>
       <BingoDom>
         {Array.isArray(bingos) && bingos.map((item, index) => (
           <Bingo
@@ -106,4 +139,21 @@ const BingoDom = styled.div`
   align-items: center;
   width: 550px;
   height: 550px;
+`;
+
+const LineDom = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap : 10px;
+  margin-bottom: 10px;
+`;
+
+export const Line = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
+  
+  margin-left: 10px;
+  color : rgba(30, 58, 138, 1);
 `;
