@@ -77,7 +77,10 @@ export const getNoticeById = async (notice_id) => {
     export const getSearchByCategory = async (category) => {
         try {
             const access = localStorage.getItem("access_token");
-            if (!access) throw new Error("No access token found in localStorage");
+            if (!access) {
+                const response = await axios.get(`${baseURL}/search/?large_category=${category}`);
+                return response.data;
+            }
             const response = await axios.get(`${baseURL}/search/?large_category=${category}`, {
                 headers: {
                     Authorization: `Bearer ${access}`

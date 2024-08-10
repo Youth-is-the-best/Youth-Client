@@ -57,3 +57,8 @@ export const bingoObjectState = atom({
     })),
   },
 });
+
+export const isExecutedState = atom({
+  key: 'isExecutedState',
+  default: Array(9).fill(0),
+});

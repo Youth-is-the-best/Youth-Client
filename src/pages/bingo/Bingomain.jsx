@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState } from '../../recoil/atoms';
+import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState, isExecutedState } from '../../recoil/atoms';
 import { getBingo, getDday } from '../../apis/testapis';
-import { StyledDday1, StyledDday2,Bingo } from '../Home';
+import { StyledDday1, StyledDday2} from '../Home';
+import {Bingo} from '../Index';
 import { Line } from './MadeBingo';
+import { useNavigate } from 'react-router-dom';
 
 const Bingomain = () => {
   const [bingos, setBingos] = useRecoilState(bingoState);
@@ -14,6 +16,7 @@ const Bingomain = () => {
   const [title, setTitle] = useRecoilState(titleState);
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
+  const [isExecuted, setIsExecuted] = useRecoilState(isExecutedState);
 
   const getBingos = async () => {
     const response = await getBingo();
@@ -23,14 +26,12 @@ const Bingomain = () => {
     const bingos = Array.from({ length: 9 }, (_, index) => ({
       location: index,
       title: response.bingo_obj.find((item) => item.location === index)?.title || '',
-      is_executed: response.bingo_obj.find((item) => item.location === index)?.is_executed || false,
     }));
     setUsername(username);
     setStartDate(start_date);
     setEndDate(end_date);
     setBingos(bingos);
     setTitle(bingos.map((item) => item.title));
-    // console.log(response);
   };
 
   const getDdays = async () => {
@@ -45,6 +46,11 @@ const Bingomain = () => {
     } catch (error) {
       console.error('Error in getDday:', error.response ? error.response.data : error.message);
     }
+  };
+  
+  const navigate = useNavigate();
+  const clickBingo = (location) => {
+    navigate(`/madedbingo/${location}`);
   };
 
   useEffect(() => {
@@ -71,7 +77,8 @@ const Bingomain = () => {
           <Bingo
             key={index}
             inBingo={item.title !== ''}
-            isExecuted={item.is_executed == 1}
+            isExecuted={isExecuted[index]}
+            onClick={() => clickBingo(index)}
           >
             {title[index]}
           </Bingo>
@@ -100,8 +107,3 @@ const BingoDom = styled.div`
   width: 550px;
   height: 550px;
 `;
-
-// const Bingo = styled.div.attrs((props) => ({
-//   'data-inbingo': props.inBingo,
-//   'data-isexecuted': props.isExecuted,
-// }))
