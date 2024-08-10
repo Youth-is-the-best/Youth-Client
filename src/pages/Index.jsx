@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming} from '../apis/testapis';
+import { getBingo, getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, putDday} from '../apis/testapis';
 import HeaderHook from '../hook/HeaderHook';
 import FooterHook from '../hook/FooterHook'
 import { RightDom } from './bingo/BingoInfo';
-import { RecommendDom, RecommendCom, StyledDday1, StyledDday2,Body,InfoDom,Info,Selector,Bingo  } from './Home';
-import { bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State } from '../recoil/atoms';
+import { LineDom, RecommendDom, RecommendCom, StyledDday1, StyledDday2,Body,InfoDom,Info,Selector,Bingo  } from './Home';
+import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State } from '../recoil/atoms';
+import CustomCalendar from './bingo/CustomCalendar';
 
 const Index = () => {
   const options = ["추천순", "마감순", "보관함"];
@@ -29,6 +30,8 @@ const Index = () => {
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
   const [isExecuted, setIsExecuted] = useState([]);
+  const [prepDates, setPrepDates] = useRecoilState(prepDateState);
+  
 
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
@@ -137,6 +140,34 @@ const Index = () => {
     navigate(`/madedbingo/${location}`);
   };
 
+  const formatDateString = (date) => {
+    const formattedDate = date.toLocaleDateString();
+    const [year, month, day] = formattedDate.split('.').map(element => element.trim());
+    return `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
+  };
+
+  const handlePrepDateChange = async (prepDates) => {
+    setPrepDates(prepDates); 
+    const [startDate, endDate] = prepDates;
+    
+    const formattedStartDate = formatDateString(startDate);
+    const formattedEndDate = formatDateString(endDate);
+
+    setStartDate(formattedStartDate);
+    setEndDate(formattedEndDate);
+
+    try {
+      const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
+      setDday1(response.display.rest_dday_display);
+      setDday2(response.display.return_dday_display);
+      console.log(response);
+    } catch (error) {
+      setError('Error posting dates');
+      console.error('Error in putDday:', error.response ? error.response.data : error.message);
+    }
+  };
+
+
   const getDdays = async () => {
     try {
       const get_response = await getDday();
@@ -167,14 +198,18 @@ const Index = () => {
       <HeaderHook />
       <Body>
         <LeftDom>
-          <Line>
-            <StyledDday1>{Dday1}</StyledDday1> 
-            <StyledDday2>{Dday2}</StyledDday2>
-          </Line>
-          <h2>{username}의 빙고판</h2>
-          <div style={{ color: 'grey' }}>
-            {startDate} ~ {endDate}
-          </div>
+        <LineDom>
+            <Line>
+              <StyledDday1>{Dday1}</StyledDday1>
+              <StyledDday2>{Dday2}</StyledDday2>
+            </Line>
+            <Line style={{ color: 'grey' }}>
+              {startDate && endDate
+                ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}` : '날짜를 입력하세요.'}
+              <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
+            </Line>
+            <Line style={{ fontSize: '24px' }}>{username}의 빙고판</Line>
+          </LineDom>          
           <BingoDom>
             {bingos.map((bingo, index) => (
               <Bingo

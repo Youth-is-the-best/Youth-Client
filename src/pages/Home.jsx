@@ -365,7 +365,7 @@ export const Logo = styled.div`
   height : 10px;
 `
 
-const LineDom = styled.div`
+export const LineDom = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
