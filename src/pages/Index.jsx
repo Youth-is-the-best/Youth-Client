@@ -9,7 +9,7 @@ import HeaderHook from '../hook/HeaderHook';
 import FooterHook from '../hook/FooterHook'
 import { RightDom } from './bingo/BingoInfo';
 import { LineDom, RecommendDom, RecommendCom, StyledDday1, StyledDday2,Body,InfoDom,Info,Selector  } from './Home';
-import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State } from '../recoil/atoms';
+import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State, isExecutedState } from '../recoil/atoms';
 import CustomCalendar from './bingo/CustomCalendar';
 
 const Index = () => {
@@ -29,7 +29,7 @@ const Index = () => {
   const [id, setId] = useState(bingoIdState);
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
-  const [isExecuted, setIsExecuted] = useState(Array(9).fill(0));
+  const [isExecuted, setIsExecuted] = useRecoilState(isExecutedState);
   const [prepDates, setPrepDates] = useRecoilState(prepDateState);
   
 

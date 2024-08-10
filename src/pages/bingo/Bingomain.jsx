@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState } from '../../recoil/atoms';
+import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState, isExecutedState } from '../../recoil/atoms';
 import { getBingo, getDday } from '../../apis/testapis';
 import { StyledDday1, StyledDday2} from '../Home';
 import {Bingo} from '../Index';
@@ -16,7 +16,7 @@ const Bingomain = () => {
   const [title, setTitle] = useRecoilState(titleState);
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
-  const [isExecuted, setIsExecuted] = useState(Array(9).fill(0));
+  const [isExecuted, setIsExecuted] = useRecoilState(isExecutedState);
 
   const getBingos = async () => {
     const response = await getBingo();
@@ -32,15 +32,6 @@ const Bingomain = () => {
     setEndDate(end_date);
     setBingos(bingos);
     setTitle(bingos.map((item) => item.title));
-    const isExecuted = response.bingo_obj.map((item) => item.is_executed ? 1 : 0);
-
-    const executedArray = Array.from({ length: 9 }, (_, index) => {
-      const item = response.bingo_obj.find((item) => item.location === index);
-      return item?.is_executed ? 1 : 0;
-    });
-
-    setIsExecuted(executedArray);
-
   };
 
   const getDdays = async () => {
@@ -116,27 +107,3 @@ const BingoDom = styled.div`
   width: 550px;
   height: 550px;
 `;
-
-// const Bingo = styled.div.attrs((props) => ({
-//   'data-inbingo': props.inBingo,
-//   'data-isexecuted': props.isExecuted,
-// }))`
-// width: 150px;
-// height: 150px;
-// font-size: 20px;
-// display: flex;
-// justify-content: center;
-// align-items: center;
-// border-radius: 10px;
-// padding: 10px;
-// margin: auto;
-// border-radius: 10px;
-// opacity: var(--sds-size-stroke-border);
-// color: white;
-// text-align: center;
-// cursor: pointer;
-// outline: none;
-// transition: box-shadow 0.3s ease-in-out;
-// background :${({ isExecuted }) => (isExecuted ? 'blue' : 'linear-gradient(178.58deg, #FFFFFF -94.22%, #A3A3A3 151.7%)')};
-// box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px #D9D9D9 inset, -4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset' : '0px -2px 6px 0px rgba(0, 0, 0, 0.25) inset, 4px 4px 10px 0px rgba(0, 0, 0, 0.25) inset')};
-// `;
