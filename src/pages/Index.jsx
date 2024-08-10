@@ -8,7 +8,7 @@ import { getBingo, getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming
 import HeaderHook from '../hook/HeaderHook';
 import FooterHook from '../hook/FooterHook'
 import { RightDom } from './bingo/BingoInfo';
-import { LineDom, RecommendDom, RecommendCom, StyledDday1, StyledDday2,Body,InfoDom,Info,Selector,Bingo  } from './Home';
+import { LineDom, RecommendDom, RecommendCom, StyledDday1, StyledDday2,Body,InfoDom,Info,Selector  } from './Home';
 import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State } from '../recoil/atoms';
 import CustomCalendar from './bingo/CustomCalendar';
 
@@ -29,7 +29,7 @@ const Index = () => {
   const [id, setId] = useState(bingoIdState);
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
-  const [isExecuted, setIsExecuted] = useState([]);
+  const [isExecuted, setIsExecuted] = useState(Array(9).fill(0));
   const [prepDates, setPrepDates] = useRecoilState(prepDateState);
   
 
@@ -115,9 +115,16 @@ const Index = () => {
       setEndDate(end_date);
       setBingos(bingoData);
       setTitle(bingoData.map((item) => item.title));
-      console.log(response);
+      // console.log(response);
+      // console.log(response.bingo_obj);
+      const executedArray = Array.from({ length: 9 }, (_, index) => {
+        const item = response.bingo_obj.find((item) => item.location === index);
+        return item?.is_executed ? 1 : 0;
+      });
       const isExecuted = response.bingo_obj.map((item) => item.is_executed ? 1 : 0);
       // console.log(isExecuted);
+      setIsExecuted(executedArray); 
+      // console.log(executedArray); 
     } catch (error) {
       setError(error);
       navigate("/bingo");
@@ -198,24 +205,25 @@ const Index = () => {
       <HeaderHook />
       <Body>
         <LeftDom>
-        <LineDom>
+          <LineDom>
             <Line>
               <StyledDday1>{Dday1}</StyledDday1>
               <StyledDday2>{Dday2}</StyledDday2>
             </Line>
             <Line style={{ color: 'grey' }}>
               {startDate && endDate
-                ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}` : '날짜를 입력하세요.'}
+                ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}`
+                : '날짜를 입력하세요.'}
               <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
             </Line>
             <Line style={{ fontSize: '24px' }}>{username}의 빙고판</Line>
-          </LineDom>          
+          </LineDom>
           <BingoDom>
             {bingos.map((bingo, index) => (
               <Bingo
                 key={index}
                 inBingo={bingo.title !== ''}
-                isExecuted={bingos.is_executed === 1}
+                isExecuted={isExecuted[index]}
                 onClick={() => clickBingo(index)}
               >
                 {bingo.title || ''}
@@ -223,23 +231,29 @@ const Index = () => {
             ))}
           </BingoDom>
         </LeftDom>
-        <RightDom style={{paddingTop : '20px'}}>
+        <RightDom style={{ paddingTop: '20px' }}>
           <div>
             <FiThumbsUp /> 휴알유 추천
           </div>
           {recommend && recommend.length > 1 && (
-          <RecommendDom>
-            <RecommendCom draggable={false}
-            onClick={goHueInfo}>
-              <img src={recommend[0].image} alt={recommend[0].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
-              <div>{recommend[0].title}</div>
-            </RecommendCom>
-            <RecommendCom draggable={false}
-            onClick={goHueInfo2}>
-              <img src={recommend[1].image} alt={recommend[1].title} style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }} />
-              <div>{recommend[1].title}</div>
-            </RecommendCom>
-          </RecommendDom>
+            <RecommendDom>
+              <RecommendCom draggable={false} onClick={goHueInfo}>
+                <img
+                  src={recommend[0].image}
+                  alt={recommend[0].title}
+                  style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }}
+                />
+                <div>{recommend[0].title}</div>
+              </RecommendCom>
+              <RecommendCom draggable={false} onClick={goHueInfo2}>
+                <img
+                  src={recommend[1].image}
+                  alt={recommend[1].title}
+                  style={{ width: '100%', height: '80%', objectFit: 'cover', borderRadius: '10px' }}
+                />
+                <div>{recommend[1].title}</div>
+              </RecommendCom>
+            </RecommendDom>
           )}
           <Line>
             <Selector
@@ -315,4 +329,28 @@ const Line = styled.div`
   flex-direction: row;
   width: 100%;
   gap: 3%;
+`;
+
+export const Bingo = styled.div.attrs((props) => ({
+  'data-inbingo': props.inBingo,
+  'data-isexecuted': props.isExecuted,
+}))`
+  width: 150px;
+  height: 150px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px;
+  margin: auto;
+  border-radius: 10px;
+  opacity: var(--sds-size-stroke-border);
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.3s ease-in-out;
+  background :${({ isExecuted }) => (isExecuted ? 'linear-gradient(154deg, #FFF -76.67%, #1E3A8A 103.17%);' : 'linear-gradient(178.58deg, #FFFFFF -94.22%, #A3A3A3 151.7%)' )};
+  box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px #D9D9D9 inset, -4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset' : '0px -2px 6px 0px rgba(0, 0, 0, 0.25) inset, 4px 4px 10px 0px rgba(0, 0, 0, 0.25) inset')};
 `;
