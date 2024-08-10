@@ -5,6 +5,8 @@ import { bingoState, usernameState, startDateState, endDateState, titleState, Da
 import { getBingo, getDday } from '../../apis/testapis';
 import { StyledDday1, StyledDday2} from '../Home';
 import { Line } from './MadeBingo';
+import { click } from '@testing-library/user-event/dist/click';
+import { useNavigate } from 'react-router-dom';
 
 const Bingomain = () => {
   const [bingos, setBingos] = useRecoilState(bingoState);
@@ -46,6 +48,11 @@ const Bingomain = () => {
       console.error('Error in getDday:', error.response ? error.response.data : error.message);
     }
   };
+  
+  const navigate = useNavigate();
+  const clickBingo = (location) => {
+    navigate(`/madedbingo/${location}`);
+  };
 
   useEffect(() => {
     if (bingos.length === 0) {
@@ -72,6 +79,7 @@ const Bingomain = () => {
             key={index}
             inBingo={item.title !== ''}
             isExecuted={item.is_executed === 1}
+            onClick={() => clickBingo(index)}
           >
             {title[index]}
           </Bingo>
