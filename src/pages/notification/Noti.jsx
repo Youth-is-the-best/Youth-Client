@@ -14,10 +14,11 @@ import heartimg from '../../images/AiFillHeart.png';
 import msgimg from '../../images/AiOutlineMessage.png';
 import logo from '../../images/Logoimg.png';
 import search from '../../images/search.png';
+import { FiPlus } from 'react-icons/fi';
 
 
 const Noti = () => {
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState('카테고리를 선택해주세요');
   const [notice, setNotice] = useState([]);
   const [review, setReview] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -108,9 +109,8 @@ const Noti = () => {
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     setSelectedOptions({ option1: '', option2: '', option3: '', option4: '' }); 
-    console.log(category);
     getReviewsByCategory(categoryMap[category]);
-    console.log(categoryMap[category]);
+    // console.log(categoryMap[category]);
   };
 
   const getAllReview = async () => {
@@ -195,6 +195,7 @@ const Noti = () => {
   const goNotice = (id) => {
     navigate(`/viewnotice/${id}`);
   };
+
   const doKeywordSearch = async () => {
     try {
       const response = await getSearchByKeyword(searchKeyword);
@@ -283,6 +284,10 @@ const Noti = () => {
     } catch (error) {
       console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
     }
+  };
+
+  const madeReview = () => {
+    navigate('/review');
   };
 
   const goHue = (id) => {
@@ -472,6 +477,7 @@ const Noti = () => {
                 </Comment>
               </Content>
             ))}
+            <Plus><FiPlus onClick={madeReview}/></Plus>
         </ContentDom>
       </Body>
       <FooterHook />
@@ -480,6 +486,24 @@ const Noti = () => {
 };
 
 export default Noti;
+
+const Plus = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 52px;
+  height : 52px;
+  padding: 10px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 30px;
+  opacity: var(--sds-size-stroke-border);
+  background: var(--main-50, #8E9CC4);
+  color: white;
+  position: fixed;
+  font-size: 40px;
+  left: 92%;
+  bottom: 8%;
+`;
 
 const HeaderofHome = styled.div`
 `;
@@ -653,7 +677,7 @@ const ContentDom = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 88%;
+  width: 95%;
   margin: auto;
   padding-left: 4%;
   padding-top: 5%;

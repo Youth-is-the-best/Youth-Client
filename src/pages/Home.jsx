@@ -70,6 +70,8 @@ const Home = () => {
       id: item.id,
     }));
     setSaved(savedData);
+    // console.log(response);
+    // console.log(savedData);
   };
 
   const viewTypeRecommend = async (type) => {
@@ -106,8 +108,6 @@ const Home = () => {
     }
       const response = await postBingo(bingoBody);
       bingoBody.bingo_obj.map()
-      // console.log(bingoBody);
-      // console.log(response);
       alert(response);
       navigate("/veiw");
     } catch (error) {
@@ -204,7 +204,7 @@ const Home = () => {
       const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
       setDday1(response.display.rest_dday_display);
       setDday2(response.display.return_dday_display);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       setError('Error posting dates');
       console.error('Error in putDday:', error.response ? error.response.data : error.message);

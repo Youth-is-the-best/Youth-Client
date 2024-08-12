@@ -107,9 +107,105 @@ const MadeReview = () => {
   };
 
   const postReview = async () => {
-    const body = {
-      
-    }
+    if(selectedCategory === "채용(인턴)"){
+      const body = {
+        "large_category": "CAREER",
+        "title": title,
+        "content": "GS25 야간 알바를 하였다.",
+        "duty": "직무",
+        "employment_form": "채용 형태",
+        "area": "제주도",
+        "procedure": "모집 절차 내용",
+        "start_date": "2024-08-20",
+        "end_date": "2024-09-20",
+        "detailplans": [
+            {
+                "content": "내가 야간 알바를 하다니"
+            },
+            {
+                "content": "이 것은 세부 계획"
+            }
+        ]
+      };
+    } else if(selectedCategory === "자격증"){
+      const body =
+        {
+          "large_category": "CERTIFICATE",
+          "title": title,
+          "content": "정보처리기사 자격증을 땄다",
+          "host": "상공회의소",
+          "date": "2024-10-1",
+          "procedure": "시험 절차 내용",
+          "app_fee": 20000,
+          "start_date": "2024-08-20",
+          "end_date": "2024-09-20",
+          "detailplans": [
+              {
+                  "content": "내가 야간 알바를 하다니"
+              },
+              {
+                  "content": "이 것은 세부 계획"
+              }
+          ]
+      };
+    } else if(selectedCategory === "대외활동"){
+      const body =
+      {
+        "large_category": "OUTBOUND",
+        "title": title,
+        "content": "대외활동에서 이런저런걸 했다",
+        "field": "활동 분야",
+        "area": "활동 지역",
+        "start_date": "2024-08-20",
+        "end_date": "2024-09-20",
+        "procedure": "모집 절차",
+        "detailplans": [
+            {
+                "content": "이 것은 세부 계획"
+            },
+            {
+                "content": "이 것도 세부 계획"
+            }
+        ]
+      };
+    } else if(selectedCategory === "공모전"){
+      const body =
+      {
+        "large_category": "CONTEST",
+        "title": title,
+        "content": "공모전에서 이런저런걸 했다",
+        "host": "주최 기관",
+        "field": "공모 분야",
+        "app_due": "2024-07-25",
+        "start_date": "2024-08-20",
+        "end_date": "2024-09-20",
+        "procedure": "모집 절차",
+        "detailplans": [
+            {
+                "content": "이 것은 세부 계획"
+            },
+            {
+                "content": "이 것도 세부 계획"
+            }
+        ]
+      };
+    } else {
+      const body = {
+        "large_category": selectedCategory,
+        "title": title,
+        "content": "매일 기타를 1시간 씩 쳤다.",
+        "start_date": "2024-08-20",
+        "end_date": "2024-09-20",
+        "detailplans": [
+            {
+                "content": "동생한테 기타 연주 들려주기"
+            },
+            {
+                "content": "대회 나가기"
+            }
+        ]
+      };
+    };
   };
 
   return (
@@ -301,7 +397,7 @@ const Category = styled.div`
   align-items : center;
   justify-content : center;
   width : 200px;
-  border : 0.2px solid rgba(142, 156, 196, 1);
+  // border : 0.2px solid rgba(142, 156, 196, 1);
 `
 
 const PhotoDom = styled.div`
