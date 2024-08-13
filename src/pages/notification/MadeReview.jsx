@@ -102,8 +102,6 @@ const MadeReview = () => {
   const [examDates, setExamDates] = useState([null, null]);
   const [prepDates, setPrepDates] = useState([null, null]);
   const [selectedOptions, setSelectedOptions] = useState({});
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
 
   const formatDateString = (date) => {
     const formattedDate = date.toLocaleDateString();
@@ -111,22 +109,12 @@ const MadeReview = () => {
     return `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
   };
 
-  const handleExamDateChange = (examDates) => {
-    setExamDates(examDates);
-    const formattedDate = formatDateString(examDates[0]);
-    setExamDates(formattedDate);
+  const handleExamDateChange = (dates) => {
+    setExamDates(dates);
   };
 
-  const handlePrepDateChange = (prepDates) => {
-    // setPrepDates(prepDates);
-
-    setPrepDates(prepDates); 
-    const [startDate, endDate] = prepDates;
-    
-    const formattedStartDate = formatDateString(startDate);
-    const formattedEndDate = formatDateString(endDate);
-
-    setPrepDates([formattedStartDate, formattedEndDate]);
+  const handlePrepDateChange = (dates) => {
+    setPrepDates(dates);
   };
 
   const handleSelectChange = (placeholder, value) => {
@@ -147,13 +135,14 @@ const MadeReview = () => {
   };
 
   const postReview = async () => {
+
     try {
       let body = {
         large_category: categoryMap[selectedCategory],
         title: title,
         content: content,
-        start_date: prepDates[0]?.toLocaleDateString(),
-        end_date: prepDates[1]?.toLocaleDateString(),
+        start_date: prepDates[0],
+        end_date: prepDates[1],
         detailplans: checklists.map((item) => ({ content: item.text })),
       };
   
@@ -208,20 +197,11 @@ const MadeReview = () => {
           console.warn(`Unhandled category: ${selectedCategory}`);
           break;
       }
-
-      // e.preventDefault();
       const data = new FormData();
-  
-      // Add images to FormData
-      // images.forEach((image, index) => {
-      //   data.append(`images[${index}]`, image);
-      // });
-  
-      // Add form data as a JSON string
+
       const jsonFormData = JSON.stringify(body);
       data.append('json', jsonFormData);
   
-      // Debugging FormData content
       for (let pair of data.entries()) {
         console.log(pair[0] + ', ' + pair[1]); 
       }
