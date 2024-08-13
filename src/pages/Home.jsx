@@ -67,10 +67,10 @@ const Home = () => {
     const saveds = response.stored_reviews || [];
     const savedData = saveds.map((item) => ({
       title: item.title,
-      id: item.id,
+      id: item.provided_bingo_item,
     }));
     setSaved(savedData);
-    // console.log(response);
+    console.log(response);
     // console.log(savedData);
   };
 
