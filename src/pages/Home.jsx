@@ -70,7 +70,7 @@ const Home = () => {
       id: item.provided_bingo_item,
     }));
     setSaved(savedData);
-    console.log(response);
+    // console.log(response);
     // console.log(savedData);
   };
 
