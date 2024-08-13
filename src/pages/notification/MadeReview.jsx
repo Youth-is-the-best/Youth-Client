@@ -55,7 +55,7 @@ const MadeReview = () => {
       // { placeholder: "지원 마감", type: "date" },
       { placeholder: "활동 기간", type: "date-range" },
       { placeholder: "모집 절차", type : "procedure-text" },
-      { placeholder: "준비 과정/합겹 팁/활동 내용/소감", type: "bigtext"}
+      { placeholder: "준비 과정/합격 팁/활동 내용/소감", type: "bigtext"}
       
     ],
     "공모전": [
@@ -110,11 +110,11 @@ const MadeReview = () => {
   const handlePrepDateChange = (dates) => {
     setPrepDates(dates);
   };
-  
+
   const handleSelectChange = (placeholder, value) => {
     setSelectedOptions({
       ...selectedOptions,
-      [placeholder]: value
+      [placeholder]: value,
     });
   };
 
@@ -129,104 +129,74 @@ const MadeReview = () => {
   };
 
   const postReview = async () => {
-    if(selectedCategory === "채용(인턴)"){
-      const body = {
-        "large_category": categoryMap[selectedCategory],
-        "title": title,
-        "content": content,
-        "duty": "직무",
-        "employment_form": "채용 형태",
-        "area": "제주도",
-        "procedure": procedure,
-        "start_date": prepDateState[0].toLocaleDateString(),
-        "end_date": prepDateState[1].toLocaleDateString(),
-        "detailplans": checklists.map((item) => ({ content: item.text })),
+    try {
+      let body = {
+        large_category: categoryMap[selectedCategory],
+        title: title,
+        content: content,
+        start_date: prepDates[0]?.toLocaleDateString(),
+        end_date: prepDates[1]?.toLocaleDateString(),
+        detailplans: checklists.map((item) => ({ content: item.text })),
       };
-    } else if(selectedCategory === "자격증"){
-      const body =
-        {
-          "large_category": categoryMap[selectedCategory],
-          "title": title,
-          "content": content,
-          "host": "상공회의소",
-          "date": examDates[0].toLocaleDateString(),
-          "procedure": procedure,
-          "app_fee": 20000,
-          "start_date": prepDateState[0].toLocaleDateString(),
-          "end_date": prepDateState[1].toLocaleDateString(),
-          "detailplans": [
-              {
-                  "content": "내가 야간 알바를 하다니"
-              },
-              {
-                  "content": "이 것은 세부 계획"
-              }
-          ]
-      };
-    } else if(selectedCategory === "대외활동"){
-      const body =
-      {
-        "large_category": categoryMap[selectedCategory],
-        "title": title,
-        "content": content,
-        "field": "활동 분야",
-        "area": "활동 지역",
-        "start_date": prepDateState[0].toLocaleDateString(),
-        "end_date": prepDateState[1].toLocaleDateString(),
-        "procedure": procedure,
-        "detailplans": [
-            {
-                "content": "이 것은 세부 계획"
-            },
-            {
-                "content": "이 것도 세부 계획"
-            }
-        ]
-      };
-    } else if(selectedCategory === "공모전"){
-      const body =
-      {
-        "large_category": categoryMap[selectedCategory],
-        "title": title,
-        "content": content,
-        "host": "주최 기관",
-        "field": "공모 분야",
-        "app_due": examDates[0].toLocaleDateString(),
-        "start_date": prepDateState[0].toLocaleDateString(),
-        "end_date": prepDateState[1].toLocaleDateString(),
-        "procedure": procedure,
-        "detailplans": [
-            {
-                "content": "이 것은 세부 계획"
-            },
-            {
-                "content": "이 것도 세부 계획"
-            }
-        ]
-      };
-    } else {
-      const body = {
-        "large_category": categoryMap[selectedCategory],
-        "title": title,
-        "content": content,
-        "start_date": prepDateState[0].toLocaleDateString(),
-        "end_date": prepDateState[1].toLocaleDateString(),
-        "detailplans": [
-            {
-                "content": "동생한테 기타 연주 들려주기"
-            },
-            {
-                "content": "대회 나가기"
-            }
-        ]
-      };
-    };
-    // try {
-    //   const response = await postMyReview(body);
-    //   console.log(response);
-    // }catch (error) {
-    //   console.error('Error in postReview:', error.response ? error.response.data : error.message);
-    // }
+  
+      switch (selectedCategory) {
+        case "채용(인턴)":
+          body.duty = selectedOptions["직무"];
+          body.employment_form = selectedOptions["채용형태"];
+          body.area = selectedOptions["근무 지역"];
+          body.procedure = selectedOptions["채용 절차"];
+          break;
+  
+        case "자격증":
+          body.host = selectedOptions["주최사"];
+          body.date = examDates[0]?.toLocaleDateString();
+          body.procedure = selectedOptions["시험 절차"];
+          body.app_fee = selectedOptions["응시료"];
+          break;
+  
+        case "대외활동":
+          body.field = selectedOptions["활동 분야"];
+          body.area = selectedOptions["활동 지역"];
+          body.procedure = selectedOptions["모집 절차"];
+          break;
+  
+        case "공모전":
+          body.host = selectedOptions["주최 기관"];
+          body.field = selectedOptions["공모 분야"];
+          body.app_due = examDates[0]?.toLocaleDateString();
+          body.procedure = selectedOptions["모집 절차"];
+          break;
+  
+        case "취미":
+          body.field = selectedOptions["분야"];
+          body.partner = selectedOptions["파트너"];
+          break;
+  
+        case "여행":
+          body.location = selectedOptions["장소"];
+          body.partner = selectedOptions["파트너"];
+          break;
+  
+        case "자기계발":
+          body.field = selectedOptions["분야"];
+          body.partner = selectedOptions["파트너"];
+          break;
+  
+        case "휴식":
+          body.location = selectedOptions["장소"];
+          break;
+  
+        default:
+          console.warn(`Unhandled category: ${selectedCategory}`);
+          break;
+      }
+      console.log(body);
+      const response = await postMyReview(body);
+      console.log(body);
+      console.log(response);
+    } catch (error) {
+      console.error("Error in postReview:", error.response ? error.response.data : error.message);
+    }
   };
 
   return (
@@ -281,13 +251,18 @@ const MadeReview = () => {
                   );
                 } else if (config.type === 'select') {
                   return (
-                    <Line>
-                    <Category key={index}>{config.placeholder}</Category>
-                    <Selector key={index}>
-                      {config.options.map((option, idx) => (
-                        <option key={idx} value={option}>{option}</option>
-                      ))}
-                    </Selector>
+                    <Line key={index}>
+                      <Category>{config.placeholder}</Category>
+                      <Selector
+                        value={selectedOptions[config.placeholder] || ''}
+                        onChange={(e) => handleSelectChange(config.placeholder, e.target.value)}
+                      >
+                        {config.options.map((option, optIndex) => (
+                          <option key={optIndex} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </Selector>
                     </Line>
                   );
                 } else if (config.type === 'bigtext'){
@@ -297,8 +272,8 @@ const MadeReview = () => {
                     <InputBox
                       key={index}
                       type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
                       placeholder={config.placeholder}
                       style={{height:'200px'}}/>
                   </Line>
@@ -334,7 +309,7 @@ const MadeReview = () => {
                 <CheckList>
                   {checklists.map((item) => (
                     <div key={item.id}>
-                        <FiCheck size={20}/>
+                        <FiCheck size={15}/>
                       <span>{item.text}</span>
                     </div>
                   ))}
@@ -395,7 +370,7 @@ const CheckList = styled.div`
   flex-direction : column;
   height : 70%;
   gap : 10px;
-  font-size : 20px;
+  font-size : 16px;
   padding : 10px;
 `
 const InputBox = styled.input`
