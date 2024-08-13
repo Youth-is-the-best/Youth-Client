@@ -103,6 +103,12 @@ const MadeReview = () => {
   const [prepDates, setPrepDates] = useState([null, null]);
   const [selectedOptions, setSelectedOptions] = useState({});
 
+  const formatDateString = (date) => {
+    const formattedDate = date.toLocaleDateString();
+    const [year, month, day] = formattedDate.split('.').map(element => element.trim());
+    return `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
+  };
+
   const handleExamDateChange = (dates) => {
     setExamDates(dates);
   };
@@ -129,13 +135,14 @@ const MadeReview = () => {
   };
 
   const postReview = async () => {
+
     try {
       let body = {
         large_category: categoryMap[selectedCategory],
         title: title,
         content: content,
-        start_date: prepDates[0]?.toLocaleDateString(),
-        end_date: prepDates[1]?.toLocaleDateString(),
+        start_date: prepDates[0],
+        end_date: prepDates[1],
         detailplans: checklists.map((item) => ({ content: item.text })),
       };
   
@@ -190,9 +197,22 @@ const MadeReview = () => {
           console.warn(`Unhandled category: ${selectedCategory}`);
           break;
       }
+      const data = new FormData();
+
+      const jsonFormData = JSON.stringify(body);
+      data.append('json', jsonFormData);
+  
+      for (let pair of data.entries()) {
+        console.log(pair[0] + ', ' + pair[1]); 
+      }
+  
+      // const jsonFormData = JSON.stringify(body);
+      // console.log(jsonFormData);
       console.log(body);
-      const response = await postMyReview(body);
-      console.log(body);
+      // const response = await postMyReview(jsonFormData);
+      // const response = await postMyReview(body);
+      const response = await postMyReview(data);
+      // console.log(body);
       console.log(response);
     } catch (error) {
       console.error("Error in postReview:", error.response ? error.response.data : error.message);
