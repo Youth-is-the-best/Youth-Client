@@ -477,7 +477,7 @@ const Noti = () => {
                 </Comment>
               </Content>
             ))}
-            {/* <Plus><FiPlus onClick={madeReview}/></Plus> */}
+            <Plus><FiPlus onClick={madeReview}/></Plus>
         </ContentDom>
       </Body>
       <FooterHook />

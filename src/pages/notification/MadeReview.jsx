@@ -102,13 +102,31 @@ const MadeReview = () => {
   const [examDates, setExamDates] = useState([null, null]);
   const [prepDates, setPrepDates] = useState([null, null]);
   const [selectedOptions, setSelectedOptions] = useState({});
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
-  const handleExamDateChange = (dates) => {
-    setExamDates(dates);
+  const formatDateString = (date) => {
+    const formattedDate = date.toLocaleDateString();
+    const [year, month, day] = formattedDate.split('.').map(element => element.trim());
+    return `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
   };
 
-  const handlePrepDateChange = (dates) => {
-    setPrepDates(dates);
+  const handleExamDateChange = (examDates) => {
+    setExamDates(examDates);
+    const formattedDate = formatDateString(examDates[0]);
+    setExamDates(formattedDate);
+  };
+
+  const handlePrepDateChange = (prepDates) => {
+    // setPrepDates(prepDates);
+
+    setPrepDates(prepDates); 
+    const [startDate, endDate] = prepDates;
+    
+    const formattedStartDate = formatDateString(startDate);
+    const formattedEndDate = formatDateString(endDate);
+
+    setPrepDates([formattedStartDate, formattedEndDate]);
   };
 
   const handleSelectChange = (placeholder, value) => {
@@ -190,9 +208,31 @@ const MadeReview = () => {
           console.warn(`Unhandled category: ${selectedCategory}`);
           break;
       }
+
+      // e.preventDefault();
+      const data = new FormData();
+  
+      // Add images to FormData
+      // images.forEach((image, index) => {
+      //   data.append(`images[${index}]`, image);
+      // });
+  
+      // Add form data as a JSON string
+      const jsonFormData = JSON.stringify(body);
+      data.append('json', jsonFormData);
+  
+      // Debugging FormData content
+      for (let pair of data.entries()) {
+        console.log(pair[0] + ', ' + pair[1]); 
+      }
+  
+      // const jsonFormData = JSON.stringify(body);
+      // console.log(jsonFormData);
       console.log(body);
-      const response = await postMyReview(body);
-      console.log(body);
+      // const response = await postMyReview(jsonFormData);
+      // const response = await postMyReview(body);
+      const response = await postMyReview(data);
+      // console.log(body);
       console.log(response);
     } catch (error) {
       console.error("Error in postReview:", error.response ? error.response.data : error.message);
