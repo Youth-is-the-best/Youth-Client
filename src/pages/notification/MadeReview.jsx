@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Row, Line} from '../bingo/MadeBingo';
-import { AiOutlineCheckSquare } from 'react-icons/ai';
 import HeaderHook from '../../hook/HeaderHook';
 import FooterHook from '../../hook/FooterHook';
 import CustomCalendar from '../bingo/CustomCalendar';
@@ -39,7 +38,7 @@ const MadeReview = () => {
       { placeholder: "채용형태", type: "select", options: ["신입", "경력", "계약직", "인턴", "아르바이트"] },
       { placeholder: "근무 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
       { placeholder: "근무 기간", type: "date-range" },
-      { placeholder: "채용 절차" },
+      { placeholder: "채용 절차", type : "procedure-text" },
       { placeholder: "준비 과정/소감", type: "bigtext" }
     ],
     "자격증": [
@@ -47,7 +46,7 @@ const MadeReview = () => {
       { placeholder: "응시료" },
       { placeholder: "시험 날짜", type: "date" },
       { placeholder: "준비 기간", type: "date-range" },
-      { placeholder: "시험 절차" },
+      { placeholder: "시험 절차", type : "procedure-text" },
       { placeholder: "준비 과정/공부 팁/소감", type: "bigtext" }
     ],
     "대외활동": [
@@ -55,7 +54,7 @@ const MadeReview = () => {
       { placeholder: "활동 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
       // { placeholder: "지원 마감", type: "date" },
       { placeholder: "활동 기간", type: "date-range" },
-      { placeholder: "모집 절차" },
+      { placeholder: "모집 절차", type : "procedure-text" },
       { placeholder: "준비 과정/합겹 팁/활동 내용/소감", type: "bigtext"}
       
     ],
@@ -64,6 +63,7 @@ const MadeReview = () => {
       { placeholder: "공모 분야", type: "select", options: ["기획/아이디어", "광고/마케팅", "사진/영상", "디자인/순수미술", "캐릭터/만화/게임", "공간/건축", "과학/공학", "예체능", "학술", "창업", "기타"] },
       { placeholder: "마감일", type: "date" },
       { placeholder: "준비 기간", type: "date-range" },
+      { placeholder: "모집 절차", type : "procedure-text" },
       { placeholder: "준비 내용/수상 팁/소감", type: "bigtext" }
     ],
     "취미": [
@@ -98,9 +98,10 @@ const MadeReview = () => {
   const [selectedCategory, setSelectedCategory] = useState(categorys[0]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [procedure, setProcedure] = useState('');
   const [examDates, setExamDates] = useState([null, null]);
   const [prepDates, setPrepDates] = useState([null, null]);
-  
+  const [selectedOptions, setSelectedOptions] = useState({});
 
   const handleExamDateChange = (dates) => {
     setExamDates(dates);
@@ -108,6 +109,13 @@ const MadeReview = () => {
 
   const handlePrepDateChange = (dates) => {
     setPrepDates(dates);
+  };
+  
+  const handleSelectChange = (placeholder, value) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      [placeholder]: value
+    });
   };
 
   const [checklists, setChecklists] = useState([]);
@@ -129,17 +137,10 @@ const MadeReview = () => {
         "duty": "직무",
         "employment_form": "채용 형태",
         "area": "제주도",
-        "procedure": "모집 절차 내용",
+        "procedure": procedure,
         "start_date": prepDateState[0].toLocaleDateString(),
         "end_date": prepDateState[1].toLocaleDateString(),
-        "detailplans": [
-            {
-                "content": "내가 야간 알바를 하다니"
-            },
-            {
-                "content": "이 것은 세부 계획"
-            }
-        ]
+        "detailplans": checklists.map((item) => ({ content: item.text })),
       };
     } else if(selectedCategory === "자격증"){
       const body =
@@ -149,7 +150,7 @@ const MadeReview = () => {
           "content": content,
           "host": "상공회의소",
           "date": examDates[0].toLocaleDateString(),
-          "procedure": "시험 절차 내용",
+          "procedure": procedure,
           "app_fee": 20000,
           "start_date": prepDateState[0].toLocaleDateString(),
           "end_date": prepDateState[1].toLocaleDateString(),
@@ -172,7 +173,7 @@ const MadeReview = () => {
         "area": "활동 지역",
         "start_date": prepDateState[0].toLocaleDateString(),
         "end_date": prepDateState[1].toLocaleDateString(),
-        "procedure": "모집 절차",
+        "procedure": procedure,
         "detailplans": [
             {
                 "content": "이 것은 세부 계획"
@@ -193,7 +194,7 @@ const MadeReview = () => {
         "app_due": examDates[0].toLocaleDateString(),
         "start_date": prepDateState[0].toLocaleDateString(),
         "end_date": prepDateState[1].toLocaleDateString(),
-        "procedure": "모집 절차",
+        "procedure": procedure,
         "detailplans": [
             {
                 "content": "이 것은 세부 계획"
@@ -243,8 +244,7 @@ const MadeReview = () => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="제목을 입력하세요"
-            />
+            placeholder="제목을 입력하세요"/>
           </Line>
               <Line>
                 <Category>분류</Category>
@@ -303,8 +303,19 @@ const MadeReview = () => {
                       style={{height:'200px'}}/>
                   </Line>
                   );
-                }
-                else {
+                } else if (config.type === 'procedure-text'){
+                  return(
+                  <Line>
+                    <Category key={index}>{config.placeholder}</Category>
+                    <InputBox
+                      key={index}
+                      type="text"
+                      value={procedure}
+                      onChange={(e) => setProcedure(e.target.value)}
+                      placeholder={config.placeholder}/>
+                  </Line>
+                  );
+              } else {
                   return (
                     <Line>
                     <Category key={index}>{config.placeholder}</Category>
@@ -377,16 +388,12 @@ const Body = styled.div`
   // align-items: center;
   color : rgba(27, 52, 124, 1);
   font-size : 24px;
-  // margin-bottom: 10%;
 `
 
 const CheckList = styled.div`
   display : flex;
   flex-direction : column;
   height : 70%;
-  // width : 420px;
-  // border-radius: 10px;
-  // border: 0.2px solid rgba(142, 156, 196, 1);
   gap : 10px;
   font-size : 20px;
   padding : 10px;
@@ -448,12 +455,12 @@ const Button = styled.button`
   display : flex;
   justify-content : center;
   align-items : center;
-  width : 80px;
-  height : 50px;
+  width : 100px;
+  height : 44px;
   border : none;
   border-radius : 10px;
   background-color : rgba(27, 52, 124, 1);
   color : white;
   font-size : 16px;
-  margin-left : 90%;
+  margin-left : 95%;
 `
