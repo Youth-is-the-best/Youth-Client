@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Row, Line} from '../bingo/MadeBingo';
-import { AiOutlineCheckSquare } from 'react-icons/ai';
 import HeaderHook from '../../hook/HeaderHook';
 import FooterHook from '../../hook/FooterHook';
 import CustomCalendar from '../bingo/CustomCalendar';
 import { CiSquarePlus } from 'react-icons/ci';
+import { postMyReview } from '../../apis/reviewapis';
+import { prepDateState } from '../../recoil/atoms';
+import { FiCheck } from 'react-icons/fi';
 
 const MadeReview = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
-  const subcategories = {
-    "채용(인턴)": ["직무", "채용형태", "근무 지역", "지원 마감","채용 절차","준비 과정/소감"],
-    "자격증": ["주최사", "응시료", "시험 날짜", "준비 기간","시험 절차","준비 과정/공부 팁/소감"],
-    "대외활동": ["활동 분야", "활동 지역", "활동 기간", "지원 마감","모집 절차","준비 과정/합겹 팁/활동 내용/소감"],
-    "공모전": ["주최 기관", "공모 분야", "마감일", "준비 기간","준비 내용/수상 팁/소감"],
-    "취미": ["분야", "파트너", "기간","소감"],
-    "여행": ["장소", "파트너", "기간","소감"],
-    "자기계발": ["분야", "파트너", "기간","소감"],
-    "휴식": ["장소", "기간","소감"]
+  // const subcategories = {
+  //   "채용(인턴)": ["직무", "채용형태", "근무 지역", "지원 마감","채용 절차","준비 과정/소감"],
+  //   "자격증": ["주최사", "응시료", "시험 날짜", "준비 기간","시험 절차","준비 과정/공부 팁/소감"],
+  //   "대외활동": ["활동 분야", "활동 지역", "활동 기간", "지원 마감","모집 절차","준비 과정/합겹 팁/활동 내용/소감"],
+  //   "공모전": ["주최 기관", "공모 분야", "마감일", "준비 기간","준비 내용/수상 팁/소감"],
+  //   "취미": ["분야", "파트너", "기간","소감"],
+  //   "여행": ["장소", "파트너", "기간","소감"],
+  //   "자기계발": ["분야", "파트너", "기간","소감"],
+  //   "휴식": ["장소", "기간","소감"]
+  // };  
+  const categoryMap = {
+    "채용(인턴)": "CAREER",
+    "자격증": "CERTIFICATE",
+    "대외활동": "OUTBOUND",
+    "공모전": "CONTEST",
+    "취미": "HOBBY",
+    "여행": "TRAVEL",
+    "자기계발": "SELFIMPROVEMENT",
+    "휴식": "REST",
   };
 
   const inputConfigs = {
@@ -26,7 +38,7 @@ const MadeReview = () => {
       { placeholder: "채용형태", type: "select", options: ["신입", "경력", "계약직", "인턴", "아르바이트"] },
       { placeholder: "근무 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
       { placeholder: "근무 기간", type: "date-range" },
-      { placeholder: "채용 절차" },
+      { placeholder: "채용 절차", type : "procedure-text" },
       { placeholder: "준비 과정/소감", type: "bigtext" }
     ],
     "자격증": [
@@ -34,7 +46,7 @@ const MadeReview = () => {
       { placeholder: "응시료" },
       { placeholder: "시험 날짜", type: "date" },
       { placeholder: "준비 기간", type: "date-range" },
-      { placeholder: "시험 절차" },
+      { placeholder: "시험 절차", type : "procedure-text" },
       { placeholder: "준비 과정/공부 팁/소감", type: "bigtext" }
     ],
     "대외활동": [
@@ -42,8 +54,8 @@ const MadeReview = () => {
       { placeholder: "활동 지역", type: "select", options: ["서울", "경기(인천, 세종)", "강원", "충청(대전)", "전라(광주)", "경상(대구, 울산, 부산)", "제주", "비대면"] },
       // { placeholder: "지원 마감", type: "date" },
       { placeholder: "활동 기간", type: "date-range" },
-      { placeholder: "모집 절차" },
-      { placeholder: "준비 과정/합겹 팁/활동 내용/소감", type: "bigtext"}
+      { placeholder: "모집 절차", type : "procedure-text" },
+      { placeholder: "준비 과정/합격 팁/활동 내용/소감", type: "bigtext"}
       
     ],
     "공모전": [
@@ -51,6 +63,7 @@ const MadeReview = () => {
       { placeholder: "공모 분야", type: "select", options: ["기획/아이디어", "광고/마케팅", "사진/영상", "디자인/순수미술", "캐릭터/만화/게임", "공간/건축", "과학/공학", "예체능", "학술", "창업", "기타"] },
       { placeholder: "마감일", type: "date" },
       { placeholder: "준비 기간", type: "date-range" },
+      { placeholder: "모집 절차", type : "procedure-text" },
       { placeholder: "준비 내용/수상 팁/소감", type: "bigtext" }
     ],
     "취미": [
@@ -84,9 +97,11 @@ const MadeReview = () => {
 
   const [selectedCategory, setSelectedCategory] = useState(categorys[0]);
   const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [procedure, setProcedure] = useState('');
   const [examDates, setExamDates] = useState([null, null]);
   const [prepDates, setPrepDates] = useState([null, null]);
-  
+  const [selectedOptions, setSelectedOptions] = useState({});
 
   const handleExamDateChange = (dates) => {
     setExamDates(dates);
@@ -94,6 +109,13 @@ const MadeReview = () => {
 
   const handlePrepDateChange = (dates) => {
     setPrepDates(dates);
+  };
+
+  const handleSelectChange = (placeholder, value) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      [placeholder]: value,
+    });
   };
 
   const [checklists, setChecklists] = useState([]);
@@ -107,8 +129,73 @@ const MadeReview = () => {
   };
 
   const postReview = async () => {
-    const body = {
-      
+    try {
+      let body = {
+        large_category: categoryMap[selectedCategory],
+        title: title,
+        content: content,
+        start_date: prepDates[0]?.toLocaleDateString(),
+        end_date: prepDates[1]?.toLocaleDateString(),
+        detailplans: checklists.map((item) => ({ content: item.text })),
+      };
+  
+      switch (selectedCategory) {
+        case "채용(인턴)":
+          body.duty = selectedOptions["직무"];
+          body.employment_form = selectedOptions["채용형태"];
+          body.area = selectedOptions["근무 지역"];
+          body.procedure = selectedOptions["채용 절차"];
+          break;
+  
+        case "자격증":
+          body.host = selectedOptions["주최사"];
+          body.date = examDates[0]?.toLocaleDateString();
+          body.procedure = selectedOptions["시험 절차"];
+          body.app_fee = selectedOptions["응시료"];
+          break;
+  
+        case "대외활동":
+          body.field = selectedOptions["활동 분야"];
+          body.area = selectedOptions["활동 지역"];
+          body.procedure = selectedOptions["모집 절차"];
+          break;
+  
+        case "공모전":
+          body.host = selectedOptions["주최 기관"];
+          body.field = selectedOptions["공모 분야"];
+          body.app_due = examDates[0]?.toLocaleDateString();
+          body.procedure = selectedOptions["모집 절차"];
+          break;
+  
+        case "취미":
+          body.field = selectedOptions["분야"];
+          body.partner = selectedOptions["파트너"];
+          break;
+  
+        case "여행":
+          body.location = selectedOptions["장소"];
+          body.partner = selectedOptions["파트너"];
+          break;
+  
+        case "자기계발":
+          body.field = selectedOptions["분야"];
+          body.partner = selectedOptions["파트너"];
+          break;
+  
+        case "휴식":
+          body.location = selectedOptions["장소"];
+          break;
+  
+        default:
+          console.warn(`Unhandled category: ${selectedCategory}`);
+          break;
+      }
+      console.log(body);
+      const response = await postMyReview(body);
+      console.log(body);
+      console.log(response);
+    } catch (error) {
+      console.error("Error in postReview:", error.response ? error.response.data : error.message);
     }
   };
 
@@ -119,8 +206,16 @@ const MadeReview = () => {
     <Body style={{padding:'80px'}}>
       <Row style={{marginBottom:'60px'}}>
         <div>후기/Review</div>
-        <div style={{fontSize:'16px', color:'rgba(163, 163, 163, 1)'}}>휴학 전에 했던 활동 기록, 빙고판에 넣지 않았던  기타 에피소드를 남겨주세요</div>
+        <div style={{fontSize:'16px', color:'rgba(163, 163, 163, 1)'}}>휴학 전에 했던 활동 기록, 빙고판에 넣지 않았던 기타 에피소드를 남겨주세요</div>
       </Row>
+        <Line>
+          <Category>제목</Category>
+          <InputBox
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="제목을 입력하세요"/>
+          </Line>
               <Line>
                 <Category>분류</Category>
                 <Selector value={selectedCategory} onChange={handleCategoryChange}>
@@ -156,13 +251,18 @@ const MadeReview = () => {
                   );
                 } else if (config.type === 'select') {
                   return (
-                    <Line>
-                    <Category key={index}>{config.placeholder}</Category>
-                    <Selector key={index}>
-                      {config.options.map((option, idx) => (
-                        <option key={idx} value={option}>{option}</option>
-                      ))}
-                    </Selector>
+                    <Line key={index}>
+                      <Category>{config.placeholder}</Category>
+                      <Selector
+                        value={selectedOptions[config.placeholder] || ''}
+                        onChange={(e) => handleSelectChange(config.placeholder, e.target.value)}
+                      >
+                        {config.options.map((option, optIndex) => (
+                          <option key={optIndex} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </Selector>
                     </Line>
                   );
                 } else if (config.type === 'bigtext'){
@@ -172,22 +272,33 @@ const MadeReview = () => {
                     <InputBox
                       key={index}
                       type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
                       placeholder={config.placeholder}
                       style={{height:'200px'}}/>
                   </Line>
                   );
-                }
-                else {
+                } else if (config.type === 'procedure-text'){
+                  return(
+                  <Line>
+                    <Category key={index}>{config.placeholder}</Category>
+                    <InputBox
+                      key={index}
+                      type="text"
+                      value={procedure}
+                      onChange={(e) => setProcedure(e.target.value)}
+                      placeholder={config.placeholder}/>
+                  </Line>
+                  );
+              } else {
                   return (
                     <Line>
                     <Category key={index}>{config.placeholder}</Category>
                     <InputBox
                       key={index}
                       type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
                       placeholder={config.placeholder}/>
                     </Line>
                   );
@@ -196,23 +307,24 @@ const MadeReview = () => {
               <Line>
                 <Category>체크리스트</Category>
                 <CheckList>
-            {checklists.map((item) => (
-              <div key={item.id}>
-                  <AiOutlineCheckSquare size={20}  />
-                <span>{item.text}</span>
-              </div>
-            ))}
-            <Line style={{gap : '5%'}}>
-            <InputBox
-              type="text"
-              value={newChecklistText}
-              onChange={(e) => setNewChecklistText(e.target.value)}
-              placeholder="세부 계획을 입력하세요"
-            />
-            <CiSquarePlus size={30} onClick={madeCheckList} />
+                  {checklists.map((item) => (
+                    <div key={item.id}>
+                        <FiCheck size={15}/>
+                      <span>{item.text}</span>
+                    </div>
+                  ))}
+                <Line style={{flexDirection: 'row'}}>
+                  <InputBox
+                    type="text"
+                    value={newChecklistText}
+                    onChange={(e) => setNewChecklistText(e.target.value)}
+                    placeholder="세부 계획을 입력하세요"
+                    style={{width:'70%'}}
+                  />
+                  <CiSquarePlus size={30} onClick={madeCheckList} />
+                </Line>
+                </CheckList>
             </Line>
-          </CheckList>
-          </Line>
                 <style> 
                 {` 
                     ::placeholder { 
@@ -220,11 +332,12 @@ const MadeReview = () => {
                     }` 
                 } 
                 </style>
-          <PhotoDom>
+          {/* <PhotoDom>
             <div>사진</div>
             <div>사진</div>
             <div>사진</div>
-          </PhotoDom>
+          </PhotoDom> */}
+          <Button onClick={postReview}>업로드</Button>
     </Body>
     </BigBody>
     <FooterHook />
@@ -239,25 +352,23 @@ const BigBody = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color : rgba(27, 52, 124, 1);
 `
 const Body = styled.div`
-    display : flex;
-    flex-direction: column;
-    justify-content: center;
-    width : 40%;
-    // align-items: center;
-    color : rgba(30, 58, 138, 1);
-    font-size : 24px;
-    margin-bottom: 10%;
+  display : flex;
+  flex-direction: column;
+  justify-content: center;
+  width : 40%;
+  gap : 15%;
+  // align-items: center;
+  color : rgba(27, 52, 124, 1);
+  font-size : 24px;
 `
 
 const CheckList = styled.div`
   display : flex;
   flex-direction : column;
-  width : 420px;
-  height : 30%;
-  border-radius: 10px;
-  border: 0.2px solid rgba(142, 156, 196, 1);
+  height : 70%;
   gap : 10px;
   font-size : 16px;
   padding : 10px;
@@ -301,7 +412,9 @@ const Category = styled.div`
   align-items : center;
   justify-content : center;
   width : 200px;
-  border : 0.2px solid rgba(142, 156, 196, 1);
+  color : rgba(27, 52, 124, 1);
+  font-size : 20px;
+  // border : 0.2px solid rgba(142, 156, 196, 1);
 `
 
 const PhotoDom = styled.div`
@@ -311,4 +424,18 @@ const PhotoDom = styled.div`
   justify-content : center;
   width : 100%;
   gap : 5%;
+`
+
+const Button = styled.button`
+  display : flex;
+  justify-content : center;
+  align-items : center;
+  width : 100px;
+  height : 44px;
+  border : none;
+  border-radius : 10px;
+  background-color : rgba(27, 52, 124, 1);
+  color : white;
+  font-size : 16px;
+  margin-left : 95%;
 `

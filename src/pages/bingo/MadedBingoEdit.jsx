@@ -52,8 +52,6 @@ const MadedBingoEdit = () => {
         bingo_space: todo.bingo_space,
         user: todo.user
       }));
-      console.log('Fetched info:', info);
-      console.log('Fetched todos:', todos);
       setInfo(info);
       setChecklists(todos);
     } catch (error) {
@@ -73,13 +71,13 @@ const MadedBingoEdit = () => {
     };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
-    console.log(checklists);
+    // console.log(checklists);
   };
 
   const deleteCheckList = (id) => {
     const updatedChecklists = checklists.filter(item => item.id !== id);
     setChecklists(updatedChecklists);
-    console.log(checklists);
+    // console.log(checklists);
   };
 
   const putBingoChecklist = async (location, checklists) => {
@@ -112,8 +110,8 @@ const MadedBingoEdit = () => {
       };
 
       const response = await putBingoloc(location, data);
-      console.log(checklists);
-      console.log(response);
+      // console.log(checklists);
+      // console.log(response);
       alert(`${response.success} 수정할 기회는 ${response.change_chance}회 남았습니다.`);
     }
     catch (error) {
