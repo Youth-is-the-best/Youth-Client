@@ -6,18 +6,30 @@ import HeaderHook from '../../hook/HeaderHook';
 import FooterHook from '../../hook/FooterHook';
 import CustomCalendar from '../bingo/CustomCalendar';
 import { CiSquarePlus } from 'react-icons/ci';
+import { postMyReview } from '../../apis/reviewapis';
+import { prepDateState } from '../../recoil/atoms';
 
 const MadeReview = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
-  const subcategories = {
-    "채용(인턴)": ["직무", "채용형태", "근무 지역", "지원 마감","채용 절차","준비 과정/소감"],
-    "자격증": ["주최사", "응시료", "시험 날짜", "준비 기간","시험 절차","준비 과정/공부 팁/소감"],
-    "대외활동": ["활동 분야", "활동 지역", "활동 기간", "지원 마감","모집 절차","준비 과정/합겹 팁/활동 내용/소감"],
-    "공모전": ["주최 기관", "공모 분야", "마감일", "준비 기간","준비 내용/수상 팁/소감"],
-    "취미": ["분야", "파트너", "기간","소감"],
-    "여행": ["장소", "파트너", "기간","소감"],
-    "자기계발": ["분야", "파트너", "기간","소감"],
-    "휴식": ["장소", "기간","소감"]
+  // const subcategories = {
+  //   "채용(인턴)": ["직무", "채용형태", "근무 지역", "지원 마감","채용 절차","준비 과정/소감"],
+  //   "자격증": ["주최사", "응시료", "시험 날짜", "준비 기간","시험 절차","준비 과정/공부 팁/소감"],
+  //   "대외활동": ["활동 분야", "활동 지역", "활동 기간", "지원 마감","모집 절차","준비 과정/합겹 팁/활동 내용/소감"],
+  //   "공모전": ["주최 기관", "공모 분야", "마감일", "준비 기간","준비 내용/수상 팁/소감"],
+  //   "취미": ["분야", "파트너", "기간","소감"],
+  //   "여행": ["장소", "파트너", "기간","소감"],
+  //   "자기계발": ["분야", "파트너", "기간","소감"],
+  //   "휴식": ["장소", "기간","소감"]
+  // };  
+  const categoryMap = {
+    "채용(인턴)": "CAREER",
+    "자격증": "CERTIFICATE",
+    "대외활동": "OUTBOUND",
+    "공모전": "CONTEST",
+    "취미": "HOBBY",
+    "여행": "TRAVEL",
+    "자기계발": "SELFIMPROVEMENT",
+    "휴식": "REST",
   };
 
   const inputConfigs = {
@@ -84,6 +96,7 @@ const MadeReview = () => {
 
   const [selectedCategory, setSelectedCategory] = useState(categorys[0]);
   const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [examDates, setExamDates] = useState([null, null]);
   const [prepDates, setPrepDates] = useState([null, null]);
   
@@ -101,7 +114,7 @@ const MadeReview = () => {
 
   const madeCheckList = () => {
     if (newChecklistText.trim() === '') return;
-    const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
+    const newChecklist = { content: newChecklistText };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
   };
@@ -109,15 +122,15 @@ const MadeReview = () => {
   const postReview = async () => {
     if(selectedCategory === "채용(인턴)"){
       const body = {
-        "large_category": "CAREER",
+        "large_category": categoryMap[selectedCategory],
         "title": title,
-        "content": "GS25 야간 알바를 하였다.",
+        "content": content,
         "duty": "직무",
         "employment_form": "채용 형태",
         "area": "제주도",
         "procedure": "모집 절차 내용",
-        "start_date": "2024-08-20",
-        "end_date": "2024-09-20",
+        "start_date": prepDateState[0].toLocaleDateString(),
+        "end_date": prepDateState[1].toLocaleDateString(),
         "detailplans": [
             {
                 "content": "내가 야간 알바를 하다니"
@@ -130,15 +143,15 @@ const MadeReview = () => {
     } else if(selectedCategory === "자격증"){
       const body =
         {
-          "large_category": "CERTIFICATE",
+          "large_category": categoryMap[selectedCategory],
           "title": title,
-          "content": "정보처리기사 자격증을 땄다",
+          "content": content,
           "host": "상공회의소",
-          "date": "2024-10-1",
+          "date": examDates[0].toLocaleDateString(),
           "procedure": "시험 절차 내용",
           "app_fee": 20000,
-          "start_date": "2024-08-20",
-          "end_date": "2024-09-20",
+          "start_date": prepDateState[0].toLocaleDateString(),
+          "end_date": prepDateState[1].toLocaleDateString(),
           "detailplans": [
               {
                   "content": "내가 야간 알바를 하다니"
@@ -151,13 +164,13 @@ const MadeReview = () => {
     } else if(selectedCategory === "대외활동"){
       const body =
       {
-        "large_category": "OUTBOUND",
+        "large_category": categoryMap[selectedCategory],
         "title": title,
-        "content": "대외활동에서 이런저런걸 했다",
+        "content": content,
         "field": "활동 분야",
         "area": "활동 지역",
-        "start_date": "2024-08-20",
-        "end_date": "2024-09-20",
+        "start_date": prepDateState[0].toLocaleDateString(),
+        "end_date": prepDateState[1].toLocaleDateString(),
         "procedure": "모집 절차",
         "detailplans": [
             {
@@ -171,14 +184,14 @@ const MadeReview = () => {
     } else if(selectedCategory === "공모전"){
       const body =
       {
-        "large_category": "CONTEST",
+        "large_category": categoryMap[selectedCategory],
         "title": title,
-        "content": "공모전에서 이런저런걸 했다",
+        "content": content,
         "host": "주최 기관",
         "field": "공모 분야",
-        "app_due": "2024-07-25",
-        "start_date": "2024-08-20",
-        "end_date": "2024-09-20",
+        "app_due": examDates[0].toLocaleDateString(),
+        "start_date": prepDateState[0].toLocaleDateString(),
+        "end_date": prepDateState[1].toLocaleDateString(),
         "procedure": "모집 절차",
         "detailplans": [
             {
@@ -191,11 +204,11 @@ const MadeReview = () => {
       };
     } else {
       const body = {
-        "large_category": selectedCategory,
+        "large_category": categoryMap[selectedCategory],
         "title": title,
-        "content": "매일 기타를 1시간 씩 쳤다.",
-        "start_date": "2024-08-20",
-        "end_date": "2024-09-20",
+        "content": content,
+        "start_date": prepDateState[0].toLocaleDateString(),
+        "end_date": prepDateState[1].toLocaleDateString(),
         "detailplans": [
             {
                 "content": "동생한테 기타 연주 들려주기"
@@ -206,6 +219,12 @@ const MadeReview = () => {
         ]
       };
     };
+    // try {
+    //   const response = await postMyReview(body);
+    //   console.log(response);
+    // }catch (error) {
+    //   console.error('Error in postReview:', error.response ? error.response.data : error.message);
+    // }
   };
 
   return (
@@ -217,6 +236,15 @@ const MadeReview = () => {
         <div>후기/Review</div>
         <div style={{fontSize:'16px', color:'rgba(163, 163, 163, 1)'}}>휴학 전에 했던 활동 기록, 빙고판에 넣지 않았던  기타 에피소드를 남겨주세요</div>
       </Row>
+        <Line>
+          <Category>제목</Category>
+          <InputBox
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="제목을 입력하세요"
+            />
+          </Line>
               <Line>
                 <Category>분류</Category>
                 <Selector value={selectedCategory} onChange={handleCategoryChange}>
@@ -282,8 +310,8 @@ const MadeReview = () => {
                     <InputBox
                       key={index}
                       type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
                       placeholder={config.placeholder}/>
                     </Line>
                   );
@@ -321,6 +349,7 @@ const MadeReview = () => {
             <div>사진</div>
             <div>사진</div>
           </PhotoDom>
+          <Category onClick={postReview}>업로드</Category>
     </Body>
     </BigBody>
     <FooterHook />
