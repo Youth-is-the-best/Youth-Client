@@ -8,6 +8,7 @@ import CustomCalendar from '../bingo/CustomCalendar';
 import { CiSquarePlus } from 'react-icons/ci';
 import { postMyReview } from '../../apis/reviewapis';
 import { prepDateState } from '../../recoil/atoms';
+import { FiCheck } from 'react-icons/fi';
 
 const MadeReview = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
@@ -114,7 +115,7 @@ const MadeReview = () => {
 
   const madeCheckList = () => {
     if (newChecklistText.trim() === '') return;
-    const newChecklist = { content: newChecklistText };
+    const newChecklist = { id: checklists.length + 1, text: newChecklistText, checked: false };
     setChecklists([...checklists, newChecklist]);
     setNewChecklistText('');
   };
@@ -234,7 +235,7 @@ const MadeReview = () => {
     <Body style={{padding:'80px'}}>
       <Row style={{marginBottom:'60px'}}>
         <div>후기/Review</div>
-        <div style={{fontSize:'16px', color:'rgba(163, 163, 163, 1)'}}>휴학 전에 했던 활동 기록, 빙고판에 넣지 않았던  기타 에피소드를 남겨주세요</div>
+        <div style={{fontSize:'16px', color:'rgba(163, 163, 163, 1)'}}>휴학 전에 했던 활동 기록, 빙고판에 넣지 않았던 기타 에피소드를 남겨주세요</div>
       </Row>
         <Line>
           <Category>제목</Category>
@@ -320,23 +321,24 @@ const MadeReview = () => {
               <Line>
                 <Category>체크리스트</Category>
                 <CheckList>
-            {checklists.map((item) => (
-              <div key={item.id}>
-                  <AiOutlineCheckSquare size={20}  />
-                <span>{item.text}</span>
-              </div>
-            ))}
-            <Line style={{gap : '5%'}}>
-            <InputBox
-              type="text"
-              value={newChecklistText}
-              onChange={(e) => setNewChecklistText(e.target.value)}
-              placeholder="세부 계획을 입력하세요"
-            />
-            <CiSquarePlus size={30} onClick={madeCheckList} />
+                  {checklists.map((item) => (
+                    <div key={item.id}>
+                        <FiCheck size={20}/>
+                      <span>{item.text}</span>
+                    </div>
+                  ))}
+                <Line style={{flexDirection: 'row'}}>
+                  <InputBox
+                    type="text"
+                    value={newChecklistText}
+                    onChange={(e) => setNewChecklistText(e.target.value)}
+                    placeholder="세부 계획을 입력하세요"
+                    style={{width:'70%'}}
+                  />
+                  <CiSquarePlus size={30} onClick={madeCheckList} />
+                </Line>
+                </CheckList>
             </Line>
-          </CheckList>
-          </Line>
                 <style> 
                 {` 
                     ::placeholder { 
@@ -344,12 +346,12 @@ const MadeReview = () => {
                     }` 
                 } 
                 </style>
-          <PhotoDom>
+          {/* <PhotoDom>
             <div>사진</div>
             <div>사진</div>
             <div>사진</div>
-          </PhotoDom>
-          <Category onClick={postReview}>업로드</Category>
+          </PhotoDom> */}
+          <Button onClick={postReview}>업로드</Button>
     </Body>
     </BigBody>
     <FooterHook />
@@ -364,27 +366,29 @@ const BigBody = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color : rgba(27, 52, 124, 1);
 `
 const Body = styled.div`
-    display : flex;
-    flex-direction: column;
-    justify-content: center;
-    width : 40%;
-    // align-items: center;
-    color : rgba(30, 58, 138, 1);
-    font-size : 24px;
-    margin-bottom: 10%;
+  display : flex;
+  flex-direction: column;
+  justify-content: center;
+  width : 40%;
+  gap : 15%;
+  // align-items: center;
+  color : rgba(27, 52, 124, 1);
+  font-size : 24px;
+  // margin-bottom: 10%;
 `
 
 const CheckList = styled.div`
   display : flex;
   flex-direction : column;
-  width : 420px;
-  height : 30%;
-  border-radius: 10px;
-  border: 0.2px solid rgba(142, 156, 196, 1);
+  height : 70%;
+  // width : 420px;
+  // border-radius: 10px;
+  // border: 0.2px solid rgba(142, 156, 196, 1);
   gap : 10px;
-  font-size : 16px;
+  font-size : 20px;
   padding : 10px;
 `
 const InputBox = styled.input`
@@ -426,6 +430,8 @@ const Category = styled.div`
   align-items : center;
   justify-content : center;
   width : 200px;
+  color : rgba(27, 52, 124, 1);
+  font-size : 20px;
   // border : 0.2px solid rgba(142, 156, 196, 1);
 `
 
@@ -436,4 +442,18 @@ const PhotoDom = styled.div`
   justify-content : center;
   width : 100%;
   gap : 5%;
+`
+
+const Button = styled.button`
+  display : flex;
+  justify-content : center;
+  align-items : center;
+  width : 80px;
+  height : 50px;
+  border : none;
+  border-radius : 10px;
+  background-color : rgba(27, 52, 124, 1);
+  color : white;
+  font-size : 16px;
+  margin-left : 90%;
 `
