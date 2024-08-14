@@ -269,7 +269,7 @@ const Home = () => {
                 ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}` : '날짜를 입력하세요.'}
               <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
             </Line>
-            <Line style={{ fontSize: '24px' }}>{username}의 빙고판</Line>
+            <Line style={{ fontSize: '24px' }}>투두리스트 빙고판</Line>
           </LineDom>
           <BingoDom>
             {bingos.map((bingo, index) => {
