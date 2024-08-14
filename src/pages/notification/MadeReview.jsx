@@ -135,14 +135,13 @@ const MadeReview = () => {
   };
 
   const postReview = async () => {
-
     try {
       let body = {
         large_category: categoryMap[selectedCategory],
         title: title,
         content: content,
-        start_date: prepDates[0],
-        end_date: prepDates[1],
+        start_date: formatDateString(prepDates[0]),
+        end_date: formatDateString(prepDates[1]),
         detailplans: checklists.map((item) => ({ content: item.text })),
       };
   
@@ -156,7 +155,7 @@ const MadeReview = () => {
   
         case "자격증":
           body.host = selectedOptions["주최사"];
-          body.date = examDates[0]?.toLocaleDateString();
+          body.date = formatDateString(examDates[0]?.toLocaleDateString());
           body.procedure = selectedOptions["시험 절차"];
           body.app_fee = selectedOptions["응시료"];
           break;
@@ -170,7 +169,7 @@ const MadeReview = () => {
         case "공모전":
           body.host = selectedOptions["주최 기관"];
           body.field = selectedOptions["공모 분야"];
-          body.app_due = examDates[0]?.toLocaleDateString();
+          body.app_due = formatDateString(examDates[0]?.toLocaleDateString());
           body.procedure = selectedOptions["모집 절차"];
           break;
   
