@@ -220,6 +220,7 @@ const MadeReview = () => {
       alert('후기가 성공적으로 등록되었습니다.');
       navigate(`/notification`);
     } catch (error) {
+      alert(`모든 항목을 입력해주세요.`);
       console.error("Error in postReview:", error.response ? error.response.data : error.message);
     }
   };
