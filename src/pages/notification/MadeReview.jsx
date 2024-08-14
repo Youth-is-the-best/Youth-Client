@@ -6,8 +6,8 @@ import FooterHook from '../../hook/FooterHook';
 import CustomCalendar from '../bingo/CustomCalendar';
 import { CiSquarePlus } from 'react-icons/ci';
 import { postMyReview } from '../../apis/reviewapis';
-import { prepDateState } from '../../recoil/atoms';
 import { FiCheck } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const MadeReview = () => {
   const categorys = ["채용(인턴)", "자격증", "대외활동", "공모전", "취미", "여행", "자기계발", "휴식"];
@@ -102,6 +102,7 @@ const MadeReview = () => {
   const [examDates, setExamDates] = useState([null, null]);
   const [prepDates, setPrepDates] = useState([null, null]);
   const [selectedOptions, setSelectedOptions] = useState({});
+  const navigate = useNavigate();
 
   const formatDateString = (date) => {
     const formattedDate = date.toLocaleDateString();
@@ -212,7 +213,12 @@ const MadeReview = () => {
       // const response = await postMyReview(body);
       const response = await postMyReview(data);
       // console.log(body);
-      console.log(response);
+      // console.log(response);
+      // console.log(response.id);
+      // const { id } = response.id;
+      // navigate(`/viewreview/${id}`);
+      alert('후기가 성공적으로 등록되었습니다.');
+      navigate(`/notification`);
     } catch (error) {
       console.error("Error in postReview:", error.response ? error.response.data : error.message);
     }
