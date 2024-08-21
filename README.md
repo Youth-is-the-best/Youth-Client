@@ -1,3 +1,9 @@
+### branch 
+- main (배포 브런치)
+- sunbeen (선빈 개발 브런치)
+- eunbin (은빈 개발 브런치)
+
+
 ### Library
 - React-Router-Dom
 - styled-components
