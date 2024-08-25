@@ -43,7 +43,7 @@
 <br/>
 
 ## 1. 개발 환경
-- FrontEnd: React, Netlify
+- FrontEnd: Javascript, React, Netlify
 - BackEnd: Django-Rest-Framework, AWS EC2, RDS, S3
 - Design: Figma
 - 협업 툴: Notion, Slack
