@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import YearSemesterSelector from '../../hook/YearSemesterSelector';
-import ProgressBar from '../../hook/ProgressBar';
+import YearSemesterSelector from '../../components/YearSemesterSelector';
+import ProgressBar from '../../components/ProgressBar';
 import { useRecoilState } from 'recoil';
 import { semesterState, yearState } from '../../recoil/testatoms';
 import textLogo from '../../images/Frame 8.png';

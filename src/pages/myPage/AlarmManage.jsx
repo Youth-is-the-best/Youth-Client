@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import HeaderHook from '../../hook/HeaderHook'
-import FooterHook from '../../hook/FooterHook';
+import HeaderHook from '../../components/HeaderHook'
+import FooterHook from '../../components/FooterHook';
 import transimg from '../../images/transparent.png'
 import backimg from '../../images/MdOutlineKeyboardBackspace.png'
 import heartimg from '../../images/AiOutlineHeart.png'

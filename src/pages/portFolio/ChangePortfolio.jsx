@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import HeaderHook from '../../hook/HeaderHook';
+import HeaderHook from '../../components/HeaderHook';
 import MdOutlinedFeed from '../../images/MdOutlineFeed.png';
 import Vector from '../../images/Vector.png';
 import { useNavigate, useParams } from 'react-router-dom';

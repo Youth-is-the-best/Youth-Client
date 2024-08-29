@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import HeaderHook from '../../hook/HeaderHook'
-import 다람쥐 from '../../images/다람쥐.jpg'
+import HeaderHook from '../../components/HeaderHook'
 import AiOutlineRocket from '../../images/AiOutlineRocket.png'
 import FiNavigation from '../../images/FiNavigation.png'
 import AiOutLineBank from '../../images/AiOutlineBank.png'

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HeaderHook from '../../hook/HeaderHook';
-import FooterHook from '../../hook/FooterHook';
+import HeaderHook from '../../components/HeaderHook';
+import FooterHook from '../../components/FooterHook';
 import { getHandleNoticeSaved, getNoticeById } from '../../apis/reviewapis';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import HeaderHook from '../../hook/HeaderHook'
-import FooterHook from '../../hook/FooterHook';
+import HeaderHook from '../../components/HeaderHook'
+import FooterHook from '../../components/FooterHook';
 import AiOutlineSetting from '../../images/AiOutlineSetting.png'
 import transimg from '../../images/transparent.png'
 import { useNavigate } from 'react-router-dom'

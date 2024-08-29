@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { QuizDom, QuestionContainer, ButtonDom, Button } from './Test.jsx';
-import ProgressBar from '../../hook/ProgressBar.js';
+import ProgressBar from '../../components/ProgressBar.js';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { answer2State } from '../../recoil/testatoms.jsx';
