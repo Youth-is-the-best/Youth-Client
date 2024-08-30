@@ -208,7 +208,7 @@ const MadeReview = () => {
   
       // const jsonFormData = JSON.stringify(body);
       // console.log(jsonFormData);
-      console.log(body);
+      // console.log(body);
       // const response = await postMyReview(jsonFormData);
       // const response = await postMyReview(body);
       const response = await postMyReview(data);

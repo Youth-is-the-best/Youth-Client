@@ -13,6 +13,7 @@ import Bingomain from './Bingomain';
 import CustomCalendar from './CustomCalendar';
 import { useRecoilState } from 'recoil';
 import { bingoState, bingoObjectState } from '../../recoil/atoms';
+import Bingomain2 from './Bingomain2';
 
 const MadeBingo = () => {
   const navigate = useNavigate();
@@ -158,7 +159,7 @@ const MadeBingo = () => {
     <>
       <HeaderHook />
       <Body>
-        <Bingomain />
+        <Bingomain2 />
         <RightDom style={{paddingTop : '20px'}}>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />

@@ -1,3 +1,9 @@
+### branch 
+- main (배포 브런치)
+- sunbeen (선빈 개발 브런치)
+- eunbin (은빈 개발 브런치)
+
+
 ### Library
 - React-Router-Dom
 - styled-components
@@ -37,7 +43,7 @@
 <br/>
 
 ## 1. 개발 환경
-- FrontEnd: React, Netlify
+- FrontEnd: Javascript, React, Netlify
 - BackEnd: Django-Rest-Framework, AWS EC2, RDS, S3
 - Design: Figma
 - 협업 툴: Notion, Slack
@@ -46,8 +52,7 @@
 <br/>
 
 ## 2. 채택한 개발 기술과 브랜치 전략
-- FrontEnd:
-- BackEnd: GitHub Flow (기능 별 브랜치를 만들고 main에 병합하는 방식)
+- GitHub Flow (기능 별 브랜치를 만들고 main에 병합하는 방식)
 
 <br/>
 
@@ -131,7 +136,13 @@
 <br/>
 
 ## 4. 역할 분담
-### 🐿️ 정선빈 (작성 전)
+### 🐿️ 정선빈 (작성 중)
+- 유형화 테스트
+- 빙고판 드래그앤드롭 및 빙고 페이지 구현
+- 빙고 세부 항목 구현
+- 빙고 만들기 구현
+- 공고/후기 페이지 구햔
+- 후기 만들기 구현
 
 <br/>
 

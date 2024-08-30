@@ -15,10 +15,13 @@ import msgimg from '../../images/AiOutlineMessage.png';
 import logo from '../../images/Logoimg.png';
 import search from '../../images/search.png';
 import { FiPlus } from 'react-icons/fi';
+import { useRecoilState } from 'recoil';
+import { selectedCategoryState } from '../../recoil/atoms';
 
 
 const Noti = () => {
-  const [selectedCategory, setSelectedCategory] = useState('카테고리를 선택해주세요');
+  const [selectedCategory, setSelectedCategory] = useRecoilState(selectedCategoryState);
+  // const [selectedCategory, setSelectedCategory] = useState('카테고리를 선택해주세요');
   const [notice, setNotice] = useState([]);
   const [review, setReview] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -129,8 +132,6 @@ const Noti = () => {
   const getReviewsByCategory = async (category) => {
     try {
       const response = await getSearchByCategory(category);
-      // console.log(category);
-      // console.log(response);
       const notice = response.notice.map((item) => ({
         id: item.id,
         large_category: item.large_category,
