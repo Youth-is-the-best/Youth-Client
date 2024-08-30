@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import styled from 'styled-components';
-import { Body } from '../Home';
+import { Body } from './Home';
 import { RightDom } from './BingoInfo';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
@@ -9,7 +9,6 @@ import { BsThreeDots } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import HeaderHook from '../../components/HeaderHook';
 import FooterHook from '../../components/FooterHook';
-import Bingomain from './Bingomain';
 import CustomCalendar from './CustomCalendar';
 import { useRecoilState } from 'recoil';
 import { bingoState, bingoObjectState } from '../../recoil/atoms';

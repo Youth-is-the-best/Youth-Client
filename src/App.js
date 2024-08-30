@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Home from './pages/Home';
+import Home from './pages/bingo/Home';
+import Index from './pages/bingo/Index';
 import Login from './pages/login/Login';
 import Test from './pages/typetest/Test';
 import Test1 from './pages/typetest/Test1';
@@ -25,7 +26,6 @@ import HueInfo2 from './pages/bingo/HueInfo2';
 import MadeDragBingo from './pages/bingo/MadeDragBingo';
 import MadedBingo from './pages/bingo/MadedBingo';
 import { RecoilRoot } from 'recoil';
-import Index from './pages/Index';
 import ViewReview from './pages/notification/viewReview';
 import ViewNotice from './pages/notification/viewNotice';
 import Introduce from './pages/Introduce';

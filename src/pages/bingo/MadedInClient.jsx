@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace, MdOutlineNearMe } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Bingo, Body } from '../Home';
+import { Bingo, Body } from './Home';
 import HeaderHook from '../../components/HeaderHook';
 import FooterHook from '../../components/FooterHook';
 import { getBingo, getInfo, putBingoloc } from '../../apis/testapis';

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderHook from '../../components/HeaderHook';
 import FooterHook from '../../components/FooterHook';
-import { Body } from '../Home';
+import { Body } from './Home';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { BsThreeDots } from 'react-icons/bs';
 import { Category, Line } from './MadeBingo';
