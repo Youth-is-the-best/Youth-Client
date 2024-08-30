@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import Frame8 from '../images/Frame 8.png'
-import { useForm } from '../hook/useForm'
-import { signUp, isUsernameDuplicate, SendAuthCodeToEmail, postAuthCode } from '../apis/user'
-import TermsModal from './TermsModal'
+import Frame8 from '../../images/Frame 8.png'
+import { useForm } from '../../hook/useForm'
+import { signUp, isUsernameDuplicate, SendAuthCodeToEmail, postAuthCode } from '../../apis/user'
+import TermsModal from '../../components/login/TermsModal'
   
 const Signup = () => {
   const [first_name, onChangeName] = useForm();

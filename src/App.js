@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
-import Login from './pages/Login';
+import Login from './pages/login/Login';
 import Test from './pages/typetest/Test';
 import Test1 from './pages/typetest/Test1';
 import Test2 from './pages/typetest/Test2';
 import Test3 from './pages/typetest/Test3';
 import Result from './pages/typetest/Result';
-import Signup from './pages/Signup';
+import Signup from './pages/login/Signup';
 import { useState } from 'react';
 import MadeBingo from './pages/bingo/MadeBingo';
 import BingoInfo from './pages/bingo/BingoInfo';

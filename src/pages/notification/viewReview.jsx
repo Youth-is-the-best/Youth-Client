@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { AiFillStar, AiOutlineHeart, AiOutlineStar } from 'react-icons/ai';
-import CommentSection from '../../components/CommentSection';
+import CommentSection from '../../components/notification/CommentSection';
 
 const ViewReview = () => {
   const { id } = useParams();
