@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace, MdOutlineNearMe } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Body } from '../Home';
-import HeaderHook from '../../hook/HeaderHook';
+import { Body } from './Home';
+import HeaderHook from '../../components/HeaderHook';
 import { getInfo, getReviewInInfo } from '../../apis/testapis';
 import { Category } from './MadeBingo';
 import Bingomain from './Bingomain';
-import FooterHook from '../../hook/FooterHook';
+import FooterHook from '../../components/FooterHook';
 import { Content, PhotoBox, UserDom, WriterDom } from '../notification/Noti';
 
 const BingoInfo = () => {

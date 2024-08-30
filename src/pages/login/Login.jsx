@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import { FiUser , FiLock } from "react-icons/fi";
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
-import transimg from '../images/transparent.png'
-import Frame8 from '../images/Frame 8.png'
-import { useForm } from '../hook/useForm';
-import { login } from '../apis/user';
+import transimg from '../../images/transparent.png'
+import Frame8 from '../../images/Frame 8.png'
+import { useForm } from '../../hook/useForm';
+import { login } from '../../apis/user';
 
 
 const Login = () => {

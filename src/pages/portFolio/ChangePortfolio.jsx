@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import HeaderHook from '../../hook/HeaderHook';
+import HeaderHook from '../../components/HeaderHook';
 import MdOutlinedFeed from '../../images/MdOutlineFeed.png';
 import Vector from '../../images/Vector.png';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -57,7 +57,6 @@ const ChangePortfolio = () => {
         setNewBingoTexts(response.bingo_complete);
         setNewOthersTexts(response.other_complete);
         setImage(response.basic_information.image);
-        
       } catch (error) {
         console.error(error);
         throw error;
@@ -138,7 +137,7 @@ const ChangePortfolio = () => {
     if (image) formdata.append("image", image);
 
     const response = await putFormData(formdata);
-    console.log(response.data);
+    // console.log(response.data);
     router('/readportfolio');
   };
 
@@ -156,7 +155,7 @@ const ChangePortfolio = () => {
 
   const delAboutMe = async (id) => {
     const response = await delThisIsMe(id);
-    console.log(response.data);
+    // console.log(response.data);
     router(0);
   };
 
@@ -168,13 +167,13 @@ const ChangePortfolio = () => {
       "content": bingoTexts,
     }
     const response = await postBingo(content);
-    console.log(response.data);
+    // console.log(response.data);
     router(0);
   };
 
   const delBingoComplete = async (id) => {
     const response = await delBingo(id);
-    console.log(response.data);
+    // console.log(response.data);
     router(0);
   };
 
@@ -187,13 +186,13 @@ const ChangePortfolio = () => {
       "content": othersTexts,
     }
     const response = await postOthers(content);
-    console.log(response.data);
+    // console.log(response.data);
     router(0);
   };
 
   const delOthersComplete = async (id) => {
     const response = await delOthers(id);
-    console.log(response.data);
+    // console.log(response.data);
     router(0);
   };
 

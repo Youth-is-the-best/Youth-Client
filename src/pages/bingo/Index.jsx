@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getBingo, getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, putDday} from '../apis/testapis';
-import HeaderHook from '../hook/HeaderHook';
-import FooterHook from '../hook/FooterHook'
-import { RightDom } from './bingo/BingoInfo';
+import { getBingo, getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, putDday} from '../../apis/testapis';
+import HeaderHook from '../../components/HeaderHook';
+import FooterHook from '../../components/FooterHook'
+import { RightDom } from './BingoInfo';
 import { LineDom, RecommendDom, RecommendCom, StyledDday1, StyledDday2,Body,InfoDom,Info,Selector  } from './Home';
-import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State, isExecutedState } from '../recoil/atoms';
-import CustomCalendar from './bingo/CustomCalendar';
+import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoIdState, Day1State, Day2State, isExecutedState } from '../../recoil/atoms';
+import CustomCalendar from './CustomCalendar';
 
 const Index = () => {
   const options = ["추천순", "마감순", "보관함"];

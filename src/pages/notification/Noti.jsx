@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../hook/HeaderHook'
-import FooterHook from '../../hook/FooterHook';
-import MyPageModal from '../../hook/MyPageModal'
+import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../components/HeaderHook'
+import FooterHook from '../../components/FooterHook';
+import MyPageModal from '../../components/mypage/MyPageModal'
 import modalopenimg from '../../images/modalopen.png'
 import modalcloseimg from '../../images/modalclose.png'
 import { Link } from 'react-router-dom';
@@ -26,7 +26,6 @@ const Noti = () => {
   const [review, setReview] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
   const [showNotice, setShowNotice] = useState(true);
   const [showReview, setShowReview] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState("");

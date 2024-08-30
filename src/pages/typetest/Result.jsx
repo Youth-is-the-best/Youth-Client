@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { ButtonDom, ButtonLink } from './Test';
 import { postTest } from '../../apis/testapis';
 import styled from 'styled-components';
-import { Line } from '../bingo/MadeBingo';
 import { useNavigate } from 'react-router-dom';
 import { usernameState } from '../../recoil/atoms';
 import { useRecoilState } from 'recoil';

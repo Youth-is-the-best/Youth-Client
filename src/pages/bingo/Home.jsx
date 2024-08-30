@@ -3,12 +3,12 @@ import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
-import HeaderHook from '../hook/HeaderHook';
-import FooterHook from '../hook/FooterHook';
-import { RightDom } from './bingo/BingoInfo';
-import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState, Day1State, Day2State } from '../recoil/atoms';
-import CustomCalendar from './bingo/CustomCalendar';
+import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../../apis/testapis';
+import HeaderHook from '../../components/HeaderHook';
+import FooterHook from '../../components/FooterHook';
+import { RightDom } from './BingoInfo';
+import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState, Day1State, Day2State } from '../../recoil/atoms';
+import CustomCalendar from './CustomCalendar';
 import { FiThumbsUp } from 'react-icons/fi';
 
 const Home = () => {

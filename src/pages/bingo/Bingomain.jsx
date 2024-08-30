@@ -3,8 +3,8 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState, isExecutedState, prepDateState } from '../../recoil/atoms';
 import { getBingo, getDday, putDday } from '../../apis/testapis';
-import {StyledDday1, StyledDday2} from '../Home';
-import { Bingo } from '../Index';
+import {StyledDday1, StyledDday2} from './Home';
+import { Bingo } from './Index';
 import { useNavigate } from 'react-router-dom';
 import CustomCalendar from './CustomCalendar';
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Row, Line} from '../bingo/MadeBingo';
-import HeaderHook from '../../hook/HeaderHook';
-import FooterHook from '../../hook/FooterHook';
+import HeaderHook from '../../components/HeaderHook';
+import FooterHook from '../../components/FooterHook';
 import CustomCalendar from '../bingo/CustomCalendar';
 import { CiSquarePlus } from 'react-icons/ci';
 import { postMyReview } from '../../apis/reviewapis';

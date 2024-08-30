@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HeaderHook from '../../hook/HeaderHook';
-import FooterHook from '../../hook/FooterHook';
+import HeaderHook from '../../components/HeaderHook';
+import FooterHook from '../../components/FooterHook';
 import { getHandleReviewLike, getHandleReviewSaved, getReviewById } from '../../apis/reviewapis';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { AiFillStar, AiOutlineHeart, AiOutlineStar } from 'react-icons/ai';
-import CommentSection from './CommentSection';
+import CommentSection from '../../components/notification/CommentSection';
 
 const ViewReview = () => {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import MyPageModal from "./MyPageModal";
+import MyPageModal from "./mypage/MyPageModal";
 import modalopenimg from "../images/modalopen.png";
 import modalcloseimg from "../images/modalclose.png";
 import logoimg from "../images/Logoimg.png";
