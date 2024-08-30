@@ -50,7 +50,6 @@ const viewHue = () => {
         image: item.image,
       })) : [];
       setImages(images);
-      // console.log(response);
     } catch (error) {
       console.error('Error in getReview:', error.response ? error.response.data : error.message);
       throw error;

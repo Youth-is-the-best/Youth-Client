@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../components/HeaderHook'
 import FooterHook from '../../components/FooterHook';
-import MyPageModal from '../../components/MyPageModal'
+import MyPageModal from '../../components/mypage/MyPageModal'
 import modalopenimg from '../../images/modalopen.png'
 import modalcloseimg from '../../images/modalclose.png'
 import { Link } from 'react-router-dom';

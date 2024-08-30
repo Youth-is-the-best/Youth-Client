@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import moneyimg from '../images/MdOutlineCopyright.png'
+import moneyimg from '../../images/MdOutlineCopyright.png'
 
 const MyPageModal = ({ isOpen }) => {
   const router = useNavigate();

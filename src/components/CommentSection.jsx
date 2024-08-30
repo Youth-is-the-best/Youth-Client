@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getReviewComment, postReviewComment } from '../../apis/reviewapis';
+import { getReviewComment, postReviewComment } from '../apis/reviewapis';
 
 const CommentSection = ({ reviewId }) => {
   const [comments, setComments] = useState([]);
