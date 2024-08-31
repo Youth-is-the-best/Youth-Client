@@ -9,9 +9,10 @@
 - styled-components
 - react-icons
 - react-calendar
-- --save-dev @babel/plugin-proposal-private-property-in-object
+- babel
 - recoil
 - react-scroll
+- --save-dev @babel/plugin-proposal-private-property-in-object
 
 <br/>
 
@@ -58,79 +59,126 @@
 
 ## 3. 프로젝트 구조
 ### FrontEnd
-### BackEnd
 ```
-.
-├── bingo
-│  ├── __init__.py
-│  ├── admin.py
-│  ├── apps.py
-│  ├── models.py
-│  ├── notice_urls.py
-│  ├── permissions.py
-│  ├── serializers.py
-│  ├── tests.py
-│  ├── urls.py
-│  └── views.py
-├── db.sqlite3
-├── hue.txt
-├── manage.py
-├── mypage
-│  ├── __init__.py
-│  ├── admin.py
-│  ├── apps.py
-│  ├── models.py
-│  ├── serializers.py
-│  ├── tests.py
-│  ├── urls.py
-│  └── views.py
-├── portfolio
-│  ├── admin.py
-│  ├── apps.py
-│  ├── models.py
-│  ├── serializers.py
-│  ├── tests.py
-│  ├── urls.py
-│  └── views.py
-├── requirements.txt
-├── review_information
-│  ├── admin.py
-│  ├── apps.py
-│  ├── information_urls.py
-│  ├── models.py
-│  ├── permissions.py
-│  ├── review_urls.py
-│  ├── search_urls.py
-│  ├── serializers.py
-│  ├── tests.py
-│  └── views.py
-├── secrets.json
-├── typetest
-│  ├── admin.py
-│  ├── apps.py
-│  ├── models.py
-│  ├── serializers.py
-│  ├── tests.py
-│  ├── urls.py
-│  └── views.py
-├── users
-│  ├── admin.py
-│  ├── apps.py
-│  ├── form.py
-│  ├── models.py
-│  ├── permissions.py
-│  ├── schools.json
-│  ├── sendmail.py
-│  ├── serializers.py
-│  ├── tests.py
-│  ├── urls.py
-│  └── views.py
-└── whewareyou
-    ├── __init__.py
-    ├── asgi.py
-    ├── settings.py
-    ├── urls.py
-    └── wsgi.py
+📦src
+ ┣ 📂apis
+ ┃ ┣ 📜authAxios.js
+ ┃ ┣ 📜mypageapis.js
+ ┃ ┣ 📜portFolioapis.js
+ ┃ ┣ 📜reviewapis.js
+ ┃ ┣ 📜testapis.js
+ ┃ ┣ 📜user.js
+ ┃ ┗ 📜viewResultapis.js
+ ┣ 📂components
+ ┃ ┣ 📂login
+ ┃ ┃ ┗ 📜TermsModal.jsx
+ ┃ ┣ 📂mypage
+ ┃ ┃ ┗ 📜MyPageModal.jsx
+ ┃ ┣ 📂notification
+ ┃ ┃ ┗ 📜CommentSection.jsx
+ ┃ ┣ 📂typetest
+ ┃ ┃ ┣ 📜ProgressBar.js
+ ┃ ┃ ┗ 📜YearSemesterSelector.js
+ ┃ ┣ 📜FooterHook.js
+ ┃ ┗ 📜HeaderHook.js
+ ┣ 📂fonts
+ ┃ ┣ 📜PretendardVariable.ttf
+ ┃ ┗ 📜SB 어그로 B.ttf
+ ┣ 📂hook
+ ┃ ┗ 📜useForm.js
+ ┣ 📂images
+ ┃ ┣ 📜AiFillHeart.png
+ ┃ ┣ 📜AiOutlineBank.png
+ ┃ ┣ 📜AiOutlineCheckSquare.png
+ ┃ ┣ 📜AiOutlineDollar.png
+ ┃ ┣ 📜AiOutlineFilePdf.png
+ ┃ ┣ 📜AiOutlineFileText.png
+ ┃ ┣ 📜AiOutlineHeart.png
+ ┃ ┣ 📜AiOutlineHeartRed.png
+ ┃ ┣ 📜AiOutlineMessage.png
+ ┃ ┣ 📜AiOutlineMinusCircle.png
+ ┃ ┣ 📜AiOutlineRocket.png
+ ┃ ┣ 📜AiOutlineSetting.png
+ ┃ ┣ 📜FiCheck.png
+ ┃ ┣ 📜FiEdit3.png
+ ┃ ┣ 📜FiNavigation.png
+ ┃ ┣ 📜FiPlusSquare.png
+ ┃ ┣ 📜FiSave.png
+ ┃ ┣ 📜Frame 8.png
+ ┃ ┣ 📜HueRU.png
+ ┃ ┣ 📜Logoimg.png
+ ┃ ┣ 📜MdOutlineCopyright.png
+ ┃ ┣ 📜MdOutlineEditCalendar.png
+ ┃ ┣ 📜MdOutlineEmojiEmotions.png
+ ┃ ┣ 📜MdOutlineFeed.png
+ ┃ ┣ 📜MdOutlineKeyboardBackspace.png
+ ┃ ┣ 📜OnSwitch.png
+ ┃ ┣ 📜Switch.png
+ ┃ ┣ 📜Vector.png
+ ┃ ┣ 📜bearimg.png
+ ┃ ┣ 📜bingo.png
+ ┃ ┣ 📜image 64.png
+ ┃ ┣ 📜modalclose.png
+ ┃ ┣ 📜modalopen.png
+ ┃ ┣ 📜mypage.png
+ ┃ ┣ 📜noti.png
+ ┃ ┣ 📜pofol.png
+ ┃ ┣ 📜reco.png
+ ┃ ┣ 📜search.png
+ ┃ ┣ 📜test.png
+ ┃ ┣ 📜transparent.png
+ ┃ ┣ 📜user.png
+ ┃ ┗ 📜다람쥐.jpg
+ ┣ 📂pages
+ ┃ ┣ 📂bingo
+ ┃ ┃ ┣ 📜BingoInfo.jsx
+ ┃ ┃ ┣ 📜Bingomain.jsx
+ ┃ ┃ ┣ 📜Bingomain2.jsx
+ ┃ ┃ ┣ 📜CustomCalendar.jsx
+ ┃ ┃ ┣ 📜Home.jsx
+ ┃ ┃ ┣ 📜HueInfo.jsx
+ ┃ ┃ ┣ 📜HueInfo2.jsx
+ ┃ ┃ ┣ 📜Index.jsx
+ ┃ ┃ ┣ 📜MadeBingo.jsx
+ ┃ ┃ ┣ 📜MadeDragBingo.jsx
+ ┃ ┃ ┣ 📜MadedBingo.jsx
+ ┃ ┃ ┣ 📜MadedBingoEdit.jsx
+ ┃ ┃ ┗ 📜MadedInClient.jsx
+ ┃ ┣ 📂login
+ ┃ ┃ ┣ 📜Login.jsx
+ ┃ ┃ ┗ 📜Signup.jsx
+ ┃ ┣ 📂myPage
+ ┃ ┃ ┣ 📜Alarm.jsx
+ ┃ ┃ ┣ 📜AlarmManage.jsx
+ ┃ ┃ ┗ 📜MyPage.jsx
+ ┃ ┣ 📂notification
+ ┃ ┃ ┣ 📜ImageUploadForm.jsx
+ ┃ ┃ ┣ 📜MadeDragReview.jsx
+ ┃ ┃ ┣ 📜MadeReview.jsx
+ ┃ ┃ ┣ 📜Noti.jsx
+ ┃ ┃ ┣ 📜viewHue.jsx
+ ┃ ┃ ┣ 📜viewNotice.jsx
+ ┃ ┃ ┗ 📜viewReview.jsx
+ ┃ ┣ 📂portFolio
+ ┃ ┃ ┣ 📜ChangePortfolio.jsx
+ ┃ ┃ ┗ 📜ReadPortfolio.jsx
+ ┃ ┣ 📂typetest
+ ┃ ┃ ┣ 📜Result.jsx
+ ┃ ┃ ┣ 📜Test.jsx
+ ┃ ┃ ┣ 📜Test1.jsx
+ ┃ ┃ ┣ 📜Test2.jsx
+ ┃ ┃ ┣ 📜Test3.jsx
+ ┃ ┃ ┗ 📜ViewResult.jsx
+ ┃ ┗ 📜Introduce.jsx
+ ┣ 📂recoil
+ ┃ ┣ 📜atoms.jsx
+ ┃ ┗ 📜testatoms.jsx
+ ┣ 📜.DS_Store
+ ┣ 📜App.css
+ ┣ 📜App.js
+ ┣ 📜index.css
+ ┣ 📜index.js
+ ┗ 📜reportWebVitals.js
 ```
 
 <br/>
@@ -150,31 +198,6 @@
 
 <br/>
 
-### 🐔 박채린
-- jwt 인증/인가
-- 유형화 테스트
-- 빙고판 초기 구현
-- 공고/후기 구현
-- 포트폴리오 구현
-- 알림 기능 구현
-- EC2, S3 설정 및 배포
-- nginx, gunicorn을 통한 https 배포
-- 점검
-
-<br/>
-  
-### 🐐 이강록 (작성 전)
-- 로그인/회원가입
-  - 이메일 인증 구현 & 이메일 인증 완료 시 학교 정보 자동 입력
-- 빙고판 이어서 구현
-- 빙고 세부 항목 구현
-- 마이페이지 구현
-- RDS 데이터베이스 설정
-- cors 설정
-- 점검
-
-<br/>
-
 ## 5. 개발 기간 및 작업 관리
 - 개발 기간: 2024.7.19 ~ 2024.8.6
 - 작업 관리
@@ -191,5 +214,3 @@
 ## 7. 소감
 ### 🐿️ 정선빈
 ### 🐱 정은빈
-### 🐔 박채린
-### 🐐 이강록
