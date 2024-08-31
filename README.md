@@ -87,48 +87,7 @@
  ┣ 📂hook
  ┃ ┗ 📜useForm.js
  ┣ 📂images
- ┃ ┣ 📜AiFillHeart.png
- ┃ ┣ 📜AiOutlineBank.png
- ┃ ┣ 📜AiOutlineCheckSquare.png
- ┃ ┣ 📜AiOutlineDollar.png
- ┃ ┣ 📜AiOutlineFilePdf.png
- ┃ ┣ 📜AiOutlineFileText.png
- ┃ ┣ 📜AiOutlineHeart.png
- ┃ ┣ 📜AiOutlineHeartRed.png
- ┃ ┣ 📜AiOutlineMessage.png
- ┃ ┣ 📜AiOutlineMinusCircle.png
- ┃ ┣ 📜AiOutlineRocket.png
- ┃ ┣ 📜AiOutlineSetting.png
- ┃ ┣ 📜FiCheck.png
- ┃ ┣ 📜FiEdit3.png
- ┃ ┣ 📜FiNavigation.png
- ┃ ┣ 📜FiPlusSquare.png
- ┃ ┣ 📜FiSave.png
- ┃ ┣ 📜Frame 8.png
- ┃ ┣ 📜HueRU.png
- ┃ ┣ 📜Logoimg.png
- ┃ ┣ 📜MdOutlineCopyright.png
- ┃ ┣ 📜MdOutlineEditCalendar.png
- ┃ ┣ 📜MdOutlineEmojiEmotions.png
- ┃ ┣ 📜MdOutlineFeed.png
- ┃ ┣ 📜MdOutlineKeyboardBackspace.png
- ┃ ┣ 📜OnSwitch.png
- ┃ ┣ 📜Switch.png
- ┃ ┣ 📜Vector.png
- ┃ ┣ 📜bearimg.png
- ┃ ┣ 📜bingo.png
- ┃ ┣ 📜image 64.png
- ┃ ┣ 📜modalclose.png
- ┃ ┣ 📜modalopen.png
- ┃ ┣ 📜mypage.png
- ┃ ┣ 📜noti.png
- ┃ ┣ 📜pofol.png
- ┃ ┣ 📜reco.png
- ┃ ┣ 📜search.png
- ┃ ┣ 📜test.png
- ┃ ┣ 📜transparent.png
- ┃ ┣ 📜user.png
- ┃ ┗ 📜다람쥐.jpg
+ ┃ ┣ 📜 ...
  ┣ 📂pages
  ┃ ┣ 📂bingo
  ┃ ┃ ┣ 📜BingoInfo.jsx
