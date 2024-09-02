@@ -20,17 +20,16 @@ const ViewResult = () => {
     const getTypeTestResult = async(type) => {
         try {
             const response = await axios.get(`https://maknaengee.p-e.kr/typetest/result/${type}`);
-            setUserType(response.data.user_type);
+            setUserType(response.data.user_type_display);
             setContent(response.data.content.split('\n'));
             setImage(response.data.image);
-            // console.log(location);
-            console.log(userType);
             return response.data;
         } catch (error) {
             console.error('Error in getInfo:', error.response ? error.response.data : error.message);
             throw error;
         }
     }
+    
     useEffect(() => {
         if(type) {
         getTypeTestResult(type);

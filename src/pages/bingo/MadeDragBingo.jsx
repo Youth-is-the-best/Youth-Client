@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace, MdOutlineNearMe } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Body } from '../Home';
-import HeaderHook from '../../hook/HeaderHook';
-import FooterHook from '../../hook/FooterHook';
+import { Body } from './Home';
+import HeaderHook from '../../components/HeaderHook';
+import FooterHook from '../../components/FooterHook';
 import { getInfo } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, InputBox } from './MadeBingo';
 import { RightDom,Car } from './BingoInfo';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { CiSquarePlus } from 'react-icons/ci';
-import Bingomain from './Bingomain';
 import { useRecoilState } from 'recoil';
 import { bingoState, bingoObjectState } from '../../recoil/atoms';
+import Bingomain2 from './Bingomain2';
 
 const MadeDragBingo = () => {
   const navigate = useNavigate();
@@ -104,7 +104,7 @@ const MadeDragBingo = () => {
     <>
       <HeaderHook />
       <Body style={{color : 'rgba(30, 58, 138, 1)'}}>
-        <Bingomain style={{color : 'rgba(30, 58, 138, 1)'}}/>
+        <Bingomain2 style={{color : 'rgba(30, 58, 138, 1)'}}/>
         <RightDom style={{paddingTop : '20px'}}>
           <TitleLine>
             <MdOutlineKeyboardBackspace onClick={goHome} size={30} />

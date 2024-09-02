@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { ButtonDom, ButtonLink } from './Test';
 import { postTest } from '../../apis/testapis';
 import styled from 'styled-components';
-import { Line } from '../bingo/MadeBingo';
 import { useNavigate } from 'react-router-dom';
 import { usernameState } from '../../recoil/atoms';
 import { useRecoilState } from 'recoil';
@@ -30,7 +29,7 @@ const Result = () => {
       "return_semester": semester,
       "answer2": answer2,
       "answer3": answer3,
-      "answer4": answer4
+      "answer4": answer4,
     };
     try {
       const response = await postTest(answer);
@@ -39,13 +38,20 @@ const Result = () => {
       setImage(response.image);
       setUsername(response.username);
       setUserTypeDisplay(response.user_type_display);
-    } catch (error) {
+      console.log(response);
+      } catch (error) {
       setContent(["모든 문항을 답해주세요."]);
     }
   };
 
   const goShare = () => {
-    navigate(`/hueRU/${userType}`);
+    const baseURL = 'https://hueareyou.netlify.app';
+    const link = `${baseURL}/hueRU/${userType}`;
+    navigator.clipboard.writeText(link).then(() => {
+      alert('클립보드에 복사되었습니다');
+    }).catch(err => {
+      console.error('유효하지 않은 링크입니다', err);
+    });
   };
 
   useEffect(() => {

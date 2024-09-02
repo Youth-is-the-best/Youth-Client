@@ -57,3 +57,13 @@ export const bingoObjectState = atom({
     })),
   },
 });
+
+export const isExecutedState = atom({
+  key: 'isExecutedState',
+  default: Array(9).fill(0),
+});
+
+export const selectedCategoryState = atom({
+  key: 'selectedCategory',
+  default: '카테고리를 선택해주세요',
+});

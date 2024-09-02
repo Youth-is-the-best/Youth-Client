@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../hook/HeaderHook'
-import FooterHook from '../../hook/FooterHook';
-import MyPageModal from '../../hook/MyPageModal'
+import { LogoutBtn, Headers, Logo, Nav, Header, Mypage, Modal } from '../../components/HeaderHook'
+import FooterHook from '../../components/FooterHook';
+import MyPageModal from '../../components/mypage/MyPageModal'
 import modalopenimg from '../../images/modalopen.png'
 import modalcloseimg from '../../images/modalclose.png'
 import { Link } from 'react-router-dom';
@@ -14,10 +14,14 @@ import heartimg from '../../images/AiFillHeart.png';
 import msgimg from '../../images/AiOutlineMessage.png';
 import logo from '../../images/Logoimg.png';
 import search from '../../images/search.png';
+import { FiPlus } from 'react-icons/fi';
+import { useRecoilState } from 'recoil';
+import { selectedCategoryState } from '../../recoil/atoms';
 
 
 const Noti = () => {
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useRecoilState(selectedCategoryState);
+  // const [selectedCategory, setSelectedCategory] = useState('카테고리를 선택해주세요');
   const [notice, setNotice] = useState([]);
   const [review, setReview] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -108,6 +112,7 @@ const Noti = () => {
     setSelectedCategory(category);
     setSelectedOptions({ option1: '', option2: '', option3: '', option4: '' }); 
     getReviewsByCategory(categoryMap[category]);
+    // console.log(categoryMap[category]);
   };
 
   const getAllReview = async () => {
@@ -180,8 +185,7 @@ const Noti = () => {
         console.error('Error in getHandleLike:', error.response ? error.response.data : error.message);
         throw error;
       }
-    }
-  };
+  }};
 
   const navigate = useNavigate();
 
@@ -191,6 +195,7 @@ const Noti = () => {
   const goNotice = (id) => {
     navigate(`/viewnotice/${id}`);
   };
+
   const doKeywordSearch = async () => {
     try {
       const response = await getSearchByKeyword(searchKeyword);
@@ -269,9 +274,9 @@ const Noti = () => {
       }));
       setNotice(notice);
       setReview(review);
-      console.log(selectedOptions);
-      console.log(searchParams);
-      console.log(notice, review);
+      // console.log(selectedOptions);
+      // console.log(searchParams);
+      // console.log(notice, review);
       
       if (notice.length === 0 && review.length === 0) {
         alert('검색 결과가 없습니다.');
@@ -279,6 +284,10 @@ const Noti = () => {
     } catch (error) {
       console.error('Error in getReviewByCategory:', error.response ? error.response.data : error.message);
     }
+  };
+
+  const madeReview = () => {
+    navigate('/review');
   };
 
   const goHue = (id) => {
@@ -334,9 +343,7 @@ const Noti = () => {
             </Navigation>
           ))}
         </NavigationBar>
-        <Line style={{fontWeight:'900'}}>
-          {selectedCategory ? selectedCategory : "카테고리를 선택해주세요"}
-        </Line>
+        <Line style={{fontWeight:'900'}}>{selectedCategory}</Line>
         <Bar>
           <CheckDom>
             <Check onClick={() => setShowNotice(!showNotice)}>
@@ -372,6 +379,18 @@ const Noti = () => {
                     ))}
                   </select>
                 ) : config.type === "input" ? (
+                  // <Line style={{ fontSize: '12px' }}>
+                  //   <input
+                  //     type="text"
+                  //     placeholder={config.placeholder}
+                  //     onChange={(e) =>
+                  //       setSelectedOptions({
+                  //         ...selectedOptions,
+                  //         [`option${index + 1}`]: e.target.value,
+                  //       })
+                  //     }
+                  //   />
+                  // </Line>
                   <SearchDom>
                    <SearchBox
                     placeholder="키워드 검색"
@@ -397,6 +416,14 @@ const Noti = () => {
                 )}
               </Dropdown>
             ))}
+            {/* <SearchDom>
+              <SearchBox
+                placeholder="키워드 검색"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+              <AiOutlineSearch size={40} onClick={doSearch} />
+            </SearchDom> */}
           </DropdownDom>
         </Bar>
         <ContentDom>
@@ -450,6 +477,7 @@ const Noti = () => {
                 </Comment>
               </Content>
             ))}
+            <Plus><FiPlus onClick={madeReview}/></Plus>
         </ContentDom>
       </Body>
       <FooterHook />
@@ -458,6 +486,24 @@ const Noti = () => {
 };
 
 export default Noti;
+
+const Plus = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 52px;
+  height : 52px;
+  padding: 10px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 30px;
+  opacity: var(--sds-size-stroke-border);
+  background: var(--main-50, #8E9CC4);
+  color: white;
+  position: fixed;
+  font-size: 40px;
+  left: 92%;
+  bottom: 8%;
+`;
 
 const HeaderofHome = styled.div`
 `;
@@ -631,7 +677,7 @@ const ContentDom = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 88%;
+  width: 95%;
   margin: auto;
   padding-left: 4%;
   padding-top: 5%;

@@ -3,12 +3,12 @@ import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
-import { getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../apis/testapis';
-import HeaderHook from '../hook/HeaderHook';
-import FooterHook from '../hook/FooterHook';
-import { RightDom } from './bingo/BingoInfo';
-import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState, Day1State, Day2State } from '../recoil/atoms';
-import CustomCalendar from './bingo/CustomCalendar';
+import { getDday, getHueInfo, getSaved, getTypeRecommend, getUpcomming, postBingo, putDday } from '../../apis/testapis';
+import HeaderHook from '../../components/HeaderHook';
+import FooterHook from '../../components/FooterHook';
+import { RightDom } from './BingoInfo';
+import { prepDateState, bingoState, usernameState, startDateState, endDateState, titleState, bingoObjectState, Day1State, Day2State } from '../../recoil/atoms';
+import CustomCalendar from './CustomCalendar';
 import { FiThumbsUp } from 'react-icons/fi';
 
 const Home = () => {
@@ -67,9 +67,11 @@ const Home = () => {
     const saveds = response.stored_reviews || [];
     const savedData = saveds.map((item) => ({
       title: item.title,
-      id: item.id,
+      id: item.provided_bingo_item,
     }));
     setSaved(savedData);
+    // console.log(response);
+    // console.log(savedData);
   };
 
   const viewTypeRecommend = async (type) => {
@@ -99,9 +101,15 @@ const Home = () => {
         end_date: endDate,
         bingo_obj: bingoObject.bingo_obj,
       };
+      const hasEmptyTitle = bingoBody.bingo_obj.some(item => item.title === '');
+    if (hasEmptyTitle) {
+      alert("9개의 칸을 채워야 빙고를 만드실 수 있습니다")
+      return;
+    }
       const response = await postBingo(bingoBody);
-      console.log(bingoBody);
-      console.log(response);
+      bingoBody.bingo_obj.map()
+      alert(response);
+      navigate("/veiw");
     } catch (error) {
       setError('Error posting bingo data');
       console.error('Error in postBingo:', error.response ? error.response.data : error.message);
@@ -193,24 +201,23 @@ const Home = () => {
     setEndDate(formattedEndDate);
 
     try {
-      getDday();
       const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
       setDday1(response.display.rest_dday_display);
       setDday2(response.display.return_dday_display);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       setError('Error posting dates');
       console.error('Error in putDday:', error.response ? error.response.data : error.message);
     }
   };
 
-  const getDday = async () => {
+  const getDdays = async () => {
     try {
       const get_response = await getDday();
       if (get_response && get_response.display) {
         setDday1(get_response.display.rest_dday_display);
         setDday2(get_response.display.return_dday_display);
-        console.log(get_response);
+        // console.log(get_response);
       } else {
         setError('Invalid response structure');
         console.error('Invalid response structure:', get_response);
@@ -230,9 +237,15 @@ const Home = () => {
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
     if (!access_token) {
-      navigate('/test/0');
+      navigate('login');
       return;
     }
+    // if(!username) {
+    //   alert("유형화 테스트가 필요한 기능입니다");
+    //   navigate('/test/0');
+    //   return;
+    // }
+    getDdays();
     viewRecommend();
     viewSaved();
     viewTypeRecommend();
@@ -256,7 +269,7 @@ const Home = () => {
                 ? `${new Date(startDate).toLocaleDateString()} ~ ${new Date(endDate).toLocaleDateString()}` : '날짜를 입력하세요.'}
               <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
             </Line>
-            <Line style={{ fontSize: '24px' }}>{username}의 빙고판</Line>
+            <Line style={{ fontSize: '24px' }}>투두리스트 빙고판</Line>
           </LineDom>
           <BingoDom>
             {bingos.map((bingo, index) => {
@@ -352,7 +365,7 @@ export const Logo = styled.div`
   height : 10px;
 `
 
-const LineDom = styled.div`
+export const LineDom = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -530,3 +543,4 @@ const Line = styled.div`
   width: 100%;
   gap: 3%;
 `;
+

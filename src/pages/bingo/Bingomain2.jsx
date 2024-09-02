@@ -4,11 +4,10 @@ import styled from 'styled-components';
 import { bingoState, usernameState, startDateState, endDateState, titleState, Day1State, Day2State, bingoObjectState, isExecutedState, prepDateState } from '../../recoil/atoms';
 import { getBingo, getDday, putDday } from '../../apis/testapis';
 import {StyledDday1, StyledDday2} from './Home';
-import { Bingo } from './Index';
 import { useNavigate } from 'react-router-dom';
 import CustomCalendar from './CustomCalendar';
 
-const Bingomain = () => {
+const Bingomain2 = () => {
   const [bingos, setBingos] = useRecoilState(bingoState);
   const [username, setUsername] = useRecoilState(usernameState);
   const [startDate, setStartDate] = useRecoilState(startDateState);
@@ -88,7 +87,7 @@ const Bingomain = () => {
     if (!Dday1 && !Dday2) {
       getDdays();
     }
-  }, []);
+  }, [bingos]);
 
   return (
     <LeftDom>
@@ -103,7 +102,7 @@ const Bingomain = () => {
             : '날짜를 입력하세요.'}
           <CustomCalendar onChange={handlePrepDateChange} value={prepDates} />
         </Line>
-        <Line style={{ fontSize: '24px' }}>{username}의 빙고판</Line>
+        <Line style={{ fontSize: '24px' }}>투두리스트 빙고판</Line>
       </LineDom>
       <BingoDom>
         {Array.isArray(bingos) && bingos.map((item, index) => (
@@ -121,7 +120,7 @@ const Bingomain = () => {
   );
 };
 
-export default Bingomain;
+export default Bingomain2;
 
 const LeftDom = styled.div`
   display: flex;
@@ -153,6 +152,31 @@ export const Line = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   gap: 15px;
+  
   margin-left: 10px;
   color : rgba(30, 58, 138, 1);
+`;
+
+export const Bingo = styled.div.attrs((props) => ({
+  'data-inbingo': props.inBingo,
+  'data-isexecuted': props.isExecuted,
+}))`
+  width: 150px;
+  height: 150px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px;
+  margin: auto;
+  border-radius: 10px;
+  opacity: var(--sds-size-stroke-border);
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.3s ease-in-out;
+  background :${({ inBingo }) => (inBingo ? 'linear-gradient(178.58deg, #FFFFFF -94.22%, #A3A3A3 151.7%)' : 'var(--gray-10, #F5F5F5)')};
+  box-shadow: ${({ inBingo }) => (inBingo ? '2px 2px 4px 0px #D9D9D9 inset, -4px -4px 5px 0px rgba(81, 81, 81, 0.25) inset' : '0px -2px 6px 0px rgba(0, 0, 0, 0.25) inset, 4px 4px 10px 0px rgba(0, 0, 0, 0.25) inset')};
 `;

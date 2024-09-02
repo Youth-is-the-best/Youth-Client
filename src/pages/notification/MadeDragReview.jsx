@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AiOutlineCheckSquare } from 'react-icons/ai';
-import HeaderHook from '../../hook/HeaderHook';
-import FooterHook from '../../hook/FooterHook';
+import HeaderHook from '../../components/HeaderHook';
+import FooterHook from '../../components/FooterHook';
 import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getBingoloc } from '../../apis/testapis';
 import { postReview } from '../../apis/reviewapis';
 import check from '../../images/FiCheck.png';
-import { CheckList } from '../bingo/MadeBingo';
 
 const MadeDragReview = () => {
   const { location } = useParams();

@@ -74,31 +74,30 @@ export const getNoticeById = async (notice_id) => {
 };
 
 // 카테고리에 따른 공고,후기 가져오기 → /search/?large_category=CAREER
-export const getSearchByCategory = async (category) => {
-    try {
-        const access = localStorage.getItem("access_token");
-        if (!access) {
-        const response = await axios.get(`${baseURL}/search/?large_category=${category}`, {
-            headers: {
-                Authorization: `Bearer ${access}`
-            },
-        });
-        return response.data;
-    } } catch (error) {
-        const response = await axios.get(`${baseURL}/search/?large_category=${category}`);
-        return response.data;
-        if (error.response && error.response.status === 401) {
-            alert("로그인 후 사용하실 수 있는 기능입니다");
-            localStorage.removeItem("access_token");
-            localStorage.removeItem("refresh_token");
-            window.location.href = "/login";
-        } else {
-            console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
-            throw error;
+    export const getSearchByCategory = async (category) => {
+        try {
+            const access = localStorage.getItem("access_token");
+            if (!access) {
+                const response = await axios.get(`${baseURL}/search/?large_category=${category}`);
+                return response.data;
+            }
+            const response = await axios.get(`${baseURL}/search/?large_category=${category}`, {
+                headers: {
+                    Authorization: `Bearer ${access}`
+                },
+            });
+            return response.data;
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                alert("로그인 후 사용하실 수 있는 기능입니다");
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+            } else {
+                console.error('Error in getSearchByCategory:', error.response ? error.response.data : error.message);
+                throw error;
+            }
         }
-        throw error;
     }
-}
 
 // 카테고리에 따른 공고,후기 가져오기 → /review/?large_category=CAREER
 export const getReviewByCategory = async (category) => {

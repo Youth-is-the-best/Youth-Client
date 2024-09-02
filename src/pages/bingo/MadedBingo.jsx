@@ -2,20 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { MdOutlineKeyboardBackspace, MdOutlineNearMe } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import HeaderHook from '../../hook/HeaderHook';
-import FooterHook from '../../hook/FooterHook';
+import HeaderHook from '../../components/HeaderHook';
+import FooterHook from '../../components/FooterHook';
 import { getBingoloc, postTodolist } from '../../apis/testapis';
 import { Category, CheckLists, CheckList, CheckBox} from './MadeBingo';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import Bingomain from './Bingomain';
 import { FiEdit3 } from 'react-icons/fi';
 import { RightDom,DateInfo ,TitleLine,Car} from './BingoInfo';
+import { isExecutedState } from '../../recoil/atoms';
+import { useRecoilState } from 'recoil';
 const MadedBingo = () => {
   const navigate = useNavigate();
   const { location } = useParams();
   const [checklists, setChecklists] = useState([]);
   const [newChecklistText, setNewChecklistText] = useState('');
   const [info, setInfo] = useState(null);
+  const [isExecuted, setIsExecuted] = useRecoilState(isExecutedState);
 
   const goHome = () => {
     navigate("/view");
@@ -85,7 +88,11 @@ const MadedBingo = () => {
   }
 
   const handleMadeReviewClick = (location) => {
-    navigate(`/dragreview/${location}`);
+    if(isExecuted[location]==0){
+      navigate(`/dragreview/${location}`);
+    }else{
+      alert("이미 작성하신 리뷰가 있습니다.");
+    }
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import TermsModal from '../pages/TermsModal'
+import TermsModal from './login/TermsModal'
 
 const FooterHook = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
