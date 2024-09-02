@@ -23,14 +23,13 @@ const ViewResult = () => {
             setUserType(response.data.user_type_display);
             setContent(response.data.content.split('\n'));
             setImage(response.data.image);
-            // console.log(location);
-            // console.log(userType);
             return response.data;
         } catch (error) {
             console.error('Error in getInfo:', error.response ? error.response.data : error.message);
             throw error;
         }
     }
+    
     useEffect(() => {
         if(type) {
         getTypeTestResult(type);

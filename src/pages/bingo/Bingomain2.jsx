@@ -87,7 +87,7 @@ const Bingomain2 = () => {
     if (!Dday1 && !Dday2) {
       getDdays();
     }
-  }, []);
+  }, [bingos]);
 
   return (
     <LeftDom>

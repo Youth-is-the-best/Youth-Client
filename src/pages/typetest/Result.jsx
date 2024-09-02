@@ -45,7 +45,13 @@ const Result = () => {
   };
 
   const goShare = () => {
-    navigate(`/hueRU/${userType}`);
+    const baseURL = 'https://hueareyou.netlify.app';
+    const link = `${baseURL}/hueRU/${userType}`;
+    navigator.clipboard.writeText(link).then(() => {
+      alert('클립보드에 복사되었습니다');
+    }).catch(err => {
+      console.error('유효하지 않은 링크입니다', err);
+    });
   };
 
   useEffect(() => {

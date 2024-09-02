@@ -153,7 +153,6 @@ export const Line = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   gap: 15px;
-  
   margin-left: 10px;
   color : rgba(30, 58, 138, 1);
 `;
