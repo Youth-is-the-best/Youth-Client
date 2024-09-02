@@ -45,7 +45,7 @@ const Result = () => {
   };
 
   const goShare = () => {
-    const baseURL = 'https://makneangeee.netlify.app';
+    const baseURL = 'https://hueareyou.netlify.app';
     const link = `${baseURL}/hueRU/${userType}`;
     navigator.clipboard.writeText(link).then(() => {
       alert('클립보드에 복사되었습니다');
