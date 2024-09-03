@@ -1,21 +1,3 @@
-### branch 
-- main (배포 브런치)
-- sunbeen (선빈 개발 브런치)
-- eunbin (은빈 개발 브런치)
-
-
-### Library
-- React-Router-Dom
-- styled-components
-- react-icons
-- react-calendar
-- babel
-- recoil
-- react-scroll
-- --save-dev @babel/plugin-proposal-private-property-in-object
-
-<br/>
-
 # 🏫 Hue are you : 휴학의 색을 묻다
 ![image](https://github.com/user-attachments/assets/06987b1c-6bd3-4fa4-8032-ae65533e28ca)
 - 배포 url: https://makneangeee.netlify.app/
@@ -54,7 +36,10 @@
 
 ## 2. 채택한 개발 기술과 브랜치 전략
 - GitHub Flow (기능 별 브랜치를 만들고 main에 병합하는 방식)
-
+### branch 
+- main (배포 브런치)
+- sunbeen (선빈 개발 브런치)
+- eunbin (은빈 개발 브런치)
 <br/>
 
 ## 3. 프로젝트 구조
@@ -172,7 +157,18 @@
 ![4 2  info_read](https://github.com/user-attachments/assets/33125ec7-d9bf-42aa-b972-1e1d0f44d7f9)
 
 <br/>
+### 7.Library
+- React-Router-Dom
+- styled-components
+- react-icons
+- react-calendar
+- babel
+- recoil
+- react-scroll
+- --save-dev @babel/plugin-proposal-private-property-in-object
 
-## 7. 소감
+<br/>
+
+## 8. 소감
 ### 🐿️ 정선빈
 ### 🐱 정은빈
