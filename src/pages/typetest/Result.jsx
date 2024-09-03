@@ -24,6 +24,7 @@ const Result = () => {
   const [usertypedisplay, setUserTypeDisplay] = useState('');
   
   const showResult = async () => {
+    // test 페이지에서 답변을 받은 것을 post할 body로 만듦
     const answer = {
       "return_year": year,
       "return_semester": semester,
@@ -31,6 +32,7 @@ const Result = () => {
       "answer3": answer3,
       "answer4": answer4,
     };
+    // post 하는 함수
     try {
       const response = await postTest(answer);
       setUserType(response.user_type);
@@ -38,16 +40,16 @@ const Result = () => {
       setImage(response.image);
       setUsername(response.username);
       setUserTypeDisplay(response.user_type_display);
-      console.log(response);
+      // console.log(response);
       } catch (error) {
       setContent(["모든 문항을 답해주세요."]);
     }
   };
 
   const goShare = () => {
-    const baseURL = 'https://hueareyou.netlify.app';
-    const link = `${baseURL}/hueRU/${userType}`;
-    navigator.clipboard.writeText(link).then(() => {
+    const baseURL = 'https://hueareyou.netlify.app'
+    const link = `${baseURL}/hueRU/${userType}`; //  response로 받은 user_type로 링크 생성
+    navigator.clipboard.writeText(link).then(() => { // 클립보드에 복사
       alert('클립보드에 복사되었습니다');
     }).catch(err => {
       console.error('유효하지 않은 링크입니다', err);
