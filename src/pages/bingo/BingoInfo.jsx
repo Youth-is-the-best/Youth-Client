@@ -17,11 +17,11 @@ const BingoInfo = () => {
   const [review, setReview] = useState([]);
   const [isNotice, setIsNotice] = useState(false);
   const [title, setTitle]= useState('');
-
+  //뒤로가기 버튼
   const goHome = () => {
     navigate("/view");
   };
-
+  //정보 띄우는 함수
   const getInfos = async (id) => {
     try {
       const response = await getInfo(id);
@@ -53,7 +53,7 @@ const BingoInfo = () => {
       throw error;
     }
   };
-
+  // 리뷰 띄우는 함수
   const getReview = async (id) => {
     try {
       const response = await getReviewInInfo(id);
@@ -72,7 +72,7 @@ const BingoInfo = () => {
       throw error;
     }
   };
-
+  
   const goNotice = (id) => {
     navigate(`/viewnotice/${id}`);
   }
@@ -117,6 +117,7 @@ const BingoInfo = () => {
               {info ? info.large_category_display : 'Loading...'}
             </Category>
           </Line>
+          {/* 있을 시에 띄워줌 */}
           {info && info.host ? (
             <Line>
               <Car><Category>주최사</Category></Car>
@@ -176,7 +177,7 @@ const BingoInfo = () => {
           {info && info.start_date ? ((
             <Line>
               <Car><Category>활동 기간</Category></Car>
-              
+
               <div>{info.start_date} ~ {info.end_date}</div>
             </Line>
           )) : null}
@@ -184,6 +185,7 @@ const BingoInfo = () => {
             <h3>[{title}] 빙고 미션 완료 후기</h3>
           </TitleLine>
           <ReviewDom>
+            {/* 리뷰 map */}
               {review.map((item) => (
                 <Content key={item.id}>
                   <WriterDom>

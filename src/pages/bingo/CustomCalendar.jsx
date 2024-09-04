@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { MdOutlineEditCalendar } from 'react-icons/md';
-
+//react-calendar 로 커스텀한 캘린더
 const CustomCalendar = ({ onChange, value }) => {
   const [isOpen, setIsOpen] = useState(false);
 

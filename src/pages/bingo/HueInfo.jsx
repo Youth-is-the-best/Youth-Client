@@ -9,7 +9,7 @@ import { Category, Line } from './MadeBingo';
 import { ReviewDom, Review, RightDom, TitleLine } from './BingoInfo';
 import { getHueInfo } from '../../apis/testapis';
 import Bingomain from './Bingomain';
-
+//홈화면의 휴알유 추천 페이지 사실 하나만 있어도 되는데 2개만 있어서 두가지를 나눠서 해주었습니다.. 시간있으면 쿼리로 할 것
 const HueInfo = () => {
   const navigate = useNavigate();
   const [recommendations, setRecommend] = useState([]);
@@ -17,11 +17,11 @@ const HueInfo = () => {
   const [largeCategory, setLargeCategory] = useState('');
   const [content, setContent] = useState([]);
   const [images, setImages] = useState([]);
-
+  //뒤로가기 버튼
   const goHome = () => {
     navigate("/view");
   }
-
+  //get으로 받아온 정보들 선언 후 띄우기
   const viewRecommend = async () => {
     const response = await getHueInfo();
     const recommendations = response.map(item => ({
@@ -32,7 +32,7 @@ const HueInfo = () => {
       images: item.images.map(image => image.image) || [],
     }));
     setRecommend(recommendations);
-
+    //원래 두개인데 [0]만 띄우게함
     if (recommendations.length > 0) {
       setTitle(recommendations[0].title);
       setLargeCategory(recommendations[0].large_category);
