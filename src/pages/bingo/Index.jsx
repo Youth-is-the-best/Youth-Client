@@ -198,7 +198,7 @@ const Index = () => {
     viewTypeRecommend();
     getBingos();
     getDdays();
-  }, []);
+  }, [bingos]);
 
   return (
     <>
