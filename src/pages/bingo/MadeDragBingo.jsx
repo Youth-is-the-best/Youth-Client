@@ -295,9 +295,3 @@ export const Review = styled.div`
   border: 1px solid rgba(30, 58, 138, 0.5);
   border-radius: 10px;
 `;
-
-const StyledDiv = styled.div`
-  border: 0.4px solid rgba(142, 156, 196, 1);
-  border-radius: 10px;
-  padding: 7px;
-`;
