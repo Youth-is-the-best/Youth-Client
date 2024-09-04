@@ -7,7 +7,7 @@ import {StyledDday1, StyledDday2} from './Home';
 import { Bingo } from './Index';
 import { useNavigate } from 'react-router-dom';
 import CustomCalendar from './CustomCalendar';
-
+//Bingomain2와 다른 점은 빙고를 이미 만든 후의 빙고를 보여주는 것입니다. isExecuted에 따라 빙고가 달라짐
 const Bingomain = () => {
   const [bingos, setBingos] = useRecoilState(bingoState);
   const [username, setUsername] = useRecoilState(usernameState);
@@ -18,7 +18,7 @@ const Bingomain = () => {
   const [Dday2, setDday2] = useRecoilState(Day2State);
   const [isExecuted, setIsExecuted] = useRecoilState(isExecutedState);
   const [prepDates, setPrepDates] = useRecoilState(prepDateState);
-
+  //빙고칸 정보 가져오기
   const getBingos = async () => {
     const response = await getBingo();
     const username = response.username;
@@ -34,7 +34,7 @@ const Bingomain = () => {
     setBingos(bingos);
     setTitle(bingos.map((item) => item.title));
   };
-
+  //디데이 설정 함수
   const getDdays = async () => {
     try {
       const get_response = await getDday();
@@ -48,13 +48,13 @@ const Bingomain = () => {
       console.error('Error in getDday:', error.response ? error.response.data : error.message);
     }
   };
-  
+  //캘린더에서 설정한 날짜 api 요청 양식에 따라 format하는 함수
   const formatDateString = (date) => {
     const formattedDate = date.toLocaleDateString();
     const [year, month, day] = formattedDate.split('.').map(element => element.trim());
     return `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
   };
-
+  //캘린더에서 날짜 설정하는 함수
   const handlePrepDateChange = async (prepDates) => {
     setPrepDates(prepDates); 
     const [startDate, endDate] = prepDates;
@@ -69,13 +69,13 @@ const Bingomain = () => {
       const response = await putDday({ rest_school: formattedStartDate, return_school: formattedEndDate });
       setDday1(response.display.rest_dday_display);
       setDday2(response.display.return_dday_display);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       // setError('Error posting dates');
       console.error('Error in putDday:', error.response ? error.response.data : error.message);
     }
   };
-
+  //빙고 클릭시 빙고 상세 페이지로 이동하는 함수
   const navigate = useNavigate();
   const clickBingo = (location) => {
     navigate(`/madedbingo/${location}`);

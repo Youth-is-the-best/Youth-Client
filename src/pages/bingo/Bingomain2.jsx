@@ -6,7 +6,7 @@ import { getBingo, getDday, putDday } from '../../apis/testapis';
 import {StyledDday1, StyledDday2} from './Home';
 import { useNavigate } from 'react-router-dom';
 import CustomCalendar from './CustomCalendar';
-
+//빙고를 만들기 전 (api post 하기 전) 보여주는 빙고칸
 const Bingomain2 = () => {
   const [bingos, setBingos] = useRecoilState(bingoState);
   const [username, setUsername] = useRecoilState(usernameState);
@@ -17,23 +17,24 @@ const Bingomain2 = () => {
   const [Dday2, setDday2] = useRecoilState(Day2State);
   const [isExecuted, setIsExecuted] = useRecoilState(isExecutedState);
   const [prepDates, setPrepDates] = useRecoilState(prepDateState);
+  //빙고 불러오는 함수
+  // const getBingos = async () => {
+  //   const response = await getBingo();
+  //   const username = response.username;
+  //   const start_date = response.start_date;
+  //   const end_date = response.end_date;
+  //   const bingos = Array.from({ length: 9 }, (_, index) => ({
+  //     location: index,
+  //     title: response.bingo_obj.find((item) => item.location === index)?.title || '',
+  //   }));
+  //   setUsername(username);
+  //   setStartDate(start_date);
+  //   setEndDate(end_date);
+  //   setBingos(bingos);
+  //   setTitle(bingos.map((item) => item.title));
+  // };
 
-  const getBingos = async () => {
-    const response = await getBingo();
-    const username = response.username;
-    const start_date = response.start_date;
-    const end_date = response.end_date;
-    const bingos = Array.from({ length: 9 }, (_, index) => ({
-      location: index,
-      title: response.bingo_obj.find((item) => item.location === index)?.title || '',
-    }));
-    setUsername(username);
-    setStartDate(start_date);
-    setEndDate(end_date);
-    setBingos(bingos);
-    setTitle(bingos.map((item) => item.title));
-  };
-
+  //빙고를 만든 후에도 d-day 설정가능하도록
   const getDdays = async () => {
     try {
       const get_response = await getDday();
@@ -47,13 +48,13 @@ const Bingomain2 = () => {
       console.error('Error in getDday:', error.response ? error.response.data : error.message);
     }
   };
-  
+  //캘린더에서 설정한 날짜 api 요청 양식에 따라 format하는 함수
   const formatDateString = (date) => {
     const formattedDate = date.toLocaleDateString();
     const [year, month, day] = formattedDate.split('.').map(element => element.trim());
     return `${year}.${month.length === 2 ? month : '0' + month}.${day.length === 2 ? day : '0' + day}`;
   };
-
+ //캘린더에서 날짜 설정하는 함수
   const handlePrepDateChange = async (prepDates) => {
     setPrepDates(prepDates); 
     const [startDate, endDate] = prepDates;
@@ -74,7 +75,7 @@ const Bingomain2 = () => {
       console.error('Error in putDday:', error.response ? error.response.data : error.message);
     }
   };
-
+  //빙고 클릭시 빙고 상세 페이지로 이동하는 함수
   const navigate = useNavigate();
   const clickBingo = (location) => {
     navigate(`/madedbingo/${location}`);
