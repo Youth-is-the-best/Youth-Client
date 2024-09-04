@@ -12,14 +12,14 @@ import CustomCalendar from './CustomCalendar';
 import { FiThumbsUp } from 'react-icons/fi';
 
 const Home = () => {
-  const options = ["추천순", "마감순", "보관함"];
+  const options = ["추천순", "마감순", "보관함"]; //셀렉터 목록
   const navigate = useNavigate();
   const [bingos, setBingos] = useRecoilState(bingoState);
   const [recommend, setRecommend] = useState([]);
   const [upcomming, setUpcomming] = useState([]);
   const [saved, setSaved] = useState([]);
   const [typeRecommend, setTypeRecommend] = useState([]);
-  const [array, setArray] = useState('추천순');
+  const [array, setArray] = useState('추천순'); //default값
   const [error, setError] = useState(null);
   const [username] = useRecoilState(usernameState);
   const [title, setTitle] = useRecoilState(titleState);
@@ -30,6 +30,7 @@ const Home = () => {
   const [Dday1, setDday1] = useRecoilState(Day1State);
   const [Dday2, setDday2] = useRecoilState(Day2State);
 
+  //목록에 띄워줄 값
   const handleArrayChange = (event) => {
     const selectedValue = event.target.value;
     setArray(selectedValue);
@@ -41,7 +42,7 @@ const Home = () => {
       viewSaved();
     }
   };
-
+  //휴알유 추천 받아오는 함수
   const viewRecommend = async () => {
     const response = await getHueInfo();
     const recommendations = response.map((item) => ({
@@ -52,7 +53,7 @@ const Home = () => {
     }));
     setRecommend(recommendations);
   };
-
+  //마감순 받아오기
   const viewUpcomming = async () => {
     const response = await getUpcomming();
     const upcommings = response.results.map((item) => ({
@@ -61,7 +62,7 @@ const Home = () => {
     }));
     setUpcomming(upcommings);
   };
-
+  //보관함 받아오기
   const viewSaved = async () => {
     const response = await getSaved();
     const saveds = response.stored_reviews || [];
@@ -73,7 +74,7 @@ const Home = () => {
     // console.log(response);
     // console.log(savedData);
   };
-
+  //추천순 받아오기
   const viewTypeRecommend = async (type) => {
     const response = await getTypeRecommend(type);
     const typeData = response.data.map((item) => ({
@@ -82,7 +83,7 @@ const Home = () => {
     }));
     setTypeRecommend(typeData);
   };
-
+  //빙고 data api body에 따른 initial설정
   const fetchBingoData = () => {
     const initialBingos = Array.from({ length: 9 }, (_, index) => ({
       id: '',
@@ -92,7 +93,7 @@ const Home = () => {
     setBingos(initialBingos);
     setTitle(initialBingos.map((item) => item.title));
   };
-
+  //빙고 포스트 함수
   const postBingos = async () => {
     try {
       const bingoBody = {
@@ -115,10 +116,10 @@ const Home = () => {
       console.error('Error in postBingo:', error.response ? error.response.data : error.message);
     }
   };
-
+  //드래그앤드롭 설정
   const [draggingInfo, setDraggingInfo] = useState(null);
   const [draggingIndex, setDraggingIndex] = useState(null);
-
+  //드래그 스타트 목록에서 index를 넘겨준다
   const handleDragStart = (index, type) => {
     if (type === 'bingo') {
       setDraggingIndex(index);
@@ -139,7 +140,7 @@ const Home = () => {
       }
     }
   };
-
+  //드롭시 
   const handleDrop = (index) => {
     const newBingos = [...bingos];
     const newTitles = [...title];
@@ -169,27 +170,26 @@ const Home = () => {
   const handleDragOver = (e) => {
     e.preventDefault();
   };
-
+  //인포 클릭시 info 페이지로 이동 id값을 쿼리로 전달
   const handleInfoClick = (id) => {
     navigate(`/info/${id}`);
   };
-
+  //휴알유추천 페이지로 이동
   const goHueInfo = () => {
     navigate('/hueInfo');
   };
-
   const goHueInfo2 = () => {
     navigate('/hueInfo2');
   };
-
+  //빙고 클릭시 빙고 페이지로 이동 로케이션 쿼리로 전달
   const clickBingo = (location) => {
     navigate(`/madedinclient/${location}`);
   };
-
+  //빈 빙고 클릭시 직접 만드는 빙고 페이지로 이동 로케이션 쿼리로 전달
   const clickemptyBingo = (location) => {
     navigate(`/made/${location}`);
   };
-
+  //캘린더 설정함수
   const handlePrepDateChange = async (prepDates) => {
     setPrepDates(prepDates); 
     const [startDate, endDate] = prepDates;
