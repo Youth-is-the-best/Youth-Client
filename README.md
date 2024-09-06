@@ -26,17 +26,17 @@
 <br/>
 
 ## 1. 개발 환경
-- FrontEnd: Javascript, React, Netlify
-- BackEnd: Django-Rest-Framework, AWS EC2, RDS, S3
-- Design: Figma
-- 협업 툴: Notion, Slack
-- 데이터베이스 설계(백엔드): ERD Cloud
+- `FrontEnd`: Javascript, React, Netlify
+- `BackEnd`: Django-Rest-Framework, AWS EC2, RDS, S3
+- `Design`: Figma
+- `Collaboration tool`: Notion, Slack
+- `DB(BackEnd)`: ERD Cloud
 
 <br/>
 
 ## 2. 채택한 개발 기술과 브랜치 전략
 - GitHub Flow (기능 별 브랜치를 만들고 main에 병합하는 방식)
-### branch 
+### branch (for FrontEnd)
 - main (배포 브런치)
 - sunbeen (선빈 개발 브런치)
 - eunbin (은빈 개발 브런치)
