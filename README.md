@@ -168,9 +168,3 @@
 - recoil
 - react-scroll
 - --save-dev @babel/plugin-proposal-private-property-in-object
-
-<br/>
-
-## 8. 소감
-### 🐿️ 정선빈
-### 🐱 정은빈
